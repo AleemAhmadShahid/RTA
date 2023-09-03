@@ -11,23 +11,23 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Im
 import LoginPage from './pages/Login';
 function App() {
   return (
-    
     <Router>
-    <Routes>
-      {/* Define the /login route */}
-      <Route path="/login" element={<LoginPage />} />
-
-      {/* Define the /portal route */}
-      <Route path="/portal" element={<Topbar />}>
-        {/* Render /portal/iam */}
-        <Route index element={<Sidebar />} />
-        {/* Render /portal/iam/employee */}
-        <Route path="employee" element={<Emp_list />} />
-      </Route>
-    </Routes>
-  </Router>
-);
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/portal/iam" element={<RenderComponents />}></Route>
+      </Routes>
+    </Router>
+  );
 }
+
+const RenderComponents = () => (
+  <>
+    <Emp_list/>
+    <Sidebar />
+    <Topbar />
+    
+  </>
+);
 
 
 export default App;
