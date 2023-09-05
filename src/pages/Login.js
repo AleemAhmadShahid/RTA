@@ -1,5 +1,7 @@
-import React from "react";
+import React,{ useState } from "react";
+import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
+import {createPostRequest} from '../global/helper'
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -132,6 +134,49 @@ const CreateAccountButton = styled.button`
 `;
 
 const LoginPage = () => {
+  console.log("Backend URL",process.env.BACKEND_URL);
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  const handleInputKeyDown = (event) => {
+    if (event.key === 'Enter')
+      handleSubmit(event);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+   
+    
+    try {
+      const response  = await createPostRequest(formData);
+      if (response.status === 401) 
+        setError(response.error);
+      else if (response.status === 200) {
+        document.cookie = 'token='+response.token;
+        navigate("/portal/iam/");
+      } else {
+        console.error(response);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
   return (
     <LoginPageContainer>
       <ImageContainer />
@@ -145,14 +190,29 @@ const LoginPage = () => {
             Google
           </GoogleLoginButton>
           <StyledH6>--or continue with an email--</StyledH6>
-          <InputField type="text" placeholder="Email" />
-          <InputField type="password" placeholder="Password" />
-          <RememberMeLabel>
+            <InputField
+            type="text"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+          />
+          <InputField
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+          />
+          {error && <StyledH6> {error} </StyledH6>}
+        <RememberMeLabel>
             <RememberMeInput type="checkbox" />
             Remember me
           </RememberMeLabel>
           <ForgotPasswordButton>Forgot Password?</ForgotPasswordButton>
-          <LoginButton>Log in</LoginButton>
+          <LoginButton onClick={handleSubmit}>Log in</LoginButton>
           {/* <StyledH6>--Don't have an account?-- */}
           {/* <CreateAccountButton >create an Account</CreateAccountButton></StyledH6> */}
         </LoginForm>
