@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from "styled-components";
 import {
   FormStep,
   FormGroup,
@@ -10,10 +11,15 @@ import {
   FormRadioInput,
 } from './multistepformstyling';
 
+const H6 = styled.h6`
+  margin-top: 10px; /* Add top margin */
+  margin-bottom: 20px;
+`;
 const StepTwo = ({ formData, handleChange }) => {
   return (
     <FormStep active>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <H6>Fill in the details so that we can get in contact with you</H6>
+      {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}> */}
         <div style={{ flex: 1 }}>
           <FormGroup>
             <FormLabel>Date of Birth</FormLabel>
@@ -23,25 +29,10 @@ const StepTwo = ({ formData, handleChange }) => {
               onChange={(e) => handleChange('dob', e.target.value)}
             />
           </FormGroup>
-          <FormGroup>
-            <FormLabel>Address 1</FormLabel>
-            <FormInput
-              type="text"
-              value={formData.address1 || ''}
-              onChange={(e) => handleChange('address1', e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel>Address 2</FormLabel>
-            <FormInput
-              type="text"
-              value={formData.address2 || ''}
-              onChange={(e) => handleChange('address2', e.target.value)}
-            />
-          </FormGroup>
+          
           {/* Other input fields */}
         </div>
-        <div style={{ flex: 1, marginLeft: '20px' }}> {/* Add marginLeft for space */}
+        {/* <div style={{ flex: 1, marginLeft: '20px' }}> Add marginLeft for space */}
           <FormGroup>
             <FormLabel>Phone Number</FormLabel>
             <FormInput
@@ -50,30 +41,7 @@ const StepTwo = ({ formData, handleChange }) => {
               onChange={(e) => handleChange('phoneNumber', e.target.value)}
             />
           </FormGroup>
-          <FormGroup>
-            <FormLabel>City</FormLabel>
-            <FormInput
-              type="text"
-              value={formData.city || ''}
-              onChange={(e) => handleChange('city', e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel>State</FormLabel>
-            <FormInput
-              type="text"
-              value={formData.state || ''}
-              onChange={(e) => handleChange('state', e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel>Country</FormLabel>
-            <FormInput
-              type="text"
-              value={formData.country || ''}
-              onChange={(e) => handleChange('country', e.target.value)}
-            />
-          </FormGroup>
+         
           <FormRadioGroup>
             <FormRadioLabel>Gender</FormRadioLabel>
             <FormRadioLabel>
@@ -97,8 +65,8 @@ const StepTwo = ({ formData, handleChange }) => {
               Female
             </FormRadioLabel>
           </FormRadioGroup>
-        </div>
-      </div>
+        {/* </div> */}
+      {/* </div> */}
       {/* <FormButton>Next</FormButton> */}
     </FormStep>
   );

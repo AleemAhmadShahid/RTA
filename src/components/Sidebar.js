@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { SidebarData } from "./SidebarData";
+import { SidebarData } from "./Sidebardata";
 
-import SubMenu from "./SubMenu";
+import SubMenu from "./Submenu";
 import { IconContext } from "react-icons/lib";
 import Emp_list from "../pages/Emp_list";
 
@@ -51,15 +51,32 @@ const Heading = styled.h3`
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
 
+  // Function to toggle the submenu
+  const toggleSubMenu = (index) => {
+    SidebarData[index].subNavOpen = !SidebarData[index].subNavOpen;
+  };
   return (
     <>
       <IconContext.Provider value={{ color: "#000" }}>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
-            <NavIcon to="#"></NavIcon>
+            <NavIcon to="#" onClick={() => setSidebar(!sidebar)}>
+              {/* Add a button or icon to toggle the sidebar */}
+            </NavIcon>
             <Heading>Employee Management</Heading>
             {SidebarData.map((item, index) => {
-              return <SubMenu item={item} key={index} />;
+              return (
+                <div key={index}>
+                  <SubMenu
+                    item={item}
+                    toggleSubMenu={() => toggleSubMenu(index)}
+                  />
+                  {item.subNavOpen &&
+                    item.subNav.map((subItem, subIndex) => (
+                      <SubMenu item={subItem} key={subIndex} />
+                    ))}
+                </div>
+              );
             })}
           </SidebarWrap>
         </SidebarNav>

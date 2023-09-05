@@ -33,23 +33,23 @@ const Nav = styled.div`
 
 const SimpleText = styled.span`
   font-size: 16px;
-  margin-right: 30px;
-  margin-left: 10px;
+  margin-right: 10px;
+  // margin-left: 10px;
 `;
 
 const SettingIcon = styled(AiOutlineSetting)`
   font-size: 20px;
-  // margin-right: 10px;
-  // margin-left: px;
+   margin-right: 13px;
+   margin-left: 10px;
   cursor: pointer;
   
 `;
 
 const BellIcon = styled(AiOutlineBell)`
-  font-size: 20px;
-  //  margin-right: 30px;
-  margin-left: 800px;
+  font-size: 20px;  
   cursor: pointer;
+   margin-left:13px;
+
   
 `;
 
@@ -62,7 +62,7 @@ const MenuIcon = styled(CgMenuGridR)`
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: left;
+  
 `;
 
 const DropdownContainer = styled.div`
@@ -94,17 +94,17 @@ const DropdownGrid = styled.div`
 `;
 
 const DropdownButton = styled.button`
-  background-color: #ffa500;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000; 
   border: none;
   border-radius: 5px;
   padding: 13px 16px;
   cursor: pointer;
-  border-radius: 40%;
+  border-radius: 48%;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #ff8000;
+    background-color: #ffa500;
   }
 `;
 
@@ -175,18 +175,20 @@ const Topbar = () => {
               </DropdownButton>
               <DropdownLabel>Pie Chart</DropdownLabel>
             </div>
-            <div>
+            {/* <div>
               <DropdownButton>
                 <AiOutlineAppstore />
               </DropdownButton>
               <DropdownLabel>App Store</DropdownLabel>
-            </div>
+            </div> */}
           </DropdownGrid>
         </DropdownContainer>
         
-      </IconContainer><BellIcon />
+      </IconContainer>
+      <IconContainer>
+      <BellIcon />
         <SettingIcon />
-      <SimpleText>Company Name</SimpleText>
+      <SimpleText>Company Name</SimpleText></IconContainer>
     </Nav>
   );
 };

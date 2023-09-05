@@ -10,11 +10,12 @@ export const ModalOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 15;
 `;
 
 export const ModalContainer = styled.div`
   background-color: #fff;
-  padding: 35px;
+  padding: 19px 40px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
@@ -38,9 +39,10 @@ export const FormLabel = styled.label`
 export const FormInput = styled.input`
 
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 9px;
+  
 `;
 
 export const FormButton = styled.button`

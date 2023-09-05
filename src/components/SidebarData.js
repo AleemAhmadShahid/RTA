@@ -15,7 +15,7 @@ export const SidebarData = [
   },
   {
     title: "Employees",
-    path: "/Employees",
+    // path: "/Employees",
     icon: <AiIcons.AiOutlineUser />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
@@ -23,26 +23,26 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/Employees/List",
+        // path: "/Employees/List",
         icon: <BiIcons.BiRadioCircle />,
       },
       {
         title: "Add",
-        path: "/Employees/Add",
+        // path: "/Employees/Add",
         icon: <BiIcons.BiSolidAddToQueue />,
       },
     ],
   },
   {
     title: "Roles",
-    path: "/Roles",
+    // path: "/Roles",
     icon: <IoIcons.IoIosPaper />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
   },
   {
     title: "Teams",
-    path: "/Teams",
+    // path: "/Teams",
     icon: <IoIcons.IoMdPeople />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
@@ -50,7 +50,7 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/Teams/List",
+        // path: "/Teams/List",
         icon: <BiIcons.BiRadioCircle />,
         cName: "sub-nav",
       },
@@ -58,7 +58,7 @@ export const SidebarData = [
   },
   {
     title: "Departments",
-    path: "/Departments",
+    // path: "/Departments",
     icon: <FaIcons.FaEnvelopeOpenText />,
 
     iconClosed: <RiIcons.RiArrowDropDownLine />,
@@ -67,14 +67,14 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/Departments/List",
+        // path: "/Departments/List",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
   },
   {
     title: "Job Descriptions",
-    path: "/Job Descriptions",
+    // path: "/Job Descriptions",
     icon: <CgIcons.CgFileDocument />,
 
     iconClosed: <RiIcons.RiArrowDropDownLine />,
@@ -83,14 +83,14 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/Job Descriptions/List",
+        // path: "/Job Descriptions/List",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
   },
   {
     title: "Surveys",
-    path: "/Surveys",
+    // path: "/Surveys",
     icon: <RiIcons.RiSurveyLine />,
 
     iconClosed: <RiIcons.RiArrowDropDownLine />,
@@ -99,19 +99,19 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/Survrys/List",
+        // path: "/Survrys/List",
         icon: <BiIcons.BiRadioCircle />,
       },
       {
         title: "Add",
-        path: "/Survrys/Add",
+        // path: "/Survrys/Add",
         icon: <BiIcons.BiSolidAddToQueue />,
       },
     ],
   },
   {
     title: "Announcements",
-    path: "/Announcements",
+    // path: "/Announcements",
     icon: <FaIcons.FaEnvelopeOpenText />,
 
     iconClosed: <RiIcons.RiArrowDropDownLine />,
@@ -120,12 +120,12 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/Announcements/List",
+        // path: "/Announcements/List",
         icon: <BiIcons.BiRadioCircle />,
       },
       {
         title: "Add",
-        path: "/Announcements/Add",
+        // path: "/Announcements/Add",
         icon: <BiIcons.BiSolidAddToQueue />,
       },
     ],
