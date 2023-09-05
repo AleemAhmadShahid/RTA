@@ -93,6 +93,15 @@ const StyledH6 = styled.h6`
   margin-top: 10px;
 `;
 
+const StyledErrorH6 = styled.h6`
+  font-weight: 300;
+  font-size: 14px;
+  text-align: left;
+  color: red;
+  margin-bottom: 10px;
+  margin-top: -5px;
+`;
+
 const RememberMeLabel = styled.label`
   font-size: 14px;
 
@@ -134,7 +143,7 @@ const CreateAccountButton = styled.button`
 `;
 
 const LoginPage = () => {
-  console.log("Backend URL",process.env.BACKEND_URL);
+  const path = '/api/user/login';
 
   const [formData, setFormData] = useState({
     email: '',
@@ -142,6 +151,8 @@ const LoginPage = () => {
   });
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [blankEmailError, setBlankEmailError] = useState('');
+  const [blankPasswordError, setBlankPasswordError] = useState('');
 
   const handleInputKeyDown = (event) => {
     if (event.key === 'Enter')
@@ -149,6 +160,18 @@ const LoginPage = () => {
   };
 
   const handleInputChange = (e) => {
+    if (e.target.name == "email")
+    {
+      const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      if (e.target.value == "")
+        setBlankEmailError("");
+      else if(!emailPattern.test(e.target.value))
+        setBlankEmailError("Invalid email");
+      else
+        setBlankEmailError("");
+    }
+    else
+      setBlankPasswordError("");
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -159,10 +182,15 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   
-    
+
+    if (formData.email == "")
+      setBlankEmailError("Email cannot be blank");
+    if (formData.password == "")
+      setBlankPasswordError("Password cannot be blank");
+    if(formData.email == "" || formData.password == "")
+      return;
     try {
-      const response  = await createPostRequest(formData);
+      const response  = await createPostRequest(formData, path);
       if (response.status === 401) 
         setError(response.error);
       else if (response.status === 200) {
@@ -184,12 +212,13 @@ const LoginPage = () => {
         <LoginForm>
           <StyledH4>RTA</StyledH4>
           <StyledH3>Log in to your Account </StyledH3>
-          <h6> Welcome! Select a method to Log in</h6>
-          <GoogleLoginButton>
+          <h6> Welcome!</h6>
+          <br/>
+          {/* <GoogleLoginButton>
             <GoogleIcon src="./googlelogo.png" alt="Google" />
             Google
           </GoogleLoginButton>
-          <StyledH6>--or continue with an email--</StyledH6>
+          <StyledH6>--or continue with an email--</StyledH6> */}
             <InputField
             type="text"
             name="email"
@@ -198,6 +227,7 @@ const LoginPage = () => {
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
           />
+          {blankEmailError && <StyledErrorH6> {blankEmailError} </StyledErrorH6>}
           <InputField
             type="password"
             name="password"
@@ -206,6 +236,7 @@ const LoginPage = () => {
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
           />
+          {blankPasswordError && <StyledErrorH6> {blankPasswordError} </StyledErrorH6>}
           {error && <StyledH6> {error} </StyledH6>}
         <RememberMeLabel>
             <RememberMeInput type="checkbox" />

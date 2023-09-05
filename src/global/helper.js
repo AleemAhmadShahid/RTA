@@ -1,8 +1,8 @@
 const BACKEND_URL = "http://rta.blessingconnectionsllc.com:3000";
 
-const createPostRequest = async (formData) =>
+const createPostRequest = async (formData , path) =>
 {
-    let response  = await fetch(BACKEND_URL + '/api/user/login', {
+    let response  = await fetch(BACKEND_URL + path, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
