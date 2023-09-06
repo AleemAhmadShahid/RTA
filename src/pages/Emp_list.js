@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../components/searchbar";
-import MultiStepForm from "./Multistepform";
+import MultiStepForm from "./MultiStepForm";
+import {createGetRequest} from '../global/helper'
+import { useNavigate  } from "react-router-dom";
+import { async } from "q";
 
 const BoxContainer = styled.div`
   border: 0px solid #ccc;
@@ -222,16 +225,32 @@ const Emp_list = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [entriesToShow, setEntriesToShow] = useState(10);
-  const entriesOptions = [10, 20, 30]; 
+  const entriesOptions = [10, 20, 50, 100]; 
   const [isOptionsCollapsed, setIsOptionsCollapsed] = useState(true);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
-  //useEffect(()=> {
-  // getAllEmployees();
-  //},[])
-
-  //const getAllEmployees=()=>{
-  // for API
-  //}
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const params = {
+      page: 1,
+      pageItems: entriesToShow,
+      name: searchTerm
+    };
+    const fetchData = async () => {
+      try {
+        const data = await createGetRequest('/api/user', params);
+        // if (data.status == 401 && data.error == "No token provided")
+        //   navigate("/login/");
+        setEmployees(data.users);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  
+  }, [entriesToShow, searchTerm]);
+  
   const openForm = () => {
     setShowForm(true);
   };
@@ -243,12 +262,7 @@ const Emp_list = () => {
   const handleEntriesChange = (event) => {
     setEntriesToShow(Number(event.target.value)); // Convert value to a number
   }
-  const displayedEmployees = employees.slice(0, entriesToShow)
 
-
-  const filteredEmployees = employees.filter((employee) =>
-    employee.Name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
   const toggleOptions = () => {
     setIsOptionsOpen(!isOptionsOpen);
   };
@@ -303,8 +317,8 @@ const Emp_list = () => {
             <Table>
               <thead>
                 <Tr>
-                  <Th>NAME</Th>
-                  <Th>TEAM</Th>
+                  <Th>EMPLOYEE CODE</Th>
+                  <Th>Name</Th>
                   <Th>LAST LOGIN</Th>
                   <Th>STATUS</Th>
                   <Th>ROLE </Th>
@@ -312,30 +326,23 @@ const Emp_list = () => {
                 </Tr>
               </thead>
               <tbody>
-               <Tr>
-                  <Td>Aleem</Td>
-                  <Td>RTA</Td>
-                  <Td>not today</Td>
-                  <Td>Single</Td>
-                  <Td>team</Td>
-                  <Td>Active</Td>
-                </Tr> 
-                <Tr>
-                  <Td>Shaheer</Td>
-                  <Td>RTA</Td>
-                  <Td>today</Td>
-                  <Td>single</Td>
-                  <Td>team </Td>
-                  <Td>Active</Td>
-                </Tr> 
                 {employees.map((employee) => (
                   <Tr key={employee.Name}>
-                    <td>{employee.Name}</td>
-                    <td>{employee.Team}</td>
-                    <td>{employee.Lastlogin}</td>
-                    <td>{employee.Status}</td>
-                    <td>{employee.Role}</td>
-                    <td>
+                    <Td>{employee._id}</Td>
+                    <Td>{employee.name}</Td>
+                    <Td>{ new Date(employee.lastLogin).toLocaleString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    })}</Td>
+                    <Td style={{ color: employee.status === 1 ? "green" : "red" }}>
+                        {employee.status || ""}
+                    </Td>
+                    <Td>{employee.roles[0]  || ''}</Td>
+                    <Td>{''}</Td>
+                    {/* <td>
                       <Link
                         className="btn btn-info"
                         to={`/edit/${employee.Name}`}
@@ -349,7 +356,7 @@ const Emp_list = () => {
                       >
                         Delete
                       </button>
-                    </td>
+                    </td> */}
                   </Tr>
                 ))}
               </tbody>

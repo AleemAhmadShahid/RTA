@@ -182,6 +182,8 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    document.cookie = `token=${''}; expires=${new Date(Date.now() - 59 * 60000).toUTCString()}; path=/;`;
+        
 
     if (formData.email == "")
       setBlankEmailError("Email cannot be blank");
@@ -194,7 +196,7 @@ const LoginPage = () => {
       if (response.status === 401) 
         setError(response.error);
       else if (response.status === 200) {
-        document.cookie = 'token='+response.token;
+        document.cookie = `token=${response.token}; expires=${new Date(Date.now() + 59 * 60000).toUTCString()}; path=/;`;
         navigate("/portal/iam/");
       } else {
         console.error(response);

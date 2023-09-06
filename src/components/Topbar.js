@@ -137,37 +137,37 @@ const Topbar = () => {
               <DropdownButton>
                 <AiOutlineHome />
               </DropdownButton>
-              <DropdownLabel>Home</DropdownLabel>
+              <DropdownLabel>Self Service Portal</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineUser />
               </DropdownButton>
-              <DropdownLabel>User</DropdownLabel>
+              <DropdownLabel>Employee Management</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineCalendar />
               </DropdownButton>
-              <DropdownLabel>Calendar</DropdownLabel>
+              <DropdownLabel>Payroll Management</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineMail />
               </DropdownButton>
-              <DropdownLabel>Mail</DropdownLabel>
+              <DropdownLabel>Attendance Management</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineFileText />
               </DropdownButton>
-              <DropdownLabel>File Text</DropdownLabel>
+              <DropdownLabel>ATS</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineSearch />
               </DropdownButton>
-              <DropdownLabel>Search</DropdownLabel>
+              <DropdownLabel>Project Management</DropdownLabel>
             </div>
             
             {/* <div>
@@ -181,13 +181,13 @@ const Topbar = () => {
               <DropdownButton>
                 <AiOutlinePieChart />
               </DropdownButton>
-              <DropdownLabel>Pie Chart</DropdownLabel>
+              <DropdownLabel>Remote Tracking</DropdownLabel>
             </div>
              <div>
               <DropdownButton>
                 <AiOutlineAppstore />
               </DropdownButton>
-              <DropdownLabel>App Store</DropdownLabel>
+              <DropdownLabel>Meeting Management</DropdownLabel>
             </div> 
           </DropdownGrid>
         </DropdownContainer>
