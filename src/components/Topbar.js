@@ -100,9 +100,11 @@ const DropdownButton = styled.button`
   border-radius: 5px;
   padding: 13px 16px;
   cursor: pointer;
-  border-radius: 48%;
+  border-radius: 90%;
   transition: background-color 0.3s ease;
-
+  svg {
+    font-size: 20px; /* Increase the icon size as needed */
+  }
   &:hover {
     background-color: #ffa500;
   }
@@ -113,6 +115,10 @@ const DropdownLabel = styled.div`
   text-align: center;
   margin-top: 5px; /* Add some space between the icon and label */
 `;
+
+
+
+
 
 const Topbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -163,24 +169,26 @@ const Topbar = () => {
               </DropdownButton>
               <DropdownLabel>Search</DropdownLabel>
             </div>
-            <div>
+            
+            {/* <div>
+
               <DropdownButton>
                 <AiOutlineDashboard />
               </DropdownButton>
               <DropdownLabel>Dashboard</DropdownLabel>
-            </div>
+            </div> */}
             <div>
               <DropdownButton>
                 <AiOutlinePieChart />
               </DropdownButton>
               <DropdownLabel>Pie Chart</DropdownLabel>
             </div>
-            {/* <div>
+             <div>
               <DropdownButton>
                 <AiOutlineAppstore />
               </DropdownButton>
               <DropdownLabel>App Store</DropdownLabel>
-            </div> */}
+            </div> 
           </DropdownGrid>
         </DropdownContainer>
         
