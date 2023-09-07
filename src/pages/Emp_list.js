@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../components/searchbar";
 import MultiStepForm from "./Multistepform";
-import Select from "react-select";
-// import 'react-select/dist/react-select.css';
+import {createGetRequest} from '../global/helper'
+import { useNavigate  } from "react-router-dom";
+import { async } from "q";
 
+import * as MdIcons from "react-icons/md";
+import * as GrIcons from "react-icons/gr";
+import * as CgIcons from "react-icons/cg";
+
+
+import Select from "react-select";
 const BoxContainer = styled.div`
   border: 0px solid #ccc;
   padding: 3px 0px;
@@ -59,7 +66,7 @@ const Th = styled.th`
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
   height: 30px;
   top: 10%;
-  padding: 9px 68.4px;
+  padding: 9px 54.4px;
   right: 2%;
   font-weight: lighter;
   width: 78%;
@@ -70,22 +77,22 @@ const Th = styled.th`
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis;
-  @media screen and (max-width: 768px) {
+  @media screen and (width: 78%;) {
     padding: 0px 20px;
   }
 `;
 
 const Tr = styled.tr`
-  padding: 8px 20px;
+  padding: 4px 10px;
   text-align: left;
   border-bottom: 0px solid #ddd;
   margin: 100px;
 `;
 const Td = styled.td`
-  padding: 10px 50px;
+  padding: 10px 30px;
   text-align: center;
   border-top: 1px solid #ededed;
-  margin: 100px;
+  margin: 10px;
   color: black;
   // font-weight: 100;
   font-weight: medium;
@@ -110,9 +117,9 @@ const Table = styled.table`
 const CenteredContainer = styled.div`
   position: absolute;
   top: 20%;
-  left: 20%;
-  right: 2%;
-  width: 78%;
+  left: 35%;
+  right: 4%;
+  width: 48%;
 
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -179,8 +186,8 @@ const SubmenuOptions = styled.div`
   
   border-radius: 0px;
   top: 12%; /* Position the submenu below the button */
-  left: 5%;
-  right: 0%;
+  left: 100%;
+  right: 10%;
   margin-top: 5px; /* Add some spacing between the button and submenu */
   min-width: 190px; /* Set a fixed width for the submenu */
   z-index: 1; /* Ensure the submenu appears above other content */
@@ -191,16 +198,32 @@ const Emp_list = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [entriesToShow, setEntriesToShow] = useState(10);
-  const entriesOptions = [10, 20, 30];
-
+  const entriesOptions = [10, 20, 50, 100]; 
+  const [isOptionsCollapsed, setIsOptionsCollapsed] = useState(true);
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
-  //useEffect(()=> {
-  // getAllEmployees();
-  //},[])
-
-  //const getAllEmployees=()=>{
-  // for API
-  //}
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const params = {
+      page: 1,
+      pageItems: entriesToShow,
+      name: searchTerm
+    };
+    const fetchData = async () => {
+      try {
+        const data = await createGetRequest('/api/user', params);
+        // if (data.status == 401 && data.error == "No token provided")
+        //   navigate("/login/");
+        setEmployees(data.users);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  
+  }, [entriesToShow, searchTerm]);
+  
   const openForm = () => {
     setShowForm(true);
   };
@@ -212,11 +235,7 @@ const Emp_list = () => {
   const handleEntriesChange = (selectedOption) => {
     setEntriesToShow(selectedOption); // Set selectedOption directly
   };
-  const displayedEmployees = employees.slice(0, entriesToShow);
-
-  const filteredEmployees = employees.filter((employee) =>
-    employee.Name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  
   const toggleOptions = () => {
     setIsOptionsOpen(!isOptionsOpen);
   };
@@ -295,7 +314,7 @@ const Emp_list = () => {
             </HeadingAndSearchContainer>
             <HeadingAndSearchContainer >
             
-              <AddEmployeeContainer style={{borderTop: '100px'}}>
+              <AddEmployeeContainer>
                 
 
                 <SubmenuOptions isOpen={isOptionsOpen}>
@@ -310,8 +329,8 @@ const Emp_list = () => {
             <Table>
               <thead>
                 <Tr>
-                  <Th>NAME</Th>
-                  <Th>TEAM</Th>
+                  <Th>EMPLOYEE CODE</Th>
+                  <Th>Name</Th>
                   <Th>LAST LOGIN</Th>
                   <Th>STATUS</Th>
                   <Th>ROLE </Th>
@@ -319,44 +338,23 @@ const Emp_list = () => {
                 </Tr>
               </thead>
               <tbody>
-                <Tr>
-                  <Td>Aleem</Td>
-                  <Td>RTA</Td>
-                  <Td>not today</Td>
-                  <Td>Single</Td>
-                  <Td>team</Td>
-                  <Td>Active</Td>
-                </Tr>
-                <Tr>
-                  <Td>Shaheer</Td>
-                  <Td>RTA</Td>
-                  <Td>today</Td>
-                  <Td>single</Td>
-                  <Td>team </Td>
-                  <Td>Active</Td>
-                </Tr>
                 {employees.map((employee) => (
                   <Tr key={employee.Name}>
-                    <td>{employee.Name}</td>
-                    <td>{employee.Team}</td>
-                    <td>{employee.Lastlogin}</td>
-                    <td>{employee.Status}</td>
-                    <td>{employee.Role}</td>
-                    <td>
-                      <Link
-                        className="btn btn-info"
-                        to={`/edit/${employee.Name}`}
-                      >
-                        Update
-                      </Link>
-                      <button
-                        className="btn btn-danger"
-                        // onClick={() => handleDelete(employee.id)}
-                        style={{ marginRight: "10px" }}
-                      >
-                        Delete
-                      </button>
-                    </td>
+                    <Td>{employee._id}</Td>
+                    <Td>{employee.name}</Td>
+                    <Td>{ new Date(employee.lastLogin).toLocaleString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    })}</Td>
+                    <Td style={{ color: employee.status === 1 ? "green" : "red" }}>
+                        {employee.status || ""}
+                    </Td>
+                    <Td>{employee.roles[0]  || ''}</Td>
+                    <Td><MdIcons.MdOutlineModeEditOutline /><GrIcons.GrFormView /><MdIcons.MdDeleteOutline/></Td>
+                    
                   </Tr>
                 ))}
               </tbody>

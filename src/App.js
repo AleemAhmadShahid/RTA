@@ -27,7 +27,7 @@ function App() {
     <>
     {/* <Sidebar> */}
       <Emp_list />
-      <Sidebar/>
+      <Sidebar/> 
       <Topbar />
     {/* </Sidebar> */}
   </>

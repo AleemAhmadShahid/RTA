@@ -84,14 +84,23 @@ const DropdownContainer = styled.div`
 const DropdownGrid = styled.div`
   display: grid;
   left: 0;
-  
-  margin-top:23px;
-  margin-bottom:25px;
+  margin-top: 1px;
+  margin-bottom: 5px;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 25px;
   justify-items: center; /* Center the items horizontally */
   align-items: center; /* Center the items vertically */
+  
+  /* Add additional styles to align text and icons */
+  text-align: center; /* Center text horizontally */
+  
+  /* Adjust padding or margin to separate icons and text if needed */
+  padding: 10px; /* Adjust this as needed to create space between icons and text */
+  
+  /* Set a specific height for each item if necessary */
+  /* height: 100px; Adjust this to control the item height */
 `;
+
 
 const DropdownButton = styled.button`
   background-color: #ffffff;
@@ -113,8 +122,14 @@ const DropdownButton = styled.button`
 const DropdownLabel = styled.div`
   font-size: 14px;
   text-align: center;
-  margin-top: 5px; /* Add some space between the icon and label */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+  height: 50px; /* You can adjust the height as needed */
 `;
+
 
 
 
@@ -137,37 +152,37 @@ const Topbar = () => {
               <DropdownButton>
                 <AiOutlineHome />
               </DropdownButton>
-              <DropdownLabel>Home</DropdownLabel>
+              <DropdownLabel>Self Service Portal</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineUser />
               </DropdownButton>
-              <DropdownLabel>User</DropdownLabel>
+              <DropdownLabel>Employee Management</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineCalendar />
               </DropdownButton>
-              <DropdownLabel>Calendar</DropdownLabel>
+              <DropdownLabel>Payroll Management</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineMail />
               </DropdownButton>
-              <DropdownLabel>Mail</DropdownLabel>
+              <DropdownLabel>Attendance Management</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineFileText />
               </DropdownButton>
-              <DropdownLabel>File Text</DropdownLabel>
+              <DropdownLabel>ATS</DropdownLabel>
             </div>
             <div>
               <DropdownButton>
                 <AiOutlineSearch />
               </DropdownButton>
-              <DropdownLabel>Search</DropdownLabel>
+              <DropdownLabel>Project Management</DropdownLabel>
             </div>
             
             {/* <div>
@@ -181,13 +196,13 @@ const Topbar = () => {
               <DropdownButton>
                 <AiOutlinePieChart />
               </DropdownButton>
-              <DropdownLabel>Pie Chart</DropdownLabel>
+              <DropdownLabel>Remote Tracking</DropdownLabel>
             </div>
              <div>
               <DropdownButton>
                 <AiOutlineAppstore />
               </DropdownButton>
-              <DropdownLabel>App Store</DropdownLabel>
+              <DropdownLabel>Meeting Management</DropdownLabel>
             </div> 
           </DropdownGrid>
         </DropdownContainer>

@@ -16,7 +16,7 @@ const H6 = styled.h6`
 const StepOne = ({ formData, handleChange }) => {
   return (
     <FormStep active>
-      <H6>Fill in the details so that we can get in contact with you</H6>
+      <H6>Personal Information</H6>
       <FormGroup>
         <FormLabel>First Name</FormLabel>
         <FormInput
