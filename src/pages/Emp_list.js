@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../components/searchbar";
 import MultiStepForm from "./Multistepform";
+import Select from "react-select";
+// import 'react-select/dist/react-select.css';
 
 const BoxContainer = styled.div`
   border: 0px solid #ccc;
@@ -10,7 +12,7 @@ const BoxContainer = styled.div`
   box-shadow: 0px 01px 0px rgba(0, 0, 0, 0);
   border-radius: 5px;
   background: #ffffff;
-  margin-top:10px;
+  margin-top: 10px;
 `;
 
 const CreateEmployeeHeading = styled.h6`
@@ -33,6 +35,10 @@ const AddEmployeeButton = styled(Link)`
 
   &:hover {
     background-color: #ff8000;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 4px 10px; /* Adjust padding for smaller screens */
+    min-width: 120px; /* Set a fixed width for smaller screens */
   }
 `;
 
@@ -57,7 +63,7 @@ const Th = styled.th`
   right: 2%;
   font-weight: lighter;
   width: 78%;
-  font-size:13px;
+  font-size: 13px;
   text-align: left !important;
   border-left: 0px;
   border-bottom: 0px solid #ddd;
@@ -74,7 +80,6 @@ const Tr = styled.tr`
   text-align: left;
   border-bottom: 0px solid #ddd;
   margin: 100px;
-  
 `;
 const Td = styled.td`
   padding: 10px 50px;
@@ -83,21 +88,12 @@ const Td = styled.td`
   margin: 100px;
   color: black;
   // font-weight: 100;
-   font-weight: medium;
-  font-size:13px;
-  
-
-`;
-
-
-const TableContainer = styled.div`
-  border: 0px solid #ccc;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  background: #ffffff;
+  font-weight: medium;
+  font-size: 13px;
 `;
 
 const Table = styled.table`
+  margin-top: 27px;
   width: 9%;
   border-bottom: none;
   color: #ffa500;
@@ -105,7 +101,6 @@ const Table = styled.table`
   border-collapse: collapse;
   border-spacing: 10px 5px;
   border: 0px solid #ccc;
-  
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -118,7 +113,7 @@ const CenteredContainer = styled.div`
   left: 20%;
   right: 2%;
   width: 78%;
-  
+
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
@@ -128,57 +123,31 @@ const CenteredContainer = styled.div`
   height: 100vh;
 `;
 
-const EntriesDropdown = styled.select`
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-left: 10px;
-  margin-right: 10px;
-  width:150px;
-  &:focus {
-    outline: none;
-    border-color:  #ffa500; /* Change border color to orange when focused */
-    box-shadow: 0 0 0 0px rgba(255, 165, 0, 0.5); /* Add an orange shadow when focused */
-  }
-  option {
+const EntriesDropdown = styled(Select)`
+  width: 150px;
+
+  .select__control {
+    border: 1px solid orange; /* Change border color to orange */
+    border-radius: 5px;
+    padding: 5px;
+    transition: border-color 0.3s ease;
+
     &:hover {
-      background-color: #ffa500; /* Change the background color when hovering */
-      color: white; /* You can change the text color as well if needed */
+      border-color: orange;
     }
 
-    &:checked {
-      background-color: #ffa500;
-      color: white;
+    &:focus {
+      outline: none;
+      border-color: orange; /* Change border color to orange when focused */
+      box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
     }
   }
-  
 `;
-
 
 const AddEmployeeContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
-
-
-const OptionsButton = styled.button`
-  background-color: #ffa500;
-  color: #fff;
-  padding: 4px 10px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-left: 10px;
-  margin-bottom:7px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #ff8000;
-  }
-`;
-
 
 const SubmenuButton = styled.button`
   background-color: #fff;
@@ -194,37 +163,37 @@ const SubmenuButton = styled.button`
   &:hover {
     background-color: #ccc;
   }
+
+  @media screen and (max-width: 768px) {
+    padding: 4px 8px; /* Adjust padding for smaller screens */
+    min-width: 100px; /* Set a fixed width for smaller screens */
+  }
 `;
 
 const SubmenuOptions = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   position: absolute;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  top: 10%; /* Position the submenu below the button */
-  left: 80%;
-  right:3%;
+  border: 0px solid #ccc;
+  
+  
+  border-radius: 0px;
+  top: 12%; /* Position the submenu below the button */
+  left: 5%;
+  right: 0%;
   margin-top: 5px; /* Add some spacing between the button and submenu */
-  min-width: 10%; /* Make sure the submenu is at least as wide as the button */
+  min-width: 190px; /* Set a fixed width for the submenu */
   z-index: 1; /* Ensure the submenu appears above other content */
 `;
-
-
-
-
-
-
-
 
 const Emp_list = () => {
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [entriesToShow, setEntriesToShow] = useState(10);
-  const entriesOptions = [10, 20, 30]; 
-  const [isOptionsCollapsed, setIsOptionsCollapsed] = useState(true);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const entriesOptions = [10, 20, 30];
+
+  const [isOptionsOpen, setIsOptionsOpen] = useState(true);
   //useEffect(()=> {
   // getAllEmployees();
   //},[])
@@ -240,11 +209,10 @@ const Emp_list = () => {
     setShowForm(!showForm);
   };
 
-  const handleEntriesChange = (event) => {
-    setEntriesToShow(Number(event.target.value)); // Convert value to a number
-  }
-  const displayedEmployees = employees.slice(0, entriesToShow)
-
+  const handleEntriesChange = (selectedOption) => {
+    setEntriesToShow(selectedOption); // Set selectedOption directly
+  };
+  const displayedEmployees = employees.slice(0, entriesToShow);
 
   const filteredEmployees = employees.filter((employee) =>
     employee.Name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -260,9 +228,40 @@ const Emp_list = () => {
           <BoxContainer>
             <HeadingAndSearchContainer>
               <CreateEmployeeHeading>
-              <div>
-                 
+                <div>
                   <EntriesDropdown
+                    value={{
+                      value: entriesToShow,
+                      label: entriesToShow.toString(),
+                    }}
+                    onChange={(selectedOption) =>
+                      handleEntriesChange(selectedOption.value)
+                    }
+                    options={entriesOptions.map((option) => ({
+                      value: option,
+                      label: option.toString(),
+                    }))}
+                    styles={{
+                      menu: (provided) => ({
+                        ...provided,
+                        background: "#ffffff", // Background color when the dropdown is open
+                        border: provided.isFocused
+                          ? "1px solid orange"
+                          : "1px solid #ccc",
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: state.isSelected ? "white" : "white", // Background color when an option is selected
+                        color: state.isSelected ? "black" : "black", // Text color when an option is selected
+                        "&:hover": {
+                          backgroundColor: "#ffa500", // Background color when hovering over an option
+                          color: "white", // Text color when hovering over an option
+                        },
+                      }),
+                    }}
+                  />
+
+                  {/* <EntriesDropdown
                     value={entriesToShow}
                     onChange={handleEntriesChange}
                   >
@@ -271,32 +270,40 @@ const Emp_list = () => {
                         {option}
                       </option>
                     ))}
-                  </EntriesDropdown>
-                  
+                  </EntriesDropdown> */}
                 </div>{" "}
               </CreateEmployeeHeading>
+              {/* <StyledSearchBar onSearch={setSearchTerm} /> */}
               <StyledSearchBar onSearch={setSearchTerm} />
               <AddEmployeeContainer>
-              <AddEmployeeButton
-               onClick={toggleForm}
-              // onClick={openForm}
-              // onClick={() => setShowForm(true)}
-              //    to="/add-employee"
-                 className="btn btn-primary mb-2"
-              >
-                Add Employee
-              </AddEmployeeButton>
+                <AddEmployeeButton
+                  onClick={toggleForm}
+                  // onClick={openForm}
+                  // onClick={() => setShowForm(true)}
+                  //    to="/add-employee"
+                  className="btn btn-primary mb-2"
+                >
+                  Add Employee
+                </AddEmployeeButton>
 
-              <OptionsButton onClick={toggleOptions}>
-                  *
-                </OptionsButton>
+                {/* <SubmenuOptions isOpen={isOptionsOpen}>
+                  <SubmenuButton>Copy</SubmenuButton>
+                  <SubmenuButton>PDF</SubmenuButton>
+                  <SubmenuButton>Excel</SubmenuButton>
+                </SubmenuOptions> */}
+              </AddEmployeeContainer>
+            </HeadingAndSearchContainer>
+            <HeadingAndSearchContainer >
+            
+              <AddEmployeeContainer style={{borderTop: '100px'}}>
+                
+
                 <SubmenuOptions isOpen={isOptionsOpen}>
-                    <SubmenuButton>Copy</SubmenuButton>
-                    <SubmenuButton>PDF</SubmenuButton>
-                    <SubmenuButton>Excel</SubmenuButton>
-                  </SubmenuOptions>
-              
-            </AddEmployeeContainer>
+                  <SubmenuButton>Copy</SubmenuButton>
+                  <SubmenuButton>PDF</SubmenuButton>
+                  <SubmenuButton>Excel</SubmenuButton>
+                </SubmenuOptions>
+              </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             {/* </BoxContainer>
             <BoxContainer> */}
@@ -312,14 +319,14 @@ const Emp_list = () => {
                 </Tr>
               </thead>
               <tbody>
-               <Tr>
+                <Tr>
                   <Td>Aleem</Td>
                   <Td>RTA</Td>
                   <Td>not today</Td>
                   <Td>Single</Td>
                   <Td>team</Td>
                   <Td>Active</Td>
-                </Tr> 
+                </Tr>
                 <Tr>
                   <Td>Shaheer</Td>
                   <Td>RTA</Td>
@@ -327,7 +334,7 @@ const Emp_list = () => {
                   <Td>single</Td>
                   <Td>team </Td>
                   <Td>Active</Td>
-                </Tr> 
+                </Tr>
                 {employees.map((employee) => (
                   <Tr key={employee.Name}>
                     <td>{employee.Name}</td>
@@ -354,7 +361,7 @@ const Emp_list = () => {
                 ))}
               </tbody>
             </Table>
-           </BoxContainer> 
+          </BoxContainer>
         </div>
       </CenteredContainer>
       {showForm && <MultiStepForm />}
