@@ -10,7 +10,7 @@ import * as CgIcons from "react-icons/cg";
 export const SidebarData = [
   {
     title: "Dashboard",
-    path: "/Roles",
+    //path: "/",
     icon: <BsIcons.BsShieldCheck />,
   },
   {

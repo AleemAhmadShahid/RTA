@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Outlet } from 'react-router-dom';
 import {
   AiOutlineBell,
   AiOutlineSetting,
@@ -128,6 +129,8 @@ const Topbar = () => {
   };
 
   return (
+    <>
+    <Outlet/>
     <Nav>
       <IconContainer>
         <MenuIcon onClick={toggleDropdown} />
@@ -198,6 +201,8 @@ const Topbar = () => {
         <SettingIcon />
       <SimpleText>Company Name</SimpleText></IconContainer>
     </Nav>
+    
+    </>
   );
 };
 

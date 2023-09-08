@@ -93,7 +93,7 @@ const StyledH6 = styled.h6`
   margin-top: 10px;
 `;
 
-const StyledErrorH6 = styled.h6`
+export const StyledErrorH6 = styled.h6`
   font-weight: 300;
   font-size: 14px;
   text-align: left;
@@ -197,7 +197,7 @@ const LoginPage = () => {
         setError(response.error);
       else if (response.status === 200) {
         document.cookie = `token=${response.token}; expires=${new Date(Date.now() + 59 * 60000).toUTCString()}; path=/;`;
-        navigate("/portal/iam/");
+        navigate("/portal/iam/employee");
       } else {
         console.error(response);
       }

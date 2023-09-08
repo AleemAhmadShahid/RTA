@@ -6,6 +6,7 @@ import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
 import Emp_list from "../pages/Emp_list";
+import { Outlet } from 'react-router-dom';
 
 const NavIcon = styled(Link)`
   margin-left: 2rem;
@@ -57,6 +58,7 @@ const Sidebar = () => {
   };
   return (
     <>
+    <Outlet/>
       <IconContext.Provider value={{ color: "#000" }}>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>

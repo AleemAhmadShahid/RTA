@@ -80,6 +80,7 @@ const Tr = styled.tr`
   
 `;
 const Td = styled.td`
+  white-space: nowrap;
   padding: 10px 50px;
   text-align: center;
   border-top: 1px solid #ededed;
@@ -213,7 +214,28 @@ const SubmenuOptions = styled.div`
   z-index: 1; /* Ensure the submenu appears above other content */
 `;
 
+const SuccessBadge = styled.span`
+  background-color: #28a745;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px; 
+`;
 
+
+
+const DangerBadge = styled.span`
+  background-color: #ea54542c; 
+  color: #ea5455; 
+  padding: 4px 12px; 
+  border-radius: 4px; 
+`;
+
+const UserImage = styled.img`
+  width: 50px; 
+  height: 50px;
+  border-radius: 50%; 
+  object-fit: cover; 
+`;
 
 
 
@@ -239,8 +261,8 @@ const Emp_list = () => {
     const fetchData = async () => {
       try {
         const data = await createGetRequest('/api/user', params);
-        // if (data.status == 401 && data.error == "No token provided")
-        //   navigate("/login/");
+        if (data.status == 401 && data.error == "Invalid or expired token")
+          navigate("/login/");
         setEmployees(data.users);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -317,17 +339,18 @@ const Emp_list = () => {
             <Table>
               <thead>
                 <Tr>
+                  <Th>PROFILE</Th>
                   <Th>EMPLOYEE CODE</Th>
-                  <Th>Name</Th>
+                  <Th>NAME</Th>
                   <Th>LAST LOGIN</Th>
                   <Th>STATUS</Th>
-                  <Th>ROLE </Th>
                   <Th>ACTION</Th>
                 </Tr>
               </thead>
               <tbody>
-                {employees.map((employee) => (
-                  <Tr key={employee.Name}>
+                {employees.length > 0 && employees.map((employee) => (
+                  <Tr key={employee._id}>
+                    <Td>{employee.profileImg && <UserImage src={employee.profileImg}/> || ''}</Td>
                     <Td>{employee._id}</Td>
                     <Td>{employee.name}</Td>
                     <Td>{ new Date(employee.lastLogin).toLocaleString('en-GB', {
@@ -337,10 +360,12 @@ const Emp_list = () => {
                         hour: '2-digit',
                         minute: '2-digit',
                     })}</Td>
-                    <Td style={{ color: employee.status === 1 ? "green" : "red" }}>
-                        {employee.status || ""}
+                    <Td>
+                        {
+                        (employee.status == 1 && <SuccessBadge>active</SuccessBadge>) || 
+                        (<DangerBadge>inactive</DangerBadge>)
+                        }
                     </Td>
-                    <Td>{employee.roles[0]  || ''}</Td>
                     <Td>{''}</Td>
                     {/* <td>
                       <Link
@@ -364,7 +389,7 @@ const Emp_list = () => {
            </BoxContainer> 
         </div>
       </CenteredContainer>
-      {showForm && <MultiStepForm />}
+      {showForm && <MultiStepForm showForm={showForm} setShowForm={setShowForm} />}
     </>
   );
 };

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { ModalOverlay, ModalContainer } from './multistepformstyling';
+import { ModalOverlay, ModalContainer, ModalHeader } from './multistepformstyling';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import StepThree from './StepThree';
 import { FormButton } from './multistepformstyling';
 import styled from 'styled-components';
+import {createPostRequest} from '../global/helper'
 
 const CloseButton = styled.button`
   padding: 7px 7px;
@@ -89,18 +90,31 @@ const Line = styled.div`
   margin-top:-10px;
 `;
 
-const MultiStepForm = () => {
+const MultiStepForm = ({showForm, setShowForm}) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const [showForm, setShowForm] = useState(true);
+  const [errors, setErrors] = useState({});
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
-  const handleChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
-  };
+  const handleChange = (field, value, setError = false, data = { ...formData }) => {
+    const setField = (obj, [head, ...rest], val) =>
+      rest.length
+        ? { ...obj, [head]: setField(obj[head] || {}, rest, val) }
+        : { ...obj, [head]: val };
+  
+    setFormData(setField(data, field.split('.'), value));
+    
+    if  (setError)
+    {
+      if (value.trim() === '')
+        setErrors({ ...errors, [field]: 'This field is required' });
+      else
+        setErrors({ ...errors, [field]: '' });
+    }
 
+  };
   const closeForm = () => {
     setShowForm(false);
   };
@@ -112,23 +126,32 @@ const MultiStepForm = () => {
   const isFirstStep = step === 1;
   const isLastStep = step === 3;
 
-  const handleSave = () => {
-    // Save the data
-    // Add your data-saving logic here
-
-    if (isLastStep) {
-      // Close the form after saving on the last step
-      closeForm();
-    } else {
-      // Move to the next step after saving
-    //   nextStep();
+  const handleSave = async (nextStep = null) => {
+    let required = false;
+    const fields = ['name', 'email'];
+    fields.forEach((field) => {
+      if((formData[field] === undefined || formData[field] === ''))
+      {  
+        setErrors({ ...errors, [field]: 'This field is required' });
+        required = true;
+      }
+    });
+    if (required)
+      return;
+    if(formData._id == undefined)
+    {
+      //const response = await createPostRequest(formData,'/api/user'); 
     }
+    if(typeof nextStep != 'function')
+      closeForm();
+    else
+      nextStep();
   
   };
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <StepOne formData={formData} handleChange={handleChange} />;
+        return <StepOne formData={formData} errors={errors} handleChange={handleChange} />;
       case 2:
         return <StepTwo formData={formData} handleChange={handleChange} />;
       case 3: // Include the third step here
@@ -172,7 +195,7 @@ const MultiStepForm = () => {
               ) : (
                 <>
                   <SaveButton onClick={handleSave}>Save</SaveButton>
-                  <SaveAndNextButton onClick={nextStep}>Save and Next</SaveAndNextButton>
+                  <SaveAndNextButton onClick={() => handleSave(nextStep)}>Save and Next</SaveAndNextButton>
                 </>
               )}
             </div>

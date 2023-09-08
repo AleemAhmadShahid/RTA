@@ -41,9 +41,18 @@ export const FormInput = styled.input`
   width: 100%;
   padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 9px;
+  border-radius: 5px;
   
 `;
+
+export const FormHalfInput = styled.input`
+   flex: 1; /* Make the input fields flexible to cover available space */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+`;
+
 
 export const FormButton = styled.button`
   background-color: #ffa500;
@@ -71,4 +80,11 @@ export const FormRadioLabel = styled.label`
 
 export const FormRadioInput = styled.input`
   margin-right: 5px;
+`;
+
+export const StyledSelect = styled.select`
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 9px;
 `;
