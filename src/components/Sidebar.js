@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { SidebarData } from "./SidebarData";
+import { SidebarData } from "./Sidebardata";
 
-import SubMenu from "./SubMenu";
+import SubMenu from "./Submenu";
 import { IconContext } from "react-icons/lib";
 import Emp_list from "../pages/Emp_list";
 import { Outlet } from 'react-router-dom';
