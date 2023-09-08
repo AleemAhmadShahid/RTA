@@ -364,29 +364,46 @@ const Emp_list = () => {
                 </Tr>
               </thead>
               <tbody>
-                {employees.length > 0 && employees.map((employee) => (
-                  <Tr key={employee._id}>
-                    <Td>{employee.profileImg && <UserImage src={employee.profileImg}/> || ''}</Td>
-                    <Td>{employee._id}</Td>
-                    <Td>{employee.name}</Td>
-                    <Td>{ new Date(employee.lastLogin).toLocaleString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                    })}</Td>
-                    <Td>
-                        {
-                        (employee.status == 1 && <SuccessBadge>active</SuccessBadge>) || 
-                        (<DangerBadge>inactive</DangerBadge>)
-                        }
-                    </Td>
-                    <Td><MdIcons.MdOutlineModeEditOutline /><GrIcons.GrFormView /><MdIcons.MdDeleteOutline/></Td>
-                    
-                  </Tr>
-                ))}
+                {employees && employees.length > 0 ? (
+                  employees.map((employee) => (
+                    <Tr key={employee._id}>
+                      <Td>
+                        {employee.profileImg && <UserImage src={employee.profileImg} />} {/* Render UserImage conditionally */}
+                      </Td>
+                      <Td>{employee._id}</Td>
+                      <Td>{employee.name}</Td>
+                      <Td>
+                        {new Date(employee.lastLogin).toLocaleString('en-GB', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </Td>
+                      <Td>
+                        {employee.status === 1 ? (
+                          <SuccessBadge>active</SuccessBadge>
+                        ) : (
+                          <DangerBadge>inactive</DangerBadge>
+                        )}
+                      </Td>
+                      <Td>
+                        <MdIcons.MdOutlineModeEditOutline />
+                        <GrIcons.GrFormView />
+                        <MdIcons.MdDeleteOutline />
+                      </Td>
+                    </Tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6">
+                      <HeadingAndSearchContainer>No Data to Show</HeadingAndSearchContainer>
+                    </td>
+                  </tr>
+                )}
               </tbody>
+
             </Table>
           </BoxContainer>
         </div>
