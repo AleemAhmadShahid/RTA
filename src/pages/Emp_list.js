@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../components/searchbar";
-import MultiStepForm from "./Multistepform";
+import MultiStepForm from "./MultiStepForm";
 import {createGetRequest} from '../global/helper'
 import { useNavigate  } from "react-router-dom";
 import { async } from "q";
@@ -51,7 +51,7 @@ const AddEmployeeButton = styled(Link)`
 
 const HeadingAndSearchContainer = styled.div`
   display: flex;
-  padding: 10px 55px;
+  padding: 10px 50px;
   justify-content: space-between;
   align-items: center;
 `;
@@ -89,10 +89,11 @@ const Tr = styled.tr`
   margin: 100px;
 `;
 const Td = styled.td`
-  padding: 10px 30px;
+  padding: 10px 15px;
+  white-space: nowrap;
   text-align: center;
   border-top: 1px solid #ededed;
-  margin: 10px;
+  margin: 100px;
   color: black;
   // font-weight: 100;
   font-weight: medium;
@@ -100,8 +101,10 @@ const Td = styled.td`
 `;
 
 const Table = styled.table`
+  position: stick;
+  table-layout: fixed;
   margin-top: 27px;
-  width: 9%;
+  width: 100%;
   border-bottom: none;
   color: #ffa500;
   backgorund-color: #ffa500;
@@ -117,9 +120,9 @@ const Table = styled.table`
 const CenteredContainer = styled.div`
   position: absolute;
   top: 20%;
-  left: 35%;
+  left: 19%;
   right: 4%;
-  width: 48%;
+  width: 78%;
 
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -182,15 +185,10 @@ const SubmenuOptions = styled.div`
   position: absolute;
   background-color: #fff;
   border: 0px solid #ccc;
-  
-  
   border-radius: 0px;
-  top: 12%; /* Position the submenu below the button */
-  left: 100%;
-  right: 10%;
   margin-top: 5px; /* Add some spacing between the button and submenu */
   min-width: 190px; /* Set a fixed width for the submenu */
-  z-index: 1; /* Ensure the submenu appears above other content */
+  z-index: 0; /* Ensure the submenu appears above other content */
 `;
 
 const SuccessBadge = styled.span`
@@ -340,18 +338,18 @@ const Emp_list = () => {
                 </SubmenuOptions> */}
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
-            <HeadingAndSearchContainer >
-            
-              <AddEmployeeContainer>
-                
-
-                <SubmenuOptions isOpen={isOptionsOpen}>
-                  <SubmenuButton>Copy</SubmenuButton>
-                  <SubmenuButton>PDF</SubmenuButton>
-                  <SubmenuButton>Excel</SubmenuButton>
-                </SubmenuOptions>
-              </AddEmployeeContainer>
+            {
+              isOptionsOpen &&
+            <HeadingAndSearchContainer>
+                <AddEmployeeContainer>
+                  <SubmenuOptions isOpen={isOptionsOpen}>
+                    <SubmenuButton>Copy</SubmenuButton>
+                    <SubmenuButton>PDF</SubmenuButton>
+                    <SubmenuButton>Excel</SubmenuButton>
+                  </SubmenuOptions>
+                </AddEmployeeContainer>
             </HeadingAndSearchContainer>
+            }
             {/* </BoxContainer>
             <BoxContainer> */}
             <Table>
@@ -384,7 +382,6 @@ const Emp_list = () => {
                         (<DangerBadge>inactive</DangerBadge>)
                         }
                     </Td>
-                    <Td>{employee.roles[0]  || ''}</Td>
                     <Td><MdIcons.MdOutlineModeEditOutline /><GrIcons.GrFormView /><MdIcons.MdDeleteOutline/></Td>
                     
                   </Tr>
