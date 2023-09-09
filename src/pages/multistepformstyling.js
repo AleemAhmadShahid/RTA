@@ -7,16 +7,18 @@ export const ModalOverlay = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 15;
+  display: flex;
+  flex-direction: column; /* To stack child components vertically */
+  
 `;
 
 export const ModalContainer = styled.div`
   background-color: #fff;
-  padding: 19px 40px;
-  border-radius: 5px;
+  padding: 17px 30px;
+  border-radius: 0px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 

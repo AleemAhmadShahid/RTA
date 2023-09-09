@@ -89,6 +89,23 @@ const Line = styled.div`
   margin-right: 10px;
   margin-top:-10px;
 `;
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+   width: 31%;
+  border: 1px solid #f5f5f5; 
+  background:#f5f5f5;
+  border-bottom-left-radius: -10px; /* Adjust the value as needed */
+  border-bottom-right-radius: -10px;
+  padding: 5px 10px;   
+  
+`;
+const Heading = styled.h5`
+  margin: 0; /* Remove default margin */
+`;
+
+
 
 const MultiStepForm = ({showForm, setShowForm}) => {
   const [step, setStep] = useState(1);
@@ -164,12 +181,22 @@ const MultiStepForm = ({showForm, setShowForm}) => {
 
   return (
     showForm && (
+        
+        
       <ModalOverlay>
-        <ModalContainer>
+        <HeaderContainer>
+          <Heading>Create a company</Heading> 
             <CloseButtonContainer>
           <CloseButton onClick={closeForm} className="close-button">
             &#10005;
-          </CloseButton></CloseButtonContainer>
+          </CloseButton></CloseButtonContainer> </HeaderContainer>
+        <ModalContainer>
+            {/* <HeaderContainer>
+          <Heading>Create a company</Heading> 
+            <CloseButtonContainer>
+          <CloseButton onClick={closeForm} className="close-button">
+            &#10005;
+          </CloseButton></CloseButtonContainer> </HeaderContainer> */}
           <StepIndicators>
             {[1, 2,3].map((stepNumber) => (
               <StepIndicatorContainer key={stepNumber}>
@@ -202,6 +229,7 @@ const MultiStepForm = ({showForm, setShowForm}) => {
           </FormButtonContainer>
         </ModalContainer>
       </ModalOverlay>
+      
     )
   );
 };
