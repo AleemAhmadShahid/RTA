@@ -11,15 +11,25 @@ export const ModalOverlay = styled.div`
   justify-content: center;
   z-index: 15;
   display: flex;
-  flex-direction: column; /* To stack child components vertically */
+  
+  // flex-direction: column; /* To stack child components vertically */
   
 `;
 
 export const ModalContainer = styled.div`
   background-color: #fff;
-  padding: 17px 30px;
+  padding: 0px 0px;
   border-radius: 0px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+`;
+
+export const InnermodalContainer = styled.div`
+  background-color: #fff;
+  padding: 17px 30px;
+  border-radius: 0px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 `;
 
 export const FormStep = styled.div`

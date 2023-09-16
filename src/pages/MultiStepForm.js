@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { ModalOverlay, ModalContainer, ModalHeader } from './multistepformstyling';
-import StepOne from './StepOne';
-import StepTwo from './StepTwo';
-import StepThree from './StepThree';
-import { FormButton } from './multistepformstyling';
-import styled from 'styled-components';
-import {createPostRequest} from '../global/helper'
+import React, { useState } from "react";
+import {
+  ModalOverlay,
+  ModalContainer,
+  ModalHeader,
+  InnermodalContainer,
+} from "./multistepformstyling";
+import StepOne from "./StepOne";
+import StepTwo from "./StepTwo";
+import StepThree from "./StepThree";
+import { FormButton } from "./multistepformstyling";
+import styled from "styled-components";
+import { createPostRequest } from "../global/helper";
 
 const CloseButton = styled.button`
   padding: 7px 7px;
@@ -14,8 +19,8 @@ const CloseButton = styled.button`
   border: none;
   cursor: pointer;
   color: black;
-  margin-buttom:1px;
-  margin-right:0px; /* This will push the button to the right */
+  margin-buttom: 1px;
+  margin-right: 0px; /* This will push the button to the right */
 `;
 const CloseButtonContainer = styled.div`
   display: flex;
@@ -37,21 +42,10 @@ const FormButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-const prevButtonStyle = {
-  backgroundColor: 'white',
-  color: 'black',
-  border: '0px solid #ccc',
-  fontSize: 'small',
-  padding: '10px 20px',
-  borderRadius: '10px',
-  marginRight: '10px',
-};
 const PreviousButton = styled(FormButton)`
   background-color: white;
   color: black;
 `;
-
-
 
 const StepIndicators = styled.div`
   display: flex;
@@ -67,7 +61,7 @@ const StepIndicatorContainer = styled.div`
 const StepIndicator = styled.div`
   width: 39px;
   height: 39px;
-  border: 3px solid ${(props) => (props.active ? '#ffa500' : '#ccc')};
+  border: 3px solid ${(props) => (props.active ? "#ffa500" : "#ccc")};
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -80,34 +74,29 @@ const StepIndicator = styled.div`
   color: #000; /* Set the number color to black */
 `;
 
-
-
 const Line = styled.div`
   width: 90px;
   height: 2px;
   background: #ccc;
   margin-right: 10px;
-  margin-top:-10px;
+  margin-top: -10px;
 `;
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-   width: 31%;
-  border: 1px solid #f5f5f5; 
-  background:#f5f5f5;
-  border-bottom-left-radius: -10px; /* Adjust the value as needed */
-  border-bottom-right-radius: -10px;
-  padding: 5px 10px;   
-  
+  width: 100%;
+  border: 1px solid #f5f5f5;
+  background: #f5f5f5;
+  border-top-left-radius: 5px; /* Adjust the value as needed */
+  border-top-right-radius: 5px;
+  padding: 5px 10px;
 `;
 const Heading = styled.h5`
-  margin: 0; /* Remove default margin */
+  margin: 0;
 `;
 
-
-
-const MultiStepForm = ({showForm, setShowForm}) => {
+const MultiStepForm = ({ showForm, setShowForm }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
@@ -115,22 +104,24 @@ const MultiStepForm = ({showForm, setShowForm}) => {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
-  const handleChange = (field, value, setError = false, data = { ...formData }) => {
+  const handleChange = (
+    field,
+    value,
+    setError = false,
+    data = { ...formData }
+  ) => {
     const setField = (obj, [head, ...rest], val) =>
       rest.length
         ? { ...obj, [head]: setField(obj[head] || {}, rest, val) }
         : { ...obj, [head]: val };
-  
-    setFormData(setField(data, field.split('.'), value));
-    
-    if  (setError)
-    {
-      if (value.trim() === '')
-        setErrors({ ...errors, [field]: 'This field is required' });
-      else
-        setErrors({ ...errors, [field]: '' });
-    }
 
+    setFormData(setField(data, field.split("."), value));
+
+    if (setError) {
+      if (value.trim() === "")
+        setErrors({ ...errors, [field]: "This field is required" });
+      else setErrors({ ...errors, [field]: "" });
+    }
   };
   const closeForm = () => {
     setShowForm(false);
@@ -145,30 +136,30 @@ const MultiStepForm = ({showForm, setShowForm}) => {
 
   const handleSave = async (nextStep = null) => {
     let required = false;
-    const fields = ['name', 'email'];
+    const fields = ["name", "email"];
     fields.forEach((field) => {
-      if((formData[field] === undefined || formData[field] === ''))
-      {  
-        setErrors({ ...errors, [field]: 'This field is required' });
+      if (formData[field] === undefined || formData[field] === "") {
+        setErrors({ ...errors, [field]: "This field is required" });
         required = true;
       }
     });
-    if (required)
-      return;
-    if(formData._id == undefined)
-    {
-      //const response = await createPostRequest(formData,'/api/user'); 
+    if (required) return;
+    if (formData._id == undefined) {
+      //const response = await createPostRequest(formData,'/api/user');
     }
-    if(typeof nextStep != 'function')
-      closeForm();
-    else
-      nextStep();
-  
+    if (typeof nextStep != "function") closeForm();
+    else nextStep();
   };
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <StepOne formData={formData} errors={errors} handleChange={handleChange} />;
+        return (
+          <StepOne
+            formData={formData}
+            errors={errors}
+            handleChange={handleChange}
+          />
+        );
       case 2:
         return <StepTwo formData={formData} handleChange={handleChange} />;
       case 3: // Include the third step here
@@ -177,59 +168,61 @@ const MultiStepForm = ({showForm, setShowForm}) => {
         return null;
     }
   };
-  
 
   return (
     showForm && (
-        
-        
       <ModalOverlay>
-        <HeaderContainer>
-          <Heading>Create a company</Heading> 
-            <CloseButtonContainer>
-          <CloseButton onClick={closeForm} className="close-button">
-            &#10005;
-          </CloseButton></CloseButtonContainer> </HeaderContainer>
-        <ModalContainer>
-            {/* <HeaderContainer>
-          <Heading>Create a company</Heading> 
+        {/*<HeaderContainer>
+           <Heading>Create a company</Heading> 
             <CloseButtonContainer>
           <CloseButton onClick={closeForm} className="close-button">
             &#10005;
           </CloseButton></CloseButtonContainer> </HeaderContainer> */}
-          <StepIndicators>
-            {[1, 2,3].map((stepNumber) => (
-              <StepIndicatorContainer key={stepNumber}>
-                <StepIndicator active={stepNumber <= step}>
-                  {stepNumber}
-                </StepIndicator>
-                {stepNumber === 1 && <Line />} {/* Add this line */}
-                {stepNumber === 2 && <Line />}
-              </StepIndicatorContainer>
-            ))}
-          </StepIndicators>
-          {/* <h3>We can't wait to meet you</h3> */}
-          {renderStep()}
-          <FormButtonContainer>
-            <div>
-              {!isFirstStep && (
-                <PreviousButton onClick={prevStep}>Previous</PreviousButton>
-              )}
-            </div>
-            <div>
-              {isLastStep ? (
-                <SaveButton onClick={handleSave}>Save</SaveButton>
-              ) : (
-                <>
+        <ModalContainer>
+          <HeaderContainer>
+            <Heading>Create a company</Heading>
+            <CloseButtonContainer>
+              <CloseButton onClick={closeForm} className="close-button">
+                &#10005;
+              </CloseButton>
+            </CloseButtonContainer>
+          </HeaderContainer>
+          <InnermodalContainer>
+            <StepIndicators>
+              {[1, 2, 3].map((stepNumber) => (
+                <StepIndicatorContainer key={stepNumber}>
+                  <StepIndicator active={stepNumber <= step}>
+                    {stepNumber}
+                  </StepIndicator>
+                  {stepNumber === 1 && <Line />} {/* Add this line */}
+                  {stepNumber === 2 && <Line />}
+                </StepIndicatorContainer>
+              ))}
+            </StepIndicators>
+            {/* <h3>We can't wait to meet you</h3> */}
+            {renderStep()}
+            <FormButtonContainer>
+              <div>
+                {!isFirstStep && (
+                  <PreviousButton onClick={prevStep}>Previous</PreviousButton>
+                )}
+              </div>
+              <div>
+                {isLastStep ? (
                   <SaveButton onClick={handleSave}>Save</SaveButton>
-                  <SaveAndNextButton onClick={() => handleSave(nextStep)}>Save and Next</SaveAndNextButton>
-                </>
-              )}
-            </div>
-          </FormButtonContainer>
+                ) : (
+                  <>
+                    <SaveButton onClick={handleSave}>Save</SaveButton>
+                    <SaveAndNextButton onClick={() => handleSave(nextStep)}>
+                      Save and Next
+                    </SaveAndNextButton>
+                  </>
+                )}
+              </div>
+            </FormButtonContainer>
+          </InnermodalContainer>
         </ModalContainer>
       </ModalOverlay>
-      
     )
   );
 };

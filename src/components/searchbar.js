@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const SearchInput = styled.input`
-  padding: 3px;
+  padding: 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 220px;
-  margin-bottom:8px;
+  width: 230px;
+  margin-bottom:0px;
+  margin-right:10px;
+  margin-left:10px;
 `;
 
 const SearchBar = ({ onSearch }) => {

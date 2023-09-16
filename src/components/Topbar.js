@@ -27,8 +27,8 @@ const Nav = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 2.5%;
-  right: 2%;
-  width: 78%;
+  right: 1.5%;
+  width: 79%;
   border-radius: 5px;
 `;
 
