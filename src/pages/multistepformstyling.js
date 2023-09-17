@@ -30,7 +30,18 @@ export const InnermodalContainer = styled.div`
   border-radius: 0px;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  padding: 19px 30px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  height: 100%;
 `;
+
 
 export const FormStep = styled.div`
   display: ${props => (props.active ? 'block' : 'none')};
@@ -50,7 +61,7 @@ export const FormLabel = styled.label`
 
 export const FormInput = styled.input`
 
-  width: 100%;
+  width: 95%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -60,6 +71,7 @@ export const FormInput = styled.input`
 export const FormHalfInput = styled.input`
    flex: 1; /* Make the input fields flexible to cover available space */
   padding: 5px;
+  width: 95%;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;

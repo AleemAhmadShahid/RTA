@@ -137,20 +137,11 @@ const StepOne = ({ formData, errors, handleChange }) => {
         />
       </FormGroup>
       <FormGroup>
-        <div style={{ display: "flex" }}>
-          <FormHalfInput
-            type="text"
-            value={(formData.address && formData.address.city) || ""}
-            onChange={(e) => handleChange("address.city", e.target.value)}
-            placeholder=" City"
-            style={{ marginRight: "10px" }}
-          />
-          <FormHalfInput
-            type="text"
-            value={(formData.address && formData.address.zipCode) || ""}
-            onChange={(e) => handleChange("address.zipCode", e.target.value)}
-            placeholder=" Zip Code"
-          />
+          <div style={{ display: 'flex',width: "95%" }}>
+          <FormHalfInput type="text" value={formData.address && formData.address.city || ""}
+          onChange={(e) => handleChange("address.city", e.target.value)} placeholder=" City" style={{ marginRight: '10px' }} />
+          <FormHalfInput type="text" value={formData.address && formData.address.zipCode || ""}
+          onChange={(e) => handleChange("address.zipCode", e.target.value)} placeholder=" Zip Code" />
         </div>
       </FormGroup>
 

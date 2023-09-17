@@ -136,16 +136,19 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
 
   const handleSave = async (nextStep = null) => {
     let required = false;
-    const fields = ["name", "email"];
-    fields.forEach((field) => {
-      if (formData[field] === undefined || formData[field] === "") {
-        setErrors({ ...errors, [field]: "This field is required" });
-        required = true;
-      }
-    });
-    if (required) return;
-    if (formData._id == undefined) {
-      //const response = await createPostRequest(formData,'/api/user');
+    const fields = ['name', 'email'];
+    // fields.forEach((field) => {
+    //   if((formData[field] === undefined || formData[field] === ''))
+    //   {  
+    //     setErrors({ ...errors, [field]: 'This field is required' });
+    //     required = true;
+    //   }
+    // });
+    if (required)
+      return;
+    if(formData._id == undefined)
+    {
+      //const response = await createPostRequest(formData,'/api/user'); 
     }
     if (typeof nextStep != "function") closeForm();
     else nextStep();
