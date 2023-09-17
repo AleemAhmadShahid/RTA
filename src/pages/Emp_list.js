@@ -8,7 +8,17 @@ import { useNavigate } from "react-router-dom";
 import InfoBox from "../components/Infobox";
 import PageBar from "../components/PageBar";
 import FilterBox from "../components/FliterBox";
-import DialogBox from "../components/DialogBox";
+import DialogBox from "../components/Toast";
+
+import ErrorDialog, {
+  DialogBoxContainer1,
+  DialogOverlay1,
+  CrossIcon,
+  CloseButton,
+  ErrorText,
+  OKButton,
+  ClickedText,
+} from "../components/ErrorDialog";
 import EmployeeInfo from "../components/EmployeeInfo";
 import { async } from "q";
 
@@ -31,7 +41,6 @@ const BoxContainer = styled.div`
   border-radius: 5px;
   background: #ffffff;
   margin-top: 24px;
-  
 `;
 
 const CreateEmployeeHeading = styled.h6`
@@ -84,7 +93,7 @@ const Th = styled.th`
   right: 2%;
   font-weight: lighter;
   // width: 10%;
-  font-size: .7rem;
+  font-size: 0.7rem;
   text-align: left !important;
   border-left: 0px;
   border-bottom: 0px solid #ddd;
@@ -112,7 +121,7 @@ const Td = styled.td`
   color: black;
   // font-weight: 100;
   font-weight: medium;
-  font-size: .7rem;
+  font-size: 0.7rem;
 `;
 const TableContainer = styled.div`
   overflow-x: auto;
@@ -139,7 +148,7 @@ const CenteredContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  
+
   top: 0; /* Fixed distance from the top */
   left: 18.6%;
   right: 13%;
@@ -149,7 +158,7 @@ const CenteredContainer = styled.div`
 
   /* Adjust width based on screen size */
   width: 80.9%; /* Default width */
-  
+
   @media (max-width: 1200px) {
     width: 75%; /* Decrease width for smaller screens */
   }
@@ -161,7 +170,6 @@ const CenteredContainer = styled.div`
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
   height: 100vh;
 `;
-
 
 const EntriesDropdown = styled(Select)`
   width: 130px;
@@ -269,10 +277,11 @@ const IconWrapper = styled.div`
 
 const DialogOverlay = styled.div`
   position: absolute;
-  top: calc(100% + 10px); /* Position the dialog box below the icon */
-  left: 0;
-  z-index: 1; /* Ensure the dialog box appears above other content */
+  top: 80px; /* Adjust top position to place it at the top */
+  right: 1.4%; /* Adjust right position to place it at the right */
+  z-index: 1;
   display: ${(props) => (props.show ? "block" : "none")};
+  z-index: 30px;
 `;
 
 const Emp_list = () => {
@@ -351,7 +360,6 @@ const Emp_list = () => {
   const handleCheckChange = (optionLabel) => {
     setSelectedCheck(optionLabel); // Update selectedCheck directly
   };
-  
 
   const exportOptions = [
     { label: "Print", icon: <FaPrint /> },
@@ -363,10 +371,19 @@ const Emp_list = () => {
 
   const toggleDialog = (event) => {
     const rect = event.target.getBoundingClientRect();
-    const x = rect.left + window.scrollX;
-    const y = rect.bottom + window.scrollY;
-    setDialogPosition({ x, y });
+    // const x = rect.left + window.scrollX;
+    // const y = rect.bottom + window.scrollY;
+    // // setDialogPosition({ x, y });
     setShowDialog(!showDialog);
+  };
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDeleteIconClick = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
   };
 
   return (
@@ -512,8 +529,7 @@ const Emp_list = () => {
               <StyledSearchBar onSearch={setSearchTerm} />
 
               <AddEmployeeContainer>
-             
-                 <div>
+                <div>
                   <EntriesDropdown
                     value={{
                       value: Export,
@@ -555,7 +571,7 @@ const Emp_list = () => {
                       }),
                     }}
                   />
-                </div> 
+                </div>
 
                 <AddEmployeeButton
                   onClick={toggleForm}
@@ -565,98 +581,106 @@ const Emp_list = () => {
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
-<TableContainer>
-            <Table>
-              <thead>
-                <Tr>
-                  <Th>PROFILE</Th>
-                  <Th>EMPLOYEE CODE</Th>
-                  <Th>NAME</Th>
-                  <Th>LAST LOGIN</Th>
-                  <Th>STATUS</Th>
-                  <Th>ACTION</Th>
-                </Tr>
-              </thead>
-              <tbody>
-                {employees &&
-                  employees
-                    .slice(
-                      (currentPage - 1) * entriesToShow,
-                      currentPage * entriesToShow
-                    )
-                    .map((employee) => (
-                      <Tr key={employee._id}>
-                        <Td>
-                          {employee.profileImg && (
-                            <UserImage src={employee.profileImg} />
-                          )}
-                        </Td>
-                        <Td>{employee._id}</Td>
-                        <Td>
-                          {/* <EmployeeInfo employee={employee} /> */}
-                          {employee.name}
-                          <br />
-                          <span style={{ fontSize: "12px", color: "grey" }}>
-                            {employee.email}
-                          </span>
-                        </Td>
+            <TableContainer>
+              <Table>
+                <thead>
+                  <Tr>
+                    <Th>PROFILE</Th>
+                    <Th>EMPLOYEE CODE</Th>
+                    <Th>NAME</Th>
+                    <Th>LAST LOGIN</Th>
+                    <Th>STATUS</Th>
+                    <Th>ACTION</Th>
+                  </Tr>
+                </thead>
+                <tbody>
+                  {employees &&
+                    employees
+                      .slice(
+                        (currentPage - 1) * entriesToShow,
+                        currentPage * entriesToShow
+                      )
+                      .map((employee) => (
+                        <Tr key={employee._id}>
+                          <Td>
+                            {employee.profileImg && (
+                              <UserImage src={employee.profileImg} />
+                            )}
+                          </Td>
+                          <Td>{employee._id}</Td>
+                          <Td>
+                            {/* <EmployeeInfo employee={employee} /> */}
+                            {employee.name}
+                            <br />
+                            <span style={{ fontSize: "12px", color: "grey" }}>
+                              {employee.email}
+                            </span>
+                          </Td>
 
-                        <Td>
-                          {new Date(employee.lastLogin).toLocaleString(
-                            "en-GB",
-                            {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "2-digit",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            }
-                          )}
-                        </Td>
-                        <Td>
-                          {employee.status === 1 ? (
-                            <SuccessBadge>active</SuccessBadge>
-                          ) : (
-                            <DangerBadge>inactive</DangerBadge>
-                          )}
-                        </Td>
-                        <Td>
-                          <IconWrapper onClick={toggleDialog}>
-                            <MdIcons.MdOutlineModeEditOutline
-                              style={{ fontSize: "18px" }}
-                            />
+                          <Td>
+                            {new Date(employee.lastLogin).toLocaleString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "2-digit",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
+                          </Td>
+                          <Td>
+                            {employee.status === 1 ? (
+                              <SuccessBadge>active</SuccessBadge>
+                            ) : (
+                              <DangerBadge>inactive</DangerBadge>
+                            )}
+                          </Td>
+                          <Td>
+                            <IconWrapper onClick={toggleDialog}>
+                              <MdIcons.MdOutlineModeEditOutline
+                                style={{ fontSize: "18px" }}
+                              />
+                            </IconWrapper>
                             {showDialog && (
-                              <DialogOverlay
-                                show={showDialog}
-                                // style={{
-                                //   top: dialogPosition.y + "px",
-                                //   left: dialogPosition.x + "px",
-                                // }}
-                              >
+                              <DialogOverlay show={showDialog}>
                                 <DialogBox />
                               </DialogOverlay>
                             )}
-                          </IconWrapper>
 
-                          <GrIcons.GrFormView s tyle={{ fontSize: "18px" }} />
-                          <MdIcons.MdDeleteOutline
-                            style={{ fontSize: "18px" }}
-                          />
-                        </Td>
-                      </Tr>
+                            <GrIcons.GrFormView s tyle={{ fontSize: "18px" }} />
+
+                            {/* <MdIcons.MdDeleteOutline
+                              style={{ fontSize: "18px" }}
+                            /> */}
+                           <MdIcons.MdDeleteOutline
+        style={{ fontSize: "18px", cursor: "pointer" }}
+        onClick={handleDeleteIconClick}
+      />
+
+      <DialogOverlay1 show={isDialogOpen}>
+        <DialogBoxContainer1>
+          <CrossIcon  />
+          <ErrorText>Error</ErrorText>
+          <ClickedText>You clicked a Button</ClickedText>
+          <OKButton onClick={handleCloseDialog}>OK</OKButton>
+        </DialogBoxContainer1>
+      </DialogOverlay1>
+                          </Td>
+                        </Tr>
+                      ))}
+                  {!employees ||
+                    (employees.length === 0 && (
+                      <tr>
+                        <td colSpan="6">
+                          <HeadingAndSearchContainer>
+                            No Data to Show
+                          </HeadingAndSearchContainer>
+                        </td>
+                      </tr>
                     ))}
-                {!employees ||
-                  (employees.length === 0 && (
-                    <tr>
-                      <td colSpan="6">
-                        <HeadingAndSearchContainer>
-                          No Data to Show
-                        </HeadingAndSearchContainer>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
+                </tbody>
+              </Table>
             </TableContainer>
           </BoxContainer>
           {totalPages > 1 && (
