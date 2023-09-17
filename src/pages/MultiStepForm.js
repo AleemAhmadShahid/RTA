@@ -20,7 +20,7 @@ const CloseButton = styled.button`
   cursor: pointer;
   color: black;
   margin-buttom: 1px;
-  margin-right: 0px; /* This will push the button to the right */
+  margin-right: 0px;
 `;
 const CloseButtonContainer = styled.div`
   display: flex;
@@ -95,6 +95,17 @@ const HeaderContainer = styled.div`
 const Heading = styled.h5`
   margin: 0;
 `;
+
+const FormCenteringContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+
+
 
 const MultiStepForm = ({ showForm, setShowForm }) => {
   const [step, setStep] = useState(1);
@@ -175,6 +186,7 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
   return (
     showForm && (
       <ModalOverlay>
+        <FormCenteringContainer>
         {/*<HeaderContainer>
            <Heading>Create a company</Heading> 
             <CloseButtonContainer>
@@ -225,6 +237,7 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
             </FormButtonContainer>
           </InnermodalContainer>
         </ModalContainer>
+        </FormCenteringContainer>
       </ModalOverlay>
     )
   );

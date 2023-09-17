@@ -6,12 +6,12 @@ const FilterBoxContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 0px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
+  
 `;
 
 const Dropdown = styled(Select)`
-  width: 350px;
-  
+  width: ${(props) => props.width || "350px"}; // Set the width from props or default to "350px"
   margin-right: 10px;
 
   .select__control {
@@ -33,33 +33,24 @@ const Dropdown = styled(Select)`
   }
 `;
 
-const Box = styled.div`
-  
-//  display: inline-block; /* Change display property to inline-block */
-//   margin-right: 10px;
-//   border: 1px solid #fff;
-//   background: #fff;
-//   width: auto; /* Change width to auto */
-  
-`;
+const Box = styled.div``;
 const Title = styled.h6`
-  font-size: 13px; /* Adjust the font size as needed */
-  margin-bottom:3px;
-  margin-left:3px;
+  font-size: 13px;
+  margin-bottom: 3px;
+  margin-left: 3px;
 `;
 
-
-const FilterBox = ({ options, title, selectedValue, onValueChange }) => {
+const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
   const handleDropdownChange = (selectedOption) => {
     onValueChange(selectedOption.value);
   };
 
   return (
-
     <Box>
       <Title>{title}</Title>
       <FilterBoxContainer>
         <Dropdown
+          width={width} // Set the width from props
           value={{
             value: selectedValue,
             label: selectedValue.toString(),
@@ -74,30 +65,29 @@ const FilterBox = ({ options, title, selectedValue, onValueChange }) => {
           styles={{
             menu: (provided) => ({
               ...provided,
-              background: "#ffffff", // Background color when the dropdown is open
+              background: "#ffffff",
               border: provided.isFocused
                 ? "1px solid orange"
                 : "1px solid #ccc",
-                fontSize: "13px",
+              fontSize: "13px",
             }),
             option: (provided, state) => ({
               ...provided,
-              backgroundColor: state.isSelected ? "white" : "white", // Background color when an option is selected
-              color: state.isSelected ? "black" : "black", // Text color when an option is selected
+              backgroundColor: state.isSelected ? "white" : "white",
+              color: state.isSelected ? "black" : "black",
               "&:hover": {
-                backgroundColor: "#ffa500", // Background color when hovering over an option
-                color: "white", // Text color when hovering over an option
+                backgroundColor: "#ffa500",
+                color: "white",
               },
               display: "flex",
-              justifyContent: "space-between", // Add space between label and checkbox
-              alignItems: "center", // Vertically center the label and checkbox
+              justifyContent: "space-between",
+              alignItems: "center",
               fontSize: "12px",
             }),
           }}
         />
       </FilterBoxContainer>
     </Box>
-    
   );
 };
 

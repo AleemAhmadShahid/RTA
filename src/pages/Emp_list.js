@@ -31,6 +31,7 @@ const BoxContainer = styled.div`
   border-radius: 5px;
   background: #ffffff;
   margin-top: 24px;
+  
 `;
 
 const CreateEmployeeHeading = styled.h6`
@@ -83,7 +84,7 @@ const Th = styled.th`
   right: 2%;
   font-weight: lighter;
   // width: 10%;
-  font-size: 13px;
+  font-size: .7rem;
   text-align: left !important;
   border-left: 0px;
   border-bottom: 0px solid #ddd;
@@ -111,9 +112,11 @@ const Td = styled.td`
   color: black;
   // font-weight: 100;
   font-weight: medium;
-  font-size: 13px;
+  font-size: .7rem;
 `;
-
+const TableContainer = styled.div`
+  overflow-x: auto;
+`;
 const Table = styled.table`
   position: stick;
   table-layout: fixed;
@@ -133,24 +136,32 @@ const Table = styled.table`
 
 const CenteredContainer = styled.div`
   display: flex;
-
-  justify-content: space-between;
-  align-items: top;
+  justify-content: center;
+  align-items: center;
   position: fixed;
-  top: 20%;
+  
+  top: 0; /* Fixed distance from the top */
   left: 18.6%;
   right: 13%;
-
-  width: 80.9%;
-  // margin: 0 auto:
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-
-  justify-content: center;
-  align-items: top;
+  transform: translateX(0%); /* Center horizontally */
   padding: 0px 20px;
-  border-radius: 5px 5px 5px 5px;
+  border-radius: 5px;
+
+  /* Adjust width based on screen size */
+  width: 80.9%; /* Default width */
+  
+  @media (max-width: 1200px) {
+    width: 75%; /* Decrease width for smaller screens */
+  }
+
+  @media (max-width: 768px) {
+    width: 60%; /* Further decrease width for even smaller screens */
+  }
+
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
   height: 100vh;
 `;
+
 
 const EntriesDropdown = styled(Select)`
   width: 130px;
@@ -176,39 +187,6 @@ const EntriesDropdown = styled(Select)`
 const AddEmployeeContainer = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const SubmenuButton = styled.button`
-  background-color: #fff;
-  color: #000;
-  padding: 4px 10px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-right: 5px;
-
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #ccc;
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 4px 8px; /* Adjust padding for smaller screens */
-    min-width: 100px; /* Set a fixed width for smaller screens */
-  }
-`;
-
-const SubmenuOptions = styled.div`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
-  position: absolute;
-  background-color: #fff;
-  border: 0px solid #ccc;
-  border-radius: 0px;
-  margin-top: 5px; /* Add some spacing between the button and submenu */
-  min-width: 190px; /* Set a fixed width for the submenu */
-  z-index: 0; /* Ensure the submenu appears above other content */
 `;
 
 const SuccessBadge = styled.span`
@@ -343,9 +321,6 @@ const Emp_list = () => {
     setShowForm(!showForm);
   };
 
-  // const handleEntriesChange = (selectedOption) => {
-  //   setEntriesToShow(selectedOption); // Set selectedOption directly
-  // };
   const handleStatusChange = (selectedOption) => {
     setStatus(selectedOption); // Update the status state with the selected option's value
   };
@@ -371,13 +346,12 @@ const Emp_list = () => {
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   // const exportOptions = ["Print","CVS","Excel","PDF","Copy"];
   const [Export, setExport] = useState("Export");
-  const [selectedCheck, setSelectedCheck] = useState("");// Initialize with an empty string or an appropriate default value
-  const CheckOptions = ["1", "2", "3", "4"]
+  const [selectedCheck, setSelectedCheck] = useState(""); // Initialize with an empty string or an appropriate default value
+  const CheckOptions = ["1", "2", "3", "4"];
   const handleCheckChange = (optionLabel) => {
     setSelectedCheck(optionLabel); // Update selectedCheck directly
   };
-
-
+  
 
   const exportOptions = [
     { label: "Print", icon: <FaPrint /> },
@@ -404,6 +378,7 @@ const Emp_list = () => {
               iconColor="#ffa500"
               data={infoBoxData}
               text="Total Users"
+              width="40px"
             />
             <InfoBox iconColor="#ffa500" data={infoBoxData} text="Paid Users" />
 
@@ -427,6 +402,7 @@ const Emp_list = () => {
                 onValueChange={handleStatusChange}
                 selectedValue={status}
                 title="Status"
+                // width={"340px"}
               />
               <FilterBox
                 options={roleOptions} // Pass the options directly
@@ -491,54 +467,53 @@ const Emp_list = () => {
                 {/* <div style={{ margin: '10px 0' }}></div> */}
               </CreateEmployeeHeading>
               <div>
-  <EntriesDropdown
-     
-     value={selectedCheck} // Use the singular selectedCheck variable
-     onChange={(selectedOption) =>
-       handleCheckChange(selectedOption.value)
-     }
-     options={CheckOptions.map((option) => ({
-       value: option,
-       label: (
-         <div style={{ display: "flex", alignItems: "center" }}>
-           <input
-             type="checkbox"
-             checked={selectedCheck === option} // Check against selectedCheck
-             onChange={() => handleCheckChange(option)} // Update selectedCheck
-             style={{ marginRight: "8px" }}
-           />
-           <span>{option}</span>
-         </div>
-       ),
-     }))}
-     styles={{
-       menu: (provided) => ({
-         ...provided,
-         background: "#ffffff",
-         border: provided.isFocused ? "1px solid orange" : "1px solid #ccc",
-       }),
-       option: (provided, state) => ({
-         ...provided,
-         backgroundColor: state.isSelected ? "white" : "white",
-         color: state.isSelected ? "black" : "black",
-         "&:hover": {
-           backgroundColor: "#ffa500",
-           color: "white",
-         },
-         display: "flex",
-         justifyContent: "space-between",
-         alignItems: "center",
-       }),
-     }}
-   />
-</div>
+                <EntriesDropdown
+                  value={selectedCheck} // Use the singular selectedCheck variable
+                  onChange={(selectedOption) =>
+                    handleCheckChange(selectedOption.value)
+                  }
+                  options={CheckOptions.map((option) => ({
+                    value: option,
+                    label: (
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <input
+                          type="checkbox"
+                          checked={selectedCheck === option} // Check against selectedCheck
+                          onChange={() => handleCheckChange(option)} // Update selectedCheck
+                          style={{ marginRight: "8px" }}
+                        />
+                        <span>{option}</span>
+                      </div>
+                    ),
+                  }))}
+                  styles={{
+                    menu: (provided) => ({
+                      ...provided,
+                      background: "#ffffff",
+                      border: provided.isFocused
+                        ? "1px solid orange"
+                        : "1px solid #ccc",
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: state.isSelected ? "white" : "white",
+                      color: state.isSelected ? "black" : "black",
+                      "&:hover": {
+                        backgroundColor: "#ffa500",
+                        color: "white",
+                      },
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }),
+                  }}
+                />
+              </div>
               <StyledSearchBar onSearch={setSearchTerm} />
-              
+
               <AddEmployeeContainer>
-              
-
-
-                <div>
+             
+                 <div>
                   <EntriesDropdown
                     value={{
                       value: Export,
@@ -580,18 +555,17 @@ const Emp_list = () => {
                       }),
                     }}
                   />
-                </div>
+                </div> 
 
                 <AddEmployeeButton
                   onClick={toggleForm}
                   className="btn btn-primary mb-2"
                 >
-                 <span style={{ whiteSpace: 'nowrap' }}>Add Employee</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
-            
-
+<TableContainer>
             <Table>
               <thead>
                 <Tr>
@@ -613,14 +587,13 @@ const Emp_list = () => {
                     .map((employee) => (
                       <Tr key={employee._id}>
                         <Td>
-                          
                           {employee.profileImg && (
                             <UserImage src={employee.profileImg} />
                           )}
                         </Td>
                         <Td>{employee._id}</Td>
                         <Td>
-                        {/* <EmployeeInfo employee={employee} /> */}
+                          {/* <EmployeeInfo employee={employee} /> */}
                           {employee.name}
                           <br />
                           <span style={{ fontSize: "12px", color: "grey" }}>
@@ -684,6 +657,7 @@ const Emp_list = () => {
                   ))}
               </tbody>
             </Table>
+            </TableContainer>
           </BoxContainer>
           {totalPages > 1 && (
             <PageBar

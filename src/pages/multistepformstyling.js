@@ -12,7 +12,7 @@ export const ModalOverlay = styled.div`
   z-index: 15;
   display: flex;
   
-  // flex-direction: column; /* To stack child components vertically */
+  //  flex-direction: column; /* To stack child components vertically */
   
 `;
 
@@ -27,16 +27,11 @@ export const ModalContainer = styled.div`
 export const InnermodalContainer = styled.div`
   background-color: #fff;
   padding: 17px 30px;
-  border-radius: 0px;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  padding: 19px 30px;
-  border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: flex-end; 
-  position: absolute; 
+  // justify-content:center;
   top: 0; 
   right: 0; 
   height: 100%;

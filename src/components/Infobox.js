@@ -13,7 +13,7 @@ const InfoBoxContainer = styled.div`
   background: #fff;
   padding: 14px 20px;
   border-radius: 5px;
-  margin-right: 100px;
+  margin-right: 130px;
   margin-bottom:20px;
 
   /* Remove the position: absolute */
