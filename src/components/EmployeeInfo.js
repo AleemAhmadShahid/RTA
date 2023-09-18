@@ -1,45 +1,51 @@
 import React from "react";
 import styled from "styled-components";
 
-
-const Td = styled.td`
-  padding: 8px 13px;
-  white-space: nowrap;
-  text-align: center;
-  border-top: 1px solid #ededed;
-  // margin: 100px;
-  vertical-align: middle;
-  color: black;
-  // font-weight: 100;
-  font-weight: medium;
-  font-size: 13px;
-`;
 const UserImage = styled.img`
   width: 39px;
   height: 31px;
   border-radius: 50%;
   object-fit: cover;
-  margin-top: -4px;
+  margin-top: -5px;
 `;
 
-
+export const Td = styled.td`
+  padding: 0px;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+  border-top: 0px solid #ededed;
+  vertical-align: left;
+  color: black;
+  font-weight: medium;
+  font-size: 0.7rem;
+`;
 
 const EmployeeInfo = ({ employee }) => {
+  // Define a default image URL
+  const defaultImageUrl = "https://example.com/default-image.jpg";
+
   return (
     <tr>
       <Td>
-        {employee.profileImg && <UserImage src={employee.profileImg} />}
-      </Td>
-      <Td>{employee._id}</Td>
-      <Td>
-        {employee.name}
-        <br />
-        <span style={{ fontSize: "12px", color: "grey" }}>{employee.email}</span>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <UserImage
+            src={employee.profileImg || defaultImageUrl}
+            alt="Profile Image"
+            style={{ marginLeft: "6px" }}
+          />
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{  textAlign: "left" }}>
+              {employee.name}
+            </span>
+            <span style={{ fontSize: "11px", color: "grey", textAlign: "left" }}>
+              {employee.email}
+            </span>
+          </div>
+        </div>
       </Td>
     </tr>
   );
 };
-
-// Define the styled components used in EmployeeInfo here
 
 export default EmployeeInfo;

@@ -1,28 +1,64 @@
 import React from 'react';
+import styled from "styled-components";
+
+
+const PageBarContainer = styled.div`
+  display: flex;
+  justify-content: flex-end; /* Align container to the right */
+  margin-top: 10px; /* Add some margin for spacing */
+  margin-right:30px;
+`;
+
+const Container = styled.div`
+  border: 1px solid #ededed;
+  border-radius: 20px;
+  background: #ededed;
+  display: inline-flex;
+  align-items: center;
+`;
+
+
+const PageButton = styled.button`
+  background-color: ${props => props.active ? '#ffa500' : '#ededed'};
+  color: ${props => props.active ? 'white' : '#000'};
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ededed;
+  border-radius: 50%;
+  margin-left: 5px;
+  cursor: pointer;
+`;
 
 const PageBar = ({ currentPage, totalPages, onPageChange }) => {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   return (
-    <div>
+    <PageBarContainer>
+    <Container>
+      <PageButton
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        {'<'}
+      </PageButton>
+
       {pages.map((page) => (
-        <button
+        <PageButton
           key={page}
           onClick={() => onPageChange(page)}
-          style={{
-            backgroundColor: currentPage === page ? '#ffa500' : 'white',
-            color: currentPage === page ? 'white' : '#000',
-            width: '30px',
-            height: '30px',
-            border: '1px solid #ccc',
-            borderRadius: '50%',
-            marginRight: '5px',
-            cursor: 'pointer',
-          }}
+          active={currentPage === page}
         >
           {page}
-        </button>
+        </PageButton>
       ))}
-    </div>
+
+      <PageButton
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        {'>'}
+      </PageButton>
+    </Container>
+    </PageBarContainer>
   );
 };
 

@@ -5,20 +5,12 @@ import SearchBar from "../components/searchbar";
 import MultiStepForm from "./MultiStepForm";
 import { createGetRequest } from "../global/helper";
 import { useNavigate } from "react-router-dom";
-import InfoBox from "../components/Infobox";
+import InfoBox from "../components/Cards";
 import PageBar from "../components/PageBar";
 import FilterBox from "../components/FliterBox";
-import DialogBox from "../components/Toast";
-
-import ErrorDialog, {
-  DialogBoxContainer1,
-  DialogOverlay1,
-  CrossIcon,
-  CloseButton,
-  ErrorText,
-  OKButton,
-  ClickedText,
-} from "../components/ErrorDialog";
+import ToastDialogBox,{DialogOverlay} from "../components/Toast";
+import ErrorDialog from "../components/ErrorDialog";
+import { Td,Tr,Th,AddEmployeeContainer,Table,UserImage,SuccessBadge,DangerBadge,CreateEmployeeHeading } from "./TableStyling";
 import EmployeeInfo from "../components/EmployeeInfo";
 import { async } from "q";
 
@@ -32,7 +24,7 @@ import {
   FaFileExcel,
   FaFilePdf,
   FaCopy,
-} from "react-icons/fa"; // Import icons from your preferred icon library
+} from "react-icons/fa"; 
 
 const BoxContainer = styled.div`
   // border: 0px solid #ccc;
@@ -43,13 +35,6 @@ const BoxContainer = styled.div`
   margin-top: 24px;
 `;
 
-const CreateEmployeeHeading = styled.h6`
-  margin-bottom: 10px;
-  width: 100%;
-  right: 0%;
-  font-weight: lighter;
-  fontsize: "smaller";
-`;
 
 const AddEmployeeButton = styled(Link)`
   background-color: #ffa500;
@@ -72,6 +57,7 @@ const AddEmployeeButton = styled(Link)`
   }
 `;
 
+
 const HeadingAndSearchContainer = styled.div`
   display: flex;
   padding: 7px 40px;
@@ -83,65 +69,11 @@ const StyledSearchBar = styled(SearchBar)`
   width: 10%;
 `;
 
-const Th = styled.th`
-  background: #ededed;
-  color: #000000;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-  height: 30px;
-  top: 10%;
-  padding: 9px 61.4px;
-  right: 2%;
-  font-weight: lighter;
-  // width: 10%;
-  font-size: 0.7rem;
-  text-align: left !important;
-  border-left: 0px;
-  border-bottom: 0px solid #ddd;
-  white-space: nowrap; /* Prevent text from wrapping */
-  // overflow: hidden; /* Hide overflow text */
-  text-overflow: ellipsis;
-  @media screen and (width: 78%;) {
-    padding: 0px 20px;
-  }
-`;
 
-const Tr = styled.tr`
-  padding: 4px 10px;
-  text-align: left;
-  border-bottom: 0px solid #ddd;
-  margin: 100px;
-`;
-const Td = styled.td`
-  padding: 8px 13px;
-  white-space: nowrap;
-  text-align: center;
-  border-top: 1px solid #ededed;
-  // margin: 100px;
-  vertical-align: middle;
-  color: black;
-  // font-weight: 100;
-  font-weight: medium;
-  font-size: 0.7rem;
-`;
 const TableContainer = styled.div`
   overflow-x: auto;
 `;
-const Table = styled.table`
-  position: stick;
-  table-layout: fixed;
-  margin-top: 27px;
-  width: 100%;
-  border-bottom: none;
-  color: #ffa500;
-  backgorund-color: #ffa500;
-  border-collapse: collapse;
-  border-spacing: 10px 5px;
-  border: 0px solid #ccc;
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-`;
 
 const CenteredContainer = styled.div`
   display: flex;
@@ -192,65 +124,13 @@ const EntriesDropdown = styled(Select)`
   }
 `;
 
-const AddEmployeeContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
-const SuccessBadge = styled.span`
-  background-color: #28a745;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 4px;
-`;
-
-const DangerBadge = styled.span`
-  background-color: #ea54542c;
-  color: #ea5455;
-  padding: 4px 12px;
-  border-radius: 4px;
-`;
-
-const UserImage = styled.img`
-  width: 39px;
-  height: 31px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-top: -4px;
-`;
 
 const InfoBoxesContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-// const PageBar = ({ currentPage, totalPages, onPageChange }) => {
-//   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-//   return (
-//     <div>
-//       {pages.map((page) => (
-//         <PageCircle
-//           key={page}
-//           onClick={() => onPageChange(page)}
-//           active={currentPage === page}
-//         >
-//           {page}
-//         </PageCircle>
-//       ))}
-//     </div>
-//   );
-// };
 
-// const PageCircle = styled.span`
-//   display: inline-block;
-//   width: 30px;
-//   height: 30px;
-//   border: 1px solid #ccc;
-//   border-radius: 50%;
-//   margin-right: 5px;
-//   cursor: pointer;
-//   background-color: ${(props) => (props.active ? "#ffa500" : "white")};
-//   color: ${(props) => (props.active ? "white" : "#000")};
-// `;
 const OuterBox = styled.div`
   background: #fff;
   display: flex; /* Use flex display to align FilterBox components side by side */
@@ -275,14 +155,7 @@ const IconWrapper = styled.div`
   cursor: pointer;
 `;
 
-const DialogOverlay = styled.div`
-  position: absolute;
-  top: 80px; /* Adjust top position to place it at the top */
-  right: 1.4%; /* Adjust right position to place it at the right */
-  z-index: 1;
-  display: ${(props) => (props.show ? "block" : "none")};
-  z-index: 30px;
-`;
+
 
 const Emp_list = () => {
   const [employees, setEmployees] = useState([]);
@@ -293,8 +166,7 @@ const Emp_list = () => {
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
   const navigate = useNavigate();
   const [infoBoxData, setInfoBoxData] = useState(123);
-  const [isExportOptionsOpen, setIsExportOptionsOpen] = useState(false);
-  const exportOptionsRef = useRef(null);
+   
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = employees
     ? Math.ceil(employees.length / entriesToShow)
@@ -351,9 +223,8 @@ const Emp_list = () => {
   const [plan, setPlan] = useState("Select Plan");
   const planOptions = ["Daily", "Weekly", "Monthly"];
 
-  const [showDialog, setShowDialog] = useState(false);
-  const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
-  // const exportOptions = ["Print","CVS","Excel","PDF","Copy"];
+  const [showToast, setshowToast] = useState(false);
+
   const [Export, setExport] = useState("Export");
   const [selectedCheck, setSelectedCheck] = useState(""); // Initialize with an empty string or an appropriate default value
   const CheckOptions = ["1", "2", "3", "4"];
@@ -369,17 +240,17 @@ const Emp_list = () => {
     { label: "Copy", icon: <FaCopy /> },
   ];
 
-  const toggleDialog = (event) => {
+  const toggleToast = (event) => {
     const rect = event.target.getBoundingClientRect();
-    // const x = rect.left + window.scrollX;
-    // const y = rect.bottom + window.scrollY;
-    // // setDialogPosition({ x, y });
-    setShowDialog(!showDialog);
+    
+    setshowToast(!showToast);
   };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleDeleteIconClick = () => {
-    setIsDialogOpen(true);
+  const handleDeleteIconClick = (event) => {
+    const rect = event.target.getBoundingClientRect();
+
+    setIsDialogOpen(!isDialogOpen);
   };
 
   const handleCloseDialog = () => {
@@ -388,6 +259,14 @@ const Emp_list = () => {
 
   return (
     <>
+    {/* for error ToastDialogBox  */}
+      <ErrorDialog show={isDialogOpen} handleClose={handleCloseDialog} />{" "}
+      
+      {showToast && (
+        <DialogOverlay show={showToast}>
+          <ToastDialogBox />
+        </DialogOverlay>
+      )}
       <CenteredContainer>
         <div>
           <InfoBoxesContainer>
@@ -475,13 +354,7 @@ const Emp_list = () => {
                     }}
                   />
                 </div>
-                {/* <FilterBox
-                options={NoOptions} // Pass the options directly
-                onValueChange={handleNoChange}
-                selectedValue={No}
-                title=" "
-              /> */}
-                {/* <div style={{ margin: '10px 0' }}></div> */}
+                
               </CreateEmployeeHeading>
               <div>
                 <EntriesDropdown
@@ -582,114 +455,100 @@ const Emp_list = () => {
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             <TableContainer>
-              <Table>
-                <thead>
-                  <Tr>
-                    <Th>PROFILE</Th>
-                    <Th>EMPLOYEE CODE</Th>
-                    <Th>NAME</Th>
-                    <Th>LAST LOGIN</Th>
-                    <Th>STATUS</Th>
-                    <Th>ACTION</Th>
-                  </Tr>
-                </thead>
-                <tbody>
-                  {employees &&
-                    employees
-                      .slice(
-                        (currentPage - 1) * entriesToShow,
-                        currentPage * entriesToShow
-                      )
-                      .map((employee) => (
-                        <Tr key={employee._id}>
-                          <Td>
-                            {employee.profileImg && (
-                              <UserImage src={employee.profileImg} />
-                            )}
-                          </Td>
-                          <Td>{employee._id}</Td>
-                          <Td>
-                            {/* <EmployeeInfo employee={employee} /> */}
-                            {employee.name}
-                            <br />
-                            <span style={{ fontSize: "12px", color: "grey" }}>
-                              {employee.email}
-                            </span>
-                          </Td>
+  <Table>
+    <thead>
+      <Tr>
+        <Th></Th>
+        <Th>PROFILE</Th>
+         {/* <Th>NAME</Th>  */}
+        <Th>EMPLOYEE CODE</Th>
+        <Th>LAST LOGIN</Th>
+        <Th>STATUS</Th>
+        <Th>ACTION</Th>
+      </Tr>
+    </thead>
+    <tbody>
+      {employees &&
+        employees
+          .slice(
+            (currentPage - 1) * entriesToShow,
+            currentPage * entriesToShow
+          )
+          .map((employee) => (
+            <Tr key={employee._id}>
+              <Td> <input type="checkbox" /></Td>
+              <Td>
+                {/* {employee.profileImg && (
+                  <UserImage src={employee.profileImg} />
+                )} */}<EmployeeInfo employee={employee} /> 
+              </Td>
+              {/* <Td> */}
+                 {/* <EmployeeInfo employee={employee} />  */}
+                {/* {employee.name} */}
+                {/* <br /> */}
+                {/* <span style={{ fontSize: "12px", color: "grey" }}> */}
+                  {/* {employee.email} */}
+                {/* </span> */}
+              {/* </Td> */}
+              
+              <Td>{employee._id}</Td>
+              <Td>
+                {new Date(employee.lastLogin).toLocaleString(
+                  "en-GB",
+                  {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+              </Td>
+              <Td>
+                {employee.status === 1 ? (
+                  <SuccessBadge>active</SuccessBadge>
+                ) : (
+                  <DangerBadge>inactive</DangerBadge>
+                )}
+              </Td>
+              <Td>
+                <IconWrapper onClick={toggleToast}>
+                  <MdIcons.MdOutlineModeEditOutline
+                    style={{ fontSize: "18px" }}
+                  />
+                </IconWrapper>
 
-                          <Td>
-                            {new Date(employee.lastLogin).toLocaleString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "2-digit",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              }
-                            )}
-                          </Td>
-                          <Td>
-                            {employee.status === 1 ? (
-                              <SuccessBadge>active</SuccessBadge>
-                            ) : (
-                              <DangerBadge>inactive</DangerBadge>
-                            )}
-                          </Td>
-                          <Td>
-                            <IconWrapper onClick={toggleDialog}>
-                              <MdIcons.MdOutlineModeEditOutline
-                                style={{ fontSize: "18px" }}
-                              />
-                            </IconWrapper>
-                            {showDialog && (
-                              <DialogOverlay show={showDialog}>
-                                <DialogBox />
-                              </DialogOverlay>
-                            )}
+                <GrIcons.GrFormView style={{ fontSize: "18px" }} />
 
-                            <GrIcons.GrFormView s tyle={{ fontSize: "18px" }} />
+                <MdIcons.MdDeleteOutline
+                  style={{ fontSize: "18px", cursor: "pointer" }}
+                  onClick={handleDeleteIconClick}
+                />
+              </Td>
+            </Tr>
+          ))}
+      {!employees ||
+        (employees.length === 0 && (
+          <tr>
+            <td colSpan="6">
+              <HeadingAndSearchContainer>
+                No Data to Show
+              </HeadingAndSearchContainer>
+            </td>
+          </tr>
+        ))}
+    </tbody>
+  </Table>
+</TableContainer>
 
-                            {/* <MdIcons.MdDeleteOutline
-                              style={{ fontSize: "18px" }}
-                            /> */}
-                           <MdIcons.MdDeleteOutline
-        style={{ fontSize: "18px", cursor: "pointer" }}
-        onClick={handleDeleteIconClick}
-      />
-
-      <DialogOverlay1 show={isDialogOpen}>
-        <DialogBoxContainer1>
-          <CrossIcon  />
-          <ErrorText>Error</ErrorText>
-          <ClickedText>You clicked a Button</ClickedText>
-          <OKButton onClick={handleCloseDialog}>OK</OKButton>
-        </DialogBoxContainer1>
-      </DialogOverlay1>
-                          </Td>
-                        </Tr>
-                      ))}
-                  {!employees ||
-                    (employees.length === 0 && (
-                      <tr>
-                        <td colSpan="6">
-                          <HeadingAndSearchContainer>
-                            No Data to Show
-                          </HeadingAndSearchContainer>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </TableContainer>
+            {totalPages >= 1 && (
+              <PageBar
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </BoxContainer>
-          {totalPages > 1 && (
-            <PageBar
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
         </div>
       </CenteredContainer>
       {showForm && (

@@ -11,31 +11,35 @@ export const CloseButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 16px;
+  
 `;
 
 export const CrossIcon = styled(MdIcons.MdClose)`
 
-  width: 30px;
-  height: 30px;
+  width: 45px;
+  height: 45px;
   background-color: white;
   border-radius: 50%;
   margin-top:20px;
   border: 2px solid red; /* Set the border color for the cross mark */
   color: red; /* Set the color for the cross mark */
-  font-size: 16px;
+  font-size: 26px;
   cursor: pointer; /* Add cursor pointer for hover effect */
+  margin-top:30px;
 `;
 
 
 
 export const ErrorText = styled.div`
-  font-size: 14px;
+  font-size: 22px;
   margin-top: 10px; /* Add some space between the cross icon and error text */
+  margin-top:20px;
 `;
 
 export const ClickedText = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   margin-top: 10px;
+  margin-top:1px;
 `;
 export const DialogOverlay1 = styled.div`
 position: fixed;
@@ -55,8 +59,8 @@ export const DialogBoxContainer1 = styled.div`
 background-color: white;
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  width: 250px; /* Increase the width as desired */
-  height: 200px; /* Increase the height as desired */
+  width: 390px; /* Increase the width as desired */
+  height: 270px; /* Increase the height as desired */
   padding: 15px;
   text-align: center;
   position: relative;
@@ -64,36 +68,33 @@ background-color: white;
 
 
 export const OKButton = styled.button`
-  background-color: #007bff;
+  background-color: #ffa500;
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 5px 15px;
+  padding: 7px 19px;
   margin-top: 15px; /* Add space between text and button */
   cursor: pointer;
+  margin-top:30px;
+ 
 `;
 
-const ErrorDialog = () => {
-  const [isOpen, setIsOpen] = useState(true);
-
-  const handleClose = () => {
-    setIsOpen(false);
+const ErrorDialog = ({ show, handleClose }) => {
+    return (
+      <>
+        {show && (
+          <DialogOverlay1 show={show}>
+            <DialogBoxContainer1>
+              <CrossIcon />
+              <ErrorText>Error!</ErrorText>
+              <ClickedText>You clicked the Button!</ClickedText>
+              <OKButton onClick={handleClose}>OK</OKButton>
+            </DialogBoxContainer1>
+          </DialogOverlay1>
+        )}
+      </>
+    );
   };
-
-  return (
-    <>
-      {isOpen && (
-        <DialogBoxContainer1>
-          <CloseButton onClick={handleClose}>
-            <CrossIcon>&#10006;</CrossIcon>
-          </CloseButton>
-          <ErrorText>Error</ErrorText>
-          <ClickedText>You clicked a Button</ClickedText>
-          <OKButton onClick={handleClose}>OK</OKButton>
-        </DialogBoxContainer1>
-      )}
-    </>
-  );
-};
+  
 
 export default ErrorDialog;
