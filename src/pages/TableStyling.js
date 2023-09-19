@@ -13,7 +13,7 @@ export const CreateEmployeeHeading = styled.h6`
 export const Th = styled.th`
   background: #f3f2f7;
   color: #6e6b7b;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   height: 30px;
   top: 10%;
   padding: 9px 62.4px;
@@ -55,6 +55,7 @@ export const Table = styled.table`
   table-layout: fixed;
   margin-top: 27px;
   width: 100%;
+
 //   border-bottom: none;
 //   color: #ffa500;
   backgorund-color: #ffa500;

@@ -4,6 +4,7 @@ import * as AiIcons from "react-icons/ai";
 
 const BoxContainer = styled.div`
   position: relative;
+  
 `;
 
 const InfoBoxContainer = styled.div`
@@ -14,15 +15,20 @@ const InfoBoxContainer = styled.div`
   padding: 14px 20px;
   border-radius: 5px;
   margin-right: 130px;
-  margin-bottom:20px;
-
-  /* Remove the position: absolute */
-  width: 100%;
+  margin-bottom: 20px;
+  width: 100%; /* Default width for all screen sizes */
  
+  /* Add media queries for different screen sizes */
+  @media screen and (max-width: 768px) {
+    /* Adjust width for smaller screens */
+    width: 80%;
+  }
+
+  /* Add more media queries as needed */
+
   z-index: 1;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 `;
-
 
 const InfoIcon = styled(AiIcons.AiOutlineInfoCircle)`
   font-size: 24px;

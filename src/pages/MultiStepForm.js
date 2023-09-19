@@ -12,6 +12,9 @@ import { FormButton } from "./multistepformstyling";
 import styled from "styled-components";
 import { createPostRequest } from "../global/helper";
 
+
+
+
 const CloseButton = styled.button`
   padding: 7px 7px;
   font-size: 16px;
@@ -34,6 +37,7 @@ const SaveButton = styled(FormButton)`
 const SaveAndNextButton = styled(FormButton)`
   background-color: #ffa500;
   color: white;
+  
 `;
 
 const FormButtonContainer = styled.div`
@@ -107,7 +111,17 @@ const FormCenteringContainer = styled.div`
   height: 100vh;
 `;
 
-
+const BottomButtonsContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  
+   right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px; /* Add padding to create space around the buttons */
+  background-color: white;
+ 
+`;
 
 
 const MultiStepForm = ({ showForm, setShowForm }) => {
@@ -219,7 +233,8 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
             </StepIndicators>
             {/* <h3>We can't wait to meet you</h3> */}
             {renderStep()}
-            <FormButtonContainer>
+            <BottomButtonsContainer>
+            {/* <FormButtonContainer> */}
               <div>
                 {!isFirstStep && (
                   <PreviousButton onClick={prevStep}>Previous</PreviousButton>
@@ -237,7 +252,7 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
                   </>
                 )}
               </div>
-            </FormButtonContainer>
+              </BottomButtonsContainer>
           </InnermodalContainer>
         </ModalContainer>
         </FormCenteringContainer>

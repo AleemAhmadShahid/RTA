@@ -6,6 +6,7 @@ export const ModalOverlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
+  // flex-direction:column;
   justify-content: center;
   z-index: 15;
   display: flex;
@@ -20,6 +21,8 @@ export const ModalContainer = styled.div`
   border-radius: 0px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  height: 100%;
+
 `;
 
 export const InnermodalContainer = styled.div`
@@ -76,6 +79,7 @@ export const FormButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 10px;
+  
   padding: 10px 20px; 
   font-size: small;
   cursor: pointer;

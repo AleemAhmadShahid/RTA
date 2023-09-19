@@ -8,9 +8,19 @@ import { useNavigate } from "react-router-dom";
 import InfoBox from "../components/Cards";
 import PageBar from "../components/PageBar";
 import FilterBox from "../components/FliterBox";
-import ToastDialogBox,{DialogOverlay} from "../components/Toast";
+import ToastDialogBox, { DialogOverlay } from "../components/Toast";
 import ErrorDialog from "../components/ErrorDialog";
-import { Td,Tr,Th,AddEmployeeContainer,Table,UserImage,SuccessBadge,DangerBadge,CreateEmployeeHeading } from "./TableStyling";
+import {
+  Td,
+  Tr,
+  Th,
+  AddEmployeeContainer,
+  Table,
+  UserImage,
+  SuccessBadge,
+  DangerBadge,
+  CreateEmployeeHeading,
+} from "./TableStyling";
 import EmployeeInfo from "../components/EmployeeInfo";
 import { async } from "q";
 
@@ -24,7 +34,7 @@ import {
   FaFileExcel,
   FaFilePdf,
   FaCopy,
-} from "react-icons/fa"; 
+} from "react-icons/fa";
 
 const BoxContainer = styled.div`
   // border: 0px solid #ccc;
@@ -33,8 +43,8 @@ const BoxContainer = styled.div`
   border-radius: 5px;
   background: #ffffff;
   margin-top: 24px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 `;
-
 
 const AddEmployeeButton = styled(Link)`
   background-color: #ffa500;
@@ -57,7 +67,6 @@ const AddEmployeeButton = styled(Link)`
   }
 `;
 
-
 const HeadingAndSearchContainer = styled.div`
   display: flex;
   padding: 7px 40px;
@@ -69,11 +78,9 @@ const StyledSearchBar = styled(SearchBar)`
   width: 10%;
 `;
 
-
 const TableContainer = styled.div`
   overflow-x: auto;
 `;
-
 
 const CenteredContainer = styled.div`
   display: flex;
@@ -124,8 +131,6 @@ const EntriesDropdown = styled(Select)`
   }
 `;
 
-
-
 const InfoBoxesContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -147,6 +152,7 @@ const FilterContainer = styled.div`
   border-radius: 5px;
   border-bottom-left-radius: 5px; /* Adjust as needed */
   border-bottom-right-radius: 5px; /* Adjust as needed */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 `;
 
 const IconWrapper = styled.div`
@@ -154,8 +160,6 @@ const IconWrapper = styled.div`
   display: inline-block;
   cursor: pointer;
 `;
-
-
 
 const Emp_list = () => {
   const [employees, setEmployees] = useState([]);
@@ -166,7 +170,7 @@ const Emp_list = () => {
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
   const navigate = useNavigate();
   const [infoBoxData, setInfoBoxData] = useState(123);
-   
+
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = employees
     ? Math.ceil(employees.length / entriesToShow)
@@ -226,11 +230,15 @@ const Emp_list = () => {
   const [showToast, setshowToast] = useState(false);
 
   const [Export, setExport] = useState("Export");
-  const [selectedCheck, setSelectedCheck] = useState(""); // Initialize with an empty string or an appropriate default value
-  const CheckOptions = ["1", "2", "3", "4"];
-  const handleCheckChange = (optionLabel) => {
-    setSelectedCheck(optionLabel); // Update selectedCheck directly
-  };
+   const [selectedCheck, setSelectedCheck] = useState(""); // Initialize with an empty string or an appropriate default value
+   const CheckOptions = ["1", "2", "3", "4"];
+   const handleCheckChange = (optionLabel) => {
+     setSelectedCheck(optionLabel); // Update selectedCheck directly
+   };
+  
+
+
+
 
   const exportOptions = [
     { label: "Print", icon: <FaPrint /> },
@@ -242,7 +250,7 @@ const Emp_list = () => {
 
   const toggleToast = (event) => {
     const rect = event.target.getBoundingClientRect();
-    
+
     setshowToast(!showToast);
   };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -259,9 +267,8 @@ const Emp_list = () => {
 
   return (
     <>
-    {/* for error ToastDialogBox  */}
+      {/* for error ToastDialogBox  */}
       <ErrorDialog show={isDialogOpen} handleClose={handleCloseDialog} />{" "}
-      
       {showToast && (
         <DialogOverlay show={showToast}>
           <ToastDialogBox />
@@ -354,11 +361,10 @@ const Emp_list = () => {
                     }}
                   />
                 </div>
-                
               </CreateEmployeeHeading>
               <StyledSearchBar onSearch={setSearchTerm} />
 
-              <div>
+              <div style={{ marginRight: "8px" }}>
                 <EntriesDropdown
                   value={selectedCheck} // Use the singular selectedCheck variable
                   onChange={(selectedOption) =>
@@ -401,7 +407,7 @@ const Emp_list = () => {
                   }}
                 />
               </div>
-              
+
               <AddEmployeeContainer>
                 <div>
                   <EntriesDropdown
@@ -456,91 +462,97 @@ const Emp_list = () => {
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             <TableContainer>
-  <Table>
-    <thead>
-      <Tr>
-        <Th><input type="checkbox" /></Th>
-        <Th>PROFILE</Th>
-         {/* <Th>NAME</Th>  */}
-        <Th>EMPLOYEE CODE</Th>
-        <Th>LAST LOGIN</Th>
-        <Th>STATUS</Th>
-        <Th>ACTION</Th>
-      </Tr>
-    </thead>
-    <tbody>
-      {employees &&
-        employees
-          .slice(
-            (currentPage - 1) * entriesToShow,
-            currentPage * entriesToShow
-          )
-          .map((employee) => (
-            <Tr key={employee._id}>
-              <Td> <input type="checkbox" /></Td>
-              <Td>
-                {/* {employee.profileImg && (
+              <Table>
+                <thead>
+                  <Tr>
+                    <Th>
+                      <input type="checkbox" />
+                    </Th>
+                    <Th>PROFILE</Th>
+                    {/* <Th>NAME</Th>  */}
+                    <Th>EMPLOYEE CODE</Th>
+                    <Th>LAST LOGIN</Th>
+                    <Th>STATUS</Th>
+                    <Th>ACTION</Th>
+                  </Tr>
+                </thead>
+                <tbody>
+                  {employees &&
+                    employees
+                      .slice(
+                        (currentPage - 1) * entriesToShow,
+                        currentPage * entriesToShow
+                      )
+                      .map((employee) => (
+                        <Tr key={employee._id}>
+                          <Td>
+                            {" "}
+                            <input type="checkbox" />
+                          </Td>
+                          <Td>
+                            {/* {employee.profileImg && (
                   <UserImage src={employee.profileImg} />
-                )} */}<EmployeeInfo employee={employee} /> 
-              </Td>
-              {/* <Td> */}
-                 {/* <EmployeeInfo employee={employee} />  */}
-                {/* {employee.name} */}
-                {/* <br /> */}
-                {/* <span style={{ fontSize: "12px", color: "grey" }}> */}
-                  {/* {employee.email} */}
-                {/* </span> */}
-              {/* </Td> */}
-              
-              <Td>{employee._id}</Td>
-              <Td>
-                {new Date(employee.lastLogin).toLocaleString(
-                  "en-GB",
-                  {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  }
-                )}
-              </Td>
-              <Td>
-                {employee.status === 1 ? (
-                  <SuccessBadge>Active</SuccessBadge>
-                ) : (
-                  <DangerBadge>Inactive</DangerBadge>
-                )}
-              </Td>
-              <Td>
-                <IconWrapper onClick={toggleToast}>
-                  <MdIcons.MdOutlineModeEditOutline
-                    style={{ fontSize: "18px" }}
-                  />
-                </IconWrapper>
+                )} */}
+                            <EmployeeInfo employee={employee} />
+                          </Td>
+                          {/* <Td> */}
+                          {/* <EmployeeInfo employee={employee} />  */}
+                          {/* {employee.name} */}
+                          {/* <br /> */}
+                          {/* <span style={{ fontSize: "12px", color: "grey" }}> */}
+                          {/* {employee.email} */}
+                          {/* </span> */}
+                          {/* </Td> */}
 
-                <GrIcons.GrFormView style={{ fontSize: "18px" }} />
+                          <Td>{employee._id}</Td>
+                          <Td>
+                            {new Date(employee.lastLogin).toLocaleString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "2-digit",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
+                          </Td>
+                          <Td>
+                            {employee.status === 1 ? (
+                              <SuccessBadge>Active</SuccessBadge>
+                            ) : (
+                              <DangerBadge>Inactive</DangerBadge>
+                            )}
+                          </Td>
+                          <Td>
+                            <IconWrapper onClick={toggleToast}>
+                              <MdIcons.MdOutlineModeEditOutline
+                                style={{ fontSize: "18px" }}
+                              />
+                            </IconWrapper>
 
-                <MdIcons.MdDeleteOutline
-                  style={{ fontSize: "18px", cursor: "pointer" }}
-                  onClick={handleDeleteIconClick}
-                />
-              </Td>
-            </Tr>
-          ))}
-      {!employees ||
-        (employees.length === 0 && (
-          <tr>
-            <td colSpan="6">
-              <HeadingAndSearchContainer>
-                No Data to Show
-              </HeadingAndSearchContainer>
-            </td>
-          </tr>
-        ))}
-    </tbody>
-  </Table>
-</TableContainer>
+                            <GrIcons.GrFormView style={{ fontSize: "18px" }} />
+
+                            <MdIcons.MdDeleteOutline
+                              style={{ fontSize: "18px", cursor: "pointer" }}
+                              onClick={handleDeleteIconClick}
+                            />
+                          </Td>
+                        </Tr>
+                      ))}
+                  {!employees ||
+                    (employees.length === 0 && (
+                      <tr>
+                        <td colSpan="6">
+                          <HeadingAndSearchContainer>
+                            No Data to Show
+                          </HeadingAndSearchContainer>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </TableContainer>
 
             {totalPages >= 1 && (
               <PageBar

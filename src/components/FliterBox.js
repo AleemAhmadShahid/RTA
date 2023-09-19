@@ -7,13 +7,12 @@ const FilterBoxContainer = styled.div`
   align-items: center;
   margin-top: 0px;
   margin-bottom: 5px;
-  
 `;
 
 const Dropdown = styled(Select)`
-  width: ${(props) => props.width || "350px"}; // Set the width from props or default to "350px"
+  width: ${(props) => props.width || "350px"};
   margin-right: 10px;
-
+  
   .select__control {
     border: 1px solid orange;
     border-radius: 5px;
@@ -31,9 +30,14 @@ const Dropdown = styled(Select)`
       box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
     }
   }
+
+  .select__menu {
+    z-index: 9999; /* Adjust the z-index value as needed */
+  }
 `;
 
-const Box = styled.div``;
+const Box = styled.div`
+`;
 const Title = styled.h6`
   font-size: 13px;
   margin-bottom: 3px;
@@ -50,7 +54,7 @@ const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
       <Title>{title}</Title>
       <FilterBoxContainer>
         <Dropdown
-          width={width} // Set the width from props
+          width={width}
           value={{
             value: selectedValue,
             label: selectedValue.toString(),
