@@ -97,6 +97,9 @@ const Heading = styled.h5`
 `;
 
 const FormCenteringContainer = styled.div`
+  position: fixed;
+  right: 0;
+  top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;

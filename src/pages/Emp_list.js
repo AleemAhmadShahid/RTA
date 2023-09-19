@@ -356,6 +356,8 @@ const Emp_list = () => {
                 </div>
                 
               </CreateEmployeeHeading>
+              <StyledSearchBar onSearch={setSearchTerm} />
+
               <div>
                 <EntriesDropdown
                   value={selectedCheck} // Use the singular selectedCheck variable
@@ -399,8 +401,7 @@ const Emp_list = () => {
                   }}
                 />
               </div>
-              <StyledSearchBar onSearch={setSearchTerm} />
-
+              
               <AddEmployeeContainer>
                 <div>
                   <EntriesDropdown
@@ -458,7 +459,7 @@ const Emp_list = () => {
   <Table>
     <thead>
       <Tr>
-        <Th></Th>
+        <Th><input type="checkbox" /></Th>
         <Th>PROFILE</Th>
          {/* <Th>NAME</Th>  */}
         <Th>EMPLOYEE CODE</Th>
@@ -506,9 +507,9 @@ const Emp_list = () => {
               </Td>
               <Td>
                 {employee.status === 1 ? (
-                  <SuccessBadge>active</SuccessBadge>
+                  <SuccessBadge>Active</SuccessBadge>
                 ) : (
-                  <DangerBadge>inactive</DangerBadge>
+                  <DangerBadge>Inactive</DangerBadge>
                 )}
               </Td>
               <Td>

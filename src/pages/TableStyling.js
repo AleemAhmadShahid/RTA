@@ -11,13 +11,13 @@ export const CreateEmployeeHeading = styled.h6`
 `;
 
 export const Th = styled.th`
-  background: #ededed;
-  color: #000000;
+  background: #f3f2f7;
+  color: #6e6b7b;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
   height: 30px;
   top: 10%;
   padding: 9px 62.4px;
-  font-weight: lighter;
+  font-weight: medium;
    width: 100%;
   font-size: 0.7rem;
   text-align: center;
@@ -45,7 +45,7 @@ export const Td = styled.td`
   
   border-top: 1px solid #ededed;
    vertical-align: center;
-  color: black;
+  color: #6e6b7b;
   font-weight: medium;
   font-size: 0.7rem;
 `;
@@ -72,8 +72,8 @@ export const AddEmployeeContainer = styled.div`
 `;
 
 export const SuccessBadge = styled.span`
-  background-color: #28a745;
-  color: white;
+  background-color: rgba(40, 199, 111, 0.12) !important;
+  color: #28c76f !important;
   padding: 5px 14px;
   border-radius: 4px;
 `;
