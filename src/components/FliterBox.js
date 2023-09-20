@@ -13,6 +13,7 @@ const Dropdown = styled(Select)`
   width: ${(props) => props.width || "350px"};
   margin-right: 10px;
   
+  
   .select__control {
     border: 1px solid orange;
     border-radius: 5px;
@@ -32,7 +33,7 @@ const Dropdown = styled(Select)`
   }
 
   .select__menu {
-    z-index: 9999; /* Adjust the z-index value as needed */
+    z-index: 1; /* Adjust the z-index value as needed */
   }
 `;
 
