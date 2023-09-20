@@ -5,7 +5,7 @@ import Topbar from "./components/Topbar";
 import Emp_list from "./pages/Emp_list";
 import Resetpassword from "./pages/Resetpassword"
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom"; 
-
+import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<LoginPage />}/>
+      <Route path="/log" element={<NotFoundPage />}/>
       <Route path="/portal" element={<Topbar />}>
         <Route path="iam" element={<Sidebar />}>
           <Route path="employee" element={<Emp_list />} />

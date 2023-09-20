@@ -4,24 +4,35 @@ import * as AiIcons from "react-icons/ai";
 
 const BoxContainer = styled.div`
   position: relative;
+  // width:50%;
+  // margin-right:10px;
+  //  width:90%;
   
 `;
 
 const InfoBoxContainer = styled.div`
+flex:1;
   display: flex;
+ 
   justify-content: space-between;
   align-items: center;
   background: #fff;
   padding: 14px 20px;
   border-radius: 5px;
-  margin-right: 130px;
-  margin-bottom: 20px;
+  //  margin-right: 1px;
+   
+   margin-bottom: 20px;
   width: 100%; /* Default width for all screen sizes */
  
   /* Add media queries for different screen sizes */
-  @media screen and (max-width: 768px) {
+  
+  @media screen and (max-width: 1200px) {
     /* Adjust width for smaller screens */
     width: 80%;
+  }
+@media screen and (min-width: 768px) {
+    /* Adjust width for smaller screens */
+    width: 100%;
   }
 
   /* Add more media queries as needed */

@@ -43,7 +43,7 @@ const BoxContainer = styled.div`
   border-radius: 5px;
   background: #ffffff;
   margin-top: 24px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const AddEmployeeButton = styled(Link)`
@@ -83,40 +83,37 @@ const TableContainer = styled.div`
 `;
 
 const CenteredContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-
-  top: 0; /* Fixed distance from the top */
-  left: 18.6%;
+  position: relative; /* Keep it relative for child elements */
+  // left: 18.6%; /* Adjust the left position to match your sidebar width */
   right: 13%;
-  transform: translateX(0%); /* Center horizontally */
+  top:90px;
+  left:253px;
+  // transform: translateX(0%);
   padding: 0px 20px;
   border-radius: 5px;
-
-  /* Adjust width based on screen size */
-  width: 80.9%; /* Default width */
-
+  width: 81.9%; /* Default width */
+  // overflow: auto;
   @media (max-width: 1200px) {
-    width: 75%; /* Decrease width for smaller screens */
+    width: 84%;
   }
 
   @media (max-width: 768px) {
-    width: 60%; /* Further decrease width for even smaller screens */
+    width: 84%;
   }
 
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-  height: 100vh;
+  // height: 100vh;
+  // overflow-y: auto; /* Add vertical scroll if necessary */
 `;
 
+
 const EntriesDropdown = styled(Select)`
-  width: 130px;
+  width: 110px;
 
   .select__control {
     border: 1px solid orange; /* Change border color to orange */
     border-radius: 5px;
-    padding: 5px;
+    // padding: 5px;
     transition: border-color 0.3s ease;
 
     &:hover {
@@ -131,12 +128,13 @@ const EntriesDropdown = styled(Select)`
   }
 `;
 
-const InfoBoxesContainer = styled.div`
+const CardsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+   justify-content: space-between;
+
 `;
 
-const OuterBox = styled.div`
+const FilterOuterBox = styled.div`
   background: #fff;
   display: flex; /* Use flex display to align FilterBox components side by side */
   justify-content: space-between; /* Distribute space evenly between FilterBox components */
@@ -150,9 +148,9 @@ const FilterContainer = styled.div`
   background: #fff;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  border-bottom-left-radius: 5px; /* Adjust as needed */
-  border-bottom-right-radius: 5px; /* Adjust as needed */
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  // border-bottom-left-radius: 5px; /* Adjust as needed */
+  // border-bottom-right-radius: 5px; /* Adjust as needed */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const IconWrapper = styled.div`
@@ -276,12 +274,12 @@ const Emp_list = () => {
       )}
       <CenteredContainer>
         <div>
-          <InfoBoxesContainer>
+          <CardsContainer>
             <InfoBox
               iconColor="#ffa500"
               data={infoBoxData}
               text="Total Users"
-              width="40px"
+              //  width="300px"
             />
             <InfoBox iconColor="#ffa500" data={infoBoxData} text="Paid Users" />
 
@@ -295,11 +293,11 @@ const Emp_list = () => {
               data={infoBoxData}
               text="Pending Users"
             />
-          </InfoBoxesContainer>
+          </CardsContainer>
 
           <FilterContainer>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
-            <OuterBox>
+            <FilterOuterBox>
               <FilterBox
                 options={statusOptions} // Pass the options directly
                 onValueChange={handleStatusChange}
@@ -319,12 +317,12 @@ const Emp_list = () => {
                 selectedValue={plan}
                 title=" Plan"
               />
-            </OuterBox>
+            </FilterOuterBox>
           </FilterContainer>
 
           <BoxContainer>
             <HeadingAndSearchContainer>
-              <CreateEmployeeHeading>
+               <CreateEmployeeHeading> 
                 <div>
                   <EntriesDropdown
                     value={{
@@ -361,7 +359,7 @@ const Emp_list = () => {
                     }}
                   />
                 </div>
-              </CreateEmployeeHeading>
+              </CreateEmployeeHeading> 
               <StyledSearchBar onSearch={setSearchTerm} />
 
               <div style={{ marginRight: "8px" }}>

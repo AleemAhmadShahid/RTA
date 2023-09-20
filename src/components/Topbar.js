@@ -27,9 +27,11 @@ const Nav = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 2.5%;
-  right: 1.5%;
+  //  right: 12%;
   width: 79%;
+  left:273px;
   border-radius: 5px;
+  // overflow: auto;
 `;
 
 const SimpleText = styled.span`

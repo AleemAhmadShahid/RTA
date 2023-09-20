@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Select from "react-select";
 
+
+
 const FilterBoxContainer = styled.div`
   display: flex;
   align-items: center;
@@ -10,10 +12,11 @@ const FilterBoxContainer = styled.div`
 `;
 
 const Dropdown = styled(Select)`
-  width: ${(props) => props.width || "350px"};
+   width: ${(props) => props.width || "100%"}; /* Use 100% width by default */
+  // width:100%;
+  max-width: 450px; /* Set a maximum width if needed */
   margin-right: 10px;
-  
-  
+
   .select__control {
     border: 1px solid orange;
     border-radius: 5px;
@@ -33,11 +36,12 @@ const Dropdown = styled(Select)`
   }
 
   .select__menu {
-    z-index: 1; /* Adjust the z-index value as needed */
+    z-index: 1;
   }
 `;
 
 const Box = styled.div`
+width:100%;
 `;
 const Title = styled.h6`
   font-size: 13px;
@@ -51,6 +55,7 @@ const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
   };
 
   return (
+   
     <Box>
       <Title>{title}</Title>
       <FilterBoxContainer>
@@ -74,7 +79,7 @@ const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
               border: provided.isFocused
                 ? "1px solid orange"
                 : "1px solid #ccc",
-              fontSize: "13px",
+              fontSize: "15px",
             }),
             option: (provided, state) => ({
               ...provided,
@@ -87,7 +92,7 @@ const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              fontSize: "12px",
+              fontSize: "14px",
             }),
           }}
         />

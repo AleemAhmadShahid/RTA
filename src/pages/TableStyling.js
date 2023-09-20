@@ -3,11 +3,11 @@ import { styled } from "styled-components";
 
 
 export const CreateEmployeeHeading = styled.h6`
-  margin-bottom: 10px;
-  width: 100%;
-  right: 0%;
-  font-weight: lighter;
-  fontsize: "smaller";
+   margin-bottom: 0px;
+   width: 100%;
+  //  right: 0%;
+  // font-weight: lighter;
+  // fontsize: "smaller";
 `;
 
 export const Th = styled.th`
