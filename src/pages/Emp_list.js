@@ -10,6 +10,9 @@ import PageBar from "../components/PageBar";
 import FilterBox from "../components/FliterBox";
 import ToastDialogBox, { DialogOverlay } from "../components/Toast";
 import ErrorDialog from "../components/ErrorDialog";
+import { BiUser } from "react-icons/bi";
+import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
+
 import {
   Td,
   Tr,
@@ -86,8 +89,8 @@ const CenteredContainer = styled.div`
   position: relative; /* Keep it relative for child elements */
   // left: 18.6%; /* Adjust the left position to match your sidebar width */
   right: 13%;
-  top:90px;
-  left:253px;
+  top: 95px;
+  left: 253px;
   // transform: translateX(0%);
   padding: 0px 20px;
   border-radius: 5px;
@@ -106,9 +109,8 @@ const CenteredContainer = styled.div`
   // overflow-y: auto; /* Add vertical scroll if necessary */
 `;
 
-
 const EntriesDropdown = styled(Select)`
-  width: 110px;
+  width: 150px;
 
   .select__control {
     border: 1px solid orange; /* Change border color to orange */
@@ -130,17 +132,16 @@ const EntriesDropdown = styled(Select)`
 
 const CardsContainer = styled.div`
   display: flex;
-   justify-content: space-between;
+  justify-content: space-between;
 
   & > * {
     flex: 1;
-    margin-right: 15px;
+    margin-right: 13px;
   }
 
   & > *:last-child {
     margin-right: 0;
   }
-
 `;
 
 const FilterOuterBox = styled.div`
@@ -236,22 +237,22 @@ const Emp_list = () => {
 
   const [showToast, setshowToast] = useState(false);
 
-  const [Export, setExport] = useState("Export");
-   const [selectedCheck, setSelectedCheck] = useState([]); // Initialize with an empty string or an appropriate default value
-   const CheckOptions = ["1", "2", "3", "4"];
-   const handleCheckChange = (optionLabel) => {
-      let selectedCheckCopy = [...selectedCheck];
-      if (!selectedCheckCopy.includes(optionLabel))
-        selectedCheckCopy.push(optionLabel);
-      else
-        selectedCheckCopy = selectedCheckCopy.filter((check) => check!=optionLabel);
-     setSelectedCheck(selectedCheckCopy);
-   };
-  
-
-
-
-
+  const [selectedCheck, setSelectedCheck] = useState([]); // Initialize with an empty string or an appropriate default value
+  const CheckOptions = ["1", "2", "3", "4"];
+  const handleCheckChange = (optionLabel) => {
+    let selectedCheckCopy = [...selectedCheck];
+    if (!selectedCheckCopy.includes(optionLabel))
+      selectedCheckCopy.push(optionLabel);
+    else
+      selectedCheckCopy = selectedCheckCopy.filter(
+        (check) => check != optionLabel
+      );
+    setSelectedCheck(selectedCheckCopy);
+  };
+  const [Export, setExport] = useState({
+    label: "Export",
+    icon: <FaPrint />, // You can change the icon here
+  });
   const exportOptions = [
     { label: "Print", icon: <FaPrint /> },
     { label: "CSV", icon: <FaFileCsv /> },
@@ -259,6 +260,8 @@ const Emp_list = () => {
     { label: "PDF", icon: <FaFilePdf /> },
     { label: "Copy", icon: <FaCopy /> },
   ];
+
+  // Then, you can use the exportOptions array to render the options in your component
 
   const toggleToast = (event) => {
     const rect = event.target.getBoundingClientRect();
@@ -280,29 +283,46 @@ const Emp_list = () => {
   return (
     <>
       {/* for error ToastDialogBox  */}
-      <ErrorDialog message="You clicked the Button!" show={isDialogOpen} handleClose={handleCloseDialog} />{" "}
-      {showToast && (
+      <ErrorDialog
+        message="You clicked the Button!"
+        show={isDialogOpen}
+        handleClose={handleCloseDialog}
+      />{" "}
+      {/* {showToast && (
         <DialogOverlay show={showToast}>
           <ToastDialogBox />
         </DialogOverlay>
-      )}
+      )} */}
       <CenteredContainer>
+        {showToast && (
+          <DialogOverlay show={showToast}>
+            <ToastDialogBox />
+          </DialogOverlay>
+        )}
         <div>
           <CardsContainer>
             <InfoBox
-              iconColor="#ffa500"
+              icon={BiUser}
+              // iconColor="blue"
+              iconColor="#512da8"
               data={infoBoxData}
               text="Total Users"
-              //  width="300px"
             />
-            <InfoBox iconColor="#ffa500" data={infoBoxData} text="Active Users" />
+            <InfoBox
+              icon={FiUserPlus}
+              iconColor="#d32f2f"
+              data={infoBoxData}
+              text="Active Users"
+            />
 
             <InfoBox
-              iconColor="#ffa500"
+              icon={FiUserCheck}
+              iconColor="#2ac779"
               data={infoBoxData}
-              text="Inactive Users"
+              text="Active Users"
             />
             <InfoBox
+              icon={FiUserX}
               iconColor="#ffa500"
               data={infoBoxData}
               text="Pending Invites"
@@ -336,7 +356,7 @@ const Emp_list = () => {
 
           <BoxContainer>
             <HeadingAndSearchContainer>
-               <CreateEmployeeHeading> 
+              <CreateEmployeeHeading>
                 <div>
                   <EntriesDropdown
                     value={{
@@ -373,7 +393,7 @@ const Emp_list = () => {
                     }}
                   />
                 </div>
-              </CreateEmployeeHeading> 
+              </CreateEmployeeHeading>
               <StyledSearchBar onSearch={setSearchTerm} />
 
               <div style={{ marginRight: "8px" }}>
@@ -382,7 +402,10 @@ const Emp_list = () => {
                   options={CheckOptions.map((option) => ({
                     value: option,
                     label: (
-                      <div onClick={() => handleCheckChange(option)} style={{ display: "flex", alignItems: "center" }}>
+                      <div
+                        onClick={() => handleCheckChange(option)}
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
                         <input
                           type="checkbox"
                           checked={selectedCheck.includes(option)} // Check against selectedCheck
@@ -420,12 +443,15 @@ const Emp_list = () => {
                 <div>
                   <EntriesDropdown
                     value={{
-                      value: Export,
-                      label: Export.toString(),
+                      value: Export.label, // Changed this to Export.label
+                      label: Export.label.toString(),
                     }}
-                    onChange={(selectedOption) =>
-                      setExport(selectedOption.value)
-                    }
+                    onChange={(selectedOption) => {
+                      setExport({
+                        label: selectedOption.value, // Set both label and icon
+                        icon: selectedOption.icon,
+                      });
+                    }}
                     options={exportOptions.map((option) => ({
                       value: option.label,
                       label: (
@@ -436,6 +462,7 @@ const Emp_list = () => {
                           </span>
                         </div>
                       ),
+                      icon: option.icon, // Add icon to the option object
                     }))}
                     styles={{
                       menu: (provided) => ({
@@ -460,7 +487,6 @@ const Emp_list = () => {
                     }}
                   />
                 </div>
-
                 <AddEmployeeButton
                   onClick={toggleForm}
                   className="btn btn-primary mb-2"
@@ -487,62 +513,62 @@ const Emp_list = () => {
                 <tbody>
                   {employees &&
                     employees.map((employee) => (
-                        <Tr key={employee._id}>
-                          <Td>
-                            {" "}
-                            <input type="checkbox" />
-                          </Td>
-                          <Td>
-                            {/* {employee.profileImg && (
+                      <Tr key={employee._id}>
+                        <Td>
+                          {" "}
+                          <input type="checkbox" />
+                        </Td>
+                        <Td>
+                          {/* {employee.profileImg && (
                   <UserImage src={employee.profileImg} />
                 )} */}
-                            <EmployeeInfo employee={employee} />
-                          </Td>
-                          {/* <Td> */}
-                          {/* <EmployeeInfo employee={employee} />  */}
-                          {/* {employee.name} */}
-                          {/* <br /> */}
-                          {/* <span style={{ fontSize: "12px", color: "grey" }}> */}
-                          {/* {employee.email} */}
-                          {/* </span> */}
-                          {/* </Td> */}
+                          <EmployeeInfo employee={employee} />
+                        </Td>
+                        {/* <Td> */}
+                        {/* <EmployeeInfo employee={employee} />  */}
+                        {/* {employee.name} */}
+                        {/* <br /> */}
+                        {/* <span style={{ fontSize: "12px", color: "grey" }}> */}
+                        {/* {employee.email} */}
+                        {/* </span> */}
+                        {/* </Td> */}
 
-                          <Td>{employee._id}</Td>
-                          <Td>
-                            {new Date(employee.lastLogin).toLocaleString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "2-digit",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              }
-                            )}
-                          </Td>
-                          <Td>
-                            {employee.status === 1 ? (
-                              <SuccessBadge>Active</SuccessBadge>
-                            ) : (
-                              <DangerBadge>Inactive</DangerBadge>
-                            )}
-                          </Td>
-                          <Td>
-                            <IconWrapper onClick={toggleToast}>
-                              <MdIcons.MdOutlineModeEditOutline
-                                style={{ fontSize: "18px" }}
-                              />
-                            </IconWrapper>
-
-                            <GrIcons.GrFormView style={{ fontSize: "18px" }} />
-
-                            <MdIcons.MdDeleteOutline
-                              style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={handleDeleteIconClick}
+                        <Td>{employee._id}</Td>
+                        <Td>
+                          {new Date(employee.lastLogin).toLocaleString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            }
+                          )}
+                        </Td>
+                        <Td>
+                          {employee.status === 1 ? (
+                            <SuccessBadge>Active</SuccessBadge>
+                          ) : (
+                            <DangerBadge>Inactive</DangerBadge>
+                          )}
+                        </Td>
+                        <Td>
+                          <IconWrapper onClick={toggleToast}>
+                            <MdIcons.MdOutlineModeEditOutline
+                              style={{ fontSize: "18px" }}
                             />
-                          </Td>
-                        </Tr>
-                      ))}
+                          </IconWrapper>
+
+                          <GrIcons.GrFormView style={{ fontSize: "18px" }} />
+
+                          <MdIcons.MdDeleteOutline
+                            style={{ fontSize: "18px", cursor: "pointer" }}
+                            onClick={handleDeleteIconClick}
+                          />
+                        </Td>
+                      </Tr>
+                    ))}
                   {!employees ||
                     (employees.length === 0 && (
                       <tr>

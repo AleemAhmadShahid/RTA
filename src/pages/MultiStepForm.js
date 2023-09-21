@@ -119,7 +119,7 @@ const BottomButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px; /* Add padding to create space around the buttons */
-  background-color: white;
+  // background-color: white;
  
 `;
 
@@ -233,8 +233,8 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
             </StepIndicators>
             {/* <h3>We can't wait to meet you</h3> */}
             {renderStep()}
-            <BottomButtonsContainer>
-            {/* <FormButtonContainer> */}
+             <BottomButtonsContainer> 
+             {/* <FormButtonContainer>  */}
               <div>
                 {!isFirstStep && (
                   <PreviousButton onClick={prevStep}>Previous</PreviousButton>
@@ -252,7 +252,8 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
                   </>
                 )}
               </div>
-              </BottomButtonsContainer>
+              {/* </FormButtonContainer> */}
+               </BottomButtonsContainer> 
           </InnermodalContainer>
         </ModalContainer>
         </FormCenteringContainer>

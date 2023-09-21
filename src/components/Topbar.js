@@ -24,11 +24,11 @@ const Nav = styled.div`
   align-items: center;
   padding: 0 20px;
   color: #000000;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 2.5%;
   //  right: 12%;
-  width: 79%;
+  width: 79.1%;
   left:273px;
   border-radius: 5px;
   // overflow: auto;

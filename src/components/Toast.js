@@ -28,9 +28,10 @@ const Text = styled.div`
   font-size: 14px;
 `;
 export const DialogOverlay = styled.div`
-  position: absolute;
-  top: 80px; /* Adjust top position to place it at the top */
-  right: 1.4%; /* Adjust right position to place it at the right */
+   position: absolute;
+  
+  // top: -5px; /* Adjust top position to place it at the top */
+   right: 1.7%; /* Adjust right position to place it at the right */
   z-index: 1;
   display: ${(props) => (props.show ? "block" : "none")};
   z-index: 30px;

@@ -1,23 +1,24 @@
 import styled from 'styled-components';
 
 export const ModalOverlay = styled.div`
-  position: fixed;
-  width: 100vw;
+ 
+  
+   flex-direction: column; /* To stack child components vertically */
+   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  align-items: center;
-  // flex-direction:column;
-  justify-content: center;
-  z-index: 15;
   display: flex;
-  
-  //  flex-direction: column; /* To stack child components vertically */
-  
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 15;
 `;
 
 export const ModalContainer = styled.div`
   background-color: #fff;
-  padding: 0px 0px;
+  // padding: 0px 0px;
   border-radius: 0px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -35,7 +36,7 @@ export const InnermodalContainer = styled.div`
   // justify-content:center;
   top: 0; 
   right: 0; 
-  height: 100%;
+  // height: 100%;
 `;
 
 
@@ -79,7 +80,7 @@ export const FormButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 10px;
-  
+  margin-top:5px;
   padding: 10px 20px; 
   font-size: small;
   cursor: pointer;
