@@ -13,12 +13,12 @@ function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<LoginPage />}/>
-      <Route path="/log" element={<NotFoundPage />}/>
       <Route path="/portal" element={<Topbar />}>
         <Route path="iam" element={<Sidebar />}>
           <Route path="employee" element={<Emp_list />} />
         </Route>
       </Route>
+      <Route path="*" element={<NotFoundPage message="Page not found" description="Oops!😞 The requested URL was not found on this server" />} />
     </Routes>
   </Router>
   );

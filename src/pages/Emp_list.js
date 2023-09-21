@@ -132,6 +132,15 @@ const CardsContainer = styled.div`
   display: flex;
    justify-content: space-between;
 
+  & > * {
+    flex: 1;
+    margin-right: 15px;
+  }
+
+  & > *:last-child {
+    margin-right: 0;
+  }
+
 `;
 
 const FilterOuterBox = styled.div`
@@ -228,10 +237,15 @@ const Emp_list = () => {
   const [showToast, setshowToast] = useState(false);
 
   const [Export, setExport] = useState("Export");
-   const [selectedCheck, setSelectedCheck] = useState(""); // Initialize with an empty string or an appropriate default value
+   const [selectedCheck, setSelectedCheck] = useState([]); // Initialize with an empty string or an appropriate default value
    const CheckOptions = ["1", "2", "3", "4"];
    const handleCheckChange = (optionLabel) => {
-     setSelectedCheck(optionLabel); // Update selectedCheck directly
+      let selectedCheckCopy = [...selectedCheck];
+      if (!selectedCheckCopy.includes(optionLabel))
+        selectedCheckCopy.push(optionLabel);
+      else
+        selectedCheckCopy = selectedCheckCopy.filter((check) => check!=optionLabel);
+     setSelectedCheck(selectedCheckCopy);
    };
   
 
@@ -266,7 +280,7 @@ const Emp_list = () => {
   return (
     <>
       {/* for error ToastDialogBox  */}
-      <ErrorDialog show={isDialogOpen} handleClose={handleCloseDialog} />{" "}
+      <ErrorDialog message="You clicked the Button!" show={isDialogOpen} handleClose={handleCloseDialog} />{" "}
       {showToast && (
         <DialogOverlay show={showToast}>
           <ToastDialogBox />
@@ -281,17 +295,17 @@ const Emp_list = () => {
               text="Total Users"
               //  width="300px"
             />
-            <InfoBox iconColor="#ffa500" data={infoBoxData} text="Paid Users" />
+            <InfoBox iconColor="#ffa500" data={infoBoxData} text="Active Users" />
 
             <InfoBox
               iconColor="#ffa500"
               data={infoBoxData}
-              text="Active users"
+              text="Inactive Users"
             />
             <InfoBox
               iconColor="#ffa500"
               data={infoBoxData}
-              text="Pending Users"
+              text="Pending Invites"
             />
           </CardsContainer>
 
@@ -364,18 +378,14 @@ const Emp_list = () => {
 
               <div style={{ marginRight: "8px" }}>
                 <EntriesDropdown
-                  value={selectedCheck} // Use the singular selectedCheck variable
-                  onChange={(selectedOption) =>
-                    handleCheckChange(selectedOption.value)
-                  }
+                  value={"Select"} // Use the singular selectedCheck variable
                   options={CheckOptions.map((option) => ({
                     value: option,
                     label: (
-                      <div style={{ display: "flex", alignItems: "center" }}>
+                      <div onClick={() => handleCheckChange(option)} style={{ display: "flex", alignItems: "center" }}>
                         <input
                           type="checkbox"
-                          checked={selectedCheck === option} // Check against selectedCheck
-                          onChange={() => handleCheckChange(option)} // Update selectedCheck
+                          checked={selectedCheck.includes(option)} // Check against selectedCheck
                           style={{ marginRight: "8px" }}
                         />
                         <span>{option}</span>
@@ -466,7 +476,7 @@ const Emp_list = () => {
                     <Th>
                       <input type="checkbox" />
                     </Th>
-                    <Th>PROFILE</Th>
+                    <Th>USER</Th>
                     {/* <Th>NAME</Th>  */}
                     <Th>EMPLOYEE CODE</Th>
                     <Th>LAST LOGIN</Th>
@@ -476,12 +486,7 @@ const Emp_list = () => {
                 </thead>
                 <tbody>
                   {employees &&
-                    employees
-                      .slice(
-                        (currentPage - 1) * entriesToShow,
-                        currentPage * entriesToShow
-                      )
-                      .map((employee) => (
+                    employees.map((employee) => (
                         <Tr key={employee._id}>
                           <Td>
                             {" "}

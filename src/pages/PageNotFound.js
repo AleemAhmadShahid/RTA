@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const TopRightText = styled.div`
   position: absolute;
-  top: 105px;
+  top: 25px;
   left: 15px;
   color: orange;
   font-size: 24px;
@@ -57,13 +57,13 @@ const ContentWrapper = styled.div`
   align-items: center;
 `;
 
-const NotFoundPage = () => {
+const NotFoundPage = ({message, description}) => {
   return (
     <Container>
       <TopRightText>RTA</TopRightText>
       <CenterContent>
-        <Text>Page not found 🕵️‍♀️</Text>
-        <SubText>Oops!😞 The requested URL was not found on this server</SubText>
+        <Text>{message} 🕵️‍♀️</Text>
+        <SubText>{description}</SubText>
         <ContentWrapper>
           <Button>Back to home</Button>
           <Image src="/Notfound.png" alt="Image" />

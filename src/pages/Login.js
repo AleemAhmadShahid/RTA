@@ -2,6 +2,7 @@ import React,{ useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
 import {createPostRequest} from '../global/helper'
+import ErrorDialog from "../components/ErrorDialog";
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -150,9 +151,13 @@ const LoginPage = () => {
     password: '',
   });
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
   const [blankEmailError, setBlankEmailError] = useState('');
   const [blankPasswordError, setBlankPasswordError] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
 
   const handleInputKeyDown = (event) => {
     if (event.key === 'Enter')
@@ -194,7 +199,10 @@ const LoginPage = () => {
     try {
       const response  = await createPostRequest(formData, path);
       if (response.status === 401) 
-        setError(response.error);
+      {
+        setErrorMessage(response.error);
+        setIsDialogOpen(true);
+      }
       else if (response.status === 200) {
         document.cookie = `token=${response.token}; expires=${new Date(Date.now() + 59 * 60000).toUTCString()}; path=/;`;
         navigate("/portal/iam/employee");
@@ -211,6 +219,8 @@ const LoginPage = () => {
     <LoginPageContainer>
       <ImageContainer />
       <LoginFormContainer>
+      <ErrorDialog message={errorMessage} show={isDialogOpen} handleClose={handleCloseDialog} />{" "}
+      
         <LoginForm>
           <StyledH4>RTA</StyledH4>
           <StyledH3>Log in to your Account </StyledH3>
@@ -239,7 +249,6 @@ const LoginPage = () => {
             onKeyDown={handleInputKeyDown}
           />
           {blankPasswordError && <StyledErrorH6> {blankPasswordError} </StyledErrorH6>}
-          {error && <StyledH6> {error} </StyledH6>}
         <RememberMeLabel>
             <RememberMeInput type="checkbox" />
             Remember me

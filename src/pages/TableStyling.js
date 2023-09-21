@@ -36,6 +36,10 @@ export const Tr = styled.tr`
 //  text-align: center;
 //   border-bottom: 0px solid #ddd;
  margin: 100px;
+
+ & > :first-child {
+  width: 10px;
+}
 `;
 export const Td = styled.td`
   padding: 4px;
