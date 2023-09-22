@@ -14,7 +14,7 @@ const H6 = styled.h6`
   margin-top: 10px; /* Add top margin */
   margin-bottom: 20px;
 `;
-const PictureUploadButton = styled.button`
+const PictureUploadButton = styled.label`
   background-color: #ffa500;
   color: #fff;
   padding: 3px 12px;
@@ -25,6 +25,11 @@ const PictureUploadButton = styled.button`
   margin-left: 10px;
   transition: background-color 0.3s ease;
   margin-right: 20px;
+
+  input[type='file'] {
+    display: none;
+  }
+
   &:hover {
     background-color: #ff8000;
   }
@@ -74,14 +79,22 @@ const StepOne = ({ formData, errors, handleChange }) => {
           style={{
             maxWidth: "50%",
             maxHeight: "50%",
-          }} /* Ensure the image fits perfectly */
+          }} 
         />
       ) : (
         <P>90x90</P>
       )}
     </UploadBox>
     <TextContainer>
-      <PictureUploadButton>Upload</PictureUploadButton>
+    <PictureUploadButton>
+        Upload Picture
+        <input
+          type="file"
+          onChange={(e) => {
+            const selectedFile = e.target.files[0];
+          }}
+        />
+      </PictureUploadButton>
       <P>Allowed max size of 10MB</P>
     </TextContainer>
   </UploadContainer>

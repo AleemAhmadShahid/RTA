@@ -311,17 +311,17 @@ const Emp_list = () => {
               text="Total Users"
             />
             <InfoBox
-              icon={FiUserPlus}
-              iconColor="#d32f2f"
+              icon={FiUserCheck}
+              iconColor="#2ac779"
               data={infoBoxData}
               text="Active Users"
             />
 
             <InfoBox
-              icon={FiUserCheck}
-              iconColor="#2ac779"
+              icon={FiUserPlus}
+              iconColor="#d32f2f"
               data={infoBoxData}
-              text="Active Users"
+              text="Inactive Users"
             />
             <InfoBox
               icon={FiUserX}
@@ -537,7 +537,7 @@ const Emp_list = () => {
 
                         <Td>{employee._id}</Td>
                         <Td>
-                          {new Date(employee.lastLogin).toLocaleString(
+                          {employee.lastLogin && new Date(employee.lastLogin).toLocaleString(
                             "en-GB",
                             {
                               day: "2-digit",
@@ -546,7 +546,7 @@ const Emp_list = () => {
                               hour: "2-digit",
                               minute: "2-digit",
                             }
-                          )}
+                          ) || "Resend Invite"}
                         </Td>
                         <Td>
                           {employee.status === 1 ? (

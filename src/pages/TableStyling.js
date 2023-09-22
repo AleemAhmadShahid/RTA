@@ -42,8 +42,9 @@ export const Tr = styled.tr`
 }
 `;
 export const Td = styled.td`
-  padding: 4px;
-   white-space: nowrap;
+  padding: 10px 4px;
+  
+  white-space: nowrap;
   width: 100%; /* Set the width to 100% */
   text-align: center;
   
