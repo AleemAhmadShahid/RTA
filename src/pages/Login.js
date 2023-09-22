@@ -11,9 +11,10 @@ const LoginPageContainer = styled.div`
 
 const ImageContainer = styled.div`
   flex: 1;
-  background: url(${require("./Pngtree.jpg")});
+  background: url("/Login.jpg"); /* Reference the image using its path in the public folder */
   background-size: cover;
 `;
+
 
 const LoginFormContainer = styled.div`
   flex: 1;

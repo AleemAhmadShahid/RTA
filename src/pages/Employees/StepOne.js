@@ -7,7 +7,7 @@ import {
   FormHalfInput,
   FormButton,
 } from "./multistepformstyling";
-import { StyledErrorH6 } from "./Login";
+import { StyledErrorH6 } from "../Login";
 import { styled } from "styled-components";
 
 const H6 = styled.h6`

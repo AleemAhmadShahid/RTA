@@ -1,91 +1,168 @@
 import React, { useState } from "react";
-import {
-  FormStep,
-  FormGroup,
-  FormLabel,
-  FormInput,
-  FormButton,
-} from "./multistepformstyling";
-import { styled } from "styled-components";
+import styled from "styled-components";
+import { FormLabel } from "./Employees/multistepformstyling";
+import { FiEye, FiEyeOff } from "react-icons/fi"; // Import the eye icons from react-icons
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
 `;
 
-const H6 = styled.h6`
-  margin-top: 10px; /* Add top margin */
+const RTAHeader = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffa500;
+`;
+
+const LeftPanel = styled.div`
+  flex: 2;
+  height: 100%;
+  background: #ffff;
+  overflow: hidden;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+`;
+
+const RightPanel = styled.div`
+  flex: 1;
+  padding: 10px;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+`;
+
+const Title = styled.h2`
+  font-size: 22px;
   margin-bottom: 20px;
 `;
 
-const StepOne = ({ formData, handleChange }) => {
-  return (
-    <FormStep active>
-      <H6>Form 1</H6>
-      <FormGroup>
-        <FormLabel>Field 1</FormLabel>
-        <FormInput
-          type="text"
-          value={formData.field1 || ""}
-          onChange={(e) => handleChange("field1", e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <FormLabel>Field 2</FormLabel>
-        <FormInput
-          type="text"
-          value={formData.field2 || ""}
-          onChange={(e) => handleChange("field2", e.target.value)}
-        />
-      </FormGroup>
-      <FormButton>Button 1</FormButton>
-    </FormStep>
-  );
-};
 
-const StepTwo = ({ formData, handleChange }) => {
-  return (
-    <FormStep active>
-      <H6>Form 2</H6>
-      <FormGroup>
-        <FormLabel>Field 3</FormLabel>
-        <FormInput
-          type="text"
-          value={formData.field3 || ""}
-          onChange={(e) => handleChange("field3", e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <FormLabel>Field 4</FormLabel>
-        <FormInput
-          type="text"
-          value={formData.field4 || ""}
-          onChange={(e) => handleChange("field4", e.target.value)}
-        />
-      </FormGroup>
-      <FormButton>Button 2</FormButton>
-    </FormStep>
-  );
-};
-const Resetpassword=()=>{
+const InputContainer = styled.div`
+  position: relative;
+`;
 
-    const [formData1, setFormData1] = useState({});
-    const [formData2, setFormData2] = useState({});
-  
-    const handleChange1 = (field, value) => {
-      setFormData1({ ...formData1, [field]: value });
-    };
-  
-    const handleChange2 = (field, value) => {
-      setFormData2({ ...formData2, [field]: value });
-    };
-  
-    return (
-      <Container>
-        <StepOne formData={formData1} handleChange={handleChange1} />
-        <StepTwo formData={formData2} handleChange={handleChange2} />
-      </Container>
-    );
+const Input = styled.input`
+width: 100%;
+padding: 7px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+`;
+
+const PasswordToggle = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SendButton = styled.button`
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #ffd000;
+  }
+`;
+
+const CancelButton = styled.button`
+  background-color: #ededed;
+  color: #ffa500;
+  border: none;
+  border-radius: 5px;
+  padding: 7px;
+  cursor: pointer;
+  width: 100%;
+`;
+
+const Box = styled.div`
+  padding: 40px;
+  text-align: left;
+`;
+
+const H6 = styled.h6`
+  font-size: 14px;
+  margin-bottom: 20px;
+`;
+
+const ResetPassword = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
-export default Resetpassword;
+  return (
+    <Container>
+      <RTAHeader>RTA</RTAHeader>
+      <LeftPanel>
+        <Image src="/Forgetpass.jpg" alt="Forget Password" />
+      </LeftPanel>
+      <RightPanel>
+        <Box>
+          <Title>Reset Password?🔒</Title>
+          <H6>Your new password must be different from previously used passwords</H6>
+          <InputContainer>
+            <FormLabel style={{ fontWeight: "lighter" }}>New Password</FormLabel>
+            <div style={{ position: "relative" }}>
+              <Input
+                type={showPassword ? "text" : "password"}
+                placeholder="New Password"
+              />
+              <PasswordToggle onClick={togglePasswordVisibility}>
+                {showPassword ? <FiEye />:<FiEyeOff />} {/* Use React Icons here */}
+              </PasswordToggle>
+            </div>
+          </InputContainer>
+          <InputContainer>
+            <FormLabel style={{ fontWeight: "lighter" }}>Confirm Password</FormLabel>
+            <div style={{ position: "relative" }}>
+              <Input
+                type={showPassword ? "text" : "password"}
+                placeholder="Confirm Password"
+              />
+              <PasswordToggle onClick={togglePasswordVisibility}>
+                {showPassword ?  <FiEye />:<FiEyeOff /> } {/* Use React Icons here */}
+              </PasswordToggle>
+            </div>
+          </InputContainer>
+          <ButtonContainer>
+            <SendButton>Set New Password</SendButton>
+            <CancelButton>&lt; Back to Login</CancelButton>
+          </ButtonContainer>
+        </Box>
+      </RightPanel>
+    </Container>
+  );
+};
+
+export default ResetPassword;

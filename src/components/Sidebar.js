@@ -5,7 +5,7 @@ import { SidebarData } from "./SidebarData";
 
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
-import Emp_list from "../pages/Emp_list";
+import Emp_list from "../pages/Employees/Emp_list";
 import { Outlet } from 'react-router-dom';
 
 const NavIcon = styled(Link)`

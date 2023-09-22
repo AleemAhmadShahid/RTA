@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
-import SearchBar from "../components/searchbar";
+import SearchBar from "../../components/searchbar";
 import MultiStepForm from "./MultiStepForm";
-import { createGetRequest } from "../global/helper";
+import { createGetRequest } from "../../global/helper";
 import { useNavigate } from "react-router-dom";
-import InfoBox from "../components/Cards";
-import PageBar from "../components/PageBar";
-import FilterBox from "../components/FliterBox";
-import ToastDialogBox, { DialogOverlay } from "../components/Toast";
-import ErrorDialog from "../components/ErrorDialog";
+import InfoBox from "../../components/Cards";
+import PageBar from "../../components/PageBar";
+import FilterBox from "../../components/FliterBox";
+import ToastDialogBox, { DialogOverlay } from "../../components/Toast";
+import ErrorDialog from "../../components/ErrorDialog";
 import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 
@@ -24,7 +24,7 @@ import {
   DangerBadge,
   CreateEmployeeHeading,
 } from "./TableStyling";
-import EmployeeInfo from "../components/EmployeeInfo";
+import EmployeeInfo from "../../components/EmployeeInfo";
 import { async } from "q";
 
 import * as MdIcons from "react-icons/md";
@@ -400,7 +400,8 @@ const Emp_list = () => {
 
               <div style={{ marginRight: "8px" }}>
                 <EntriesDropdown
-                  value={"Select"} // Use the singular selectedCheck variable
+                  value={"Select" } 
+                  // Use the singular selectedCheck variable
                   options={CheckOptions.map((option) => ({
                     value: option,
                     label: (

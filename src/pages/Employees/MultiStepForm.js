@@ -10,7 +10,7 @@ import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import { FormButton } from "./multistepformstyling";
 import styled from "styled-components";
-import { createPostRequest } from "../global/helper";
+import { createPostRequest } from "../../global/helper";
 
 
 
