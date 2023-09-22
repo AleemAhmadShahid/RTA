@@ -39,7 +39,7 @@ const InfoBoxContainer = styled.div`
   /* Add more media queries as needed */
 
   // z-index: 1;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
 `;
 
 const InfoIcon = styled.div`

@@ -24,7 +24,7 @@ const Nav = styled.div`
   align-items: center;
   padding: 0 20px;
   color: #000000;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   position: fixed;
   top: 2.5%;
   //  right: 12%;

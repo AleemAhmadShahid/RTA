@@ -46,7 +46,7 @@ const BoxContainer = styled.div`
   border-radius: 5px;
   background: #ffffff;
   margin-top: 24px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
 `;
 
 const AddEmployeeButton = styled(Link)`
@@ -83,6 +83,7 @@ const StyledSearchBar = styled(SearchBar)`
 
 const TableContainer = styled.div`
   overflow-x: auto;
+  // box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
 `;
 
 const CenteredContainer = styled.div`
@@ -91,6 +92,7 @@ const CenteredContainer = styled.div`
   right: 13%;
   top: 95px;
   left: 253px;
+  // box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   // transform: translateX(0%);
   padding: 0px 20px;
   border-radius: 5px;
@@ -133,7 +135,7 @@ const EntriesDropdown = styled(Select)`
 const CardsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-
+  // box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   & > * {
     flex: 1;
     margin-right: 13px;
@@ -156,11 +158,11 @@ const FilterOuterBox = styled.div`
 `;
 const FilterContainer = styled.div`
   background: #fff;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   border-radius: 5px;
   // border-bottom-left-radius: 5px; /* Adjust as needed */
   // border-bottom-right-radius: 5px; /* Adjust as needed */
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+
 `;
 
 const IconWrapper = styled.div`
