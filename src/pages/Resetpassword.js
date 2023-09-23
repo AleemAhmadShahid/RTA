@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FormLabel } from "./Employees/multistepformstyling";
+import { FormLabel } from "./Employees/MultiStepFormStyling";
 import { FiEye, FiEyeOff } from "react-icons/fi"; // Import the eye icons from react-icons
 
 const Container = styled.div`

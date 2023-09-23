@@ -9,7 +9,7 @@ import {
   FormRadioGroup,
   FormRadioLabel,
   FormRadioInput,
-} from './multistepformstyling';
+} from './MultiStepFormStyling';
 
 const H6 = styled.h6`
   margin-top: 10px; /* Add top margin */

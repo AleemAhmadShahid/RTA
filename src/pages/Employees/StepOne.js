@@ -6,7 +6,7 @@ import {
   FormInput,
   FormHalfInput,
   FormButton,
-} from "./multistepformstyling";
+} from "./MultiStepFormStyling";
 import { StyledErrorH6 } from "../Login";
 import { styled } from "styled-components";
 
@@ -112,7 +112,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
         />
       </FormGroup>
       {errors.name && <StyledErrorH6>{errors.name}</StyledErrorH6>}
-      {/* <FormGroup>
+      <FormGroup>
         <FormLabel>Email</FormLabel>
         <FormInput
           type="email"
@@ -121,7 +121,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
           onBlur={(e) => handleChange("email", e.target.value, true)}
           onChange={(e) => handleChange("email", e.target.value, true)}
         />
-      </FormGroup> */}
+      </FormGroup>
       {errors.email && <StyledErrorH6>{errors.email}</StyledErrorH6>}
       <FormGroup>
         <FormLabel>Phone Number</FormLabel>

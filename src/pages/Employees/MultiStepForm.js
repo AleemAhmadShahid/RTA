@@ -3,12 +3,11 @@ import {
   ModalOverlay,
   ModalContainer,
   ModalHeader,
-  InnermodalContainer,
-} from "./multistepformstyling";
+  InnermodalContainer,FormButton
+} from "./MultiStepFormStyling";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
-import { FormButton } from "./multistepformstyling";
 import styled from "styled-components";
 import { createPostRequest } from "../../global/helper";
 
