@@ -144,6 +144,14 @@ const CardsContainer = styled.div`
   & > *:last-child {
     margin-right: 0;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column; 
+    & > *{
+      margin-right: 0;
+      width: 100%;
+    }
+  }
 `;
 
 const FilterOuterBox = styled.div`
@@ -155,6 +163,14 @@ const FilterOuterBox = styled.div`
   border-bottom-right-radius: 5px; /* Adjust as needed */
 
   padding: 5px 19px; /* Add padding to create spacing between FilterBox components */
+
+   @media (max-width: 768px) {
+    flex-direction: column; 
+    & > *{
+      margin-right: 0;
+      width: 100%;
+    }
+  }
 `;
 const FilterContainer = styled.div`
   background: #fff;

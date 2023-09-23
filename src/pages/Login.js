@@ -13,6 +13,9 @@ const ImageContainer = styled.div`
   flex: 1;
   background: url("/Login.jpg"); /* Reference the image using its path in the public folder */
   background-size: cover;
+   @media (max-width: 768px) { 
+    display: none;
+  }
 `;
 
 
