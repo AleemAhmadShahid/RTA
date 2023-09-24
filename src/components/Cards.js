@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import * as AiIcons from "react-icons/ai";
+
 import { IconType } from "react-icons";
 
 const BoxContainer = styled.div`
@@ -31,9 +31,9 @@ const InfoBoxContainer = styled.div`
     /* Adjust width for smaller screens */
     width: 80%;
   }
-@media screen and (max-width: 768px) {
+@media screen and (max-width:845px) {
     /* Adjust width for smaller screens */
-    width: 50%;
+    width: 100%;
   }
 
   /* Add more media queries as needed */
@@ -70,10 +70,6 @@ const InfoNumbers = styled.div`
 const InfoText = styled.div`
   font-size: 14px;
   color: #333; /* Adjust the text color as needed */
-`;
-const InfoBoxItem = styled.div`
-  flex: 0 0 calc(50% - 20px); /* Set 2 cards per line with spacing */
-  margin: 10px; /* Add margin to create spacing between cards */
 `;
 
 const InfoBox = ({ top, icon: Icon, iconColor, data, text }) => {

@@ -9,6 +9,15 @@ const SearchInput = styled.input`
   margin-bottom:0px;
   margin-right:10px;
   margin-left:10px;
+  @media screen and (max-width: 845px) {
+    margin-left:0px;
+    margin-top:0px;
+    margin-right:0px;
+   
+      width:300px; /* Adjust alignment if needed */
+      margin-bottom:10px;
+    
+  }
 `;
 
 const SearchBar = ({ onSearch }) => {

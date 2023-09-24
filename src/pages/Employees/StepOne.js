@@ -6,98 +6,47 @@ import {
   FormInput,
   FormHalfInput,
   FormButton,
-} from "./MultiStepFormStyling";
+  H6,
+  PictureUploadButton,
+  UploadBox,
+  UploadContainer,
+  TextContainer,
+  P,
+} from "../styles/MultiStepFormStyling";
 import { StyledErrorH6 } from "../Login";
 import { styled } from "styled-components";
 import { createPostRequest } from "../../global/helper";
 
-const H6 = styled.h6`
-  margin-top: 10px; /* Add top margin */
-  margin-bottom: 20px;
-`;
-const PictureUploadButton = styled.label`
-  background-color: #ffa500;
-  color: #fff;
-  padding: 3px 12px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: background-color 0.3s ease;
-  margin-right: 20px;
-
-  input[type='file'] {
-    display: none;
-  }
-
-  &:hover {
-    background-color: #ff8000;
-  }
-`;
-
-const UploadBox = styled.div`
-  background-color: #ededed;
-  padding: 5px;
-  border: 1px solid #ededed;
-  border-radius: 5px;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  overflow: hidden;
-`;
-
-
-const UploadContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-right: 20px; /* Add margin to separate button and box */
-`;
-const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column; /* Stack children vertically */
-  align-items: flex-start;/* Center horizontally */
-`;
-const P=styled.p`
-font-size:15px;
-margin-left:10px;
-`
 const StepOne = ({ formData, errors, handleChange }) => {
   return (
     <FormStep active>
       <H6>Personal Information</H6>
 
       <FormGroup>
-  <UploadContainer>
-    <UploadBox>
-      {formData.profileImg ? (
-        <img
-          src={formData.profileImg}
-          alt="Uploaded"
-          style={{
-            width: "90px",
-            height: "90px",
-          }} 
-        />
-      ) : (
-        <P>90x90</P>
-      )}
-    </UploadBox>
-    <TextContainer>
-    <PictureUploadButton>
-        Upload Picture
-        <input
-          type="file"
-          onChange={(e) => {}}               
-        />
-      </PictureUploadButton>
-      <P>Allowed max size of 10MB</P>
-    </TextContainer>
-  </UploadContainer>
-</FormGroup>
+        <UploadContainer>
+          <UploadBox>
+            {formData.profileImg ? (
+              <img
+                src={formData.profileImg}
+                alt="Uploaded"
+                style={{
+                  width: "90px",
+                  height: "90px",
+                }}
+              />
+            ) : (
+              <P>90x90</P>
+            )}
+          </UploadBox>
+          <TextContainer>
+            <PictureUploadButton>
+              Upload Picture
+              <input type="file" onChange={(e) => {}} />
+            </PictureUploadButton>
+            <P>Allowed max size of 10MB</P>
+          </TextContainer>
+        </UploadContainer>
+      </FormGroup>
 
       <FormGroup>
         <FormLabel>Name</FormLabel>
@@ -159,11 +108,20 @@ const StepOne = ({ formData, errors, handleChange }) => {
         />
       </FormGroup>
       <FormGroup>
-          <div style={{ display: 'flex',width: "95%" }}>
-          <FormHalfInput type="text" value={formData.address && formData.address.city || ""}
-          onChange={(e) => handleChange("address.city", e.target.value)} placeholder=" City" style={{ marginRight: '10px' }} />
-          <FormHalfInput type="text" value={formData.address && formData.address.zipCode || ""}
-          onChange={(e) => handleChange("address.zipCode", e.target.value)} placeholder=" Zip Code" />
+        <div style={{ display: "flex", width: "100%" }}>
+          <FormHalfInput
+            type="text"
+            value={(formData.address && formData.address.city) || ""}
+            onChange={(e) => handleChange("address.city", e.target.value)}
+            placeholder=" City"
+            style={{ marginRight: "10px" }}
+          />
+          <FormHalfInput
+            type="text"
+            value={(formData.address && formData.address.zipCode) || ""}
+            onChange={(e) => handleChange("address.zipCode", e.target.value)}
+            placeholder=" Zip Code"
+          />
         </div>
         <FormInput
           style={{ marginTop: "13px" }}

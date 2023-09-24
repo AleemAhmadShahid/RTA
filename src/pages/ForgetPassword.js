@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FormLabel } from "./Employees/MultiStepFormStyling";
+import { FormLabel } from "./styles/MultiStepFormStyling";
 
 const Container = styled.div`
   display: flex;

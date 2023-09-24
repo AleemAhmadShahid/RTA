@@ -1,73 +1,36 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 import {
   FormStep,
   FormGroup,
   FormLabel,
   FormInput,
-  FormButton,
-  FormRadioGroup,
-  FormRadioLabel,
-  FormRadioInput,
-} from './MultiStepFormStyling';
+  
+} from "../styles/MultiStepFormStyling";
 
-const H6 = styled.h6`
-  margin-top: 10px; /* Add top margin */
-  margin-bottom: 20px;
-`;
 const StepTwo = ({ formData, handleChange }) => {
   return (
     <FormStep active>
-        <H6>Fill in the details so that we can get in contact with you</H6>
-      {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}> */}
-        <div style={{ flex: 1 }}>
-          <FormGroup>
-            <FormLabel>Date of Joining</FormLabel>
-            <FormInput
-              type="date"
-              value={formData.dateOfJoining || ''}
-              onChange={(e) => handleChange('dateOfJoining', e.target.value)}
-            />
-          </FormGroup>
-          
-          {/* Other input fields */}
-        </div>
-        {/* <div style={{ flex: 1, marginLeft: '20px' }}> Add marginLeft for space */}
-          <FormGroup>
-            <FormLabel>Role</FormLabel>
-            <FormInput
-              type="text"
-              value={formData.phoneNumber || ''}
-              onChange={(e) => handleChange('phoneNumber', e.target.value)}
-            />
-          </FormGroup>
-         
-          {/* <FormRadioGroup>
-            <FormRadioLabel>Gender</FormRadioLabel>
-            <FormRadioLabel>
-              <FormRadioInput
-                type="radio"
-                name="gender"
-                value="male"
-                checked={formData.gender === 'male'}
-                onChange={(e) => handleChange('gender', e.target.value)}
-              />
-              Male
-            </FormRadioLabel>
-            <FormRadioLabel>
-              <FormRadioInput
-                type="radio"
-                name="gender"
-                value="female"
-                checked={formData.gender === 'female'}
-                onChange={(e) => handleChange('gender', e.target.value)}
-              />
-              Female
-            </FormRadioLabel>
-          </FormRadioGroup> */}
-        {/* </div> */}
-      {/* </div> */}
-      {/* <FormButton>Next</FormButton> */}
+      <div style={{ flex: 1 }}>
+        <FormGroup>
+          <h6>Fill in the details so that we can get in touch with you</h6>
+          <FormLabel>Date of Joining</FormLabel>
+          <FormInput
+            type="date"
+            value={formData.dateOfJoining || ""}
+            onChange={(e) => handleChange("dateOfJoining", e.target.value)}
+          />
+        </FormGroup>
+      </div>
+
+      <FormGroup>
+        <FormLabel>Role</FormLabel>
+        <FormInput
+          type="text"
+          value={formData.phoneNumber || ""}
+          onChange={(e) => handleChange("phoneNumber", e.target.value)}
+        />
+      </FormGroup>
     </FormStep>
   );
 };

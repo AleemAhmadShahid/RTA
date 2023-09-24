@@ -56,13 +56,7 @@ const Heading = styled.h3`
   font-size: 1.2rem;
   margin-top:1rem;
 
-  // @media (max-width: 767px) {
-  //   display: none;
-  // }
-
-  // @media (min-width: 768px) {
-  //   display: block !important;
-  // }
+ 
 `;
 
 const MobileIcon = styled.div`
@@ -76,7 +70,7 @@ const MobileIcon = styled.div`
   z-index: 11;
   display: none; /* Hide the icon by default */
 
-  @media (max-width: 767px) {
+  @media (max-width: 845px) {
     display: block; /* Display the icon in mobile view only */
   }
 `;

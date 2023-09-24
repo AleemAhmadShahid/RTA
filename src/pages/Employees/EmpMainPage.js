@@ -13,17 +13,6 @@ import ErrorDialog from "../../components/ErrorDialog";
 import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 
-import {
-  Td,
-  Tr,
-  Th,
-  AddEmployeeContainer,
-  Table,
-  UserImage,
-  SuccessBadge,
-  DangerBadge,
-  CreateEmployeeHeading,
-} from "./TableStyling";
 import EmployeeInfo from "../../components/EmployeeInfo";
 import { async } from "q";
 
@@ -38,169 +27,28 @@ import {
   FaFilePdf,
   FaCopy,
 } from "react-icons/fa";
-
-const BoxContainer = styled.div`
-  // border: 0px solid #ccc;
-  padding: 3px 0px;
-  box-shadow: 0px 01px 0px rgba(0, 0, 0, 0);
-  border-radius: 5px;
-  background: #ffffff;
-  margin-top: 24px;
-  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-`;
-
-const AddEmployeeButton = styled(Link)`
-  background-color: #ffa500;
-  color: #fff;
-  padding: 7px 40px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-left: 10px;
-  margin-top: 5.5px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #ff8000;
-  }
-  @media screen and (max-width: 768px) {
-    padding: 4px 10px; /* Adjust padding for smaller screens */
-    min-width: 120px; /* Set a fixed width for smaller screens */
-  }
-`;
-
-const HeadingAndSearchContainer = styled.div`
-  display: flex;
-  padding: 7px 40px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyledSearchBar = styled(SearchBar)`
-  width: 10%;
-`;
-
-const TableContainer = styled.div`
-  overflow-x: auto;
-  // box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-`;
-
-const CenteredContainer = styled.div`
-  position: relative; /* Keep it relative for child elements */
-  // left: 18.6%; /* Adjust the left position to match your sidebar width */
-  right: 13%;
-  top: 95px;
-  left: 253px;
-  // box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-  // transform: translateX(0%);
-  padding: 0px 20px;
-  border-radius: 5px;
-  width: 81.9%; /* Default width */
-  // overflow: auto;
-  // @media (max-width: 1200px) {
-  //   width: 84%;
-  // }
-
-  @media (max-width: 768px) {
-    width: 100%; /* Set width to 100% for mobile view */
-    left: 0;
-    right: 0;
-  }
-
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-  // height: 100vh;
-  // overflow-y: auto; /* Add vertical scroll if necessary */
-`;
-
-const EntriesDropdown = styled(Select)`
-  width: 150px;
-
-  .select__control {
-    border: 1px solid orange; /* Change border color to orange */
-    border-radius: 5px;
-    // padding: 5px;
-    transition: border-color 0.3s ease;
-
-    &:hover {
-      border-color: orange;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: orange; /* Change border color to orange when focused */
-      box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5);
-    }
-  }
-`;
-
-const CardsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  // box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-  & > * {
-    flex: 1;
-    margin-right: 13px;
-  }
-
-  & > *:last-child {
-    margin-right: 0;
-  }
-
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    & > * {
-      margin-right: 0;
-      width: 100%;
-    }
-  }
-`;
-const AddEmployeeContainerMobile = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 10px; /* Adjust margin as needed */
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 20px; /* Adjust margin as needed */
-  }
-`;
-
-
-const FilterOuterBox = styled.div`
-  background: #fff;
-  display: flex; /* Use flex display to align FilterBox components side by side */
-  justify-content: space-between; /* Distribute space evenly between FilterBox components */
-  // align-items: center;
-  border-bottom-left-radius: 5px; /* Adjust as needed */
-  border-bottom-right-radius: 5px; /* Adjust as needed */
-
-  padding: 5px 19px; /* Add padding to create spacing between FilterBox components */
-
-   @media (max-width: 768px) {
-    flex-direction: column; 
-    & > *{
-      margin-right: 0;
-      width: 100%;
-    }
-  }
-`;
-const FilterContainer = styled.div`
-  background: #fff;
-  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-  border-radius: 5px;
-  // border-bottom-left-radius: 5px; /* Adjust as needed */
-  // border-bottom-right-radius: 5px; /* Adjust as needed */
-
-`;
-
-const IconWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-`;
+import {
+  Td,
+  Tr,
+  Th,
+  AddEmployeeContainer,
+  Table,
+  UserImage,
+  SuccessBadge,
+  DangerBadge,
+  CreateEmployeeHeading,
+  BoxContainer,
+  AddEmployeeButton,
+  HeadingAndSearchContainer,
+  TableContainer,
+  CenteredContainer,
+  CardsContainer,
+  FilterOuterBox,
+  FilterContainer,
+  IconWrapper,
+  EntriesDropdown,
+  StyledSearchBar,
+} from "../styles/TableStyling";
 
 const Emp_list = () => {
   const [employees, setEmployees] = useState([]);
@@ -212,19 +60,29 @@ const Emp_list = () => {
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
   const navigate = useNavigate();
   const [infoBoxData, setInfoBoxData] = useState({});
-   const [entriesToShow, setEntriesToShow] = useState(10);
+  const [entriesToShow, setEntriesToShow] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [message, setMessage] = useState();
 
-  const [status, setStatus] = useState({value: {}, label: "Select"}); // Initialize with an empty string
-  const statusOptions = [{value: {}, label: "Select"}, {value: 1, label: "Active"}, {value: 2, label: "Inactive"}];
-  const [role, setRole] = useState({value: {}, label: "Select"});
-  const roleOptions =[{value: {}, label: "Select"}, {value: 1, label: "Active"}, {value: 2, label: "Inactive"}];
-  const [plan, setPlan] = useState({value: {}, label: "Select"});
-  const planOptions = [{value: {}, label: "Select"}, {value: 1, label: "Active"}, {value: 2, label: "Inactive"}];
-
-  
+  const [status, setStatus] = useState({ value: {}, label: "Select" }); // Initialize with an empty string
+  const statusOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Inactive" },
+  ];
+  const [role, setRole] = useState({ value: {}, label: "Select" });
+  const roleOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Inactive" },
+  ];
+  const [plan, setPlan] = useState({ value: {}, label: "Select" });
+  const planOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Inactive" },
+  ];
 
   useEffect(() => {
     const params = {
@@ -232,15 +90,17 @@ const Emp_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof status.value !== 'object')
-      params.status = status.value;
+    if (typeof status.value !== "object") params.status = status.value;
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/user", params);
-        if (data.status == 401 && (data.error == "Invalid or expired token" || data.error == "No token provided"))
+        if (
+          data.status == 401 &&
+          (data.error == "Invalid or expired token" ||
+            data.error == "No token provided")
+        )
           navigate("/login/");
-        if (data.status == 404)
-        {
+        if (data.status == 404) {
           setEmployees([]);
           return;
         }
@@ -316,8 +176,20 @@ const Emp_list = () => {
 
   const [showToast, setshowToast] = useState(false);
 
-  const [selectedCheck, setSelectedCheck] = useState(["User", "Employee Code", "Last Login", "Status", "Actions"]);
-  const CheckOptions = ["User", "Employee Code", "Last Login", "Status", "Actions"];
+  const [selectedCheck, setSelectedCheck] = useState([
+    "User",
+    "Employee Code",
+    "Last Login",
+    "Status",
+    "Actions",
+  ]);
+  const CheckOptions = [
+    "User",
+    "Employee Code",
+    "Last Login",
+    "Status",
+    "Actions",
+  ];
   const handleCheckChange = (optionLabel) => {
     let selectedCheckCopy = [...selectedCheck];
     if (!selectedCheckCopy.includes(optionLabel))
@@ -468,53 +340,52 @@ const Emp_list = () => {
                 </div>
               </CreateEmployeeHeading>
               <StyledSearchBar onSearch={setSearchTerm} />
-              <AddEmployeeContainerMobile>
-
-              <div style={{ marginRight: "8px" }}>
-                <EntriesDropdown
-                  value={"Select" } 
-                  // Use the singular selectedCheck variable
-                  options={CheckOptions.map((option) => ({
-                    value: option,
-                    label: (
-                      <div
-                        onClick={() => handleCheckChange(option)}
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedCheck.includes(option)} // Check against selectedCheck
-                          style={{ marginRight: "8px" }}
-                        />
-                        <span>{option}</span>
-                      </div>
-                    ),
-                  }))}
-                  styles={{
-                    menu: (provided) => ({
-                      ...provided,
-                      background: "#ffffff",
-                      border: provided.isFocused
-                        ? "1px solid orange"
-                        : "1px solid #ccc",
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      backgroundColor: state.isSelected ? "white" : "white",
-                      color: state.isSelected ? "black" : "black",
-                      "&:hover": {
-                        backgroundColor: "#ffa500",
-                        color: "white",
-                      },
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }),
-                  }}
-                />
-              </div>
-
+              {/* <AddEmployeeContainerMobile> */}
               <AddEmployeeContainer>
+                <div style={{ marginRight: "8px" }}>
+                  <EntriesDropdown
+                    value={"Select"}
+                    options={CheckOptions.map((option) => ({
+                      value: option,
+                      label: (
+                        <div
+                          onClick={() => handleCheckChange(option)}
+                          style={{ display: "flex", alignItems: "center" }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedCheck.includes(option)} // Check against selectedCheck
+                            style={{ marginRight: "8px" }}
+                          />
+                          <span>{option}</span>
+                        </div>
+                      ),
+                    }))}
+                    styles={{
+                      menu: (provided) => ({
+                        ...provided,
+                        background: "#ffffff",
+                        border: provided.isFocused
+                          ? "1px solid orange"
+                          : "1px solid #ccc",
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: state.isSelected ? "white" : "white",
+                        color: state.isSelected ? "black" : "black",
+                        "&:hover": {
+                          backgroundColor: "#ffa500",
+                          color: "white",
+                        },
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }),
+                    }}
+                  />
+                </div>
+
+                {/* <AddEmployeeContainer> */}
                 <div>
                   <EntriesDropdown
                     value={{
@@ -568,9 +439,8 @@ const Emp_list = () => {
                 >
                   <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
                 </AddEmployeeButton>
-                
               </AddEmployeeContainer>
-              </AddEmployeeContainerMobile>
+              {/* </AddEmployeeContainerMobile> */}
             </HeadingAndSearchContainer>
             <TableContainer>
               <Table>
@@ -581,9 +451,13 @@ const Emp_list = () => {
                     </Th>
                     {selectedCheck.includes("User") && <Th>USER</Th>}
                     {/* <Th>NAME</Th>  */}
-                    {selectedCheck.includes("Employee Code") && <Th>EMPLOYEE CODE</Th>}
-                    {selectedCheck.includes("Last Login") && <Th>LAST LOGIN</Th> }
-                    {selectedCheck.includes("Status") && <Th>STATUS</Th> }
+                    {selectedCheck.includes("Employee Code") && (
+                      <Th>EMPLOYEE CODE</Th>
+                    )}
+                    {selectedCheck.includes("Last Login") && (
+                      <Th>LAST LOGIN</Th>
+                    )}
+                    {selectedCheck.includes("Status") && <Th>STATUS</Th>}
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -595,12 +469,14 @@ const Emp_list = () => {
                           {" "}
                           <input type="checkbox" />
                         </Td>
-                        {selectedCheck.includes("User") && <Td>
-                          {/* {employee.profileImg && (
+                        {selectedCheck.includes("User") && (
+                          <Td>
+                            {/* {employee.profileImg && (
                   <UserImage src={employee.profileImg} />
                 )} */}
-                          <EmployeeInfo employee={employee} />
-                        </Td>}
+                            <EmployeeInfo employee={employee} />
+                          </Td>
+                        )}
                         {/* <Td> */}
                         {/* <EmployeeInfo employee={employee} />  */}
                         {/* {employee.name} */}
@@ -610,40 +486,57 @@ const Emp_list = () => {
                         {/* </span> */}
                         {/* </Td> */}
 
-                        {selectedCheck.includes("Employee Code") && <Td>{employee._id}</Td>}
-                        {selectedCheck.includes("Last Login") && <Td>
-                          {employee.lastLogin && new Date(employee.lastLogin).toLocaleString(
-                            "en-GB",
-                            {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "2-digit",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            }
-                          ) || "Resend Invite"}
-                        </Td>}
-                        {selectedCheck.includes("Status") && <Td>
-                          {employee.status === 1 ? (
-                            <SuccessBadge>Active</SuccessBadge>
-                          ) : (
-                            <DangerBadge>Inactive</DangerBadge>
-                          )}
-                        </Td>}
-                        {selectedCheck.includes("Actions") &&  <Td>
-                          <IconWrapper>
-                            <MdIcons.MdOutlineModeEditOutline onClick={()=>{setFormData(employee); setShowForm(true)}}
-                              style={{ fontSize: "18px" }}
+                        {selectedCheck.includes("Employee Code") && (
+                          <Td>{employee._id}</Td>
+                        )}
+                        {selectedCheck.includes("Last Login") && (
+                          <Td>
+                            {(employee.lastLogin &&
+                              new Date(employee.lastLogin).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )) ||
+                              "Resend Invite"}
+                          </Td>
+                        )}
+                        {selectedCheck.includes("Status") && (
+                          <Td>
+                            {employee.status === 1 ? (
+                              <SuccessBadge>Active</SuccessBadge>
+                            ) : (
+                              <DangerBadge>Inactive</DangerBadge>
+                            )}
+                          </Td>
+                        )}
+                        {selectedCheck.includes("Actions") && (
+                          <Td>
+                            <IconWrapper>
+                              <MdIcons.MdOutlineModeEditOutline
+                                onClick={() => {
+                                  setFormData(employee);
+                                  setShowForm(true);
+                                }}
+                                style={{ fontSize: "18px" }}
+                              />
+                            </IconWrapper>
+
+                            <GrIcons.GrFormView
+                              onClick={toggleToast}
+                              style={{ fontSize: "18px", cursor: "pointer" }}
                             />
-                          </IconWrapper>
 
-                          <GrIcons.GrFormView onClick={toggleToast} style={{ fontSize: "18px",  cursor: "pointer"  }} />
-
-                          <MdIcons.MdDeleteOutline
-                            style={{ fontSize: "18px", cursor: "pointer" }}
-                            onClick={() => {}}
-                          />
-                        </Td>}
+                            <MdIcons.MdDeleteOutline
+                              style={{ fontSize: "18px", cursor: "pointer" }}
+                              onClick={() => {}}
+                            />
+                          </Td>
+                        )}
                       </Tr>
                     ))}
                   {!employees ||
@@ -661,17 +554,24 @@ const Emp_list = () => {
             </TableContainer>
 
             {employees.length != 0 && totalPages >= 1 && (
-        <PageBar
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      )}
+              <PageBar
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </BoxContainer>
         </div>
       </CenteredContainer>
       {showForm && (
-        <MultiStepForm showForm={showForm} setShowForm={setShowForm} formData={formData} setFormData={setFormData} setMessage={setMessage} setIsDialogOpen={setIsDialogOpen}/>
+        <MultiStepForm
+          showForm={showForm}
+          setShowForm={setShowForm}
+          formData={formData}
+          setFormData={setFormData}
+          setMessage={setMessage}
+          setIsDialogOpen={setIsDialogOpen}
+        />
       )}
     </>
   );

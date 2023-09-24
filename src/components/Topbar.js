@@ -32,7 +32,7 @@ const Nav = styled.div`
 top: 0;
   left: 0;
   right: 0;
-  @media (min-width: 768px) {
+  @media (min-width: 1200px) {
     /* Width for desktop view */
     width: 79.1%;
     top: 2.5%;
@@ -91,6 +91,13 @@ const DropdownContainer = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   width: 30%; /* Make the dropdown 20% wider */
   padding: 10px;
+  @media screen and (max-width: 845px) {
+    /* Adjust properties for desktop view */
+    position: absolute;
+    right: auto;
+    width: 90%; /* Set the width for desktop view */
+  }
+  
 `;
 
 const DropdownGrid = styled.div`
