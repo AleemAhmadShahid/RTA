@@ -51,7 +51,10 @@ const Title = styled.h6`
 
 const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
   const handleDropdownChange = (selectedOption) => {
-    onValueChange(selectedOption.value);
+    console.log(selectedOption, selectedValue);
+    if (selectedOption.label === selectedValue.label)
+      return;
+    onValueChange(selectedOption);
   };
 
   return (
@@ -62,16 +65,13 @@ const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
         <Dropdown
           width={width}
           value={{
-            value: selectedValue,
-            label: selectedValue.toString(),
+            value: selectedValue.value,
+            label: selectedValue.label,
           }}
           onChange={(selectedOption) =>
             handleDropdownChange(selectedOption)
           }
-          options={options.map((option) => ({
-            value: option,
-            label: option.toString(),
-          }))}
+          options={options}
           styles={{
             menu: (provided) => ({
               ...provided,

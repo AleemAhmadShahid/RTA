@@ -211,11 +211,19 @@ const Emp_list = () => {
   const entriesOptions = [5, 10, 20, 50, 100];
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
   const navigate = useNavigate();
-  const [infoBoxData, setInfoBoxData] = useState(123);
+  const [infoBoxData, setInfoBoxData] = useState({});
    const [entriesToShow, setEntriesToShow] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [message, setMessage] = useState();
+
+  const [status, setStatus] = useState({value: {}, label: "Select"}); // Initialize with an empty string
+  const statusOptions = [{value: {}, label: "Select"}, {value: 1, label: "Active"}, {value: 2, label: "Inactive"}];
+  const [role, setRole] = useState({value: {}, label: "Select"});
+  const roleOptions =[{value: {}, label: "Select"}, {value: 1, label: "Active"}, {value: 2, label: "Inactive"}];
+  const [plan, setPlan] = useState({value: {}, label: "Select"});
+  const planOptions = [{value: {}, label: "Select"}, {value: 1, label: "Active"}, {value: 2, label: "Inactive"}];
+
   
 
   useEffect(() => {
@@ -224,19 +232,27 @@ const Emp_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
+    if (typeof status.value !== 'object')
+      params.status = status.value;
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/user", params);
         if (data.status == 401 && (data.error == "Invalid or expired token" || data.error == "No token provided"))
           navigate("/login/");
+        if (data.status == 404)
+        {
+          setEmployees([]);
+          return;
+        }
         setEmployees(data.users);
         setTotalPages(data.totalPages);
+        setInfoBoxData(data.analytics);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm]);
+  }, [currentPage, entriesToShow, searchTerm, status]);
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -297,13 +313,6 @@ const Emp_list = () => {
   const handlePlanChange = (selectedOption) => {
     setPlan(selectedOption); // Update the status state with the selected option's value
   };
-
-  const [status, setStatus] = useState("Select Status"); // Initialize with an empty string
-  const statusOptions = ["Active", "Inactive"];
-  const [role, setRole] = useState("Select Role");
-  const roleOptions = ["Admin", "Developer", "Tester"];
-  const [plan, setPlan] = useState("Select Plan");
-  const planOptions = ["Daily", "Weekly", "Monthly"];
 
   const [showToast, setshowToast] = useState(false);
 
@@ -369,26 +378,26 @@ const Emp_list = () => {
               icon={BiUser}
               // iconColor="blue"
               iconColor="#512da8"
-              data={infoBoxData}
+              data={infoBoxData.totalUsers}
               text="Total Users"
             />
             <InfoBox
               icon={FiUserCheck}
               iconColor="#2ac779"
-              data={infoBoxData}
+              data={infoBoxData.activeUsers}
               text="Active Users"
             />
 
             <InfoBox
               icon={FiUserPlus}
               iconColor="#d32f2f"
-              data={infoBoxData}
+              data={infoBoxData.InActiveUsers}
               text="Inactive Users"
             />
             <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData}
+              data={infoBoxData.pendingInvites}
               text="Pending Invites"
             />
           </CardsContainer>
@@ -651,7 +660,7 @@ const Emp_list = () => {
               </Table>
             </TableContainer>
 
-            {totalPages >= 1 && (
+            {employees.length != 0 && totalPages >= 1 && (
         <PageBar
           currentPage={currentPage}
           totalPages={totalPages}
