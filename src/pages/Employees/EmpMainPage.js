@@ -98,12 +98,14 @@ const CenteredContainer = styled.div`
   border-radius: 5px;
   width: 81.9%; /* Default width */
   // overflow: auto;
-  @media (max-width: 1200px) {
-    width: 84%;
-  }
+  // @media (max-width: 1200px) {
+  //   width: 84%;
+  // }
 
   @media (max-width: 768px) {
-    width: 84%;
+    width: 100%; /* Set width to 100% for mobile view */
+    left: 0;
+    right: 0;
   }
 
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
@@ -145,14 +147,27 @@ const CardsContainer = styled.div`
     margin-right: 0;
   }
 
+  
   @media (max-width: 768px) {
-    flex-direction: column; 
-    & > *{
+    flex-direction: column;
+    & > * {
       margin-right: 0;
       width: 100%;
     }
   }
 `;
+const AddEmployeeContainerMobile = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Adjust margin as needed */
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px; /* Adjust margin as needed */
+  }
+`;
+
 
 const FilterOuterBox = styled.div`
   background: #fff;
@@ -191,13 +206,14 @@ const Emp_list = () => {
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [entriesToShow, setEntriesToShow] = useState(10);
+  
   const entriesOptions = [10, 20, 50, 100];
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
   const navigate = useNavigate();
   const [infoBoxData, setInfoBoxData] = useState(123);
-
+   const [entriesToShow, setEntriesToShow] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  // const entriesToShow = 5; 
   const totalPages = employees
     ? Math.ceil(employees.length / entriesToShow)
     : 0;
@@ -223,6 +239,65 @@ const Emp_list = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [tableEntriesToShow] = useState(5); // Fixed number of entries to show per page
+  // const [employees, setEmployees] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [totalPages, setTotalPages] = useState(0);
+
+  // useEffect(() => {
+  //   const params = {
+  //     page: currentPage,
+  //     pageItems: entriesToShow,
+  //     name: searchTerm,
+  //   };
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await createGetRequest("/api/user", params);
+  //       if (data.status === 401 && data.error === "Invalid or expired token") {
+  //         navigate("/login/");
+  //       }
+  //       setEmployees(data.users);
+  //       setTotalPages(Math.ceil(data.totalCount / entriesToShow));
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [currentPage, entriesToShow, searchTerm]);
+
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  // };
+
+  // // Calculate the range of employees to display for the current page
+  // const startIndex = (currentPage - 1) * entriesToShow;
+  // const endIndex = startIndex + entriesToShow;
+  // const displayedEmployees = employees.slice(startIndex, endIndex);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const openForm = () => {
     setShowForm(true);
@@ -413,6 +488,7 @@ const Emp_list = () => {
                 </div>
               </CreateEmployeeHeading>
               <StyledSearchBar onSearch={setSearchTerm} />
+              <AddEmployeeContainerMobile>
 
               <div style={{ marginRight: "8px" }}>
                 <EntriesDropdown
@@ -512,7 +588,9 @@ const Emp_list = () => {
                 >
                   <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
                 </AddEmployeeButton>
+                
               </AddEmployeeContainer>
+              </AddEmployeeContainerMobile>
             </HeadingAndSearchContainer>
             <TableContainer>
               <Table>
@@ -603,12 +681,12 @@ const Emp_list = () => {
             </TableContainer>
 
             {totalPages >= 1 && (
-              <PageBar
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            )}
+        <PageBar
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
           </BoxContainer>
         </div>
       </CenteredContainer>

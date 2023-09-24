@@ -7,8 +7,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f0f0f0;
-  
+  background-color: #ffff;
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Stack content in mobile view */
+  }
 `;
 
 const RTAHeader = styled.div`
@@ -23,24 +26,35 @@ const RTAHeader = styled.div`
 const LeftPanel = styled.div`
   flex: 2;
   height: 100%;
-  background: #ffff;
+  display: flex;
+  background-color: #ededed;
   overflow: hidden;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    display: none; /* Hide the left panel in mobile view */
+  }
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 450px !important;
+  height: 450px !important;
   object-fit: contain;
+  display: block;
+  margin: auto; /* Center horizontally */
+  background-color: #ededed;
 `;
 
 const RightPanel = styled.div`
   flex: 1;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #ffff;
   display: flex;
   flex-direction: column;
-  align-items: left;
-  justify-content: left;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  width: 100%; /* Ensure full width in mobile view */
 `;
 
 const Title = styled.h2`
@@ -81,7 +95,7 @@ const SendButton = styled.button`
 `;
 
 const CancelButton = styled.button`
-  background-color: #ededed;
+  background-color: #ffff;
   color: #ffa500;
   border: none;
   border-radius: 5px;

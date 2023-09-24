@@ -31,9 +31,9 @@ const InfoBoxContainer = styled.div`
     /* Adjust width for smaller screens */
     width: 80%;
   }
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
     /* Adjust width for smaller screens */
-    width: 100%;
+    width: 50%;
   }
 
   /* Add more media queries as needed */
@@ -71,10 +71,15 @@ const InfoText = styled.div`
   font-size: 14px;
   color: #333; /* Adjust the text color as needed */
 `;
+const InfoBoxItem = styled.div`
+  flex: 0 0 calc(50% - 20px); /* Set 2 cards per line with spacing */
+  margin: 10px; /* Add margin to create spacing between cards */
+`;
 
 const InfoBox = ({ top, icon: Icon, iconColor, data, text }) => {
   return (
     <BoxContainer>
+      
       <InfoBoxContainer top={top}>
         <div>
           <InfoNumbers>{data}</InfoNumbers>

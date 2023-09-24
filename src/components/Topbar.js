@@ -26,10 +26,19 @@ const Nav = styled.div`
   color: #000000;
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   position: fixed;
-  top: 2.5%;
+  
   //  right: 12%;
-  width: 79.1%;
-  left:273px;
+  width: 100%;
+top: 0;
+  left: 0;
+  right: 0;
+  @media (min-width: 768px) {
+    /* Width for desktop view */
+    width: 79.1%;
+    top: 2.5%;
+    left:273px;
+  }
+  
   border-radius: 5px;
   // overflow: auto;
 `;
