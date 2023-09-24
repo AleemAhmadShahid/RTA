@@ -9,6 +9,7 @@ import {
 } from "./MultiStepFormStyling";
 import { StyledErrorH6 } from "../Login";
 import { styled } from "styled-components";
+import { createPostRequest } from "../../global/helper";
 
 const H6 = styled.h6`
   margin-top: 10px; /* Add top margin */
@@ -72,13 +73,13 @@ const StepOne = ({ formData, errors, handleChange }) => {
       <FormGroup>
   <UploadContainer>
     <UploadBox>
-      {formData.picture ? (
+      {formData.profileImg ? (
         <img
-          src={formData.picture}
+          src={formData.profileImg}
           alt="Uploaded"
           style={{
-            maxWidth: "50%",
-            maxHeight: "50%",
+            width: "90px",
+            height: "90px",
           }} 
         />
       ) : (
@@ -90,9 +91,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
         Upload Picture
         <input
           type="file"
-          onChange={(e) => {
-            const selectedFile = e.target.files[0];
-          }}
+          onChange={(e) => {}}               
         />
       </PictureUploadButton>
       <P>Allowed max size of 10MB</P>
@@ -124,11 +123,21 @@ const StepOne = ({ formData, errors, handleChange }) => {
       </FormGroup>
       {errors.email && <StyledErrorH6>{errors.email}</StyledErrorH6>}
       <FormGroup>
+        <FormLabel>Password</FormLabel>
+        <FormInput
+          type="password"
+          value={formData.password || ""}
+          placeholder={""}
+          onChange={(e) => handleChange("password", e.target.value, true)}
+        />
+      </FormGroup>
+      {errors.email && <StyledErrorH6>{errors.email}</StyledErrorH6>}
+      <FormGroup>
         <FormLabel>Phone Number</FormLabel>
         <FormInput
           type="text"
-          value={formData.phoneNumber || ""}
-          onChange={(e) => handleChange("phoneNumber", e.target.value)}
+          value={formData?.phoneNo?.[0] || ""}
+          onChange={(e) => handleChange("phoneNo.0", e.target.value)}
           placeholder={" +92"}
         />
       </FormGroup>
@@ -136,8 +145,8 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>Date of Birth</FormLabel>
         <FormInput
           type="date"
-          value={formData.dob || ""}
-          onChange={(e) => handleChange("dob", e.target.value)}
+          value={formData.dateOfBirth || ""}
+          onChange={(e) => handleChange("dateOfBirth", e.target.value)}
         />
       </FormGroup>
       <FormGroup>
@@ -156,6 +165,13 @@ const StepOne = ({ formData, errors, handleChange }) => {
           <FormHalfInput type="text" value={formData.address && formData.address.zipCode || ""}
           onChange={(e) => handleChange("address.zipCode", e.target.value)} placeholder=" Zip Code" />
         </div>
+        <FormInput
+          style={{ marginTop: "13px" }}
+          type="text"
+          value={(formData.address && formData.address.country) || ""}
+          onChange={(e) => handleChange("address.country", e.target.value)}
+          placeholder={" Country"}
+        />
       </FormGroup>
 
       {/* <FormButton>Next</FormButton> */}

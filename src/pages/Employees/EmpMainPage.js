@@ -206,17 +206,17 @@ const Emp_list = () => {
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
-  
-  const entriesOptions = [10, 20, 50, 100];
+  const [formData, setFormData] = useState({});
+
+  const entriesOptions = [5, 10, 20, 50, 100];
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
   const navigate = useNavigate();
   const [infoBoxData, setInfoBoxData] = useState(123);
    const [entriesToShow, setEntriesToShow] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  // const entriesToShow = 5; 
-  const totalPages = employees
-    ? Math.ceil(employees.length / entriesToShow)
-    : 0;
+  const [totalPages, setTotalPages] = useState(1);
+  const [message, setMessage] = useState();
+  
 
   useEffect(() => {
     const params = {
@@ -227,9 +227,10 @@ const Emp_list = () => {
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/user", params);
-        if (data.status == 401 && data.error == "Invalid or expired token")
+        if (data.status == 401 && (data.error == "Invalid or expired token" || data.error == "No token provided"))
           navigate("/login/");
         setEmployees(data.users);
+        setTotalPages(data.totalPages);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -275,30 +276,6 @@ const Emp_list = () => {
   // const startIndex = (currentPage - 1) * entriesToShow;
   // const endIndex = startIndex + entriesToShow;
   // const displayedEmployees = employees.slice(startIndex, endIndex);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const openForm = () => {
     setShowForm(true);
   };
@@ -330,8 +307,8 @@ const Emp_list = () => {
 
   const [showToast, setshowToast] = useState(false);
 
-  const [selectedCheck, setSelectedCheck] = useState([]); // Initialize with an empty string or an appropriate default value
-  const CheckOptions = ["1", "2", "3", "4"];
+  const [selectedCheck, setSelectedCheck] = useState(["User", "Employee Code", "Last Login", "Status", "Actions"]);
+  const CheckOptions = ["User", "Employee Code", "Last Login", "Status", "Actions"];
   const handleCheckChange = (optionLabel) => {
     let selectedCheckCopy = [...selectedCheck];
     if (!selectedCheckCopy.includes(optionLabel))
@@ -363,12 +340,6 @@ const Emp_list = () => {
   };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleDeleteIconClick = (event) => {
-    const rect = event.target.getBoundingClientRect();
-
-    setIsDialogOpen(!isDialogOpen);
-  };
-
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
   };
@@ -377,7 +348,7 @@ const Emp_list = () => {
     <>
       {/* for error ToastDialogBox  */}
       <ErrorDialog
-        message="You clicked the Button!"
+        message={message}
         show={isDialogOpen}
         handleClose={handleCloseDialog}
       />{" "}
@@ -599,12 +570,12 @@ const Emp_list = () => {
                     <Th>
                       <input type="checkbox" />
                     </Th>
-                    <Th>USER</Th>
+                    {selectedCheck.includes("User") && <Th>USER</Th>}
                     {/* <Th>NAME</Th>  */}
-                    <Th>EMPLOYEE CODE</Th>
-                    <Th>LAST LOGIN</Th>
-                    <Th>STATUS</Th>
-                    <Th>ACTION</Th>
+                    {selectedCheck.includes("Employee Code") && <Th>EMPLOYEE CODE</Th>}
+                    {selectedCheck.includes("Last Login") && <Th>LAST LOGIN</Th> }
+                    {selectedCheck.includes("Status") && <Th>STATUS</Th> }
+                    {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
                 <tbody>
@@ -615,12 +586,12 @@ const Emp_list = () => {
                           {" "}
                           <input type="checkbox" />
                         </Td>
-                        <Td>
+                        {selectedCheck.includes("User") && <Td>
                           {/* {employee.profileImg && (
                   <UserImage src={employee.profileImg} />
                 )} */}
                           <EmployeeInfo employee={employee} />
-                        </Td>
+                        </Td>}
                         {/* <Td> */}
                         {/* <EmployeeInfo employee={employee} />  */}
                         {/* {employee.name} */}
@@ -630,8 +601,8 @@ const Emp_list = () => {
                         {/* </span> */}
                         {/* </Td> */}
 
-                        <Td>{employee._id}</Td>
-                        <Td>
+                        {selectedCheck.includes("Employee Code") && <Td>{employee._id}</Td>}
+                        {selectedCheck.includes("Last Login") && <Td>
                           {employee.lastLogin && new Date(employee.lastLogin).toLocaleString(
                             "en-GB",
                             {
@@ -642,28 +613,28 @@ const Emp_list = () => {
                               minute: "2-digit",
                             }
                           ) || "Resend Invite"}
-                        </Td>
-                        <Td>
+                        </Td>}
+                        {selectedCheck.includes("Status") && <Td>
                           {employee.status === 1 ? (
                             <SuccessBadge>Active</SuccessBadge>
                           ) : (
                             <DangerBadge>Inactive</DangerBadge>
                           )}
-                        </Td>
-                        <Td>
-                          <IconWrapper onClick={toggleToast}>
-                            <MdIcons.MdOutlineModeEditOutline
+                        </Td>}
+                        {selectedCheck.includes("Actions") &&  <Td>
+                          <IconWrapper>
+                            <MdIcons.MdOutlineModeEditOutline onClick={()=>{setFormData(employee); setShowForm(true)}}
                               style={{ fontSize: "18px" }}
                             />
                           </IconWrapper>
 
-                          <GrIcons.GrFormView style={{ fontSize: "18px" }} />
+                          <GrIcons.GrFormView onClick={toggleToast} style={{ fontSize: "18px",  cursor: "pointer"  }} />
 
                           <MdIcons.MdDeleteOutline
                             style={{ fontSize: "18px", cursor: "pointer" }}
-                            onClick={handleDeleteIconClick}
+                            onClick={() => {}}
                           />
-                        </Td>
+                        </Td>}
                       </Tr>
                     ))}
                   {!employees ||
@@ -691,7 +662,7 @@ const Emp_list = () => {
         </div>
       </CenteredContainer>
       {showForm && (
-        <MultiStepForm showForm={showForm} setShowForm={setShowForm} />
+        <MultiStepForm showForm={showForm} setShowForm={setShowForm} formData={formData} setFormData={setFormData} setMessage={setMessage} setIsDialogOpen={setIsDialogOpen}/>
       )}
     </>
   );

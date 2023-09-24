@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   FormStep,
@@ -79,19 +79,25 @@ const AddButton = styled(FormButton)`
 `;
 
 const StepThree = ({ formData, handleChange }) => {
-  const [qualification, setQualifications] = useState([]); // State to store the qualification
-  const [experience, setExperience] = useState([]); // State to store the qualification
+  const [qualification, setQualifications] = useState([]); 
+  const [experience, setExperience] = useState([]); 
+
+  useEffect(() => {
+    setQualifications(formData.qualification);
+    setExperience(formData.experience);
+  },[]);
 
   const addItem = (setFunction, state) => {
-    // Add a new item to the qualification array with default values
-    setFunction([...state, { address1: '', cost: 0 }]);
+    setFunction([...state, state.length]);
   };
 
-  const removeItem = (index, setFunction,state) => {
-    // Remove the item at the specified index
+  const removeItem = (index, setFunction,state, key) => {
     const newState = [...state];
     newState.splice(index, 1);
     setFunction(newState);
+    const newData = [...formData[key]];
+    newData.splice(index, 1);
+    handleChange(key, newData);
   };
 
   return (
@@ -102,41 +108,29 @@ const StepThree = ({ formData, handleChange }) => {
         <BoxContainer>
           {qualification.map((item, index) => (
             <BorderBox key={index}>
-              <CloseButton onClick={() => removeItem(index, setQualifications, qualification)}>×</CloseButton>
+              <CloseButton onClick={() => removeItem(index, setQualifications, qualification, "qualification")}>×</CloseButton>
               <div>
                 <FormLabel>Level</FormLabel>
                 <FormInput
                   type="text"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.qualification?.[index]?.level || ''}
+                  onChange={(e) => handleChange(`qualification.${index}.level`, e.target.value)}
                 />
               </div>
               <div>
                 <FormLabel>Degree</FormLabel>
                 <FormInput
                   type="text"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.qualification?.[index]?.degree || ''}
+                  onChange={(e) => handleChange(`qualification.${index}.degree`, e.target.value)}
                 />
               </div>
               <div>
                 <FormLabel>Instituion</FormLabel>
                 <FormInput
                   type="text"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.qualification?.[index]?.institution || ''}
+                  onChange={(e) => handleChange(`qualification.${index}.institution`, e.target.value)}
                 />
               </div>
 
@@ -144,12 +138,8 @@ const StepThree = ({ formData, handleChange }) => {
                 <FormLabel>Year</FormLabel>
                 <FormInput
                   type="Number"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.qualification?.[index]?.year || ''}
+                  onChange={(e) => handleChange(`qualification.${index}.year`, e.target.value)}
                 />
               </div>
               
@@ -163,41 +153,29 @@ const StepThree = ({ formData, handleChange }) => {
         <BoxContainer>
           {experience.map((item, index) => (
             <BorderBox key={index}>
-              <CloseButton onClick={() => removeItem(index, setExperience, experience)}>×</CloseButton>
+              <CloseButton onClick={() => removeItem(index, setExperience, experience, "experience")}>×</CloseButton>
               <div>
                 <FormLabel>Company</FormLabel>
                 <FormInput
                   type="text"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.experience?.[index]?.company || ''}
+                  onChange={(e) => handleChange(`experience.${index}.company`, e.target.value)}
                 />
               </div>
               <div>
                 <FormLabel>Job Title</FormLabel>
                 <FormInput
                   type="text"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.experience?.[index]?.jobTitle || ''}
+                  onChange={(e) => handleChange(`experience.${index}.jobTitle`, e.target.value)}
                 />
               </div>
               <div>
                 <FormLabel>Start Date</FormLabel>
                 <FormInput
                   type="Date"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.experience?.[index]?.startDate || ''}
+                  onChange={(e) => handleChange(`experience.${index}.startDate`, e.target.value)}
                 />
               </div>
 
@@ -205,12 +183,8 @@ const StepThree = ({ formData, handleChange }) => {
                 <FormLabel>End Date</FormLabel>
                 <FormInput
                   type="Date"
-                  value={item.address1 || ''}
-                  onChange={(e) => {
-                    const newQualifications = [...qualification];
-                    newQualifications[index].address1 = e.target.value;
-                    setQualifications(newQualifications);
-                  }}
+                  value={formData?.experience?.[index]?.endDate || ''}
+                  onChange={(e) => handleChange(`experience.${index}.endDate`, e.target.value)}
                 />
               </div>
               

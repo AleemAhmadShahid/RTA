@@ -14,6 +14,21 @@ const createPostRequest = async (formData , path) =>
 
 }
 
+const createPutRequest = async (formData , path) =>
+{
+    let response  = await fetch(BACKEND_URL + path, {
+        method: 'PUT',
+        headers: setHeaders(),
+        body: JSON.stringify(formData),
+    });
+    const status = response.status;
+    response = await response.json();
+    response.status = status;
+    return response;
+
+}
+
+
 const createGetRequest = async (path,params) => 
 {
   const baseUrl = BACKEND_URL + path;
@@ -66,4 +81,4 @@ const setHeaders = () =>
   return headers;
 }
 
-export { createPostRequest, createGetRequest};
+export { createPostRequest, createGetRequest, createPutRequest};

@@ -22,11 +22,11 @@ const StepTwo = ({ formData, handleChange }) => {
       {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}> */}
         <div style={{ flex: 1 }}>
           <FormGroup>
-            <FormLabel>Date of Birth</FormLabel>
+            <FormLabel>Date of Joining</FormLabel>
             <FormInput
               type="date"
-              value={formData.dob || ''}
-              onChange={(e) => handleChange('dob', e.target.value)}
+              value={formData.dateOfJoining || ''}
+              onChange={(e) => handleChange('dateOfJoining', e.target.value)}
             />
           </FormGroup>
           
@@ -34,15 +34,15 @@ const StepTwo = ({ formData, handleChange }) => {
         </div>
         {/* <div style={{ flex: 1, marginLeft: '20px' }}> Add marginLeft for space */}
           <FormGroup>
-            <FormLabel>Phone Number</FormLabel>
+            <FormLabel>Role</FormLabel>
             <FormInput
-              type="tel"
+              type="text"
               value={formData.phoneNumber || ''}
               onChange={(e) => handleChange('phoneNumber', e.target.value)}
             />
           </FormGroup>
          
-          <FormRadioGroup>
+          {/* <FormRadioGroup>
             <FormRadioLabel>Gender</FormRadioLabel>
             <FormRadioLabel>
               <FormRadioInput
@@ -64,7 +64,7 @@ const StepTwo = ({ formData, handleChange }) => {
               />
               Female
             </FormRadioLabel>
-          </FormRadioGroup>
+          </FormRadioGroup> */}
         {/* </div> */}
       {/* </div> */}
       {/* <FormButton>Next</FormButton> */}

@@ -9,7 +9,7 @@ import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import styled from "styled-components";
-import { createPostRequest } from "../../global/helper";
+import { createPostRequest, createPutRequest } from "../../global/helper";
 
 
 
@@ -123,9 +123,9 @@ const BottomButtonsContainer = styled.div`
 `;
 
 
-const MultiStepForm = ({ showForm, setShowForm }) => {
+const MultiStepForm = ({ showForm, setShowForm, formData, setFormData, setMessage, setIsDialogOpen }) => {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({});
+  
   const [errors, setErrors] = useState({});
 
   const nextStep = () => setStep(step + 1);
@@ -137,20 +137,27 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
     setError = false,
     data = { ...formData }
   ) => {
-    const setField = (obj, [head, ...rest], val) =>
-      rest.length
-        ? { ...obj, [head]: setField(obj[head] || {}, rest, val) }
-        : { ...obj, [head]: val };
-
-    setFormData(setField(data, field.split("."), value));
-
-    if (setError) {
-      if (value.trim() === "")
-        setErrors({ ...errors, [field]: "This field is required" });
-      else setErrors({ ...errors, [field]: "" });
-    }
+    console.log(formData);
+    const setField = (obj, keys, val) => 
+    {
+      if (keys.length === 1)   
+        obj[keys[0]] = val;
+      else 
+      {
+        const [head, ...rest] = keys;
+        if (!obj[head]) 
+          obj[head] = isNaN(parseInt(rest[0])) ? {} : [];
+        obj[head] = setField(obj[head], rest, val);
+      }
+      return obj;
+    };
+  
+    const fieldParts = field.split(".");
+    data = setField(data, fieldParts, value);
+    setFormData(data);
   };
   const closeForm = () => {
+    setFormData({});
     setShowForm(false);
   };
 
@@ -173,10 +180,23 @@ const MultiStepForm = ({ showForm, setShowForm }) => {
     // });
     if (required)
       return;
-    if(formData._id == undefined)
-    {
-      //const response = await createPostRequest(formData,'/api/user'); 
-    }
+    //handleChange("profileImg", /\/([^/?]+)\?/.test(formData.profileImg) ? formData.profileImg.match(/\/([^/?]+)\?/)[1] : formData.profileImg);
+    // if(formData._id == undefined)
+    // {
+    //   const response = await createPostRequest(formData,'/api/user'); 
+    //   if (response.status == 201)
+    //     handleChange("_id", response.user._id);
+    //   else 
+    //   {
+    //     setMessage(response.error);
+    //     setIsDialogOpen(true);
+    //     return;
+    //   }
+    // }
+    // else
+    // {
+    //   const response = await createPutRequest(formData,`/api/user/${formData._id}/`); 
+    // }
     if (typeof nextStep != "function") closeForm();
     else nextStep();
   };
