@@ -95,25 +95,25 @@ const MultiStepForm = ({
     copyFormData.profileImg =  /\/([^/?]+)\?/.test(formData.profileImg) ? formData.profileImg.match(/\/([^/?]+)\?/)[1] : formData.profileImg;
     if(copyFormData._id == undefined)
     {
-      // const response = await createPostRequest(copyFormData,'/api/user');
-      // if (response.status == 201)
-      // {
-      //    handleChange("_id", response.user._id);
-      //    setReload(!reload);
-      //    setMessage("Operation Successful");
-      // }
-      // else
-      // {
-      //   setMessage(response.error);
-      //   setIsDialogOpen(true);
-      //   return;    
-      // }
+      const response = await createPostRequest(copyFormData,'/api/user');
+      if (response.status == 201)
+      {
+         handleChange("_id", response.user._id);
+         setReload(!reload);
+         setMessage("Operation Successful");
+      }
+      else
+      {
+        setMessage(response.error);
+        setIsDialogOpen(true);
+        return;    
+      }
     }
     else
     {
-      // const response = await createPutRequest(copyFormData,`/api/user/${formData._id}/`);
-      // setMessage("Operation Successful");
-      // setReload(!reload);
+      const response = await createPutRequest(copyFormData,`/api/user/${formData._id}/`);
+      setMessage("Operation Successful");
+      setReload(!reload);
     }
     if (typeof nextStep != "function") closeForm("anything");
     else nextStep();
