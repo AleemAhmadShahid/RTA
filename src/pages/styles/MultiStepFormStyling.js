@@ -335,7 +335,7 @@ export const Step3Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: 380px; /* Set a max height for scrollability */
+  max-height: 500px; /* Set a max height for scrollability */
 `;
 
 export const BoxStep3Container = styled.div`

@@ -186,7 +186,7 @@ export const CenteredContainer = styled.div`
 `;
 
 export const EntriesDropdown = styled(Select)`
-  width: 150px;
+  width: ${(props) => (props.width ? props.width : '150px')};
   margin-right: 8px;
 
   .select__control {

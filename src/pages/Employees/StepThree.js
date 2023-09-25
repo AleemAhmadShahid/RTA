@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   FormStep,
-  
+  FormGroup,
   FormInput,
-  
+  PictureUploadButton,
   FormLabel,
   Step3Container,
   BoxStep3Container,
@@ -13,6 +13,10 @@ import {
   Step3AddButton,
   H6,
 } from "../styles/MultiStepFormStyling";
+import {
+  EntriesDropdown,
+  dropDownStyle
+  } from "../styles/TableStyling";
 
 const StepThree = ({ formData, handleChange }) => {
   const [qualification, setQualifications] = useState([]);
@@ -23,11 +27,11 @@ const StepThree = ({ formData, handleChange }) => {
   // },[]);
   useEffect(() => {
     // Check if formData.qualification and formData.experience are defined
-    if (formData && formData.qualification && formData.experience) {
+    if (formData && (formData.qualification && formData.experience)) {
       setQualifications(formData.qualification);
       setExperience(formData.experience);
     }
-  }, [formData]);
+  }, []);
 
   const addItem = (setFunction, state) => {
     setFunction([...state, state.length]);
@@ -57,8 +61,8 @@ const StepThree = ({ formData, handleChange }) => {
   return (
     <FormStep active>
       <H6>Fill in the details so that we can get in contact with you</H6>
+      <FormLabel>Qualification</FormLabel>
       <Step3Container>
-        <FormLabel>Qualification</FormLabel>
         <BoxStep3Container>
           {qualification.map((item, index) => (
             <Step3BorderBox key={index}>
@@ -74,17 +78,38 @@ const StepThree = ({ formData, handleChange }) => {
               >
                 ×
               </Step3CloseButton>
-              <div>
+
+              <FormGroup>
                 <FormLabel>Level</FormLabel>
-                <FormInput
+                {/* <FormInput
                   type="text"
                   value={formData?.qualification?.[index]?.level || ""}
                   onChange={(e) =>
                     handleChange(`qualification.${index}.level`, e.target.value)
+                  } />*/}
+                  <EntriesDropdown
+                    width="100%"
+                  value={formData?.qualification?.[index]?.level 
+                    && {label: formData?.qualification?.[index]?.level, value: formData?.qualification?.[index]?.level}
+                    || {label: "Bachelors", value: "Bachelors"}}
+                  onChange={(selectedOption) =>{
+                      handleChange(
+                        `qualification.${index}.level`,
+                        selectedOption.value
+                      );
+                    }
                   }
+                  options={[
+                    {label: "Bachelors", value: "Bachelors"},
+                    {label: "Masters", value: "Masters"},
+                    {label: "PhD", value: "PhD"},
+                  ]}
+                  styles={dropDownStyle}
                 />
-              </div>
-              <div>
+                
+                </FormGroup>
+
+                <FormGroup>
                 <FormLabel>Degree</FormLabel>
                 <FormInput
                   type="text"
@@ -96,8 +121,9 @@ const StepThree = ({ formData, handleChange }) => {
                     )
                   }
                 />
-              </div>
-              <div>
+              </FormGroup>
+
+              <FormGroup>
                 <FormLabel>Instituion</FormLabel>
                 <FormInput
                   type="text"
@@ -109,9 +135,9 @@ const StepThree = ({ formData, handleChange }) => {
                     )
                   }
                 />
-              </div>
+              </FormGroup>
 
-              <div>
+              <FormGroup>
                 <FormLabel>Year</FormLabel>
                 <FormInput
                   type="Number"
@@ -120,7 +146,15 @@ const StepThree = ({ formData, handleChange }) => {
                     handleChange(`qualification.${index}.year`, e.target.value)
                   }
                 />
-              </div>
+              </FormGroup>
+
+              <FormGroup>
+                <PictureUploadButton>
+                  Upload Document
+                  <input type="file" onChange={(e) => {}} />
+                </PictureUploadButton>
+              </FormGroup>
+
             </Step3BorderBox>
           ))}
         </BoxStep3Container>
@@ -130,8 +164,8 @@ const StepThree = ({ formData, handleChange }) => {
           Add Qualification
         </Step3AddButton>
       </Step3Container>
+      <FormLabel>Experience</FormLabel>
       <Step3Container>
-        <FormLabel>Experience</FormLabel>
         <BoxStep3Container>
           {experience.map((item, index) => (
             <Step3BorderBox key={index}>
@@ -142,7 +176,8 @@ const StepThree = ({ formData, handleChange }) => {
               >
                 ×
               </Step3CloseButton>
-              <div>
+              
+              <FormGroup>
                 <FormLabel>Company</FormLabel>
                 <FormInput
                   type="text"
@@ -151,8 +186,9 @@ const StepThree = ({ formData, handleChange }) => {
                     handleChange(`experience.${index}.company`, e.target.value)
                   }
                 />
-              </div>
-              <div>
+              </FormGroup>
+              
+              <FormGroup>
                 <FormLabel>Job Title</FormLabel>
                 <FormInput
                   type="text"
@@ -161,8 +197,9 @@ const StepThree = ({ formData, handleChange }) => {
                     handleChange(`experience.${index}.jobTitle`, e.target.value)
                   }
                 />
-              </div>
-              <div>
+               </FormGroup>
+              
+              <FormGroup>
                 <FormLabel>Start Date</FormLabel>
                 <FormInput
                   type="Date"
@@ -174,9 +211,9 @@ const StepThree = ({ formData, handleChange }) => {
                     )
                   }
                 />
-              </div>
-
-              <div>
+               </FormGroup>
+              
+              <FormGroup>
                 <FormLabel>End Date</FormLabel>
                 <FormInput
                   type="Date"
@@ -185,7 +222,15 @@ const StepThree = ({ formData, handleChange }) => {
                     handleChange(`experience.${index}.endDate`, e.target.value)
                   }
                 />
-              </div>
+              </FormGroup>
+
+              <FormGroup>
+                <PictureUploadButton>
+                  Upload Document
+                  <input type="file" onChange={(e) => {}} />
+                </PictureUploadButton>
+              </FormGroup>
+              
             </Step3BorderBox>
           ))}
         </BoxStep3Container>

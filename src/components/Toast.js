@@ -4,18 +4,19 @@ import styled from "styled-components";
 const DialogBoxContainer = styled.div`
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Green shadow for the box */
   width: 190px;
+  height: 40px;
   padding: 5px;
   display: flex; /* Use flexbox layout */
   align-items: center; /* Center items vertically */
   justify-content: center; /* Center items horizontally */
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
 `;
 const Checkmark = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background-color: green;
+  background-color: #32CD32;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,6 +27,7 @@ const Checkmark = styled.div`
 
 const Text = styled.div`
   font-size: 14px;
+  color: #6e6b7b;
 `;
 export const DialogOverlay = styled.div`
    position: absolute;
@@ -37,11 +39,11 @@ export const DialogOverlay = styled.div`
   z-index: 30px;
 `;
 
-const DialogBox = () => {
+const DialogBox = ({message}) => {
   return (
     <DialogBoxContainer>
       <Checkmark>&#10004;</Checkmark>
-      <Text>Successfully Toasted</Text>
+      <Text>{message || "Successfully Toasted"}</Text>
     </DialogBoxContainer>
   );
 };

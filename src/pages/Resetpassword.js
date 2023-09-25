@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FormLabel } from "./styles/MultiStepFormStyling";
 import { FiEye, FiEyeOff } from "react-icons/fi"; // Import the eye icons from react-icons
+import { useParams } from 'react-router-dom';
+import { createPostRequest } from "../global/helper";
+import ErrorDialog from "../components/ErrorDialog";
 
 const Container = styled.div`
   display: flex;
@@ -131,11 +134,26 @@ const H6 = styled.h6`
 `;
 
 const ResetPassword = () => {
+  const { id } = useParams();
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("Success");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const sendResetRequest = async () =>
+  {
+    const response = await createPostRequest({password},`/api/user/${id}/setupPassword`);
+    if (response.status !== 200)
+      setTitle("Error");
+    setMessage(response.message || response.error);
+    setIsDialogOpen(true);
+  }
+
 
   return (
     <Container>
@@ -144,6 +162,11 @@ const ResetPassword = () => {
         <Image src="/Forgetpass.jpg" alt="Forget Password" />
       </LeftPanel>
       <RightPanel>
+        <ErrorDialog
+          title={title}
+          message={message}
+          show={isDialogOpen}
+          handleClose={() => setIsDialogOpen(false)}/>
         <Box>
           <Title>Reset Password?🔒</Title>
           <H6>Your new password must be different from previously used passwords</H6>
@@ -153,6 +176,7 @@ const ResetPassword = () => {
               <Input
                 type={showPassword ? "text" : "password"}
                 placeholder="New Password"
+                onChange={(e)=>setPassword(e.target.value)}
               />
               <PasswordToggle onClick={togglePasswordVisibility}>
                 {showPassword ? <FiEye />:<FiEyeOff />} {/* Use React Icons here */}
@@ -172,7 +196,7 @@ const ResetPassword = () => {
             </div>
           </InputContainer>
           <ButtonContainer>
-            <SendButton>Set New Password</SendButton>
+            <SendButton onClick={sendResetRequest}>Set New Password</SendButton>
             <CancelButton>&lt; Back to Login</CancelButton>
           </ButtonContainer>
         </Box>

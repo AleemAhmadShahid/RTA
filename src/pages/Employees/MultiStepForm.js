@@ -33,6 +33,9 @@ const MultiStepForm = ({
   setFormData,
   setMessage,
   setIsDialogOpen,
+  setshowToast,
+  reload,
+  setReload
 }) => {
   const [step, setStep] = useState(1);
 
@@ -62,9 +65,12 @@ const MultiStepForm = ({
     data = setField(data, fieldParts, value);
     setFormData(data);
   };
-  const closeForm = () => {
+  const closeForm = (message) => {
     setFormData({});
     setShowForm(false);
+    if (typeof message != "object")
+      setshowToast(true);
+    setTimeout(() => setshowToast(false), 2000);
   };
 
   const openForm = () => {
@@ -85,24 +91,31 @@ const MultiStepForm = ({
     //   }
     // });
     if (required) return;
-    //handleChange("profileImg", /\/([^/?]+)\?/.test(formData.profileImg) ? formData.profileImg.match(/\/([^/?]+)\?/)[1] : formData.profileImg);
-    // if(formData._id == undefined)
-    // {
-    //   const response = await createPostRequest(formData,'/api/user');
-    //   if (response.status == 201)
-    //     handleChange("_id", response.user._id);
-    //   else
-    //   {
-    //     setMessage(response.error);
-    //     setIsDialogOpen(true);
-    //     return;
-    //   }
-    // }
-    // else
-    // {
-    //   const response = await createPutRequest(formData,`/api/user/${formData._id}/`);
-    // }
-    if (typeof nextStep != "function") closeForm();
+    const copyFormData = {...formData};
+    copyFormData.profileImg =  /\/([^/?]+)\?/.test(formData.profileImg) ? formData.profileImg.match(/\/([^/?]+)\?/)[1] : formData.profileImg;
+    if(copyFormData._id == undefined)
+    {
+      // const response = await createPostRequest(copyFormData,'/api/user');
+      // if (response.status == 201)
+      // {
+      //    handleChange("_id", response.user._id);
+      //    setReload(!reload);
+      //    setMessage("Operation Successful");
+      // }
+      // else
+      // {
+      //   setMessage(response.error);
+      //   setIsDialogOpen(true);
+      //   return;    
+      // }
+    }
+    else
+    {
+      // const response = await createPutRequest(copyFormData,`/api/user/${formData._id}/`);
+      // setMessage("Operation Successful");
+      // setReload(!reload);
+    }
+    if (typeof nextStep != "function") closeForm("anything");
     else nextStep();
   };
   const renderStep = () => {
@@ -136,7 +149,7 @@ const MultiStepForm = ({
           </CloseButton></CloseButtonContainer> </HeaderContainer> */}
           <ModalContainer>
             <HeaderContainer>
-              <Heading>Create a company</Heading>
+              <Heading>Create User</Heading>
               <CloseButtonContainer>
                 <CloseButton onClick={closeForm} className="close-button">
                   &#10005;

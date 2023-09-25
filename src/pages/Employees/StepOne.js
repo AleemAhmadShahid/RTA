@@ -94,7 +94,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>Date of Birth</FormLabel>
         <FormInput
           type="date"
-          value={formData.dateOfBirth || ""}
+          value={formData.dateOfBirth && formData.dateOfBirth.split('T')[0] || ""}
           onChange={(e) => handleChange("dateOfBirth", e.target.value)}
         />
       </FormGroup>

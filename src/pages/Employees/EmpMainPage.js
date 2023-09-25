@@ -52,46 +52,52 @@ import {
 } from "../styles/TableStyling";
 
 const Emp_list = () => {
+  const entriesOptions = [5, 10, 20, 50, 100];
+  const statusOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Inactive" },
+  ];
+  const planOptions = [
+    { value: {}, label: "Select" },
+  ];
+  const exportOptions = [
+    { label: "Print", icon: <FaPrint /> },
+    { label: "CSV", icon: <FaFileCsv /> },
+    { label: "Excel", icon: <FaFileExcel /> },
+    { label: "PDF", icon: <FaFilePdf /> },
+    { label: "Copy", icon: <FaCopy /> },
+  ];
+
+  const navigate = useNavigate();
+
+
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
-
-  const entriesOptions = [5, 10, 20, 50, 100];
-  const [isOptionsOpen, setIsOptionsOpen] = useState(true);
-  const navigate = useNavigate();
+  const [reload, setReload] = useState(false);
+  
   const [infoBoxData, setInfoBoxData] = useState({});
   const [entriesToShow, setEntriesToShow] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [message, setMessage] = useState();
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" }); // Initialize with an empty string
-  const statusOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
+  const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [role, setRole] = useState({ value: {}, label: "Select" });
-  const roleOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
+  const [roleOptions, setRoleOptions] = useState({ value: {}, label: "Select" });
   const [plan, setPlan] = useState({ value: {}, label: "Select" });
-  const planOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
 
   useEffect(() => {
+    console.log(role);
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
       name: searchTerm,
     };
     if (typeof status.value !== "object") params.status = status.value;
+    if (typeof role.value !== "object") params.roles = role.value;
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/user", params);
@@ -111,48 +117,23 @@ const Emp_list = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      try {
+        const data = await createGetRequest("/api/role");
+        if (data.status == 200)
+        {
+          const roles = data.roles.map((role) => ({ label: role.name, value: role._id }));
+          setRoleOptions([{ value: {}, label: "Select" },...roles]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status]);
+  }, [currentPage, entriesToShow, searchTerm, status, role, reload]);
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [tableEntriesToShow] = useState(5); // Fixed number of entries to show per page
-  // const [employees, setEmployees] = useState([]);
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [totalPages, setTotalPages] = useState(0);
-
-  // useEffect(() => {
-  //   const params = {
-  //     page: currentPage,
-  //     pageItems: entriesToShow,
-  //     name: searchTerm,
-  //   };
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await createGetRequest("/api/user", params);
-  //       if (data.status === 401 && data.error === "Invalid or expired token") {
-  //         navigate("/login/");
-  //       }
-  //       setEmployees(data.users);
-  //       setTotalPages(Math.ceil(data.totalCount / entriesToShow));
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [currentPage, entriesToShow, searchTerm]);
-
-  // const handlePageChange = (page) => {
-  //   setCurrentPage(page);
-  // };
-
-  // // Calculate the range of employees to display for the current page
-  // const startIndex = (currentPage - 1) * entriesToShow;
-  // const endIndex = startIndex + entriesToShow;
-  // const displayedEmployees = employees.slice(startIndex, endIndex);
   const openForm = () => {
     setShowForm(true);
   };
@@ -162,17 +143,17 @@ const Emp_list = () => {
   };
 
   const handleStatusChange = (selectedOption) => {
-    setStatus(selectedOption); // Update the status state with the selected option's value
+    setStatus(selectedOption); 
   };
   const handleRoleChange = (selectedOption) => {
-    setRole(selectedOption); // Update the status state with the selected option's value
+    setRole(selectedOption); 
   };
 
   const handleEntriesChange = (value) => {
     setEntriesToShow(value);
   };
   const handlePlanChange = (selectedOption) => {
-    setPlan(selectedOption); // Update the status state with the selected option's value
+    setPlan(selectedOption); 
   };
 
   const [showToast, setshowToast] = useState(false);
@@ -203,18 +184,10 @@ const Emp_list = () => {
   };
   const [Export, setExport] = useState({
     label: "Export",
-    icon: <FaPrint />, // You can change the icon here
+    icon: <FaPrint />, 
   });
-  const exportOptions = [
-    { label: "Print", icon: <FaPrint /> },
-    { label: "CSV", icon: <FaFileCsv /> },
-    { label: "Excel", icon: <FaFileExcel /> },
-    { label: "PDF", icon: <FaFilePdf /> },
-    { label: "Copy", icon: <FaCopy /> },
-  ];
-
-  // Then, you can use the exportOptions array to render the options in your component
-
+ 
+  
   const toggleToast = (event) => {
     const rect = event.target.getBoundingClientRect();
 
@@ -242,7 +215,7 @@ const Emp_list = () => {
       <CenteredContainer>
         {showToast && (
           <DialogOverlay show={showToast}>
-            <ToastDialogBox />
+            <ToastDialogBox message={message} />
           </DialogOverlay>
         )}
         <div>
@@ -508,6 +481,9 @@ const Emp_list = () => {
           setFormData={setFormData}
           setMessage={setMessage}
           setIsDialogOpen={setIsDialogOpen}
+          setshowToast={setshowToast}
+          reload={reload}
+          setReload={setReload}
         />
       )}
     </>

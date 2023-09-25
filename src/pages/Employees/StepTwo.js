@@ -15,6 +15,7 @@ import { createGetRequest } from "../../global/helper";
 
 const StepTwo = ({ formData, handleChange }) => {
   const [role, setRoles] = useState([{}]);
+  const [selectedRole, setSelectedRole] = useState({label: "Select", "value": {}});
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,6 +24,11 @@ const StepTwo = ({ formData, handleChange }) => {
         {
           const roles = data.roles.map((role) => ({ label: role.name, value: role._id }));
           setRoles(roles);
+          if(formData?.roles?.[0])
+          {
+            const findSelectedRole = data.roles.find((roleObj)=> formData.roles[0] == roleObj._id);
+            setSelectedRole({ label: findSelectedRole.name, value: findSelectedRole._id });
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -35,11 +41,11 @@ const StepTwo = ({ formData, handleChange }) => {
     <FormStep active>
       <div style={{ flex: 1 }}>
         <FormGroup>
-          <h6>Fill in the details so that we can get in touch with you</h6>
+          <h6>Employee Information</h6>
           <FormLabel>Date of Joining</FormLabel>
           <FormInput
             type="date"
-            value={formData.dateOfJoining || ""}
+            value={formData.dateOfJoining && formData.dateOfJoining.split('T')[0] || ""}
             onChange={(e) => handleChange("dateOfJoining", e.target.value)}
           />
         </FormGroup>
@@ -47,11 +53,16 @@ const StepTwo = ({ formData, handleChange }) => {
 
       <FormGroup>
         <FormLabel>Role</FormLabel>
-        <FormInput
-          type="text"
-          value={formData.phoneNumber || ""}
-          onChange={(e) => handleChange("phoneNumber", e.target.value)}
-        />
+        <EntriesDropdown
+            width="100%"
+            value={selectedRole}
+            onChange={(selectedOption) =>{
+              setSelectedRole(selectedOption);
+              handleChange("roles.0", selectedOption.value);
+            }}
+            options={role}
+            styles={dropDownStyle}
+          />
       </FormGroup>
     </FormStep>
   );

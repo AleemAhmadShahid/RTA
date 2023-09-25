@@ -1,7 +1,9 @@
-import React from "react";
+import React , { useState } from "react";
 import styled from "styled-components";
 import { FormLabel } from "./styles/MultiStepFormStyling";
 import { useNavigate  } from "react-router-dom";
+import { createPostRequest } from "../global/helper";
+import ErrorDialog from "../components/ErrorDialog";
 
 const Container = styled.div`
   display: flex;
@@ -117,6 +119,20 @@ const H6 = styled.h6`
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const sendResetRequest = async () =>
+  {
+    const response = await createPostRequest({email},'/api/user/forgetPassword');
+    if (response.status == 200)
+    {
+      setMessage(response.message);
+      setIsDialogOpen(true);
+    }
+  }
+
   return (
     <Container>
       <RTAHeader>RTA</RTAHeader>
@@ -124,6 +140,11 @@ const ForgotPassword = () => {
         <Image src="/Forgetpass.jpg" alt="Forget Password" />
       </LeftPanel>
       <RightPanel>
+      <ErrorDialog
+        title={"Success"}
+        message={message}
+        show={isDialogOpen}
+        handleClose={() => setIsDialogOpen(false)}/>
         <Box>
           <Title>Forgot Password?🔒</Title>
           <H6>
@@ -132,9 +153,10 @@ const ForgotPassword = () => {
           </H6>
           <FormLabel style={{ fontWeight: "lighter" }}>Email</FormLabel>
 
-          <EmailInput type="email" placeholder="Enter your email" />
+          <EmailInput type="email" value={email} onChange={(e)=>setEmail(e.target.value)}
+          placeholder="Enter your email" />
           <ButtonContainer>
-            <SendButton>Send Reset Link</SendButton>
+            <SendButton onClick={sendResetRequest}>Send Reset Link</SendButton>
             <CancelButton onClick={() => {navigate("/login")}}>&lt; Back to Login</CancelButton>
           </ButtonContainer>
         </Box>

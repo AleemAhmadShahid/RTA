@@ -79,14 +79,14 @@ export const OKButton = styled.button`
  
 `;
 
-const ErrorDialog = ({ show, handleClose , message}) => {
+const ErrorDialog = ({ show, handleClose , message, title}) => {
     return (
       <>
         {show && (
           <DialogOverlay1 show={show}>
             <DialogBoxContainer1>
               <CrossIcon />
-              <ErrorText>Error!</ErrorText>
+              <ErrorText>{title || "Error!"}</ErrorText>
               <ClickedText>{message}</ClickedText>
               <OKButton onClick={handleClose}>OK</OKButton>
             </DialogBoxContainer1>
