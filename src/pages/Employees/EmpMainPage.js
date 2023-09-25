@@ -323,7 +323,6 @@ const Emp_list = () => {
               <StyledSearchBar onSearch={setSearchTerm} />
               {/* <AddEmployeeContainerMobile> */}
               <AddEmployeeContainer>
-                <div style={{ marginRight: "8px" }}>
                   <EntriesDropdown
                     value={"Select"}
                     options={CheckOptions.map((option) => ({
@@ -342,12 +341,10 @@ const Emp_list = () => {
                         </div>
                       ),
                     }))}
-                    styles={dropDownStyle}
+                    styles={{...dropDownStyle}}
                   />
-                </div>
 
                 {/* <AddEmployeeContainer> */}
-                <div>
                   <EntriesDropdown
                     value={{
                       value: Export.label, // Changed this to Export.label
@@ -373,7 +370,6 @@ const Emp_list = () => {
                     }))}
                     styles={dropDownStyle}
                   />
-                </div>
                 <AddEmployeeButton
                   onClick={toggleForm}
                   className="btn btn-primary mb-2"

@@ -81,7 +81,7 @@ export const AddEmployeeContainer = styled.div`
   @media screen and (max-width: 845px) {
     flex-direction: column; /* Stack elements vertically for mobile view */
     align-items: flex-start; /* Adjust alignment if needed */
-    padding: 9px 19px;
+    padding: 9px 0px 9px 5px;
     margin-right: 10px;
     width: 100%;
   }
@@ -187,6 +187,7 @@ export const CenteredContainer = styled.div`
 
 export const EntriesDropdown = styled(Select)`
   width: 150px;
+  margin-right: 8px;
 
   .select__control {
     border: 1px solid orange; /* Change border color to orange */
