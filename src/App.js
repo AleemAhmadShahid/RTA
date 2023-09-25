@@ -14,7 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/f" element={<ForgetPassword />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/reset-password/:id" element={<ResetPassword />} />
         <Route path="/portal" element={<Topbar />}>
           <Route path="iam" element={<Sidebar />}>
             <Route path="employee" element={<Emp_list />} />

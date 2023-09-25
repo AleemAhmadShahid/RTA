@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FormLabel } from "./styles/MultiStepFormStyling";
+import { useNavigate  } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -115,6 +116,7 @@ const H6 = styled.h6`
 `;
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <RTAHeader>RTA</RTAHeader>
@@ -133,7 +135,7 @@ const ForgotPassword = () => {
           <EmailInput type="email" placeholder="Enter your email" />
           <ButtonContainer>
             <SendButton>Send Reset Link</SendButton>
-            <CancelButton>&lt; Back to Login</CancelButton>
+            <CancelButton onClick={() => {navigate("/login")}}>&lt; Back to Login</CancelButton>
           </ButtonContainer>
         </Box>
       </RightPanel>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   FormStep,
@@ -7,8 +7,30 @@ import {
   FormInput,
   
 } from "../styles/MultiStepFormStyling";
+import {
+  EntriesDropdown,
+  dropDownStyle
+  } from "../styles/TableStyling";
+import { createGetRequest } from "../../global/helper";
 
 const StepTwo = ({ formData, handleChange }) => {
+  const [role, setRoles] = useState([{}]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await createGetRequest("/api/role");
+        if (data.status == 200)
+        {
+          const roles = data.roles.map((role) => ({ label: role.name, value: role._id }));
+          setRoles(roles);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+
+  },[]);
   return (
     <FormStep active>
       <div style={{ flex: 1 }}>

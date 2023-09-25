@@ -51,7 +51,6 @@ const Title = styled.h6`
 
 const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
   const handleDropdownChange = (selectedOption) => {
-    console.log(selectedOption, selectedValue);
     if (selectedOption.label === selectedValue.label)
       return;
     onValueChange(selectedOption);

@@ -7,7 +7,7 @@ import { createGetRequest } from "../../global/helper";
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../components/Cards";
 import PageBar from "../../components/PageBar";
-import FilterBox from "../../components/FliterBox";
+import FilterBox from "../../components/FilterBox";
 import ToastDialogBox, { DialogOverlay } from "../../components/Toast";
 import ErrorDialog from "../../components/ErrorDialog";
 import { BiUser } from "react-icons/bi";
@@ -48,6 +48,7 @@ import {
   IconWrapper,
   EntriesDropdown,
   StyledSearchBar,
+  dropDownStyle
 } from "../styles/TableStyling";
 
 const Emp_list = () => {
@@ -315,27 +316,7 @@ const Emp_list = () => {
                       value: option,
                       label: option.toString(), // Use the option value as the label
                     }))}
-                    styles={{
-                      menu: (provided) => ({
-                        ...provided,
-                        background: "#ffffff", // Background color when the dropdown is open
-                        border: provided.isFocused
-                          ? "1px solid orange"
-                          : "1px solid #ccc",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        backgroundColor: state.isSelected ? "white" : "white", // Background color when an option is selected
-                        color: state.isSelected ? "black" : "black", // Text color when an option is selected
-                        "&:hover": {
-                          backgroundColor: "#ffa500", // Background color when hovering over an option
-                          color: "white", // Text color when hovering over an option
-                        },
-                        display: "flex",
-                        justifyContent: "space-between", // Add space between label and checkbox
-                        alignItems: "center", // Vertically center the label and checkbox
-                      }),
-                    }}
+                    styles={dropDownStyle}
                   />
                 </div>
               </CreateEmployeeHeading>
@@ -361,27 +342,7 @@ const Emp_list = () => {
                         </div>
                       ),
                     }))}
-                    styles={{
-                      menu: (provided) => ({
-                        ...provided,
-                        background: "#ffffff",
-                        border: provided.isFocused
-                          ? "1px solid orange"
-                          : "1px solid #ccc",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        backgroundColor: state.isSelected ? "white" : "white",
-                        color: state.isSelected ? "black" : "black",
-                        "&:hover": {
-                          backgroundColor: "#ffa500",
-                          color: "white",
-                        },
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }),
-                    }}
+                    styles={dropDownStyle}
                   />
                 </div>
 
@@ -410,27 +371,7 @@ const Emp_list = () => {
                       ),
                       icon: option.icon, // Add icon to the option object
                     }))}
-                    styles={{
-                      menu: (provided) => ({
-                        ...provided,
-                        background: "#ffffff", // Background color when the dropdown is open
-                        border: provided.isFocused
-                          ? "1px solid orange"
-                          : "1px solid #ccc",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        backgroundColor: state.isSelected ? "white" : "white", // Background color when an option is selected
-                        color: state.isSelected ? "black" : "black", // Text color when an option is selected
-                        "&:hover": {
-                          backgroundColor: "#ffa500", // Background color when hovering over an option
-                          color: "white", // Text color when hovering over an option
-                        },
-                        display: "flex",
-                        justifyContent: "space-between", // Add space between label and checkbox
-                        alignItems: "center", // Vertically center the label and checkbox
-                      }),
-                    }}
+                    styles={dropDownStyle}
                   />
                 </div>
                 <AddEmployeeButton

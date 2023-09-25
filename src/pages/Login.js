@@ -257,7 +257,7 @@ const LoginPage = () => {
             <RememberMeInput type="checkbox" />
             Remember me
           </RememberMeLabel>
-          <ForgotPasswordButton>Forgot Password?</ForgotPasswordButton>
+          <ForgotPasswordButton onClick={() => navigate("/forget-password")}>Forgot Password?</ForgotPasswordButton>
           <LoginButton onClick={handleSubmit}>Log in</LoginButton>
           {/* <StyledH6>--Don't have an account?-- */}
           {/* <CreateAccountButton >create an Account</CreateAccountButton></StyledH6> */}

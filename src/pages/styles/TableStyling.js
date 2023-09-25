@@ -58,9 +58,9 @@ export const Td = styled.td`
 
 export const Table = styled.table`
   position: stick;
-  table-layout: fixed;
   margin-top: 27px;
   width: 100%;
+  overflow-x: auto;
 
   //   border-bottom: none;
   //   color: #ffa500;
@@ -263,3 +263,25 @@ export const IconWrapper = styled.div`
   display: inline-block;
   cursor: pointer;
 `;
+
+export const dropDownStyle = {
+  menu: (provided) => ({
+    ...provided,
+    background: "#ffffff",
+    border: provided.isFocused
+      ? "1px solid orange"
+      : "1px solid #ccc",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? "white" : "white",
+    color: state.isSelected ? "black" : "black",
+    "&:hover": {
+      backgroundColor: "#ffa500",
+      color: "white",
+    },
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }),
+};
