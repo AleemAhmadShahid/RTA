@@ -79,7 +79,7 @@ export const OKButton = styled.button`
  
 `;
 
-const ErrorDialog = ({ show, handleClose , message, title}) => {
+const ErrorDialog = ({ show, handleClose , message, title, handleYes}) => {
     return (
       <>
         {show && (
@@ -88,7 +88,11 @@ const ErrorDialog = ({ show, handleClose , message, title}) => {
               <CrossIcon />
               <ErrorText>{title || "Error!"}</ErrorText>
               <ClickedText>{message}</ClickedText>
-              <OKButton onClick={handleClose}>OK</OKButton>
+              { handleYes == undefined ?
+                <OKButton onClick={handleClose}>OK</OKButton>:
+                <OKButton onClick={handleYes} style={{marginRight: "20px", backgroundColor: "red"}}>Yes</OKButton>
+              }
+              {handleYes !== undefined ? <OKButton onClick={handleClose}>No</OKButton> : ""}
             </DialogBoxContainer1>
           </DialogOverlay1>
         )}

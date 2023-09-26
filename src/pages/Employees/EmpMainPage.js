@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import SearchBar from "../../components/searchbar";
 import MultiStepForm from "./MultiStepForm";
-import { createGetRequest } from "../../global/helper";
+import { createGetRequest, createDeleteRequest, createPutRequest } from "../../global/helper";
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../components/Cards";
 import PageBar from "../../components/PageBar";
@@ -58,6 +58,13 @@ const Emp_list = () => {
     { value: 1, label: "Active" },
     { value: 2, label: "Inactive" },
   ];
+  const bulkOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Deactive" },
+    { value: 3, label: "Delete" },
+  ];
+
   const planOptions = [
     { value: {}, label: "Select" },
   ];
@@ -70,8 +77,9 @@ const Emp_list = () => {
   ];
 
   const navigate = useNavigate();
-
-
+  
+  
+  const [checkedEmployees, setCheckedEmployees] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -85,6 +93,7 @@ const Emp_list = () => {
   const [message, setMessage] = useState();
 
   const [status, setStatus] = useState({ value: {}, label: "Select" });
+  const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
   const [role, setRole] = useState({ value: {}, label: "Select" });
   const [roleOptions, setRoleOptions] = useState({ value: {}, label: "Select" });
   const [plan, setPlan] = useState({ value: {}, label: "Select" });
@@ -172,6 +181,7 @@ const Emp_list = () => {
     "Status",
     "Actions",
   ];
+
   const handleCheckChange = (optionLabel) => {
     let selectedCheckCopy = [...selectedCheck];
     if (!selectedCheckCopy.includes(optionLabel))
@@ -186,6 +196,51 @@ const Emp_list = () => {
     label: "Export",
     icon: <FaPrint />, 
   });
+
+  const [deleteEmployeeId, setDeleteEmployeeId] = useState("");
+  const deleteEmployee = async(id) =>
+  {
+    const response = await createDeleteRequest(`/api/user/${id}/`)
+    if (response.status == 200)
+    {
+      setIsConfirmDialogOpen(false);
+      setMessage("Deleted Successfully");
+      setReload(!reload);
+      setshowToast(true);
+      setTimeout(() => {
+        setshowToast(false);
+      }, 1500);
+    }
+  }
+
+  const takeBulkAction = async () =>
+  {
+    if (checkedEmployees.length == 0 || bulkOption == "Select")
+      return;
+    let path = "";
+    const data = {users: checkedEmployees, status: 1};
+    if (bulkOption.label == "Deactive" || bulkOption.label == "Active"  )
+      path = "/api/user/bulkStatusUpdate/";
+    if (bulkOption.label == "Active")
+      data.status = 1;
+    if (bulkOption.label == "Deactive")
+      data.status = 2;
+    
+    else if (bulkOption.label == "Delete")
+      path = "/api/user/bulkDelete/";
+    const response = await createPutRequest(data,path);
+    if (response.status == 200)
+    {
+      setReload(!reload);
+      setMessage(`${bulkOption.label}d Successfully`);
+      setshowToast(true);
+      setTimeout(() => {
+        setshowToast(false);
+      }, 1500);
+      setBulkOption({label: "Select", value: 0});
+    }
+    
+  }
  
   
   const toggleToast = (event) => {
@@ -194,6 +249,7 @@ const Emp_list = () => {
     setshowToast(!showToast);
   };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
@@ -206,6 +262,13 @@ const Emp_list = () => {
         message={message}
         show={isDialogOpen}
         handleClose={handleCloseDialog}
+      />
+      <ErrorDialog
+        title = {"Are you sure?"}
+        message={message}
+        show={isConfirmDialogOpen}
+        handleClose={() => setIsConfirmDialogOpen(false)}
+        handleYes = {() => {deleteEmployee(deleteEmployeeId);}}
       />{" "}
       {/* {showToast && (
         <DialogOverlay show={showToast}>
@@ -270,6 +333,22 @@ const Emp_list = () => {
                 selectedValue={plan}
                 title=" Plan"
               />
+            </FilterOuterBox>
+            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Bulk Actions</h6>
+            <FilterOuterBox style={{justifyContent: "flex-start"}}>
+              <FilterBox
+                options={bulkOptions}
+                onValueChange={(selectedOption) => setBulkOption(selectedOption)}
+                selectedValue={bulkOption}
+                title=""
+              />
+              <AddEmployeeButton
+                  style = {{ "marginRight": "50px"}}
+                  className="btn btn-primary mb-2"
+                  onClick={takeBulkAction}
+                >
+                  <span style={{ whiteSpace: "nowrap" }}>Apply</span>
+                </AddEmployeeButton>
             </FilterOuterBox>
           </FilterContainer>
 
@@ -357,7 +436,14 @@ const Emp_list = () => {
                 <thead>
                   <Tr>
                     <Th>
-                      <input type="checkbox" />
+                      <input type="checkbox" onChange={(e) =>
+                      {
+                        if(e.target.checked)
+                          setCheckedEmployees(employees.map((employee) => employee._id));
+                        else
+                          setCheckedEmployees([]);
+                      }} 
+                     />
                     </Th>
                     {selectedCheck.includes("User") && <Th>USER</Th>}
                     {/* <Th>NAME</Th>  */}
@@ -377,7 +463,12 @@ const Emp_list = () => {
                       <Tr key={employee._id}>
                         <Td>
                           {" "}
-                          <input type="checkbox" />
+                          <input type="checkbox"  checked={checkedEmployees.includes(employee._id)} onChange={() => {
+                            if(!checkedEmployees.includes(employee._id))
+                              setCheckedEmployees([...checkedEmployees,employee._id]);
+                            else
+                              setCheckedEmployees(checkedEmployees.filter((checkedEmployee) => checkedEmployee!=employee._id));
+                          }}/>
                         </Td>
                         {selectedCheck.includes("User") && (
                           <Td>
@@ -419,9 +510,13 @@ const Emp_list = () => {
                           <Td>
                             {employee.status === 1 ? (
                               <SuccessBadge>Active</SuccessBadge>
-                            ) : (
+                            ) : employee.status === 2 ? (
                               <DangerBadge>Inactive</DangerBadge>
-                            )}
+                            ) :
+                            (
+                              <DangerBadge>Deleted</DangerBadge>
+                            ) 
+                          }
                           </Td>
                         )}
                         {selectedCheck.includes("Actions") && (
@@ -437,13 +532,16 @@ const Emp_list = () => {
                             </IconWrapper>
 
                             <GrIcons.GrFormView
-                              onClick={toggleToast}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {}}
+                              onClick={() => {
+                                setMessage("Do you want to delete this employee?");
+                                setDeleteEmployeeId(employee._id);
+                                setIsConfirmDialogOpen(true);
+                              }}
                             />
                           </Td>
                         )}

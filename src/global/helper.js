@@ -40,6 +40,33 @@ const createGetRequest = async (path,params) =>
   return response;   
 }
 
+const createDeleteRequest = async (path) =>
+{
+    let response  = await fetch(BACKEND_URL + path, {
+        method: 'DELETE',
+        headers: setHeaders()
+    });
+    const status = response.status;
+    response = await response.json();
+    response.status = status;
+    return response;
+
+}
+
+const createfileUploadRequest = async (formData) =>
+{
+    let response  = await fetch(BACKEND_URL + '/api/upload/', {
+        method: 'POST',
+        body: formData,
+    });
+    const status = response.status;
+    response = await response.json();
+    response.status = status;
+    return response;
+
+}
+
+
 const constructQueryString = (paramsObject) =>
 {
   const queryParams = [];
@@ -81,4 +108,10 @@ const setHeaders = () =>
   return headers;
 }
 
-export { createPostRequest, createGetRequest, createPutRequest};
+export { 
+  createPostRequest, 
+  createGetRequest, 
+  createPutRequest, 
+  createfileUploadRequest, 
+  createDeleteRequest
+};

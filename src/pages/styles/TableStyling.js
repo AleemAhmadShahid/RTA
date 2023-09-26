@@ -236,7 +236,6 @@ export const CardsContainer = styled.div`
 export const FilterOuterBox = styled.div`
   background: #fff;
   display: flex; /* Use flex display to align FilterBox components side by side */
-  justify-content: space-between; /* Distribute space evenly between FilterBox components */
   // align-items: center;
   border-bottom-left-radius: 5px; /* Adjust as needed */
   border-bottom-right-radius: 5px; /* Adjust as needed */

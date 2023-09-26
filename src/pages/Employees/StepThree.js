@@ -17,19 +17,20 @@ import {
   EntriesDropdown,
   dropDownStyle
   } from "../styles/TableStyling";
+import {  createfileUploadRequest } from "../../global/helper";
+
 
 const StepThree = ({ formData, handleChange }) => {
   const [qualification, setQualifications] = useState([]);
   const [experience, setExperience] = useState([]);
-  // useEffect(() => {
-  //   setQualifications(formData.qualification);
-  //   setExperience(formData.experience);
-  // },[]);
+
   useEffect(() => {
     // Check if formData.qualification and formData.experience are defined
-    if (formData && (formData.qualification && formData.experience)) {
-      setQualifications(formData.qualification);
-      setExperience(formData.experience);
+    if (formData && (formData.qualification || formData.experience)) {
+      if(formData.qualification)
+        setQualifications(formData.qualification);
+      if(formData.experience)
+        setExperience(formData.experience);
     }
   }, []);
 
@@ -60,7 +61,7 @@ const StepThree = ({ formData, handleChange }) => {
 
   return (
     <FormStep active>
-      <H6>Fill in the details so that we can get in contact with you</H6>
+      <H6>Other Information</H6>
       <FormLabel>Qualification</FormLabel>
       <Step3Container>
         <BoxStep3Container>
@@ -81,12 +82,6 @@ const StepThree = ({ formData, handleChange }) => {
 
               <FormGroup>
                 <FormLabel>Level</FormLabel>
-                {/* <FormInput
-                  type="text"
-                  value={formData?.qualification?.[index]?.level || ""}
-                  onChange={(e) =>
-                    handleChange(`qualification.${index}.level`, e.target.value)
-                  } />*/}
                   <EntriesDropdown
                     width="100%"
                   value={formData?.qualification?.[index]?.level 
@@ -151,7 +146,15 @@ const StepThree = ({ formData, handleChange }) => {
               <FormGroup>
                 <PictureUploadButton>
                   Upload Document
-                  <input type="file" onChange={(e) => {}} />
+                  <input type="file" onChange={async (e) => {
+                    const file = e.target.files[0]; 
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    const response = await createfileUploadRequest(formData);
+                    if (response.status == 200)
+                      handleChange(`qualification.${index}.attachment`,  response.id, true)
+                    
+                  }} />
                 </PictureUploadButton>
               </FormGroup>
 
@@ -227,7 +230,15 @@ const StepThree = ({ formData, handleChange }) => {
               <FormGroup>
                 <PictureUploadButton>
                   Upload Document
-                  <input type="file" onChange={(e) => {}} />
+                  <input type="file" onChange={async (e) => {
+                    const file = e.target.files[0]; 
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    const response = await createfileUploadRequest(formData);
+                    if (response.status == 200)
+                      handleChange(`experience.${index}.attachment`, response.id, true)
+                    
+                  }} />
                 </PictureUploadButton>
               </FormGroup>
               
