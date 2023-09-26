@@ -15,7 +15,7 @@ import {
 } from "../styles/MultiStepFormStyling";
 import { StyledErrorH6 } from "../Login";
 import { styled } from "styled-components";
-import { createPostRequest } from "../../global/helper";
+import {  createfileUploadRequest } from "../../global/helper";
 
 const StepOne = ({ formData, errors, handleChange }) => {
   return (
@@ -41,7 +41,15 @@ const StepOne = ({ formData, errors, handleChange }) => {
           <TextContainer>
             <PictureUploadButton>
               Upload Picture
-              <input type="file" onChange={(e) => {}} />
+              <input type="file" onChange={async (e) => {
+                const file = e.target.files[0]; 
+                const formData = new FormData();
+                formData.append('file', file);
+                const response = await createfileUploadRequest(formData);
+                if (response.status == 200)
+                  handleChange("profileImg", response.url || response.id, true)
+                
+              }} />
             </PictureUploadButton>
             <P>Allowed max size of 10MB</P>
           </TextContainer>
@@ -68,6 +76,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
           placeholder={" user@example.com"}
           onBlur={(e) => handleChange("email", e.target.value, true)}
           onChange={(e) => handleChange("email", e.target.value, true)}
+          disabled={formData._id !== undefined}
         />
       </FormGroup>
       {errors.email && <StyledErrorH6>{errors.email}</StyledErrorH6>}
