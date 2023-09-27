@@ -75,7 +75,8 @@ export const InnermodalContainer = styled.div`
   // justify-content:center;
   top: 0; 
   right: 0; 
-  // height: 100%;
+  height: 88%;
+  overflow-y: auto;
   @media screen and (max-width: 845px) {
     width: 100%; /* Set width to 100% for mobile view */
   }
@@ -256,7 +257,6 @@ export const PreviousButton = styled(FormButton)`
 export const StepIndicators = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   
 `;
 
@@ -284,13 +284,13 @@ export const StepIndicator = styled.div`
 `;
 
 export const Line = styled.div`
-  width: 90px;
+  width: 40px;
   height: 2px;
   background: #ccc;
   margin-right: 10px;
   margin-top: -10px;
   @media screen and (max-width: 845px) {
-    width: 70px; /* Set width to 100% for mobile view */
+    width: 40px; /* Set width to 100% for mobile view */
   }
 `;
 export const HeaderContainer = styled.div`
@@ -333,9 +333,6 @@ export const Step3Container = styled.div`
   flex-direction: column;
   align-qualification: flex-start;
   max-width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  max-height: 500px; /* Set a max height for scrollability */
 `;
 
 export const BoxStep3Container = styled.div`

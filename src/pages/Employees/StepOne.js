@@ -16,6 +16,7 @@ import {
 import { StyledErrorH6 } from "../Login";
 import { styled } from "styled-components";
 import {  createfileUploadRequest } from "../../global/helper";
+import {  validateAlphabeticWithSpace, validateEmail, validateNumeric } from "../../global/validators";
 
 const StepOne = ({ formData, errors, handleChange }) => {
   return (
@@ -62,8 +63,8 @@ const StepOne = ({ formData, errors, handleChange }) => {
           type="text"
           value={formData.name || ""}
           placeholder={" Name"}
-          onChange={(e) => handleChange("name", e.target.value, true)}
-          onBlur={(e) => handleChange("name", e.target.value, true)}
+          onChange={(e) => handleChange("name", e.target.value, validateAlphabeticWithSpace)}
+          onBlur={(e) => handleChange("name", e.target.value, validateAlphabeticWithSpace)}
           required
         />
       </FormGroup>
@@ -74,8 +75,8 @@ const StepOne = ({ formData, errors, handleChange }) => {
           type="email"
           value={formData.email || ""}
           placeholder={" user@example.com"}
-          onBlur={(e) => handleChange("email", e.target.value, true)}
-          onChange={(e) => handleChange("email", e.target.value, true)}
+          onBlur={(e) => handleChange("email", e.target.value, validateEmail)}
+          onChange={(e) => handleChange("email", e.target.value, validateEmail)}
           disabled={formData._id !== undefined}
         />
       </FormGroup>
@@ -89,7 +90,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
           onChange={(e) => handleChange("password", e.target.value, true)}
         />
       </FormGroup>
-      {errors.email && <StyledErrorH6>{errors.email}</StyledErrorH6>}
+
       <FormGroup>
         <FormLabel>Phone Number</FormLabel>
         <FormInput
@@ -128,7 +129,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
           <FormHalfInput
             type="text"
             value={(formData.address && formData.address.zipCode) || ""}
-            onChange={(e) => handleChange("address.zipCode", e.target.value)}
+            onChange={(e) => handleChange("address.zipCode", e.target.value, validateNumeric)}
             placeholder=" Zip Code"
           />
         </div>
@@ -140,6 +141,8 @@ const StepOne = ({ formData, errors, handleChange }) => {
           placeholder={" Country"}
         />
       </FormGroup>
+      {errors?.address?.zipCode && <StyledErrorH6>{errors.address.zipCode}</StyledErrorH6>}
+      
 
       {/* <FormButton>Next</FormButton> */}
     </FormStep>

@@ -28,7 +28,7 @@ export const Th = styled.th`
   
 
   @media screen and (min-width: 845px) {
-  s
+
   }
 `;
 

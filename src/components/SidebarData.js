@@ -15,23 +15,11 @@ export const SidebarData = [
   },
   {
     title: "Employees",
-    // path: "/Employees",
+    path: "/portal/iam/employee",
     icon: <AiIcons.AiOutlineUser />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
-    subNav: [
-      {
-        title: "List",
-        // path: "/Employees/List",
-        icon: <BiIcons.BiRadioCircle />,
-      },
-      {
-        title: "Add",
-        // path: "/Employees/Add",
-        icon: <BiIcons.BiSolidAddToQueue />,
-      },
-    ],
   },
   {
     title: "Roles",
@@ -39,6 +27,19 @@ export const SidebarData = [
     icon: <IoIcons.IoIosPaper />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
+
+    subNav: [
+      {
+        title: "List",
+        // path: "/Role/List",
+        icon: <BiIcons.BiRadioCircle />,
+      },
+      {
+        title: "Add",
+        // path: "/Role/Add",
+        icon: <BiIcons.BiSolidAddToQueue />,
+      },
+    ],
   },
   {
     title: "Teams",
@@ -84,6 +85,22 @@ export const SidebarData = [
       {
         title: "List",
         // path: "/Job Descriptions/List",
+        icon: <BiIcons.BiRadioCircle />,
+      },
+    ],
+  },
+  {
+    title: "Performance Evaluations",
+    // path: "/Performance Evaluations",
+    icon: <CgIcons.CgFileDocument />,
+
+    iconClosed: <RiIcons.RiArrowDropDownLine />,
+    iconOpened: <RiIcons.RiArrowDropUpLine />,
+
+    subNav: [
+      {
+        title: "List",
+        // path: "/Performance Evaluations/List",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],

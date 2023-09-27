@@ -23,6 +23,7 @@ import {
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
+import StepFour from "./StepFour";
 import styled from "styled-components";
 import { createPostRequest, createPutRequest } from "../../global/helper";
 
@@ -50,7 +51,6 @@ const MultiStepForm = ({
     setError = false,
     data = { ...formData }
   ) => {
-    console.log(formData);
     const setField = (obj, keys, val) => {
       if (keys.length === 1) obj[keys[0]] = val;
       else {
@@ -64,6 +64,10 @@ const MultiStepForm = ({
     const fieldParts = field.split(".");
     data = setField(data, fieldParts, value);
     setFormData(data);
+    if (typeof setError == "function" && value == "")
+      setErrors(setField({...errors}, fieldParts, ""));
+    else if (typeof setError == "function")
+      setErrors(setField({...errors}, fieldParts, setError(value)));
   };
   const closeForm = (message) => {
     setFormData({});
@@ -78,19 +82,25 @@ const MultiStepForm = ({
     setStep(1);
   };
   const isFirstStep = step === 1;
-  const isLastStep = step === 3;
+  const isLastStep = step === 4;
 
   const handleSave = async (nextStep = null) => {
     let required = false;
     const fields = ["name", "email"];
-    // fields.forEach((field) => {
-    //   if((formData[field] === undefined || formData[field] === ''))
-    //   {
-    //     setErrors({ ...errors, [field]: 'This field is required' });
-    //     required = true;
-    //   }
-    // });
-    if (required) return;
+    let errorFields = {...errors};
+    for(const field of fields)
+    {
+      if((!required && formData[field] === undefined || formData[field] === ''))
+      {
+        errorFields = { ...errorFields, [field]: 'This field is required' };
+        required = true;
+      }
+    };
+    if (required)
+    {
+      setErrors(errorFields);
+      return;
+    };
     const copyFormData = {...formData};
     copyFormData.profileImg =  /\/([^/?]+)\?/.test(formData.profileImg) ? formData.profileImg.match(/\/([^/?]+)\?/)[1] : formData.profileImg;
     if(copyFormData._id == undefined)
@@ -132,6 +142,8 @@ const MultiStepForm = ({
         return <StepTwo formData={formData} handleChange={handleChange} />;
       case 3: // Include the third step here
         return <StepThree formData={formData} handleChange={handleChange} />;
+      case 4: 
+        return <StepFour formData={formData} handleChange={handleChange} />;
       default:
         return null;
     }
@@ -158,13 +170,14 @@ const MultiStepForm = ({
             </HeaderContainer>
             <InnermodalContainer>
               <StepIndicators>
-                {[1, 2, 3].map((stepNumber) => (
+                {[1, 2, 3, 4].map((stepNumber) => (
                   <StepIndicatorContainer key={stepNumber}>
                     <StepIndicator active={stepNumber <= step}>
                       {stepNumber}
                     </StepIndicator>
                     {stepNumber === 1 && <Line />} {/* Add this line */}
                     {stepNumber === 2 && <Line />}
+                    {stepNumber === 3 && <Line />}
                   </StepIndicatorContainer>
                 ))}
               </StepIndicators>

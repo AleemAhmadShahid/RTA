@@ -178,6 +178,7 @@ const Emp_list = () => {
     "User",
     "Employee Code",
     "Last Login",
+    "Member Since",
     "Status",
     "Actions",
   ];
@@ -453,6 +454,9 @@ const Emp_list = () => {
                     {selectedCheck.includes("Last Login") && (
                       <Th>LAST LOGIN</Th>
                     )}
+                     {selectedCheck.includes("Member Since") && (
+                      <Th>MEMBER SINCE</Th>
+                    )}
                     {selectedCheck.includes("Status") && <Th>STATUS</Th>}
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
@@ -504,6 +508,20 @@ const Emp_list = () => {
                                 }
                               )) ||
                               "Resend Invite"}
+                          </Td>
+                        )}
+                        {selectedCheck.includes("Member Since") && (
+                          <Td>
+                            {(employee.dateOfJoining &&
+                              new Date(employee.dateOfJoining).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric"
+                                }
+                              )) ||
+                              ""}
                           </Td>
                         )}
                         {selectedCheck.includes("Status") && (
