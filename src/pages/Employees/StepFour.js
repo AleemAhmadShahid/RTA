@@ -20,17 +20,28 @@ import {
 import {  createfileUploadRequest } from "../../global/helper";
 
 
-const StepThree = ({ formData, handleChange }) => {
-  const [qualification, setQualifications] = useState([]);
-  const [experience, setExperience] = useState([]);
+const StepFour = ({ formData, handleChange }) => {
+  const [liscenseAndCertifications, setLiscenseAndCertifications] = useState([]);
+  const [documents, setDocuments] = useState([]);
+  const documentsTypes = [
+    'CV/Resume',
+    'Offer Letter',
+    'Contract',
+    'Identification',
+    'Certificate',
+    'Other',
+  ].map((option) => ({
+    label: option,
+    value: option,
+  }));
 
   useEffect(() => {
-    // Check if formData.qualification and formData.experience are defined
-    if (formData && (formData.qualification || formData.experience)) {
-      if(formData.qualification)
-        setQualifications(formData.qualification);
-      if(formData.experience)
-        setExperience(formData.experience);
+    
+    if (formData && (formData.liscenseAndCertifications || formData.documents)) {
+      if(formData.liscenseAndCertifications)
+        setLiscenseAndCertifications(formData.liscenseAndCertifications);
+      if(formData.documents)
+        setDocuments(formData.documents);
     }
   }, []);
 
@@ -62,56 +73,34 @@ const StepThree = ({ formData, handleChange }) => {
   return (
     <FormStep active>
       <H6>Other Information</H6>
-      <FormLabel>Qualification</FormLabel>
+      <FormLabel>Liscense & Certifications</FormLabel>
       <Step3Container>
         <BoxStep3Container>
-          {qualification.map((item, index) => (
+          {liscenseAndCertifications.map((item, index) => (
             <Step3BorderBox key={index}>
               <Step3CloseButton
                 onClick={() =>
                   removeItem(
                     index,
-                    setQualifications,
-                    qualification,
-                    "qualification"
+                    setLiscenseAndCertifications,
+                    liscenseAndCertifications,
+                    "liscenseAndCertifications"
                   )
                 }
               >
                 ×
               </Step3CloseButton>
 
-              <FormGroup>
-                <FormLabel>Level</FormLabel>
-                  <EntriesDropdown
-                    width="100%"
-                  value={formData?.qualification?.[index]?.level 
-                    && {label: formData?.qualification?.[index]?.level, value: formData?.qualification?.[index]?.level}
-                    || {label: "Bachelors", value: "Bachelors"}}
-                  onChange={(selectedOption) =>{
-                      handleChange(
-                        `qualification.${index}.level`,
-                        selectedOption.value
-                      );
-                    }
-                  }
-                  options={[
-                    {label: "Bachelors", value: "Bachelors"},
-                    {label: "Masters", value: "Masters"},
-                    {label: "PhD", value: "PhD"},
-                  ]}
-                  styles={dropDownStyle}
-                />
-                
-                </FormGroup>
+             
 
                 <FormGroup>
-                <FormLabel>Degree</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormInput
                   type="text"
-                  value={formData?.qualification?.[index]?.degree || ""}
+                  value={formData?.liscenseAndCertifications?.[index]?.name || ""}
                   onChange={(e) =>
                     handleChange(
-                      `qualification.${index}.degree`,
+                      `liscenseAndCertifications.${index}.name`,
                       e.target.value
                     )
                   }
@@ -119,13 +108,13 @@ const StepThree = ({ formData, handleChange }) => {
               </FormGroup>
 
               <FormGroup>
-                <FormLabel>Instituion</FormLabel>
+                <FormLabel>Issuing Authority</FormLabel>
                 <FormInput
                   type="text"
-                  value={formData?.qualification?.[index]?.institution || ""}
+                  value={formData?.liscenseAndCertifications?.[index]?.issuingAuthority || ""}
                   onChange={(e) =>
                     handleChange(
-                      `qualification.${index}.institution`,
+                      `liscenseAndCertifications.${index}.issuingAuthority`,
                       e.target.value
                     )
                   }
@@ -133,12 +122,23 @@ const StepThree = ({ formData, handleChange }) => {
               </FormGroup>
 
               <FormGroup>
-                <FormLabel>Year</FormLabel>
+                <FormLabel>Issuance Date</FormLabel>
                 <FormInput
-                  type="Number"
-                  value={formData?.qualification?.[index]?.year || ""}
+                  type="Date"
+                  value={formData?.liscenseAndCertifications?.[index]?.issuanceDate.split('T')[0] || ""}
                   onChange={(e) =>
-                    handleChange(`qualification.${index}.year`, e.target.value)
+                    handleChange(`liscenseAndCertifications.${index}.issuanceDate`, e.target.value)
+                  }
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>Expiration Date</FormLabel>
+                <FormInput
+                  type="Date"
+                  value={formData?.liscenseAndCertifications?.[index]?.expirationDate.split('T')[0] || ""}
+                  onChange={(e) =>
+                    handleChange(`liscenseAndCertifications.${index}.expirationDate`, e.target.value)
                   }
                 />
               </FormGroup>
@@ -152,7 +152,7 @@ const StepThree = ({ formData, handleChange }) => {
                     formData.append('file', file);
                     const response = await createfileUploadRequest(formData);
                     if (response.status == 200)
-                      handleChange(`qualification.${index}.attachment`,  response.id, true)
+                      handleChange(`liscenseAndCertifications.${index}.attachment`,  response.id, true)
                     
                   }} />
                 </PictureUploadButton>
@@ -162,70 +162,54 @@ const StepThree = ({ formData, handleChange }) => {
           ))}
         </BoxStep3Container>
         <Step3AddButton
-          onClick={() => addItem(setQualifications, qualification)}
+          onClick={() => addItem(setLiscenseAndCertifications, liscenseAndCertifications)}
         >
-          Add Qualification
+          Add Liscense and Certifications
         </Step3AddButton>
       </Step3Container>
-      <FormLabel>Experience</FormLabel>
+      <FormLabel>Documents</FormLabel>
       <Step3Container>
         <BoxStep3Container>
-          {experience.map((item, index) => (
+          {documents.map((item, index) => (
             <Step3BorderBox key={index}>
               <Step3CloseButton
                 onClick={() =>
-                  removeItem(index, setExperience, experience, "experience")
+                  removeItem(index, setDocuments, documents, "documents")
                 }
               >
                 ×
               </Step3CloseButton>
-              
               <FormGroup>
-                <FormLabel>Company</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormInput
                   type="text"
-                  value={formData?.experience?.[index]?.company || ""}
+                  value={formData?.documents?.[index]?.name || ""}
                   onChange={(e) =>
-                    handleChange(`experience.${index}.company`, e.target.value)
+                    handleChange(`documents.${index}.name`, e.target.value)
                   }
                 />
               </FormGroup>
-              
               <FormGroup>
-                <FormLabel>Job Title</FormLabel>
-                <FormInput
-                  type="text"
-                  value={formData?.experience?.[index]?.jobTitle || ""}
-                  onChange={(e) =>
-                    handleChange(`experience.${index}.jobTitle`, e.target.value)
+                <FormLabel>Type</FormLabel>
+                  <EntriesDropdown
+                    width="100%"
+                  value={formData?.documents?.[index]?.type 
+                    && {label: formData?.documents?.[index]?.type, value: formData?.documents?.[index]?.type}
+                    || {label: "CV/Resume", value: "CV/Resume"}}
+                  onChange={(selectedOption) =>{
+                      handleChange(
+                        `documents.${index}.type`,
+                        selectedOption.value
+                      );
+                    }
                   }
+                  options={documentsTypes}
+                  styles={dropDownStyle}
                 />
-               </FormGroup>
+                
+                </FormGroup>
+
               
-              <FormGroup>
-                <FormLabel>Start Date</FormLabel>
-                <FormInput
-                  type="Date"
-                  value={formData?.experience?.[index]?.startDate.split('T')[0] || ""}
-                  onChange={(e) =>
-                    handleChange(
-                      `experience.${index}.startDate`,
-                      e.target.value
-                    )
-                  }
-                />
-               </FormGroup>
-              
-              <FormGroup>
-                <FormLabel>End Date</FormLabel>
-                <FormInput
-                  type="Date"
-                  value={formData?.experience?.[index]?.endDate.split('T')[0] || ""}
-                  onChange={(e) =>
-                    handleChange(`experience.${index}.endDate`, e.target.value)
-                  }
-                />
-              </FormGroup>
 
               <FormGroup>
                 <PictureUploadButton>
@@ -236,7 +220,7 @@ const StepThree = ({ formData, handleChange }) => {
                     formData.append('file', file);
                     const response = await createfileUploadRequest(formData);
                     if (response.status == 200)
-                      handleChange(`experience.${index}.attachment`, response.id, true)
+                      handleChange(`documents.${index}.attachment`, response.id, true)
                     
                   }} />
                 </PictureUploadButton>
@@ -245,12 +229,12 @@ const StepThree = ({ formData, handleChange }) => {
             </Step3BorderBox>
           ))}
         </BoxStep3Container>
-        <Step3AddButton onClick={() => addItem(setExperience, experience)}>
-          Add Experience
+        <Step3AddButton onClick={() => addItem(setDocuments, documents)}>
+          Add Document
         </Step3AddButton>
       </Step3Container>
     </FormStep>
   );
 };
 
-export default StepThree;
+export default StepFour;

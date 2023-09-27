@@ -15,7 +15,8 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
-        <Route path="/reset-password/:id" element={<ResetPassword />} />
+        <Route path="/reset-password/:id" element={<ResetPassword name="Reset Password?" description="Your new password must be different from previously used passwords"/>} />
+        <Route path="/setup-password/:id" element={<ResetPassword name="Setup Password" description="Setup your new account and start using portal today"/>} />
         <Route path="/portal" element={<Topbar />}>
           <Route path="iam" element={<Sidebar />}>
             <Route path="employee" element={<Emp_list />} />

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
 import { FormLabel } from "./styles/MultiStepFormStyling";
 import { FiEye, FiEyeOff } from "react-icons/fi"; // Import the eye icons from react-icons
 import { useParams } from 'react-router-dom';
 import { createPostRequest } from "../global/helper";
 import ErrorDialog from "../components/ErrorDialog";
+import { MdDescription } from "react-icons/md";
 
 const Container = styled.div`
   display: flex;
@@ -133,13 +135,14 @@ const H6 = styled.h6`
   margin-bottom: 20px;
 `;
 
-const ResetPassword = () => {
+const ResetPassword = ({name, description}) => {
   const { id } = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("Success");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -168,8 +171,8 @@ const ResetPassword = () => {
           show={isDialogOpen}
           handleClose={() => setIsDialogOpen(false)}/>
         <Box>
-          <Title>Reset Password?🔒</Title>
-          <H6>Your new password must be different from previously used passwords</H6>
+          <Title>{name}🔒</Title>
+          <H6>{description}</H6>
           <InputContainer>
             <FormLabel style={{ fontWeight: "lighter" }}>New Password</FormLabel>
             <div style={{ position: "relative" }}>
@@ -197,7 +200,7 @@ const ResetPassword = () => {
           </InputContainer>
           <ButtonContainer>
             <SendButton onClick={sendResetRequest}>Set New Password</SendButton>
-            <CancelButton>&lt; Back to Login</CancelButton>
+            <CancelButton onClick={() => navigate('/login')}>&lt; Back to Login</CancelButton>
           </ButtonContainer>
         </Box>
       </RightPanel>
