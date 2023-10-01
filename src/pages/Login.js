@@ -70,33 +70,7 @@ const StyledH4 = styled.h4`
   margin-bottom: 10px;
 `;
 
-const GoogleLoginButton = styled.a`
-  margin-top: 34px;
-  text-align: center;
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 15px;
-  width: 50%;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  color: #333;
-`;
 
-const GoogleIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  // margin-right: 10px;
-`;
-const StyledH6 = styled.h6`
-  font-weight: 300; /* Thin font weight */
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 10px;
-  margin-top: 10px;
-`;
 
 export const StyledErrorH6 = styled.h6`
   font-weight: 300;
@@ -120,7 +94,7 @@ const RememberMeLabel = styled.label`
 const RememberMeInput = styled.input`
   vertical-align: middle;
   margin-right: 7px;
-  // justify-content: space-between;
+ 
 `;
 const ForgotPasswordButton = styled.button`
   background-color: white; /* Change the background color to white */
@@ -137,14 +111,6 @@ const ForgotPasswordButton = styled.button`
   &:hover {
     background-color: white; /* Change the color on hover */
   }
-`;
-const CreateAccountButton = styled.button`
-  background: transparent;
-  border: none;
-  color: #ffa500;
-  font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
 `;
 
 const LoginPage = () => {
@@ -169,10 +135,10 @@ const LoginPage = () => {
   };
 
   const handleInputChange = (e) => {
-    if (e.target.name == "email")
+    if (e.target.name === "email")
     {
       const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-      if (e.target.value == "")
+      if (e.target.value === "")
         setBlankEmailError("");
       else if(!emailPattern.test(e.target.value))
         setBlankEmailError("Invalid email");
@@ -194,11 +160,11 @@ const LoginPage = () => {
     document.cookie = `token=${''}; expires=${new Date(Date.now() - 59 * 60000).toUTCString()}; path=/;`;
         
 
-    if (formData.email == "")
+    if (formData.email === "")
       setBlankEmailError("Email cannot be blank");
-    if (formData.password == "")
+    if (formData.password === "")
       setBlankPasswordError("Password cannot be blank");
-    if(formData.email == "" || formData.password == "")
+    if(formData.email === "" || formData.password === "")
       return;
     try {
       const response  = await createPostRequest(formData, path);

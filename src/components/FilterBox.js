@@ -13,7 +13,7 @@ const FilterBoxContainer = styled.div`
 
 const Dropdown = styled(Select)`
    width: ${(props) => props.width || "100%"}; /* Use 100% width by default */
-  // width:100%;
+  //  width:100%;
   max-width: 450px; /* Set a maximum width if needed */
   margin-right: 10px;
 
@@ -37,6 +37,9 @@ const Dropdown = styled(Select)`
 
   .select__menu {
     z-index: 1;
+  }
+  @media (max-width: 845px) {
+    width: 100%; /* Set 100% width for mobile screens */
   }
 `;
 

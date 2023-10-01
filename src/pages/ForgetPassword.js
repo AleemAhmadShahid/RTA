@@ -126,7 +126,7 @@ const ForgotPassword = () => {
   const sendResetRequest = async () =>
   {
     const response = await createPostRequest({email},'/api/user/forgetPassword');
-    if (response.status == 200)
+    if (response.status === 200)
     {
       setMessage(response.message);
       setIsDialogOpen(true);

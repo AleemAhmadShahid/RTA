@@ -1,4 +1,5 @@
-import { styled } from "styled-components";
+import styled ,{ keyframes } from "styled-components";
+
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import SearchBar from "../../components/searchbar";
@@ -81,7 +82,7 @@ export const AddEmployeeContainer = styled.div`
   @media screen and (max-width: 845px) {
     flex-direction: column; /* Stack elements vertically for mobile view */
     align-items: flex-start; /* Adjust alignment if needed */
-    padding: 9px 0px 9px 5px;
+    padding: 0px 0px 9px 0px;
     margin-right: 10px;
     width: 100%;
   }
@@ -122,12 +123,13 @@ export const AddEmployeeButton = styled(Link)`
   background-color: #ffa500;
   color: #fff;
   padding: 7px 40px;
+  
   border: none;
   border-radius: 5px;
   text-decoration: none;
   cursor: pointer;
-  margin-left: 10px;
-  margin-top: 5.5px;
+  // margin-left: 0px;
+  margin-top: 6px;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -137,6 +139,8 @@ export const AddEmployeeButton = styled(Link)`
     padding: 7px 10px; /* Adjust padding for smaller screens */
     min-width: 10px; /* Set a fixed width for smaller screens */
     width: 100%;
+    margin-left:0px;
+
   }
 `;
 
@@ -148,9 +152,11 @@ export const HeadingAndSearchContainer = styled.div`
 
   @media screen and (max-width: 845px) {
     flex-direction: column; /* Stack elements vertically for mobile view */
-    //  align-items: flex-start; /* Adjust alignment if needed */
-    padding: 9px 19px;
-    margin-right: 10px;
+     align-items: flex-start; /* Adjust alignment if needed */
+    padding: 10px 20px;
+    margin-right: 0px;
+    // margin-right: 5px;
+    
   }
 `;
 
@@ -240,23 +246,51 @@ export const FilterOuterBox = styled.div`
   border-bottom-left-radius: 5px; /* Adjust as needed */
   border-bottom-right-radius: 5px; /* Adjust as needed */
 
-  padding: 5px 19px; /* Add padding to create spacing between FilterBox components */
+  padding: 5px 20px; /* Add padding to create spacing between FilterBox components */
+  // width: 100%; /* Set the width to 100% to increase with screen width */
 
-  @media (max-width: 768px) {
+  @media (max-width: 845px) {
+    padding: 5px 20px;
     flex-direction: column;
-    & > * {
-      margin-right: 0;
+    
       width: 100%;
-    }
+    
   }
 `;
+
 export const FilterContainer = styled.div`
   background: #fff;
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   border-radius: 5px;
-  // border-bottom-left-radius: 5px; /* Adjust as needed */
-  // border-bottom-right-radius: 5px; /* Adjust as needed */
+  
+  
 `;
+// Loader Container
+export const LoaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+// Spinner Animation
+export const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+// Spinner Icon
+export const SpinnerIcon = styled.div`
+  animation: ${spin} 1s infinite linear;
+  font-size: 24px;
+`;
+
+// Loader Text
+export const LoaderText = styled.div`
+  font-size: 16px;
+  margin-left: 8px;
+`;
+
 
 export const IconWrapper = styled.div`
   position: relative;
