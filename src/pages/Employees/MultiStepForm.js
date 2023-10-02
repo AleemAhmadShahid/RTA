@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import {
   ModalOverlay,
   ModalContainer,
+  ModalHeader,
   InnermodalContainer,
+  FormButton,
   BottomButtonsContainer,
   CloseButton,
   CloseButtonContainer,
   SaveButton,
   SaveAndNextButton,
+  FormButtonContainer,
   PreviousButton,
   StepIndicators,
   StepIndicatorContainer,
@@ -21,7 +24,7 @@ import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
-
+import styled from "styled-components";
 import { createPostRequest, createPutRequest } from "../../global/helper";
 
 const MultiStepForm = ({
@@ -33,9 +36,7 @@ const MultiStepForm = ({
   setIsDialogOpen,
   setshowToast,
   reload,
-  setReload,
-  isEditMode,
-  onEditClick,
+  setReload
 }) => {
   const [step, setStep] = useState(1);
 
@@ -63,58 +64,64 @@ const MultiStepForm = ({
     const fieldParts = field.split(".");
     data = setField(data, fieldParts, value);
     setFormData(data);
-    if (typeof setError === "function" && value === "")
-      setErrors(setField({ ...errors }, fieldParts, ""));
+    if (typeof setError == "function" && value == "")
+      setErrors(setField({...errors}, fieldParts, ""));
     else if (typeof setError == "function")
-      setErrors(setField({ ...errors }, fieldParts, setError(value)));
+      setErrors(setField({...errors}, fieldParts, setError(value)));
   };
   const closeForm = (message) => {
     setFormData({});
     setShowForm(false);
-    if (typeof message != "object") setshowToast(true);
+    if (typeof message != "object")
+      setshowToast(true);
     setTimeout(() => setshowToast(false), 2000);
   };
 
+  const openForm = () => {
+    setShowForm(true);
+    setStep(1);
+  };
   const isFirstStep = step === 1;
   const isLastStep = step === 4;
 
   const handleSave = async (nextStep = null) => {
     let required = false;
     const fields = ["name", "email"];
-    let errorFields = { ...errors };
-    for (const field of fields) {
-      // if((!required && formData[field] === undefined || formData[field] === ''))
-      if (
-        !(required && (formData[field] === undefined || formData[field] === ""))
-      ) {
-        errorFields = { ...errorFields, [field]: "This field is required" };
+    let errorFields = {...errors};
+    for(const field of fields)
+    {
+      if((!required && formData[field] === undefined || formData[field] === ''))
+      {
+        errorFields = { ...errorFields, [field]: 'This field is required' };
         required = true;
       }
-    }
-    if (required) {
+    };
+    if (required)
+    {
       setErrors(errorFields);
       return;
-    }
-    const copyFormData = { ...formData };
-    copyFormData.profileImg = /\/([^/?]+)\?/.test(formData.profileImg)
-      ? formData.profileImg.match(/\/([^/?]+)\?/)[1]
-      : formData.profileImg;
-    if (copyFormData._id === undefined) {
-      const response = await createPostRequest(copyFormData, "/api/user");
-      if (response.status === 201) {
-        handleChange("_id", response.user._id);
-        setReload(!reload);
-        setMessage("Operation Successful");
-      } else {
+    };
+    const copyFormData = {...formData};
+    copyFormData.profileImg =  /\/([^/?]+)\?/.test(formData.profileImg) ? formData.profileImg.match(/\/([^/?]+)\?/)[1] : formData.profileImg;
+    if(copyFormData._id == undefined)
+    {
+      const response = await createPostRequest(copyFormData,'/api/user');
+      if (response.status == 201)
+      {
+         handleChange("_id", response.user._id);
+         setReload(!reload);
+         setMessage("Operation Successful");
+      }
+      else
+      {
         setMessage(response.error);
         setIsDialogOpen(true);
-        return;
+        return;    
       }
-    } else {
-      const response = await createPutRequest(
-        copyFormData,
-        `/api/user/${formData._id}/`
-      );
+    }
+    else
+    {
+      const response = await createPutRequest(copyFormData,`/api/user/${formData._id}/`);
       setMessage("Operation Successful");
       setReload(!reload);
     }
@@ -135,7 +142,7 @@ const MultiStepForm = ({
         return <StepTwo formData={formData} handleChange={handleChange} />;
       case 3: // Include the third step here
         return <StepThree formData={formData} handleChange={handleChange} />;
-      case 4:
+      case 4: 
         return <StepFour formData={formData} handleChange={handleChange} />;
       default:
         return null;
@@ -146,9 +153,15 @@ const MultiStepForm = ({
     showForm && (
       <ModalOverlay>
         <FormCenteringContainer>
+          {/*<HeaderContainer>
+           <Heading>Create a company</Heading> 
+            <CloseButtonContainer>
+          <CloseButton onClick={closeForm} className="close-button">
+            &#10005;
+          </CloseButton></CloseButtonContainer> </HeaderContainer> */}
           <ModalContainer>
             <HeaderContainer>
-              <Heading>{isEditMode ? "Update User" : "Create User"}</Heading>
+              <Heading>Create User</Heading>
               <CloseButtonContainer>
                 <CloseButton onClick={closeForm} className="close-button">
                   &#10005;
@@ -168,9 +181,10 @@ const MultiStepForm = ({
                   </StepIndicatorContainer>
                 ))}
               </StepIndicators>
-
+              {/* <h3>We can't wait to meet you</h3> */}
               {renderStep()}
               <BottomButtonsContainer>
+                {/* <FormButtonContainer>  */}
                 <div>
                   {!isFirstStep && (
                     <PreviousButton onClick={prevStep}>Previous</PreviousButton>
@@ -188,6 +202,7 @@ const MultiStepForm = ({
                     </>
                   )}
                 </div>
+                {/* </FormButtonContainer> */}
               </BottomButtonsContainer>
             </InnermodalContainer>
           </ModalContainer>

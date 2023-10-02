@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-
+import { IconType } from "react-icons";
 
 const BoxContainer = styled.div`
    position: relative;
- 
+  // width:50%;
+  // margin-right:10px;
+  //  width:90%;
   
 `;
 
@@ -18,12 +20,12 @@ const InfoBoxContainer = styled.div`
   background: #fff;
   padding: 14px 20px;
   border-radius: 5px;
-  
+  //  margin-right: 1px;
    
    margin-bottom: 20px;
   width: 100%; /* Default width for all screen sizes */
  
-  
+  /* Add media queries for different screen sizes */
   
   @media screen and (max-width: 1200px) {
     /* Adjust width for smaller screens */
@@ -34,7 +36,7 @@ const InfoBoxContainer = styled.div`
     width: 100%;
   }
 
- 
+  /* Add more media queries as needed */
 
   // z-index: 1;
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
