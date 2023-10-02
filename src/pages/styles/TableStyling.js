@@ -19,16 +19,13 @@ export const Th = styled.th`
   top: 10%;
   padding: 9px 62.4px;
   font-weight: medium;
-   width: 100%;
+  width: 100%;
   font-size: 0.7rem;
   text-align: center;
 
-
   white-space: nowrap; /* Prevent text from wrapping */
-  
 
   @media screen and (min-width: 845px) {
-
   }
 `;
 
@@ -81,8 +78,9 @@ export const AddEmployeeContainer = styled.div`
   @media screen and (max-width: 845px) {
     flex-direction: column; /* Stack elements vertically for mobile view */
     align-items: flex-start; /* Adjust alignment if needed */
-    padding: 9px 0px 9px 5px;
-    margin-right: 10px;
+    padding: 0px 0px 9px 0px;
+    margin-right: 0px;
+    
     width: 100%;
   }
 `;
@@ -126,8 +124,9 @@ export const AddEmployeeButton = styled(Link)`
   border-radius: 5px;
   text-decoration: none;
   cursor: pointer;
-  margin-left: 10px;
-  margin-top: 5.5px;
+  margin-left: 0px;
+  
+   margin-top: 4px;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -137,6 +136,8 @@ export const AddEmployeeButton = styled(Link)`
     padding: 7px 10px; /* Adjust padding for smaller screens */
     min-width: 10px; /* Set a fixed width for smaller screens */
     width: 100%;
+    margin-left: 0px;
+    margin-top: 0px;
   }
 `;
 
@@ -149,7 +150,7 @@ export const HeadingAndSearchContainer = styled.div`
   @media screen and (max-width: 845px) {
     flex-direction: column; /* Stack elements vertically for mobile view */
     //  align-items: flex-start; /* Adjust alignment if needed */
-    padding: 9px 19px;
+    padding: 10px 20px;
     margin-right: 10px;
   }
 `;
@@ -186,7 +187,7 @@ export const CenteredContainer = styled.div`
 `;
 
 export const EntriesDropdown = styled(Select)`
-  width: ${(props) => (props.width ? props.width : '150px')};
+  width: ${(props) => (props.width ? props.width : "150px")};
   margin-right: 8px;
 
   .select__control {
@@ -236,16 +237,18 @@ export const CardsContainer = styled.div`
 export const FilterOuterBox = styled.div`
   background: #fff;
   display: flex; /* Use flex display to align FilterBox components side by side */
-  // align-items: center;
+  //  align-items: left;
+  
   border-bottom-left-radius: 5px; /* Adjust as needed */
   border-bottom-right-radius: 5px; /* Adjust as needed */
+  margin-right: 10px;
+  padding: 5px 20px; /* Add padding to create spacing between FilterBox components */
 
-  padding: 5px 19px; /* Add padding to create spacing between FilterBox components */
-
-  @media (max-width: 768px) {
+  @media (max-width: 845px) {
+    padding: 5px 20px;
     flex-direction: column;
     & > * {
-      margin-right: 0;
+      margin-right: 0px;
       width: 100%;
     }
   }
@@ -254,8 +257,10 @@ export const FilterContainer = styled.div`
   background: #fff;
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   border-radius: 5px;
-  // border-bottom-left-radius: 5px; /* Adjust as needed */
-  // border-bottom-right-radius: 5px; /* Adjust as needed */
+  display:flex;
+  flex-direction:column;
+
+  
 `;
 
 export const IconWrapper = styled.div`
@@ -268,9 +273,7 @@ export const dropDownStyle = {
   menu: (provided) => ({
     ...provided,
     background: "#ffffff",
-    border: provided.isFocused
-      ? "1px solid orange"
-      : "1px solid #ccc",
+    border: provided.isFocused ? "1px solid orange" : "1px solid #ccc",
   }),
   option: (provided, state) => ({
     ...provided,

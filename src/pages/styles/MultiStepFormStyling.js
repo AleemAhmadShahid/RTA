@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StepNumberContainer = styled.div`
   display: flex;
@@ -35,13 +35,10 @@ export const NumberCircle = styled.div`
   }
 `;
 export const ModalOverlay = styled.div`
- 
-  
-   flex-direction: column; /* To stack child components vertically */
-   position: fixed;
+  flex-direction: column; /* To stack child components vertically */
+  position: fixed;
   top: 0;
   left: 0;
-  
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -62,7 +59,6 @@ export const ModalContainer = styled.div`
     width: 100%; /* Set width to 100% for mobile view */
     border-radius: 0; /* Remove border radius for mobile view */
   }
-
 `;
 
 export const InnermodalContainer = styled.div`
@@ -73,8 +69,8 @@ export const InnermodalContainer = styled.div`
   display: flex;
   flex-direction: column;
   // justify-content:center;
-  top: 0; 
-  right: 0; 
+  top: 0;
+  right: 0;
   height: 88%;
   overflow-y: auto;
   @media screen and (max-width: 845px) {
@@ -82,9 +78,8 @@ export const InnermodalContainer = styled.div`
   }
 `;
 
-
 export const FormStep = styled.div`
-  display: ${props => (props.active ? 'block' : 'none')};
+  display: ${(props) => (props.active ? "block" : "none")};
 `;
 
 export const FormGroup = styled.div`
@@ -95,21 +90,18 @@ export const FormLabel = styled.label`
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  font-size:small;
-  
+  font-size: small;
 `;
 
 export const FormInput = styled.input`
-
   width: 100%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  
 `;
 
 export const FormHalfInput = styled.input`
-   flex: 1; /* Make the input fields flexible to cover available space */
+  flex: 1; /* Make the input fields flexible to cover available space */
   padding: 5px;
   width: 100%;
   border: 1px solid #ccc;
@@ -117,14 +109,13 @@ export const FormHalfInput = styled.input`
   box-sizing: border-box;
 `;
 
-
 export const FormButton = styled.button`
   background-color: #ffa500;
   color: #fff;
   border: none;
   border-radius: 10px;
-  margin-top:5px;
-  padding: 10px 20px; 
+  margin-top: 5px;
+  padding: 10px 20px;
   font-size: small;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -156,21 +147,20 @@ export const StyledSelect = styled.select`
 export const BottomButtonsContainer = styled.div`
   position: fixed;
   bottom: 0;
-  
-   right: 0;
+
+  right: 5px;
   display: flex;
   justify-content: space-between;
   padding: 20px; /* Add padding to create space around the buttons */
   // background-color: white;
- 
 `;
 export const H6 = styled.h6`
   margin-top: 10px; /* Add top margin */
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   word-wrap: break-word;
 `;
 export const CloseButton = styled.button`
-  padding: 7px 7px;
+  padding: 7px 10px;
   font-size: 16px;
   background: none;
   border: none;
@@ -191,7 +181,7 @@ export const PictureUploadButton = styled.label`
   transition: background-color 0.3s ease;
   margin-right: 20px;
 
-  input[type='file'] {
+  input[type="file"] {
     display: none;
   }
 
@@ -212,7 +202,6 @@ export const UploadBox = styled.div`
   overflow: hidden;
 `;
 
-
 export const UploadContainer = styled.div`
   display: flex;
   align-items: center;
@@ -222,11 +211,11 @@ export const UploadContainer = styled.div`
 export const TextContainer = styled.div`
   display: flex;
   flex-direction: column; /* Stack children vertically */
-  align-items: flex-start;/* Center horizontally */
+  align-items: flex-start; /* Center horizontally */
 `;
-export const P=styled.p`
-font-size:15px;
-margin-left:10px;
+export const P = styled.p`
+  font-size: 15px;
+  margin-left: 10px;
 `;
 export const CloseButtonContainer = styled.div`
   display: flex;
@@ -240,7 +229,6 @@ export const SaveButton = styled(FormButton)`
 export const SaveAndNextButton = styled(FormButton)`
   background-color: #ffa500;
   color: white;
-  
 `;
 
 export const FormButtonContainer = styled.div`
@@ -257,13 +245,11 @@ export const PreviousButton = styled(FormButton)`
 export const StepIndicators = styled.div`
   display: flex;
   justify-content: center;
-  
 `;
 
 export const StepIndicatorContainer = styled.div`
   display: flex;
   align-items: center;
- 
 `;
 
 export const StepIndicator = styled.div`
@@ -280,7 +266,6 @@ export const StepIndicator = styled.div`
   margin-right: 10px;
   margin-bottom: 10px;
   color: #000; /* Set the number color to black */
-  
 `;
 
 export const Line = styled.div`
@@ -327,6 +312,7 @@ export const FormCenteringContainer = styled.div`
 `;
 export const Step3AddButton = styled(FormButton)`
   align-self: flex-end;
+  margin-bottom: 30px;
 `;
 export const Step3Container = styled.div`
   display: flex;
@@ -360,6 +346,3 @@ export const Step3CloseButton = styled.button`
   top: 0px;
   right: 5px;
 `;
-
-
-

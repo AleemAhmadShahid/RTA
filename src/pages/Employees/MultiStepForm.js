@@ -36,7 +36,8 @@ const MultiStepForm = ({
   setIsDialogOpen,
   setshowToast,
   reload,
-  setReload
+  setReload,
+  isEditMode,
 }) => {
   const [step, setStep] = useState(1);
 
@@ -161,7 +162,9 @@ const MultiStepForm = ({
           </CloseButton></CloseButtonContainer> </HeaderContainer> */}
           <ModalContainer>
             <HeaderContainer>
-              <Heading>Create User</Heading>
+            <Heading>
+  {isEditMode ? "Update User" : "Create User"}
+</Heading>
               <CloseButtonContainer>
                 <CloseButton onClick={closeForm} className="close-button">
                   &#10005;

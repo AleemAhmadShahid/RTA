@@ -13,7 +13,19 @@ export const CloseButton = styled.button`
   font-size: 16px;
   
 `;
-
+const Checkmark = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color:white ;
+  border: 2px solid #32CD32; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #32CD32;
+  font-size: 20px;
+  margin-right:10px;
+`;
 export const CrossIcon = styled(MdIcons.MdClose)`
 
   width: 45px;
@@ -86,7 +98,7 @@ const ErrorDialog = ({ show, handleClose , message, title, handleYes}) => {
           <DialogOverlay1 show={show}>
             <DialogBoxContainer1>
               <CrossIcon />
-              <ErrorText>{title || "Error!"}</ErrorText>
+              <ErrorText>{title&&<Checkmark/> || "Error!"}</ErrorText>
               <ClickedText>{message}</ClickedText>
               { handleYes == undefined ?
                 <OKButton onClick={handleClose}>OK</OKButton>:

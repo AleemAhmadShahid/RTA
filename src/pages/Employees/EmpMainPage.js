@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { styled } from "styled-components";
-import SearchBar from "../../components/searchbar";
+import React, { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
-import { createGetRequest, createDeleteRequest, createPutRequest } from "../../global/helper";
+import LoaderComponent from "../../components/Loader";
+import {
+  createGetRequest,
+  createDeleteRequest,
+  createPutRequest,
+} from "../../global/helper";
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../components/Cards";
 import PageBar from "../../components/PageBar";
@@ -14,12 +16,10 @@ import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 
 import EmployeeInfo from "../../components/EmployeeInfo";
-import { async } from "q";
 
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import Select from "react-select";
 import {
   FaPrint,
   FaFileCsv,
@@ -33,7 +33,6 @@ import {
   Th,
   AddEmployeeContainer,
   Table,
-  UserImage,
   SuccessBadge,
   DangerBadge,
   CreateEmployeeHeading,
@@ -48,7 +47,7 @@ import {
   IconWrapper,
   EntriesDropdown,
   StyledSearchBar,
-  dropDownStyle
+  dropDownStyle,
 } from "../styles/TableStyling";
 
 const Emp_list = () => {
@@ -65,9 +64,6 @@ const Emp_list = () => {
     { value: 3, label: "Delete" },
   ];
 
-  const planOptions = [
-    { value: {}, label: "Select" },
-  ];
   const exportOptions = [
     { label: "Print", icon: <FaPrint /> },
     { label: "CSV", icon: <FaFileCsv /> },
@@ -77,15 +73,17 @@ const Emp_list = () => {
   ];
 
   const navigate = useNavigate();
-  
-  
+
+  const [isEditMode, setIsEditMode] = useState(false);
+
+
   const [checkedEmployees, setCheckedEmployees] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [reload, setReload] = useState(false);
-  
+
   const [infoBoxData, setInfoBoxData] = useState({});
   const [entriesToShow, setEntriesToShow] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,8 +93,12 @@ const Emp_list = () => {
   const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
   const [role, setRole] = useState({ value: {}, label: "Select" });
-  const [roleOptions, setRoleOptions] = useState({ value: {}, label: "Select" });
-  const [plan, setPlan] = useState({ value: {}, label: "Select" });
+  const [roleOptions, setRoleOptions] = useState({
+    value: {},
+    label: "Select",
+  });
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log(role);
@@ -107,62 +109,72 @@ const Emp_list = () => {
     };
     if (typeof status.value !== "object") params.status = status.value;
     if (typeof role.value !== "object") params.roles = role.value;
+
+    setLoading(true);
+
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/user", params);
         if (
-          data.status == 401 &&
-          (data.error == "Invalid or expired token" ||
-            data.error == "No token provided")
+          data.status === 401 &&
+          (data.error === "Invalid or expired token" ||
+            data.error === "No token provided")
         )
           navigate("/login/");
-        if (data.status == 404) {
+        if (data.status === 404) {
           setEmployees([]);
           return;
         }
         setEmployees(data.users);
         setTotalPages(data.totalPages);
         setInfoBoxData(data.analytics);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
       try {
         const data = await createGetRequest("/api/role");
-        if (data.status == 200)
-        {
-          const roles = data.roles.map((role) => ({ label: role.name, value: role._id }));
-          setRoleOptions([{ value: {}, label: "Select" },...roles]);
+        if (data.status === 200) {
+          const roles = data.roles.map((role) => ({
+            label: role.name,
+            value: role._id,
+          }));
+          setRoleOptions([{ value: {}, label: "Select" }, ...roles]);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status, role, reload]);
+  }, [currentPage, entriesToShow, searchTerm, status, role, reload, navigate]);
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const openForm = () => {
+  // const openForm = () => {
+  //   setShowForm(true);
+  // };
+
+  const handleEditClick = (employee) => {
+    setFormData(employee);
     setShowForm(true);
+    setIsEditMode(true); // Set isEditMode to true when the edit button is clicked
   };
 
   const toggleForm = () => {
     setShowForm(!showForm);
+    setIsEditMode(false); 
   };
 
   const handleStatusChange = (selectedOption) => {
-    setStatus(selectedOption); 
+    setStatus(selectedOption);
   };
   const handleRoleChange = (selectedOption) => {
-    setRole(selectedOption); 
+    setRole(selectedOption);
   };
 
   const handleEntriesChange = (value) => {
     setEntriesToShow(value);
-  };
-  const handlePlanChange = (selectedOption) => {
-    setPlan(selectedOption); 
   };
 
   const [showToast, setshowToast] = useState(false);
@@ -189,21 +201,19 @@ const Emp_list = () => {
       selectedCheckCopy.push(optionLabel);
     else
       selectedCheckCopy = selectedCheckCopy.filter(
-        (check) => check != optionLabel
+        (check) => check !== optionLabel
       );
     setSelectedCheck(selectedCheckCopy);
   };
   const [Export, setExport] = useState({
     label: "Export",
-    icon: <FaPrint />, 
+    icon: <FaPrint />,
   });
 
   const [deleteEmployeeId, setDeleteEmployeeId] = useState("");
-  const deleteEmployee = async(id) =>
-  {
-    const response = await createDeleteRequest(`/api/user/${id}/`)
-    if (response.status == 200)
-    {
+  const deleteEmployee = async (id) => {
+    const response = await createDeleteRequest(`/api/user/${id}/`);
+    if (response.status === 200) {
       setIsConfirmDialogOpen(false);
       setMessage("Deleted Successfully");
       setReload(!reload);
@@ -212,43 +222,34 @@ const Emp_list = () => {
         setshowToast(false);
       }, 1500);
     }
-  }
+  };
 
-  const takeBulkAction = async () =>
-  {
-    if (checkedEmployees.length == 0 || bulkOption == "Select")
-      return;
+  const takeBulkAction = async () => {
+    if (checkedEmployees.length === 0 || bulkOption === "Select") return;
     let path = "";
-    const data = {users: checkedEmployees, status: 1};
-    if (bulkOption.label == "Deactive" || bulkOption.label == "Active"  )
+    const data = { users: checkedEmployees, status: 1 };
+    if (bulkOption.label === "Deactive" || bulkOption.label === "Active")
       path = "/api/user/bulkStatusUpdate/";
-    if (bulkOption.label == "Active")
-      data.status = 1;
-    if (bulkOption.label == "Deactive")
-      data.status = 2;
-    
-    else if (bulkOption.label == "Delete")
-      path = "/api/user/bulkDelete/";
-    const response = await createPutRequest(data,path);
-    if (response.status == 200)
-    {
+    if (bulkOption.label === "Active") data.status = 1;
+    if (bulkOption.label === "Deactive") data.status = 2;
+    else if (bulkOption.label === "Delete") path = "/api/user/bulkDelete/";
+    const response = await createPutRequest(data, path);
+    if (response.status === 200) {
       setReload(!reload);
       setMessage(`${bulkOption.label}d Successfully`);
       setshowToast(true);
       setTimeout(() => {
         setshowToast(false);
       }, 1500);
-      setBulkOption({label: "Select", value: 0});
+      setBulkOption({ label: "Select", value: 0 });
     }
-    
-  }
- 
-  
-  const toggleToast = (event) => {
-    const rect = event.target.getBoundingClientRect();
-
-    setshowToast(!showToast);
   };
+
+  // const toggleToast = (event) => {
+  //   const rect = event.target.getBoundingClientRect();
+
+  //   setshowToast(!showToast);
+  // };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
@@ -258,18 +259,19 @@ const Emp_list = () => {
 
   return (
     <>
-      {/* for error ToastDialogBox  */}
       <ErrorDialog
         message={message}
         show={isDialogOpen}
         handleClose={handleCloseDialog}
       />
       <ErrorDialog
-        title = {"Are you sure?"}
+        title={"Are you sure?"}
         message={message}
         show={isConfirmDialogOpen}
         handleClose={() => setIsConfirmDialogOpen(false)}
-        handleYes = {() => {deleteEmployee(deleteEmployeeId);}}
+        handleYes={() => {
+          deleteEmployee(deleteEmployeeId);
+        }}
       />{" "}
       {/* {showToast && (
         <DialogOverlay show={showToast}>
@@ -320,7 +322,6 @@ const Emp_list = () => {
                 onValueChange={handleStatusChange}
                 selectedValue={status}
                 title="Status"
-                // width={"340px"}
               />
               <FilterBox
                 options={roleOptions} // Pass the options directly
@@ -328,28 +329,32 @@ const Emp_list = () => {
                 selectedValue={role}
                 title=" Role"
               />
-              <FilterBox
+              {/* <FilterBox
                 options={planOptions} // Pass the options directly
                 onValueChange={handlePlanChange}
                 selectedValue={plan}
                 title=" Plan"
-              />
+              />  */}
             </FilterOuterBox>
-            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Bulk Actions</h6>
-            <FilterOuterBox style={{justifyContent: "flex-start"}}>
+            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
+              Bulk Actions
+            </h6>
+            <FilterOuterBox>
               <FilterBox
                 options={bulkOptions}
-                onValueChange={(selectedOption) => setBulkOption(selectedOption)}
+                onValueChange={(selectedOption) =>
+                  setBulkOption(selectedOption)
+                }
                 selectedValue={bulkOption}
                 title=""
               />
               <AddEmployeeButton
-                  style = {{ "marginRight": "50px"}}
-                  className="btn btn-primary mb-2"
-                  onClick={takeBulkAction}
-                >
-                  <span style={{ whiteSpace: "nowrap" }}>Apply</span>
-                </AddEmployeeButton>
+                style={{ marginBottom: "0px" }}
+                className="btn btn-primary mb-2"
+                onClick={takeBulkAction}
+              >
+                <span style={{ whiteSpace: "nowrap" }}>Apply</span>
+              </AddEmployeeButton>
             </FilterOuterBox>
           </FilterContainer>
 
@@ -376,53 +381,53 @@ const Emp_list = () => {
               <StyledSearchBar onSearch={setSearchTerm} />
               {/* <AddEmployeeContainerMobile> */}
               <AddEmployeeContainer>
-                  <EntriesDropdown
-                    value={"Select"}
-                    options={CheckOptions.map((option) => ({
-                      value: option,
-                      label: (
-                        <div
-                          onClick={() => handleCheckChange(option)}
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedCheck.includes(option)} // Check against selectedCheck
-                            style={{ marginRight: "8px" }}
-                          />
-                          <span>{option}</span>
-                        </div>
-                      ),
-                    }))}
-                    styles={{...dropDownStyle}}
-                  />
+                <EntriesDropdown
+                  value={"Select"}
+                  options={CheckOptions.map((option) => ({
+                    value: option,
+                    label: (
+                      <div
+                        onClick={() => handleCheckChange(option)}
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedCheck.includes(option)} // Check against selectedCheck
+                          style={{ marginRight: "8px" }}
+                        />
+                        <span>{option}</span>
+                      </div>
+                    ),
+                  }))}
+                  styles={{ ...dropDownStyle }}
+                />
 
                 {/* <AddEmployeeContainer> */}
-                  <EntriesDropdown
-                    value={{
-                      value: Export.label, // Changed this to Export.label
-                      label: Export.label.toString(),
-                    }}
-                    onChange={(selectedOption) => {
-                      setExport({
-                        label: selectedOption.value, // Set both label and icon
-                        icon: selectedOption.icon,
-                      });
-                    }}
-                    options={exportOptions.map((option) => ({
-                      value: option.label,
-                      label: (
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          {option.icon}
-                          <span style={{ marginLeft: "8px" }}>
-                            {option.label}
-                          </span>
-                        </div>
-                      ),
-                      icon: option.icon, // Add icon to the option object
-                    }))}
-                    styles={dropDownStyle}
-                  />
+                <EntriesDropdown
+                  value={{
+                    value: Export.label, // Changed this to Export.label
+                    label: Export.label.toString(),
+                  }}
+                  onChange={(selectedOption) => {
+                    setExport({
+                      label: selectedOption.value, // Set both label and icon
+                      icon: selectedOption.icon,
+                    });
+                  }}
+                  options={exportOptions.map((option) => ({
+                    value: option.label,
+                    label: (
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        {option.icon}
+                        <span style={{ marginLeft: "8px" }}>
+                          {option.label}
+                        </span>
+                      </div>
+                    ),
+                    icon: option.icon, // Add icon to the option object
+                  }))}
+                  styles={dropDownStyle}
+                />
                 <AddEmployeeButton
                   onClick={toggleForm}
                   className="btn btn-primary mb-2"
@@ -437,14 +442,16 @@ const Emp_list = () => {
                 <thead>
                   <Tr>
                     <Th>
-                      <input type="checkbox" onChange={(e) =>
-                      {
-                        if(e.target.checked)
-                          setCheckedEmployees(employees.map((employee) => employee._id));
-                        else
-                          setCheckedEmployees([]);
-                      }} 
-                     />
+                      <input
+                        type="checkbox"
+                        onChange={(e) => {
+                          if (e.target.checked)
+                            setCheckedEmployees(
+                              employees.map((employee) => employee._id)
+                            );
+                          else setCheckedEmployees([]);
+                        }}
+                      />
                     </Th>
                     {selectedCheck.includes("User") && <Th>USER</Th>}
                     {/* <Th>NAME</Th>  */}
@@ -454,7 +461,7 @@ const Emp_list = () => {
                     {selectedCheck.includes("Last Login") && (
                       <Th>LAST LOGIN</Th>
                     )}
-                     {selectedCheck.includes("Member Since") && (
+                    {selectedCheck.includes("Member Since") && (
                       <Th>MEMBER SINCE</Th>
                     )}
                     {selectedCheck.includes("Status") && <Th>STATUS</Th>}
@@ -462,34 +469,44 @@ const Emp_list = () => {
                   </Tr>
                 </thead>
                 <tbody>
-                  {employees &&
+                  {/* Conditionally render the loader while loading */}
+                  {loading ? (
+                    <tr>
+                      <td colSpan="6">
+                        {/* Replace 'Loader' with your actual loader component */}
+                        <LoaderComponent />
+                      </td>
+                    </tr>
+                  ) : (
+                    employees &&
                     employees.map((employee) => (
                       <Tr key={employee._id}>
                         <Td>
                           {" "}
-                          <input type="checkbox"  checked={checkedEmployees.includes(employee._id)} onChange={() => {
-                            if(!checkedEmployees.includes(employee._id))
-                              setCheckedEmployees([...checkedEmployees,employee._id]);
-                            else
-                              setCheckedEmployees(checkedEmployees.filter((checkedEmployee) => checkedEmployee!=employee._id));
-                          }}/>
+                          <input
+                            type="checkbox"
+                            checked={checkedEmployees.includes(employee._id)}
+                            onChange={() => {
+                              if (!checkedEmployees.includes(employee._id))
+                                setCheckedEmployees([
+                                  ...checkedEmployees,
+                                  employee._id,
+                                ]);
+                              else
+                                setCheckedEmployees(
+                                  checkedEmployees.filter(
+                                    (checkedEmployee) =>
+                                      checkedEmployee !== employee._id
+                                  )
+                                );
+                            }}
+                          />
                         </Td>
                         {selectedCheck.includes("User") && (
                           <Td>
-                            {/* {employee.profileImg && (
-                  <UserImage src={employee.profileImg} />
-                )} */}
                             <EmployeeInfo employee={employee} />
                           </Td>
                         )}
-                        {/* <Td> */}
-                        {/* <EmployeeInfo employee={employee} />  */}
-                        {/* {employee.name} */}
-                        {/* <br /> */}
-                        {/* <span style={{ fontSize: "12px", color: "grey" }}> */}
-                        {/* {employee.email} */}
-                        {/* </span> */}
-                        {/* </Td> */}
 
                         {selectedCheck.includes("Employee Code") && (
                           <Td>{employee._id}</Td>
@@ -518,7 +535,7 @@ const Emp_list = () => {
                                 {
                                   day: "2-digit",
                                   month: "short",
-                                  year: "numeric"
+                                  year: "numeric",
                                 }
                               )) ||
                               ""}
@@ -530,11 +547,9 @@ const Emp_list = () => {
                               <SuccessBadge>Active</SuccessBadge>
                             ) : employee.status === 2 ? (
                               <DangerBadge>Inactive</DangerBadge>
-                            ) :
-                            (
+                            ) : (
                               <DangerBadge>Deleted</DangerBadge>
-                            ) 
-                          }
+                            )}
                           </Td>
                         )}
                         {selectedCheck.includes("Actions") && (
@@ -544,6 +559,7 @@ const Emp_list = () => {
                                 onClick={() => {
                                   setFormData(employee);
                                   setShowForm(true);
+                                  setIsEditMode(!!employee);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -556,7 +572,9 @@ const Emp_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                setMessage("Do you want to delete this employee?");
+                                setMessage(
+                                  "Do you want to delete this employee?"
+                                );
                                 setDeleteEmployeeId(employee._id);
                                 setIsConfirmDialogOpen(true);
                               }}
@@ -564,22 +582,18 @@ const Emp_list = () => {
                           </Td>
                         )}
                       </Tr>
-                    ))}
-                  {!employees ||
-                    (employees.length === 0 && (
-                      <tr>
-                        <td colSpan="6">
-                          <HeadingAndSearchContainer>
-                            No Data to Show
-                          </HeadingAndSearchContainer>
-                        </td>
-                      </tr>
-                    ))}
+                    ))
+                  )}
+                  {!loading && (!employees || employees.length === 0) && (
+                    <tr>
+                      <td colSpan="6">No Data to Show</td>
+                    </tr>
+                  )}
                 </tbody>
               </Table>
             </TableContainer>
 
-            {employees.length != 0 && totalPages >= 1 && (
+            {employees.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -600,6 +614,8 @@ const Emp_list = () => {
           setshowToast={setshowToast}
           reload={reload}
           setReload={setReload}
+          isEditMode={isEditMode} // Pass the isEditMode prop here
+          onEditClick={handleEditClick}
         />
       )}
     </>
