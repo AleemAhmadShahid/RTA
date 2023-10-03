@@ -6,9 +6,6 @@ import SearchBar from "../../components/searchbar";
 export const CreateEmployeeHeading = styled.h6`
   margin-bottom: 0px;
   width: 100%;
-  //  right: 0%;
-  // font-weight: lighter;
-  // fontsize: "smaller";
 `;
 
 export const Th = styled.th`
@@ -23,16 +20,13 @@ export const Th = styled.th`
   font-size: 0.7rem;
   text-align: center;
 
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap; 
 
   @media screen and (min-width: 845px) {
   }
 `;
 
 export const Tr = styled.tr`
-  //   padding: 1px 0px;
-  //  text-align: center;
-  //   border-bottom: 0px solid #ddd;
   margin: 100px;
 
   & > :first-child {
@@ -43,7 +37,7 @@ export const Td = styled.td`
   padding: 10px 4px;
 
   white-space: nowrap;
-  width: 100%; /* Set the width to 100% */
+  width: 100%;
   text-align: center;
 
   border-top: 1px solid #ededed;
@@ -58,9 +52,6 @@ export const Table = styled.table`
   margin-top: 27px;
   width: 100%;
   overflow-x: auto;
-
-  //   border-bottom: none;
-  //   color: #ffa500;
   backgorund-color: #ffa500;
   border-collapse: collapse;
   border-spacing: 10px 5px;
@@ -76,11 +67,11 @@ export const AddEmployeeContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   @media screen and (max-width: 845px) {
-    flex-direction: column; /* Stack elements vertically for mobile view */
-    align-items: flex-start; /* Adjust alignment if needed */
+    flex-direction: column;
+    align-items: flex-start;
     padding: 0px 0px 9px 0px;
     margin-right: 0px;
-    
+
     width: 100%;
   }
 `;
@@ -125,16 +116,16 @@ export const AddEmployeeButton = styled(Link)`
   text-decoration: none;
   cursor: pointer;
   margin-left: 0px;
-  
-   margin-top: 4px;
+
+  margin-top: 4px;
   transition: background-color 0.3s ease;
 
   &:hover {
     background-color: #ff8000;
   }
   @media screen and (max-width: 845px) {
-    padding: 7px 10px; /* Adjust padding for smaller screens */
-    min-width: 10px; /* Set a fixed width for smaller screens */
+    padding: 7px 10px;
+    min-width: 10px;
     width: 100%;
     margin-left: 0px;
     margin-top: 0px;
@@ -148,8 +139,8 @@ export const HeadingAndSearchContainer = styled.div`
   align-items: center;
 
   @media screen and (max-width: 845px) {
-    flex-direction: column; /* Stack elements vertically for mobile view */
-    //  align-items: flex-start; /* Adjust alignment if needed */
+    flex-direction: column;
+
     padding: 10px 20px;
     margin-right: 10px;
   }
@@ -158,7 +149,7 @@ export const HeadingAndSearchContainer = styled.div`
 export const StyledSearchBar = styled(SearchBar)`
   width: 10%;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Adjust alignment if needed */
+    width: 100%;
     margin-bottom: 10px;
   }
 `;
@@ -175,10 +166,10 @@ export const CenteredContainer = styled.div`
   left: 253px;
   padding: 0px 20px;
   border-radius: 5px;
-  width: 81.9%; /* Default width */
+  width: 81.9%;
 
   @media (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%;
     left: 0;
     right: 0;
   }
@@ -191,7 +182,7 @@ export const EntriesDropdown = styled(Select)`
   margin-right: 8px;
 
   .select__control {
-    border: 1px solid orange; /* Change border color to orange */
+    border: 1px solid orange;
     border-radius: 5px;
     // padding: 5px;
     transition: border-color 0.3s ease;
@@ -207,7 +198,7 @@ export const EntriesDropdown = styled(Select)`
     }
   }
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%;
     margin-bottom: 10px;
   }
 `;
@@ -227,40 +218,42 @@ export const CardsContainer = styled.div`
 
   @media (max-width: 845px) {
     flex-direction: column;
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%;
     & > * {
-      margin-right: 0; /* Remove the right margin for mobile view */
+      margin-right: 0;
     }
   }
 `;
 
 export const FilterOuterBox = styled.div`
   background: #fff;
-  display: flex; /* Use flex display to align FilterBox components side by side */
-  //  align-items: left;
+  display: flex; 
   
-  border-bottom-left-radius: 5px; /* Adjust as needed */
-  border-bottom-right-radius: 5px; /* Adjust as needed */
+  
+  border-bottom-left-radius: 5px; 
+  border-bottom-right-radius: 5px; 
   margin-right: 10px;
-  padding: 5px 20px; /* Add padding to create spacing between FilterBox components */
+  padding: 5px 20px; 
 
   @media (max-width: 845px) {
     padding: 5px 20px;
     flex-direction: column;
     & > * {
-      margin-right: 0px;
-      width: 100%;
-    }
+      margin-right: 0;
   }
 `;
 export const FilterContainer = styled.div`
   background: #fff;
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   border-radius: 5px;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
 
-  
+  @media (max-width: 845px) {
+    & > * {
+      margin-right: 0;
+    }
+  }
 `;
 
 export const IconWrapper = styled.div`

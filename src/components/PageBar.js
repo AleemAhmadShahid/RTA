@@ -4,8 +4,8 @@ import styled from "styled-components";
 
 const PageBarContainer = styled.div`
   display: flex;
-  justify-content: flex-end; /* Align container to the right */
-  margin-top: 10px; /* Add some margin for spacing */
+  justify-content: flex-end; 
+  margin-top: 10px;
   margin-right:30px;
 `;
 

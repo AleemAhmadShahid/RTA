@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+
 import {
   FormStep,
   FormGroup,
@@ -13,35 +13,34 @@ import {
   Step3AddButton,
   H6,
 } from "../styles/MultiStepFormStyling";
-import {
-  EntriesDropdown,
-  dropDownStyle
-  } from "../styles/TableStyling";
-import {  createfileUploadRequest } from "../../global/helper";
-
+import { EntriesDropdown, dropDownStyle } from "../styles/TableStyling";
+import { createfileUploadRequest } from "../../global/helper";
 
 const StepFour = ({ formData, handleChange }) => {
-  const [liscenseAndCertifications, setLiscenseAndCertifications] = useState([]);
+  const [liscenseAndCertifications, setLiscenseAndCertifications] = useState(
+    []
+  );
   const [documents, setDocuments] = useState([]);
   const documentsTypes = [
-    'CV/Resume',
-    'Offer Letter',
-    'Contract',
-    'Identification',
-    'Certificate',
-    'Other',
+    "CV/Resume",
+    "Offer Letter",
+    "Contract",
+    "Identification",
+    "Certificate",
+    "Other",
   ].map((option) => ({
     label: option,
     value: option,
   }));
 
   useEffect(() => {
-    
-    if (formData && (formData.liscenseAndCertifications || formData.documents)) {
-      if(formData.liscenseAndCertifications)
+    if (
+      formData &&
+      (formData.liscenseAndCertifications || formData.documents)
+    ) {
+      if (formData.liscenseAndCertifications)
         setLiscenseAndCertifications(formData.liscenseAndCertifications);
-      if(formData.documents)
-        setDocuments(formData.documents);
+      if (formData.documents) setDocuments(formData.documents);
     }
   }, []);
 
@@ -91,13 +90,13 @@ const StepFour = ({ formData, handleChange }) => {
                 ×
               </Step3CloseButton>
 
-             
-
-                <FormGroup>
+              <FormGroup>
                 <FormLabel>Name</FormLabel>
                 <FormInput
                   type="text"
-                  value={formData?.liscenseAndCertifications?.[index]?.name || ""}
+                  value={
+                    formData?.liscenseAndCertifications?.[index]?.name || ""
+                  }
                   onChange={(e) =>
                     handleChange(
                       `liscenseAndCertifications.${index}.name`,
@@ -111,7 +110,10 @@ const StepFour = ({ formData, handleChange }) => {
                 <FormLabel>Issuing Authority</FormLabel>
                 <FormInput
                   type="text"
-                  value={formData?.liscenseAndCertifications?.[index]?.issuingAuthority || ""}
+                  value={
+                    formData?.liscenseAndCertifications?.[index]
+                      ?.issuingAuthority || ""
+                  }
                   onChange={(e) =>
                     handleChange(
                       `liscenseAndCertifications.${index}.issuingAuthority`,
@@ -125,9 +127,16 @@ const StepFour = ({ formData, handleChange }) => {
                 <FormLabel>Issuance Date</FormLabel>
                 <FormInput
                   type="Date"
-                  value={formData?.liscenseAndCertifications?.[index]?.issuanceDate.split('T')[0] || ""}
+                  value={
+                    formData?.liscenseAndCertifications?.[
+                      index
+                    ]?.issuanceDate.split("T")[0] || ""
+                  }
                   onChange={(e) =>
-                    handleChange(`liscenseAndCertifications.${index}.issuanceDate`, e.target.value)
+                    handleChange(
+                      `liscenseAndCertifications.${index}.issuanceDate`,
+                      e.target.value
+                    )
                   }
                 />
               </FormGroup>
@@ -136,9 +145,16 @@ const StepFour = ({ formData, handleChange }) => {
                 <FormLabel>Expiration Date</FormLabel>
                 <FormInput
                   type="Date"
-                  value={formData?.liscenseAndCertifications?.[index]?.expirationDate.split('T')[0] || ""}
+                  value={
+                    formData?.liscenseAndCertifications?.[
+                      index
+                    ]?.expirationDate.split("T")[0] || ""
+                  }
                   onChange={(e) =>
-                    handleChange(`liscenseAndCertifications.${index}.expirationDate`, e.target.value)
+                    handleChange(
+                      `liscenseAndCertifications.${index}.expirationDate`,
+                      e.target.value
+                    )
                   }
                 />
               </FormGroup>
@@ -146,23 +162,30 @@ const StepFour = ({ formData, handleChange }) => {
               <FormGroup>
                 <PictureUploadButton>
                   Upload Document
-                  <input type="file" onChange={async (e) => {
-                    const file = e.target.files[0]; 
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    const response = await createfileUploadRequest(formData);
-                    if (response.status == 200)
-                      handleChange(`liscenseAndCertifications.${index}.attachment`,  response.id, true)
-                    
-                  }} />
+                  <input
+                    type="file"
+                    onChange={async (e) => {
+                      const file = e.target.files[0];
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      const response = await createfileUploadRequest(formData);
+                      if (response.status === 200)
+                        handleChange(
+                          `liscenseAndCertifications.${index}.attachment`,
+                          response.id,
+                          true
+                        );
+                    }}
+                  />
                 </PictureUploadButton>
               </FormGroup>
-
             </Step3BorderBox>
           ))}
         </BoxStep3Container>
         <Step3AddButton
-          onClick={() => addItem(setLiscenseAndCertifications, liscenseAndCertifications)}
+          onClick={() =>
+            addItem(setLiscenseAndCertifications, liscenseAndCertifications)
+          }
         >
           Add Liscense and Certifications
         </Step3AddButton>
@@ -191,41 +214,45 @@ const StepFour = ({ formData, handleChange }) => {
               </FormGroup>
               <FormGroup>
                 <FormLabel>Type</FormLabel>
-                  <EntriesDropdown
-                    width="100%"
-                  value={formData?.documents?.[index]?.type 
-                    && {label: formData?.documents?.[index]?.type, value: formData?.documents?.[index]?.type}
-                    || {label: "CV/Resume", value: "CV/Resume"}}
-                  onChange={(selectedOption) =>{
-                      handleChange(
-                        `documents.${index}.type`,
-                        selectedOption.value
-                      );
-                    }
+                <EntriesDropdown
+                  width="100%"
+                  value={
+                    (formData?.documents?.[index]?.type && {
+                      label: formData?.documents?.[index]?.type,
+                      value: formData?.documents?.[index]?.type,
+                    }) || { label: "CV/Resume", value: "CV/Resume" }
                   }
+                  onChange={(selectedOption) => {
+                    handleChange(
+                      `documents.${index}.type`,
+                      selectedOption.value
+                    );
+                  }}
                   options={documentsTypes}
                   styles={dropDownStyle}
                 />
-                
-                </FormGroup>
-
-              
+              </FormGroup>
 
               <FormGroup>
                 <PictureUploadButton>
                   Upload Document
-                  <input type="file" onChange={async (e) => {
-                    const file = e.target.files[0]; 
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    const response = await createfileUploadRequest(formData);
-                    if (response.status == 200)
-                      handleChange(`documents.${index}.attachment`, response.id, true)
-                    
-                  }} />
+                  <input
+                    type="file"
+                    onChange={async (e) => {
+                      const file = e.target.files[0];
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      const response = await createfileUploadRequest(formData);
+                      if (response.status === 200)
+                        handleChange(
+                          `documents.${index}.attachment`,
+                          response.id,
+                          true
+                        );
+                    }}
+                  />
                 </PictureUploadButton>
               </FormGroup>
-              
             </Step3BorderBox>
           ))}
         </BoxStep3Container>

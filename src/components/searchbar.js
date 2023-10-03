@@ -14,7 +14,7 @@ const SearchInput = styled.input`
     margin-top:0px;
     margin-right:0px;
    
-      width:300px; /* Adjust alignment if needed */
+      width:300px; 
       margin-bottom:10px;
     
   }

@@ -13,9 +13,8 @@ const FilterBoxContainer = styled.div`
 `;
 
 const Dropdown = styled(Select)`
-   width: ${(props) => props.width || "100%"}; /* Use 100% width by default */
-  // width:100%;
-  max-width: 400px; /* Set a maximum width if needed */
+   width: ${(props) => props.width || "100%"};  
+  max-width: 400px; 
   margin-right: 10px;
 
   .select__control {
@@ -43,6 +42,9 @@ const Dropdown = styled(Select)`
 
 const Box = styled.div`
 width:40%;
+@media screen and (max-width:845px) {  
+  width: 100%;
+}
 
 `;
 const Title = styled.h6`

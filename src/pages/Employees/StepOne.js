@@ -5,7 +5,7 @@ import {
   FormLabel,
   FormInput,
   FormHalfInput,
-  FormButton,
+ 
   H6,
   PictureUploadButton,
   UploadBox,
@@ -14,7 +14,7 @@ import {
   P,
 } from "../styles/MultiStepFormStyling";
 import { StyledErrorH6 } from "../Login";
-import { styled } from "styled-components";
+
 import {  createfileUploadRequest } from "../../global/helper";
 import {  validateAlphabeticWithSpace, validateEmail, validateNumeric } from "../../global/validators";
 
@@ -47,7 +47,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
                 const formData = new FormData();
                 formData.append('file', file);
                 const response = await createfileUploadRequest(formData);
-                if (response.status == 200)
+                if (response.status === 200)
                   handleChange("profileImg", response.url || response.id, true)
                 
               }} />

@@ -14,7 +14,7 @@ export const NumberCircle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px; /* Corrected property name */
+  font-size: 16px; 
   margin-right: 10px;
   animation: bounce 1s ease infinite;
 
@@ -35,7 +35,7 @@ export const NumberCircle = styled.div`
   }
 `;
 export const ModalOverlay = styled.div`
-  flex-direction: column; /* To stack child components vertically */
+  flex-direction: column; 
   position: fixed;
   top: 0;
   left: 0;
@@ -43,21 +43,21 @@ export const ModalOverlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center; 
+  align-items: center; 
   z-index: 15;
 `;
 
 export const ModalContainer = styled.div`
   background-color: #fff;
-  // padding: 0px 0px;
+ 
   border-radius: 0px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   height: 100%;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
-    border-radius: 0; /* Remove border radius for mobile view */
+    width: 100%; 
+    border-radius: 0; 
   }
 `;
 
@@ -68,13 +68,13 @@ export const InnermodalContainer = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  // justify-content:center;
+ 
   top: 0;
   right: 0;
   height: 88%;
   overflow-y: auto;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%;
   }
 `;
 
@@ -101,7 +101,7 @@ export const FormInput = styled.input`
 `;
 
 export const FormHalfInput = styled.input`
-  flex: 1; /* Make the input fields flexible to cover available space */
+  flex: 1; 
   padding: 5px;
   width: 100%;
   border: 1px solid #ccc;
@@ -115,6 +115,7 @@ export const FormButton = styled.button`
   border: none;
   border-radius: 10px;
   margin-top: 5px;
+  margin-right:5px;
   padding: 10px 20px;
   font-size: small;
   cursor: pointer;
@@ -151,11 +152,10 @@ export const BottomButtonsContainer = styled.div`
   right: 5px;
   display: flex;
   justify-content: space-between;
-  padding: 20px; /* Add padding to create space around the buttons */
-  // background-color: white;
+  padding: 20px;
 `;
 export const H6 = styled.h6`
-  margin-top: 10px; /* Add top margin */
+  margin-top: 10px; 
   margin-bottom: 10px;
   word-wrap: break-word;
 `;
@@ -194,11 +194,12 @@ export const UploadBox = styled.div`
   padding: 5px;
   border: 1px solid #ededed;
   border-radius: 5px;
+ 
   width: 80px;
   height: 80px;
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center; 
+  align-items: center;
   overflow: hidden;
 `;
 
@@ -206,12 +207,12 @@ export const UploadContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-right: 20px; /* Add margin to separate button and box */
+  margin-right: 20px; 
 `;
 export const TextContainer = styled.div`
   display: flex;
-  flex-direction: column; /* Stack children vertically */
-  align-items: flex-start; /* Center horizontally */
+  flex-direction: column; 
+  align-items: flex-start; 
 `;
 export const P = styled.p`
   font-size: 15px;
@@ -265,7 +266,7 @@ export const StepIndicator = styled.div`
   font-size: 18px;
   margin-right: 10px;
   margin-bottom: 10px;
-  color: #000; /* Set the number color to black */
+  color: #000; 
 `;
 
 export const Line = styled.div`
@@ -275,7 +276,7 @@ export const Line = styled.div`
   margin-right: 10px;
   margin-top: -10px;
   @media screen and (max-width: 845px) {
-    width: 40px; /* Set width to 100% for mobile view */
+    width: 40px;
   }
 `;
 export const HeaderContainer = styled.div`
@@ -285,11 +286,11 @@ export const HeaderContainer = styled.div`
   width: 100%;
   border: 1px solid #f5f5f5;
   background: #f5f5f5;
-  border-top-left-radius: 5px; /* Adjust the value as needed */
+  border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 5px 10px;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%; 
   }
 `;
 export const Heading = styled.h5`
@@ -306,7 +307,7 @@ export const FormCenteringContainer = styled.div`
   justify-content: center;
   height: 100vh;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%;
     overflow-y: auto;
   }
 `;

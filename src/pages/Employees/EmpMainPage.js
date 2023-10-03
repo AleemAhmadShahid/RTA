@@ -76,7 +76,6 @@ const Emp_list = () => {
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-
   const [checkedEmployees, setCheckedEmployees] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -151,19 +150,15 @@ const Emp_list = () => {
     setCurrentPage(page);
   };
 
-  // const openForm = () => {
-  //   setShowForm(true);
-  // };
-
   const handleEditClick = (employee) => {
     setFormData(employee);
     setShowForm(true);
-    setIsEditMode(true); // Set isEditMode to true when the edit button is clicked
+    setIsEditMode(true);
   };
 
   const toggleForm = () => {
     setShowForm(!showForm);
-    setIsEditMode(false); 
+    setIsEditMode(false);
   };
 
   const handleStatusChange = (selectedOption) => {
@@ -245,11 +240,6 @@ const Emp_list = () => {
     }
   };
 
-  // const toggleToast = (event) => {
-  //   const rect = event.target.getBoundingClientRect();
-
-  //   setshowToast(!showToast);
-  // };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
@@ -273,11 +263,6 @@ const Emp_list = () => {
           deleteEmployee(deleteEmployeeId);
         }}
       />{" "}
-      {/* {showToast && (
-        <DialogOverlay show={showToast}>
-          <ToastDialogBox />
-        </DialogOverlay>
-      )} */}
       <CenteredContainer>
         {showToast && (
           <DialogOverlay show={showToast}>
@@ -318,23 +303,17 @@ const Emp_list = () => {
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
             <FilterOuterBox>
               <FilterBox
-                options={statusOptions} // Pass the options directly
+                options={statusOptions}
                 onValueChange={handleStatusChange}
                 selectedValue={status}
                 title="Status"
               />
               <FilterBox
-                options={roleOptions} // Pass the options directly
+                options={roleOptions}
                 onValueChange={handleRoleChange}
                 selectedValue={role}
                 title=" Role"
               />
-              {/* <FilterBox
-                options={planOptions} // Pass the options directly
-                onValueChange={handlePlanChange}
-                selectedValue={plan}
-                title=" Plan"
-              />  */}
             </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
               Bulk Actions
@@ -372,14 +351,14 @@ const Emp_list = () => {
                     }
                     options={entriesOptions.map((option) => ({
                       value: option,
-                      label: option.toString(), // Use the option value as the label
+                      label: option.toString(),
                     }))}
                     styles={dropDownStyle}
                   />
                 </div>
               </CreateEmployeeHeading>
               <StyledSearchBar onSearch={setSearchTerm} />
-              {/* <AddEmployeeContainerMobile> */}
+
               <AddEmployeeContainer>
                 <EntriesDropdown
                   value={"Select"}
@@ -392,7 +371,7 @@ const Emp_list = () => {
                       >
                         <input
                           type="checkbox"
-                          checked={selectedCheck.includes(option)} // Check against selectedCheck
+                          checked={selectedCheck.includes(option)}
                           style={{ marginRight: "8px" }}
                         />
                         <span>{option}</span>
@@ -402,15 +381,14 @@ const Emp_list = () => {
                   styles={{ ...dropDownStyle }}
                 />
 
-                {/* <AddEmployeeContainer> */}
                 <EntriesDropdown
                   value={{
-                    value: Export.label, // Changed this to Export.label
+                    value: Export.label,
                     label: Export.label.toString(),
                   }}
                   onChange={(selectedOption) => {
                     setExport({
-                      label: selectedOption.value, // Set both label and icon
+                      label: selectedOption.value,
                       icon: selectedOption.icon,
                     });
                   }}
@@ -424,7 +402,7 @@ const Emp_list = () => {
                         </span>
                       </div>
                     ),
-                    icon: option.icon, // Add icon to the option object
+                    icon: option.icon,
                   }))}
                   styles={dropDownStyle}
                 />
@@ -435,7 +413,6 @@ const Emp_list = () => {
                   <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
-              {/* </AddEmployeeContainerMobile> */}
             </HeadingAndSearchContainer>
             <TableContainer>
               <Table>
@@ -469,11 +446,9 @@ const Emp_list = () => {
                   </Tr>
                 </thead>
                 <tbody>
-                  {/* Conditionally render the loader while loading */}
                   {loading ? (
                     <tr>
                       <td colSpan="6">
-                        {/* Replace 'Loader' with your actual loader component */}
                         <LoaderComponent />
                       </td>
                     </tr>
@@ -614,7 +589,7 @@ const Emp_list = () => {
           setshowToast={setshowToast}
           reload={reload}
           setReload={setReload}
-          isEditMode={isEditMode} // Pass the isEditMode prop here
+          isEditMode={isEditMode}
           onEditClick={handleEditClick}
         />
       )}
