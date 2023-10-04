@@ -110,12 +110,14 @@ export const FormHalfInput = styled.input`
 `;
 
 export const FormButton = styled.button`
-  background-color: #ffa500;
+
+background-color: #ffa500;
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-top: 5px;
   margin-right:5px;
+  margin-bottom:10px;
   padding: 10px 20px;
   font-size: small;
   cursor: pointer;
@@ -179,7 +181,7 @@ export const PictureUploadButton = styled.label`
   cursor: pointer;
   margin-left: 10px;
   transition: background-color 0.3s ease;
-  margin-right: 20px;
+  margin-right: 10px;
 
   input[type="file"] {
     display: none;

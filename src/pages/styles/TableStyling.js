@@ -98,13 +98,14 @@ export const UserImage = styled.img`
   margin-top: -4px;
 `;
 export const BoxContainer = styled.div`
-  // border: 0px solid #ccc;
+  
   padding: 3px 0px;
-  box-shadow: 0px 01px 0px rgba(0, 0, 0, 0);
+  
   border-radius: 5px;
   background: #ffffff;
-  margin-top: 24px;
+  margin-top: 20px;
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+  margin-bottom:10px;
 `;
 
 export const AddEmployeeButton = styled(Link)`
@@ -164,6 +165,7 @@ export const CenteredContainer = styled.div`
   right: 13%;
   top: 95px;
   left: 253px;
+  // margin-bottom:20px;
   padding: 0px 20px;
   border-radius: 5px;
   width: 81.9%;
