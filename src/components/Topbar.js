@@ -39,7 +39,7 @@ const Nav = styled.div`
   }
 
   border-radius: 5px;
-  // overflow: auto;
+  
 `;
 
 const SimpleText = styled.span`
@@ -137,6 +137,7 @@ const DropdownLabel = styled.div`
 
 const Topbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);

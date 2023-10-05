@@ -161,16 +161,16 @@ const Emp_list = () => {
     setIsEditMode(false);
   };
 
-  const handleStatusChange = (selectedOption) => {
-    setStatus(selectedOption);
-  };
-  const handleRoleChange = (selectedOption) => {
-    setRole(selectedOption);
-  };
+  // const handleStatusChange = (selectedOption) => {
+  //   setStatus(selectedOption);
+  // };
+  // const handleRoleChange = (selectedOption) => {
+  //   setRole(selectedOption);
+  // };
 
-  const handleEntriesChange = (value) => {
-    setEntriesToShow(value);
-  };
+  // const handleEntriesChange = (value) => {
+  //   setEntriesToShow(value);
+  // };
 
   const [showToast, setshowToast] = useState(false);
 
@@ -304,15 +304,16 @@ const Emp_list = () => {
             <FilterOuterBox>
               <FilterBox
                 options={statusOptions}
-                onValueChange={handleStatusChange}
+                onValueChange={(selectedOption) => setStatus(selectedOption)}
                 selectedValue={status}
                 title="Status"
               />
+
               <FilterBox
                 options={roleOptions}
-                onValueChange={handleRoleChange}
+                onValueChange={(selectedOption) => setRole(selectedOption)}
                 selectedValue={role}
-                title=" Role"
+                title="Role"
               />
             </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
@@ -347,7 +348,7 @@ const Emp_list = () => {
                       label: entriesToShow.toString(),
                     }}
                     onChange={(selectedOption) =>
-                      handleEntriesChange(selectedOption.value)
+                      setEntriesToShow(selectedOption.value)
                     }
                     options={entriesOptions.map((option) => ({
                       value: option,
