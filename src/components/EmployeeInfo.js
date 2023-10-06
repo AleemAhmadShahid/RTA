@@ -22,7 +22,7 @@ export const Td = styled.td`
 `;
 
 const EmployeeInfo = ({ employee }) => {
-  // Define a default image URL
+  
   const defaultImageUrl = "https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
 
   return (

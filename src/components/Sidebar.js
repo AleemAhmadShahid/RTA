@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
-import { CgMenuRight } from "react-icons/cg"; // Menu icon for mobile view
+import { CgMenuRight } from "react-icons/cg"; 
 import { Outlet } from "react-router-dom";
 
-const NavIcon = styled(Link)`
-  margin-left: 2rem;
-  font-size: 2rem;
-  height: 80px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: #000; /* Set font color to black */
-  display: none; /* Hide the icon by default */
+// const NavIcon = styled(Link)`
+//   margin-left: 2rem;
+//   font-size: 2rem;
+//   height: 80px;
+//   display: flex;
+//   justify-content: flex-start;
+//   align-items: center;
+//   color: #000; /* Set font color to black */
+//   display: none; /* Hide the icon by default */
 
-  @media (max-width: 767px) {
-    display: flex; /* Display the icon in mobile view only */
-  }
-`;
+//   @media (max-width: 767px) {
+//     display: flex; /* Display the icon in mobile view only */
+//   }
+// `;
 
 const SidebarNav = styled.nav`
   background: #ffffff;

@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import EmpSetting from "./pages/EmpSetting";
 function App() {
   return (
     <Router>
@@ -19,7 +20,8 @@ function App() {
         <Route path="/setup-password/:id" element={<ResetPassword name="Setup Password" description="Setup your new account and start using portal today"/>} />
         <Route path="/portal" element={<Topbar />}>
           <Route path="iam" element={<Sidebar />}>
-            <Route path="employee" element={<Emp_list />} />
+            <Route path="employee" element={<Emp_list />} /> 
+            <Route path="settings" element={<EmpSetting />} /> 
           </Route>
         </Route>
         <Route

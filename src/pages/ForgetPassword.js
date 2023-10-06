@@ -5,19 +5,20 @@ import { useNavigate  } from "react-router-dom";
 import { createPostRequest } from "../global/helper";
 import ErrorDialog from "../components/ErrorDialog";
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   background-color: #ffff;
 
-  @media (max-width: 768px) {
-    flex-direction: column; /* Stack content in mobile view */
+  @media (max-width: 845px) {
+    flex-direction: column;
   }
 `;
 
-const RTAHeader = styled.div`
+
+export const RTAHeader = styled.div`
   position: absolute;
   top: 20px;
   left: 20px;
@@ -26,7 +27,7 @@ const RTAHeader = styled.div`
   color: #ffa500;
 `;
 
-const LeftPanel = styled.div`
+export const LeftPanel = styled.div`
   flex: 2;
   height: 100%;
   display: flex;
@@ -36,36 +37,34 @@ const LeftPanel = styled.div`
   justify-content: center;
 
   @media (max-width: 768px) {
-    display: none; /* Hide the left panel in mobile view */
+    display: none; 
   }
 `;
 
-const Image = styled.img`
+export const Image = styled.img`
   width: 450px !important;
   height: 450px !important;
   object-fit: contain;
   display: block;
-  margin: auto; /* Center horizontally */
+  margin: auto; 
   background-color: #ededed;
 `;
 
-const RightPanel = styled.div`
+export const RightPanel = styled.div`
   flex: 1;
   padding: 10px;
   background-color: #ffff;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center horizontally */
-  justify-content: center; /* Center vertically */
-  width: 100%; /* Ensure full width in mobile view */
+  align-items: center; 
+  justify-content: center; 
+  width: 100%; 
 `;
 
-const Title = styled.h2`
+export const Title = styled.h2`
   font-size: 22px;
   margin-bottom: 20px;
 `;
-
-
 
 const EmailInput = styled.input`
   width: 100%;
@@ -75,13 +74,13 @@ const EmailInput = styled.input`
   border-radius: 5px;
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const SendButton = styled.button`
+export const SendButton = styled.button`
   background-color: #ffa500;
   color: white;
   border: none;
@@ -97,7 +96,7 @@ const SendButton = styled.button`
   }
 `;
 
-const CancelButton = styled.button`
+export const CancelButton = styled.button`
   background-color: #ffff;
   color: #ffa500;
   border: none;
@@ -107,12 +106,12 @@ const CancelButton = styled.button`
   width: 100%;
 `;
 
-const Box = styled.div`
+export const Box = styled.div`
   padding: 40px;
   text-align: left;
 `;
 
-const H6 = styled.h6`
+export const H6 = styled.h6`
   font-size: 14px;
   margin-bottom: 20px;
 `;
@@ -126,7 +125,7 @@ const ForgotPassword = () => {
   const sendResetRequest = async () =>
   {
     const response = await createPostRequest({email},'/api/user/forgetPassword');
-    if (response.status == 200)
+    if (response.status === 200)
     {
       setMessage(response.message);
       setIsDialogOpen(true);

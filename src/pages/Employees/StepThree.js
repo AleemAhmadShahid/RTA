@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import {
   FormStep,
   FormGroup,
@@ -38,14 +37,7 @@ const StepThree = ({ formData, handleChange }) => {
     setFunction([...state, state.length]);
   };
 
-  // const removeItem = (index, setFunction,state, key) => {
-  //   const newState = [...state];
-  //   newState.splice(index, 1);
-  //   setFunction(newState);
-  //   const newData = [...formData[key]];
-  //   newData.splice(index, 1);
-  //   handleChange(key, newData);
-  // };
+  
   const removeItem = (index, setFunction, state, key) => {
     const newState = [...state];
     newState.splice(index, 1);
@@ -62,7 +54,7 @@ const StepThree = ({ formData, handleChange }) => {
   return (
     <FormStep active>
       <H6>Other Information</H6>
-      <FormLabel>Qualification</FormLabel>
+      <FormLabel >Qualification</FormLabel>
       <Step3Container>
         <BoxStep3Container>
           {qualification.map((item, index) => (
@@ -151,7 +143,7 @@ const StepThree = ({ formData, handleChange }) => {
                     const formData = new FormData();
                     formData.append('file', file);
                     const response = await createfileUploadRequest(formData);
-                    if (response.status == 200)
+                    if (response.status === 200)
                       handleChange(`qualification.${index}.attachment`,  response.id, true)
                     
                   }} />
@@ -235,7 +227,7 @@ const StepThree = ({ formData, handleChange }) => {
                     const formData = new FormData();
                     formData.append('file', file);
                     const response = await createfileUploadRequest(formData);
-                    if (response.status == 200)
+                    if (response.status === 200)
                       handleChange(`experience.${index}.attachment`, response.id, true)
                     
                   }} />

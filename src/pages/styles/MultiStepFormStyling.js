@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StepNumberContainer = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const NumberCircle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px; /* Corrected property name */
+  font-size: 16px; 
   margin-right: 10px;
   animation: bounce 1s ease infinite;
 
@@ -35,34 +35,30 @@ export const NumberCircle = styled.div`
   }
 `;
 export const ModalOverlay = styled.div`
- 
-  
-   flex-direction: column; /* To stack child components vertically */
-   position: fixed;
+  flex-direction: column; 
+  position: fixed;
   top: 0;
   left: 0;
-  
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center; 
+  align-items: center; 
   z-index: 15;
 `;
 
 export const ModalContainer = styled.div`
   background-color: #fff;
-  // padding: 0px 0px;
+ 
   border-radius: 0px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   height: 100%;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
-    border-radius: 0; /* Remove border radius for mobile view */
+    width: 100%; 
+    border-radius: 0; 
   }
-
 `;
 
 export const InnermodalContainer = styled.div`
@@ -72,19 +68,18 @@ export const InnermodalContainer = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  // justify-content:center;
-  top: 0; 
-  right: 0; 
+ 
+  top: 0;
+  right: 0;
   height: 88%;
   overflow-y: auto;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%;
   }
 `;
 
-
 export const FormStep = styled.div`
-  display: ${props => (props.active ? 'block' : 'none')};
+  display: ${(props) => (props.active ? "block" : "none")};
 `;
 
 export const FormGroup = styled.div`
@@ -95,21 +90,18 @@ export const FormLabel = styled.label`
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  font-size:small;
-  
+  font-size: small;
 `;
 
 export const FormInput = styled.input`
-
   width: 100%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  
 `;
 
 export const FormHalfInput = styled.input`
-   flex: 1; /* Make the input fields flexible to cover available space */
+  flex: 1; 
   padding: 5px;
   width: 100%;
   border: 1px solid #ccc;
@@ -117,14 +109,16 @@ export const FormHalfInput = styled.input`
   box-sizing: border-box;
 `;
 
-
 export const FormButton = styled.button`
-  background-color: #ffa500;
+
+background-color: #ffa500;
   color: #fff;
   border: none;
-  border-radius: 10px;
-  margin-top:5px;
-  padding: 10px 20px; 
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-right:5px;
+  margin-bottom:10px;
+  padding: 10px 20px;
   font-size: small;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -156,21 +150,19 @@ export const StyledSelect = styled.select`
 export const BottomButtonsContainer = styled.div`
   position: fixed;
   bottom: 0;
-  
-   right: 0;
+
+  right: 5px;
   display: flex;
   justify-content: space-between;
-  padding: 20px; /* Add padding to create space around the buttons */
-  // background-color: white;
- 
+  padding: 20px;
 `;
 export const H6 = styled.h6`
-  margin-top: 10px; /* Add top margin */
-  margin-bottom: 20px;
+  margin-top: 10px; 
+  margin-bottom: 10px;
   word-wrap: break-word;
 `;
 export const CloseButton = styled.button`
-  padding: 7px 7px;
+  padding: 7px 10px;
   font-size: 16px;
   background: none;
   border: none;
@@ -189,9 +181,9 @@ export const PictureUploadButton = styled.label`
   cursor: pointer;
   margin-left: 10px;
   transition: background-color 0.3s ease;
-  margin-right: 20px;
+  margin-right: 10px;
 
-  input[type='file'] {
+  input[type="file"] {
     display: none;
   }
 
@@ -204,29 +196,29 @@ export const UploadBox = styled.div`
   padding: 5px;
   border: 1px solid #ededed;
   border-radius: 5px;
+ 
   width: 80px;
   height: 80px;
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center; 
+  align-items: center;
   overflow: hidden;
 `;
-
 
 export const UploadContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-right: 20px; /* Add margin to separate button and box */
+  margin-right: 20px; 
 `;
 export const TextContainer = styled.div`
   display: flex;
-  flex-direction: column; /* Stack children vertically */
-  align-items: flex-start;/* Center horizontally */
+  flex-direction: column; 
+  align-items: flex-start; 
 `;
-export const P=styled.p`
-font-size:15px;
-margin-left:10px;
+export const P = styled.p`
+  font-size: 15px;
+  margin-left: 10px;
 `;
 export const CloseButtonContainer = styled.div`
   display: flex;
@@ -240,7 +232,6 @@ export const SaveButton = styled(FormButton)`
 export const SaveAndNextButton = styled(FormButton)`
   background-color: #ffa500;
   color: white;
-  
 `;
 
 export const FormButtonContainer = styled.div`
@@ -257,13 +248,11 @@ export const PreviousButton = styled(FormButton)`
 export const StepIndicators = styled.div`
   display: flex;
   justify-content: center;
-  
 `;
 
 export const StepIndicatorContainer = styled.div`
   display: flex;
   align-items: center;
- 
 `;
 
 export const StepIndicator = styled.div`
@@ -279,8 +268,7 @@ export const StepIndicator = styled.div`
   font-size: 18px;
   margin-right: 10px;
   margin-bottom: 10px;
-  color: #000; /* Set the number color to black */
-  
+  color: #000; 
 `;
 
 export const Line = styled.div`
@@ -290,7 +278,7 @@ export const Line = styled.div`
   margin-right: 10px;
   margin-top: -10px;
   @media screen and (max-width: 845px) {
-    width: 40px; /* Set width to 100% for mobile view */
+    width: 40px;
   }
 `;
 export const HeaderContainer = styled.div`
@@ -300,11 +288,11 @@ export const HeaderContainer = styled.div`
   width: 100%;
   border: 1px solid #f5f5f5;
   background: #f5f5f5;
-  border-top-left-radius: 5px; /* Adjust the value as needed */
+  border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 5px 10px;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%; 
   }
 `;
 export const Heading = styled.h5`
@@ -321,12 +309,13 @@ export const FormCenteringContainer = styled.div`
   justify-content: center;
   height: 100vh;
   @media screen and (max-width: 845px) {
-    width: 100%; /* Set width to 100% for mobile view */
+    width: 100%;
     overflow-y: auto;
   }
 `;
 export const Step3AddButton = styled(FormButton)`
   align-self: flex-end;
+  margin-bottom: 30px;
 `;
 export const Step3Container = styled.div`
   display: flex;
@@ -360,6 +349,3 @@ export const Step3CloseButton = styled.button`
   top: 0px;
   right: 5px;
 `;
-
-
-

@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import styled from "styled-components";
 
-const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 8px; /* Reduce the right margin for checkboxes */
-`;
+
+
 
 const CheckOptions = ["Option 1", "Option 2", "Option 3"];
 

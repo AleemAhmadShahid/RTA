@@ -6,15 +6,15 @@ import Select from "react-select";
 
 const FilterBoxContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items:center;
   margin-top: 0px;
   margin-bottom: 5px;
+  
 `;
 
 const Dropdown = styled(Select)`
-   width: ${(props) => props.width || "100%"}; /* Use 100% width by default */
-  // width:100%;
-  max-width: 450px; /* Set a maximum width if needed */
+   width: ${(props) => props.width || "100%"};  
+  max-width: 400px; 
   margin-right: 10px;
 
   .select__control {
@@ -41,7 +41,11 @@ const Dropdown = styled(Select)`
 `;
 
 const Box = styled.div`
-width:100%;
+width:40%;
+@media screen and (max-width:845px) {  
+  width: 100%;
+}
+
 `;
 const Title = styled.h6`
   font-size: 13px;
