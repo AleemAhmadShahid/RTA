@@ -20,8 +20,8 @@ function App() {
         <Route path="/setup-password/:id" element={<ResetPassword name="Setup Password" description="Setup your new account and start using portal today"/>} />
         <Route path="/portal" element={<Topbar />}>
           <Route path="iam" element={<Sidebar />}>
-             {/* <Route path="employee" element={<Emp_list />} />  */}
-            <Route path="setting" element={<EmpSetting />} /> 
+            <Route path="employee" element={<Emp_list />} /> 
+            <Route path="settings" element={<EmpSetting />} /> 
           </Route>
         </Route>
         <Route

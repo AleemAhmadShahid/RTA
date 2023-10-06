@@ -83,7 +83,7 @@ const ErrorDialog = ({ show, handleClose, message, title, handleYes }) => {
       {show && (
         <DialogOverlay1 show={show}>
           <DialogBoxContainer1>
-            {title ?<Checkmark />  : <CrossIcon />} 
+            {title == "Success" ? <Checkmark />  : <CrossIcon />} 
             {/* {title ? <CrossIcon />:<Checkmark /> } */}
             <ErrorText>{title || "Error!"}</ErrorText>
             <ClickedText>{message}</ClickedText>
