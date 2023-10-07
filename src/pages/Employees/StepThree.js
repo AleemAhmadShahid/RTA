@@ -24,7 +24,7 @@ const StepThree = ({ formData, handleChange }) => {
   const [experience, setExperience] = useState([]);
 
   useEffect(() => {
-    // Check if formData.qualification and formData.experience are defined
+ 
     if (formData && (formData.qualification || formData.experience)) {
       if(formData.qualification)
         setQualifications(formData.qualification);

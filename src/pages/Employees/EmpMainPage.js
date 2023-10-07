@@ -146,9 +146,6 @@ const Emp_list = () => {
     };
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, status, role, reload, navigate]);
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
   const handleEditClick = (employee) => {
     setFormData(employee);
@@ -160,17 +157,6 @@ const Emp_list = () => {
     setShowForm(!showForm);
     setIsEditMode(false);
   };
-
-  // const handleStatusChange = (selectedOption) => {
-  //   setStatus(selectedOption);
-  // };
-  // const handleRoleChange = (selectedOption) => {
-  //   setRole(selectedOption);
-  // };
-
-  // const handleEntriesChange = (value) => {
-  //   setEntriesToShow(value);
-  // };
 
   const [showToast, setshowToast] = useState(false);
 
@@ -573,7 +559,7 @@ const Emp_list = () => {
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={handlePageChange}
+                onPageChange={(page) => setCurrentPage(page)}
               />
             )}
           </BoxContainer>

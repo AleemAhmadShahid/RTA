@@ -8,6 +8,7 @@ import {
   TableContainer,
   Table,
   Td,
+  SuccessBadge,
 } from "./styles/TableStyling";
 import {
   Heading,
@@ -26,7 +27,7 @@ import {
 
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
-import { BiLockAlt } from "react-icons/bi";
+import { BiLockAlt, BiDotsVerticalRounded } from "react-icons/bi";
 const LargeIcon = styled.span`
   font-size: 24px; /* Adjust the icon size as needed */
 `;
@@ -86,6 +87,7 @@ const StyledButton = styled.button`
     color: #fff;
   `
       : ""}
+      
 
   &:hover {
     background-color: #ffa500;
@@ -159,8 +161,69 @@ const Image = styled.img`
   margin: auto;
   background-color: #ededed;
 `;
+const APIbox = styled.div`
+  position: relative; /* To position the button relative to this container */
+  background-color: #ededed;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+`;
+const APIOptionsButton = styled.button`
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 10px; /* Adjust the right position as needed */
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
+const CheckboxLabel = styled.label`
+  display: block;
+  margin-top: 10px; /* Add margin for spacing */
+`;
 const EmpSetting = () => {
   const [currentPage, setCurrentPage] = useState("account");
+  
+  
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
+
+
+  const handleDeactivateClick = () => {
+    if (isChecked) {
+      setIsFormVisible(true);
+    }
+  };
+
+
+
+  const [buttonClicked, setButtonClicked] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleButtonClick = (buttonName) => {
+    setButtonClicked(buttonName);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+  
+  const handleDeactivateDelete = () => {
+    // Handle the deactivation or deletion logic here.
+    // You can use the 'buttonClicked' state to determine which action to perform.
+    if (buttonClicked === "Deactivate") {
+      // Handle deactivation
+    } else if (buttonClicked === "Delete") {
+      // Handle deletion
+    }
+  };
+
+
+
+
   const renderContent = () => {
     if (currentPage === "account") {
       return (
@@ -232,9 +295,74 @@ const EmpSetting = () => {
                   Are you sure you want to delete the account?
                 </label>
               </div>
-              <DeactivateButton>Deactivate Account</DeactivateButton>
+              <DeactivateButton onClick={handleDeactivateClick}>
+                Deactivate Account
+              </DeactivateButton>
+
+              
             </Box>
-          </BoxContainer>
+          </BoxContainer>          
+
+          <ButtonContainer>
+        <StyledButton
+          onClick={() => handleButtonClick("Deactivate")}
+          currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
+        >
+          <AiOutlineUser />
+          Deactivate
+        </StyledButton>
+
+        <StyledButton
+          onClick={() => handleButtonClick("Delete")}
+          currentPage={buttonClicked === "Delete" ? "Delete" : ""}
+        >
+          <AiOutlineUser />
+          Delete
+        </StyledButton>
+      </ButtonContainer>
+
+      <BoxContainer visible={buttonClicked !== null}>
+        <Box>
+          {buttonClicked === "Deactivate" && (
+            <CheckboxLabel style={{marginBottom:'10px'}}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />{" "}
+              I confirm my account deactivation
+            </CheckboxLabel>
+          )}
+
+          {buttonClicked === "Delete" && (
+            <CheckboxLabel style={{marginBottom:'10px'}}>
+              <input 
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />{" "}
+              I confirm my account deletion
+            </CheckboxLabel>
+          )}
+
+          {isChecked && (
+            <>
+              <ColumnContainer>
+                <LeftColumn>
+                  <FormLabel>Enter password:</FormLabel>
+                  <FormInput type="password" />
+                  <DeactivateButton onClick={handleDeactivateDelete}>
+                    {buttonClicked === "Deactivate" ? "Deactivate" : "Delete"}
+                  </DeactivateButton>
+                </LeftColumn>
+                <RightColumn></RightColumn>
+              </ColumnContainer>
+            </>
+          )}
+        </Box>
+      </BoxContainer>
+
+      
           <hr />
         </>
       );
@@ -309,7 +437,7 @@ const EmpSetting = () => {
           <BoxContainer>
             <Box>
               <H6>Create an API Key</H6>
-              {/* <hr /> */}
+
               <ColumnContainer>
                 <LeftColumn>
                   <FormGroup>
@@ -325,11 +453,36 @@ const EmpSetting = () => {
                   <FormButton>Create Key</FormButton>
                 </LeftColumn>
                 <RightColumn>
-                  {/* Place your image here */}
                   <Image src="/API.jpg" alt="API Key Image" />
                 </RightColumn>
               </ColumnContainer>
             </Box>
+          </BoxContainer>
+          <BoxContainer>
+            <Box>
+              <H6>API Key List & Access</H6>
+              <P>
+                An API key is a simle encrypted string that identifies an
+                application without any principal. They are usefull for
+                accessing public data anonmymously, and are used to associate
+                API requests with your project for quota and billing
+              </P>
+            </Box>
+            <APIbox>
+              <APIOptionsButton>
+                <BiDotsVerticalRounded />
+              </APIOptionsButton>
+
+              <P style={{ display: "inline-block", marginRight: "10px" }}>
+                {" "}
+                Server Key 1
+              </P>
+              <SuccessBadge>Full Access</SuccessBadge>
+              <P style={{ fontWeight: "bold" }}>
+                23e-333-3434-343-4a-asdasd-3ed3d
+              </P>
+              <P>Created on Apr,2020,18:20,GTM+4:10</P>
+            </APIbox>
           </BoxContainer>
 
           <hr />
@@ -351,15 +504,8 @@ const EmpSetting = () => {
                 <thead>
                   <Tr>
                     <Th>Type</Th>
-                    {/* <Th>
-                      <input
-                        type="checkbox"
-                       
-                      />
-                    </Th> */}
                     <Th>Email</Th>
                     <Th>Browser</Th>
-                    {/* <Th>Email</Th> */}
                     <Th>APP</Th>
                   </Tr>
                 </thead>
