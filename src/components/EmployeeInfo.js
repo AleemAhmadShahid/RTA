@@ -21,7 +21,29 @@ export const Td = styled.td`
   font-size: 0.7rem;
 `;
 
-const EmployeeInfo = ({ employee }) => {
+const EmployeeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  &:hover {
+    span {
+      color: #ffa500;
+    }
+  }
+`;
+
+const EmployeeName = styled.span`
+  text-align: left;
+  color: #6e6b7b;
+  font-weight: 700;
+`;
+
+const EmployeeEmail = styled.span`
+  font-size: 11px;
+  color: grey;
+  text-align: left;
+`;
+
+const EmployeeInfo = ({ employee, isSpaceRequired }) => {
   
   const defaultImageUrl = "https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
 
@@ -32,16 +54,12 @@ const EmployeeInfo = ({ employee }) => {
            <UserImage
             src={employee.profileImg || defaultImageUrl}
             alt="Profile Image"
-            style={{ marginLeft: "20px" }}
+            style={{ ...(isSpaceRequired === true ? { marginLeft: '40px' } : {}) }}
           /> 
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{  textAlign: "left", color: "#6e6b7b", fontWeight: "700" }}>
-              {employee.name}
-            </span>
-            <span style={{ fontSize: "11px", color: "grey", textAlign: "left" }}>
-              {employee.email}
-            </span>
-          </div>
+          <EmployeeContainer>
+            <EmployeeName>{employee.name}</EmployeeName>
+            <EmployeeEmail>{employee.email}</EmployeeEmail>
+          </EmployeeContainer>
         </div>
       </Td>
     </tr>

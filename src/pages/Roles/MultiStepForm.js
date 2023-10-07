@@ -14,6 +14,7 @@ import {
   FormCenteringContainer,
 } from "../styles/MultiStepFormStyling";
 import StepOne from "./StepOne";
+import ViewRole from "./ViewRole";
 import { createPostRequest, createPutRequest } from "../../global/helper";
 
 const MultiStepForm = ({
@@ -27,6 +28,7 @@ const MultiStepForm = ({
   reload,
   setReload,
   isEditMode,
+  isViewMode,
 }) => {
   const [step, setStep] = useState(1);
 
@@ -134,7 +136,11 @@ const MultiStepForm = ({
         <FormCenteringContainer >
           <ModalContainer>
             <HeaderContainer>
-              <Heading>{isEditMode ? "Update Role" : "Create Role"}</Heading>
+              <Heading>
+              {
+                  isViewMode ? "View Role" : (isEditMode ? "Update Role" : "Create Role")
+              }
+              </Heading>
               <CloseButtonContainer>
                 <CloseButton onClick={closeForm} className="close-button">
                   &#10005;
@@ -142,28 +148,35 @@ const MultiStepForm = ({
               </CloseButtonContainer>
             </HeaderContainer>
             <InnermodalContainer>             
-              {renderStep()}
-              <BottomButtonsContainer>
-                
-                <div>
-                  {!isFirstStep && (
-                    <PreviousButton onClick={prevStep}>Previous</PreviousButton>
-                  )}
-                </div>
-                <div>
-                  {isLastStep ? (
-                    <SaveButton onClick={handleSave}>Save</SaveButton>
-                  ) : (
-                    <>
-                      <SaveButton onClick={handleSave}>Save</SaveButton>
-                      <SaveAndNextButton onClick={() => handleSave(nextStep)}>
-                        Save and Next
-                      </SaveAndNextButton>
-                    </>
-                  )}
-                </div>
-               
-              </BottomButtonsContainer>
+            {
+              isViewMode ? (
+                <ViewRole role={formData}/>
+              ) : (
+                <>
+                  {renderStep()}
+                  <BottomButtonsContainer>
+                    <div>
+                      {!isFirstStep && (
+                        <PreviousButton onClick={prevStep}>Previous</PreviousButton>
+                      )}
+                    </div>
+                    <div>
+                      {isLastStep ? (
+                        <SaveButton onClick={handleSave}>Save</SaveButton>
+                      ) : (
+                        <>
+                          <SaveButton onClick={handleSave}>Save</SaveButton>
+                          <SaveAndNextButton onClick={() => handleSave(nextStep)}>
+                            Save and Next
+                          </SaveAndNextButton>
+                        </>
+                      )}
+                    </div>
+                  </BottomButtonsContainer>
+                </>
+              )
+            }
+
             </InnermodalContainer>
           </ModalContainer>
         </FormCenteringContainer>

@@ -12,7 +12,6 @@ import PageBar from "../../components/PageBar";
 import FilterBox from "../../components/FilterBox";
 import ToastDialogBox, { DialogOverlay } from "../../components/Toast";
 import ErrorDialog from "../../components/ErrorDialog";
-import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 import EmployeeInfo from "../../components/EmployeeInfo";
 
@@ -72,6 +71,7 @@ const Role_list = () => {
   const navigate = useNavigate();
 
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isViewMode, setIsViewMode] = useState(false);
 
   const [checkedRole, setCheckedRole] = useState([]);
   const [roles, setRole] = useState([]);
@@ -88,15 +88,10 @@ const Role_list = () => {
 
   const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
-  const [rolesOptions, setRoleOptions] = useState({
-    value: {},
-    label: "Select",
-  });
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(roles);
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
@@ -121,6 +116,7 @@ const Role_list = () => {
           return;
         }
         setRole(data.roles);
+        setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
       } catch (error) {
@@ -172,8 +168,8 @@ const Role_list = () => {
     icon: <FaPrint />,
   });
 
-  const [deleteEmployeeId, setDeleteEmployeeId] = useState("");
-  const deleteEmployee = async (id) => {
+  const [deleteRoleId, setDeleteEmployeeId] = useState("");
+  const deleteRole = async (id) => {
     const response = await createDeleteRequest(`/api/role/${id}/`);
     if (response.status === 200) {
       setIsConfirmDialogOpen(false);
@@ -188,7 +184,7 @@ const Role_list = () => {
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {users: checkedRole};
+    const data = {roles: checkedRole};
     if (checkedRole.length === 0 || bulkOption === "Select") return;
     else if (bulkOption.label === "Delete") path = "/api/role/bulkDelete/";
     const response = await createPutRequest(data, path);
@@ -223,7 +219,7 @@ const Role_list = () => {
         show={isConfirmDialogOpen}
         handleClose={() => setIsConfirmDialogOpen(false)}
         handleYes={() => {
-          deleteEmployee(deleteEmployeeId);
+          deleteRole(deleteRoleId);
         }}
       />{" "}
       <CenteredContainer>
@@ -233,34 +229,37 @@ const Role_list = () => {
           </DialogOverlay>
         )}
         <div>
-          {/* <CardsContainer>
-            <InfoBox
+          {<CardsContainer>
+            {/* <InfoBox
               icon={BiUser}
               // iconColor="blue"
               iconColor="#512da8"
               data={infoBoxData.totalUsers}
               text="Total Users"
-            />
-            <InfoBox
-              icon={FiUserCheck}
-              iconColor="#2ac779"
-              data={infoBoxData.activeUsers}
-              text="Active Users"
-            />
+            /> */}
 
             <InfoBox
               icon={FiUserPlus}
-              iconColor="#d32f2f"
-              data={infoBoxData.InActiveUsers}
-              text="Inactive Users"
+              iconColor="#512da8"
+              data={infoBoxData?.totalRoles || 0}
+              text="Total Roles"
             />
-            <InfoBox
+             
+             <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData.pendingInvites}
-              text="Pending Invites"
+              data={infoBoxData?.vacantRoles || 0}
+              text="Vacant Roles"
             />
-          </CardsContainer> */}
+
+            <InfoBox
+              icon={FiUserCheck}
+              iconColor="#d32f2f"
+              data={infoBoxData?.closedRoles || 0}
+              text="Closed Roles"
+            />
+           
+          </CardsContainer> }
 
           <FilterContainer>
 
@@ -356,7 +355,7 @@ const Role_list = () => {
                   styles={dropDownStyle}
                 />
                 <AddEmployeeButton
-                  onClick={toggleForm}
+                  onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
                   <span style={{ whiteSpace: "nowrap" }}>Add Role</span>
@@ -379,11 +378,13 @@ const Role_list = () => {
                         }}
                       />
                     </Th>
-                   
-
                     {selectedCheck.includes("Description") && (
                       <Th>DESCRIPTION</Th>
-                    )} {selectedCheck.includes("Name") && <Th>NAME</Th>}
+                    )}
+
+                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
+
+                   
                     {selectedCheck.includes("Created By") && (
                       <Th>ADDED BY</Th>
                     )}
@@ -423,17 +424,19 @@ const Role_list = () => {
                           />
                         </Td>
                   
+                        {selectedCheck.includes("Description") && (
+                          <Td style={{ whiteSpace: 'pre-line' }}>{role.description}</Td>
+                        )}
+
                         {selectedCheck.includes("Name") && (
                           <Td>{role.name}</Td>
                         )}
-                        {selectedCheck.includes("Description") && (
-                          <Td>{role.description}</Td>
-                        )}
+                       
                         {selectedCheck.includes("Created By") && (
                           <Td>
                             { role?.createdBy 
                               &&
-                              <EmployeeInfo employee={role?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={role?.createdBy} />
                             }
                           </Td>
                         )}
@@ -445,6 +448,7 @@ const Role_list = () => {
                             <IconWrapper>
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
+                                  setIsViewMode(false);
                                   setFormData(role);
                                   setShowForm(true);
                                   setIsEditMode(!!role);
@@ -454,6 +458,11 @@ const Role_list = () => {
                             </IconWrapper>
 
                             <GrIcons.GrFormView
+                             onClick={() => {
+                              setFormData(role);
+                              setIsViewMode(true);
+                              toggleForm();
+                            }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
 
@@ -503,6 +512,7 @@ const Role_list = () => {
           reload={reload}
           setReload={setReload}
           isEditMode={isEditMode}
+          isViewMode={isViewMode}
           onEditClick={handleEditClick}
         />
       )}
