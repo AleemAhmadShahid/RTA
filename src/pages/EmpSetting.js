@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Switch from "../components/Switch";
 import {
   CenteredContainer,
   BoxContainer,
@@ -9,6 +10,7 @@ import {
   Table,
   Td,
   SuccessBadge,
+  DangerBadge,
 } from "./styles/TableStyling";
 import {
   Heading,
@@ -87,7 +89,6 @@ const StyledButton = styled.button`
     color: #fff;
   `
       : ""}
-      
 
   &:hover {
     background-color: #ffa500;
@@ -184,21 +185,35 @@ const CheckboxLabel = styled.label`
   display: block;
   margin-top: 10px; /* Add margin for spacing */
 `;
+
+const SwitchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" ,marginBottom:'20px'}}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img src={imageUrl} alt="IMG" width={35} height={35} />
+          <span style={{ marginLeft: "10px" }}>{text}</span>
+        </div>
+        <div>
+          <Switch />
+        </div>
+      </div>
+    );
+  };
 const EmpSetting = () => {
   const [currentPage, setCurrentPage] = useState("account");
-  
-  
+
   const [isFormVisible, setIsFormVisible] = useState(false);
-
-
 
   const handleDeactivateClick = () => {
     if (isChecked) {
       setIsFormVisible(true);
     }
   };
-
-
 
   const [buttonClicked, setButtonClicked] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -210,7 +225,7 @@ const EmpSetting = () => {
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
   };
-  
+
   const handleDeactivateDelete = () => {
     // Handle the deactivation or deletion logic here.
     // You can use the 'buttonClicked' state to determine which action to perform.
@@ -220,9 +235,22 @@ const EmpSetting = () => {
       // Handle deletion
     }
   };
+  const initialSwitchStates = {
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+    // Add more days as needed
+  };
 
+  const [switchStates, setSwitchStates] = useState(initialSwitchStates);
 
-
+  const handleSwitchChange = (day) => {
+    // Update the state for the specific day
+    setSwitchStates((prevState) => ({
+      ...prevState,
+      [day]: !prevState[day],
+    }));
+  };
 
   const renderContent = () => {
     if (currentPage === "account") {
@@ -298,71 +326,70 @@ const EmpSetting = () => {
               <DeactivateButton onClick={handleDeactivateClick}>
                 Deactivate Account
               </DeactivateButton>
-
-              
             </Box>
-          </BoxContainer>          
+          </BoxContainer>
 
           <ButtonContainer>
-        <StyledButton
-          onClick={() => handleButtonClick("Deactivate")}
-          currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
-        >
-          <AiOutlineUser />
-          Deactivate
-        </StyledButton>
+            <StyledButton
+              onClick={() => handleButtonClick("Deactivate")}
+              currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
+            >
+              <AiOutlineUser />
+              Deactivate
+            </StyledButton>
 
-        <StyledButton
-          onClick={() => handleButtonClick("Delete")}
-          currentPage={buttonClicked === "Delete" ? "Delete" : ""}
-        >
-          <AiOutlineUser />
-          Delete
-        </StyledButton>
-      </ButtonContainer>
+            <StyledButton
+              onClick={() => handleButtonClick("Delete")}
+              currentPage={buttonClicked === "Delete" ? "Delete" : ""}
+            >
+              <AiOutlineUser />
+              Delete
+            </StyledButton>
+          </ButtonContainer>
 
-      <BoxContainer visible={buttonClicked !== null}>
-        <Box>
-          {buttonClicked === "Deactivate" && (
-            <CheckboxLabel style={{marginBottom:'10px'}}>
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />{" "}
-              I confirm my account deactivation
-            </CheckboxLabel>
-          )}
+          <BoxContainer visible={buttonClicked !== null}>
+            <Box>
+              {buttonClicked === "Deactivate" && (
+                <CheckboxLabel style={{ marginBottom: "10px" }}>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />{" "}
+                  I confirm my account deactivation
+                </CheckboxLabel>
+              )}
 
-          {buttonClicked === "Delete" && (
-            <CheckboxLabel style={{marginBottom:'10px'}}>
-              <input 
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />{" "}
-              I confirm my account deletion
-            </CheckboxLabel>
-          )}
+              {buttonClicked === "Delete" && (
+                <CheckboxLabel style={{ marginBottom: "10px" }}>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />{" "}
+                  I confirm my account deletion
+                </CheckboxLabel>
+              )}
 
-          {isChecked && (
-            <>
-              <ColumnContainer>
-                <LeftColumn>
-                  <FormLabel>Enter password:</FormLabel>
-                  <FormInput type="password" />
-                  <DeactivateButton onClick={handleDeactivateDelete}>
-                    {buttonClicked === "Deactivate" ? "Deactivate" : "Delete"}
-                  </DeactivateButton>
-                </LeftColumn>
-                <RightColumn></RightColumn>
-              </ColumnContainer>
-            </>
-          )}
-        </Box>
-      </BoxContainer>
+              {isChecked && (
+                <>
+                  <ColumnContainer>
+                    <LeftColumn>
+                      <FormLabel>Enter password:</FormLabel>
+                      <FormInput type="password" />
+                      <DeactivateButton onClick={handleDeactivateDelete}>
+                        {buttonClicked === "Deactivate"
+                          ? "Deactivate"
+                          : "Delete"}
+                      </DeactivateButton>
+                    </LeftColumn>
+                    <RightColumn></RightColumn>
+                  </ColumnContainer>
+                </>
+              )}
+            </Box>
+          </BoxContainer>
 
-      
           <hr />
         </>
       );
@@ -548,10 +575,88 @@ const EmpSetting = () => {
       );
     } else if (currentPage === "connections") {
       return (
+        <BoxContainer>
         <Box>
-          <P>Connections</P>
-          {/* ... Connections content ... */}
+          <H6>Connected Accounts</H6>
+          <P>Display content from your connected accounts on your site</P>
+
+         
+          <GoogleImageWithTextAndSwitch
+            imageUrl="/Googlepng.png" 
+            text="Google"
+          />
+          <GoogleImageWithTextAndSwitch
+            imageUrl="/Slack.png" 
+            text="Slack"
+          />
         </Box>
+      </BoxContainer>
+      );
+    } else if (currentPage === "company") {
+      return (
+        <>
+          <BoxContainer>
+            <Box>
+              <H6>Company Logo</H6>
+              <UploadContainer>
+                <UploadBox />
+                <PictureUploadButton style={{ fontSize: "14px" }}>
+                  Upload
+                </PictureUploadButton>
+
+                <ResetButton> Reset</ResetButton>
+              </UploadContainer>
+              <ColumnContainer>
+                <LeftColumn>
+                  <FormGroup>
+                    <FormLabel>E-mail</FormLabel>
+                    <FormInput type="text" placeholder={" "} />
+                  </FormGroup>
+                </LeftColumn>
+                <RightColumn>
+                  <FormGroup>
+                    <FormLabel>Compnay</FormLabel>
+                    <FormInput type="text" />
+                  </FormGroup>
+                </RightColumn>
+              </ColumnContainer>
+              <FormButton>Save changes</FormButton>
+              <PreviousButton style={{ marginBottom: "10px" }}>
+                {" "}
+                Reset
+              </PreviousButton>
+            </Box>
+          </BoxContainer>
+
+          <BoxContainer>
+            <Box>
+              <H6>Operating Hours</H6>
+              <ColumnContainer>
+              <LeftColumn>
+                  {Object.keys(switchStates).map((day) => (
+                    <SwitchContainer key={day}>
+                      <Switch
+                        checked={switchStates[day]}
+                        onChange={() => handleSwitchChange(day)}
+                      />
+                      <span>{day}</span>
+                      <div style={{ marginLeft: "auto" }}>
+                        {switchStates[day] ? (
+                          <SuccessBadge>Open</SuccessBadge>
+                        ) : (
+                          <DangerBadge>Closed</DangerBadge>
+                        )}
+                      </div>
+                    </SwitchContainer>
+                  ))}
+                  <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
+                </LeftColumn>
+                <RightColumn></RightColumn>
+              </ColumnContainer>
+            </Box>
+          </BoxContainer>
+          <hr/>
+        </>
       );
     }
   };
@@ -598,10 +703,17 @@ const EmpSetting = () => {
 
         <StyledButton
           currentPage={currentPage}
-          page="Connections"
-          onClick={() => setCurrentPage("Connections")}
+          page="connections"
+          onClick={() => setCurrentPage("connections")}
         >
           Connections
+        </StyledButton>
+        <StyledButton
+          currentPage={currentPage}
+          page="company"
+          onClick={() => setCurrentPage("company")}
+        >
+          Company
         </StyledButton>
       </ButtonContainer>
 
