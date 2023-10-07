@@ -130,8 +130,8 @@ const MultiStepForm = ({
 
   return (
     showForm && (
-      <ModalOverlay>
-        <FormCenteringContainer>
+      <ModalOverlay >
+        <FormCenteringContainer >
           <ModalContainer>
             <HeaderContainer>
               <Heading>{isEditMode ? "Update Role" : "Create Role"}</Heading>

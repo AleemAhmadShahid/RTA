@@ -379,11 +379,11 @@ const Role_list = () => {
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
+                   
 
                     {selectedCheck.includes("Description") && (
                       <Th>DESCRIPTION</Th>
-                    )}
+                    )} {selectedCheck.includes("Name") && <Th>NAME</Th>}
                     {selectedCheck.includes("Created By") && (
                       <Th>ADDED BY</Th>
                     )}

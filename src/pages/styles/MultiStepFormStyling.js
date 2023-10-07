@@ -117,7 +117,7 @@ background-color: #ffa500;
   border-radius: 5px;
   margin-top: 5px;
   margin-right:5px;
-  margin-bottom:10px;
+  margin-bottom:-5px;
   padding: 10px 20px;
   font-size: small;
   cursor: pointer;

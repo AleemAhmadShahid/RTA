@@ -8,12 +8,12 @@ import {
 } from "../styles/MultiStepFormStyling";
 import { StyledErrorH6 } from "../Login";
 
-import {validateAlphanumericWithSpace} from "../../global/validators";
+import { validateAlphanumericWithSpace } from "../../global/validators";
 
 const StepOne = ({ formData, errors, handleChange }) => {
   return (
     <FormStep active>
-      <H6>Basic Information</H6>
+      <H6 style={{ width: "300px" }}>Basic Information</H6>
 
       <FormGroup>
         <FormLabel>Name</FormLabel>
@@ -21,21 +21,29 @@ const StepOne = ({ formData, errors, handleChange }) => {
           type="text"
           value={formData.name || ""}
           placeholder={" Name"}
-          onChange={(e) => handleChange("name", e.target.value, validateAlphanumericWithSpace)}
-          onBlur={(e) => handleChange("name", e.target.value, validateAlphanumericWithSpace)}
+          onChange={(e) =>
+            handleChange("name", e.target.value, validateAlphanumericWithSpace)
+          }
+          onBlur={(e) =>
+            handleChange("name", e.target.value, validateAlphanumericWithSpace)
+          }
           required
         />
       </FormGroup>
       {errors.name && <StyledErrorH6>{errors.name}</StyledErrorH6>}
-      <FormGroup>
-        <FormLabel>Description</FormLabel>
-        <FormInput
-          type="text"
-          value={formData.description || ""}
-          placeholder={" Role Description"}
-          onChange={(e) => handleChange("description", e.target.value)}
-        />
-      </FormGroup>
+      
+        <FormGroup>
+          <FormLabel>Description</FormLabel>
+          <textarea
+            style={{ borderRadius: "5px" }}
+            value={formData.description || ""}
+            placeholder={" Role Description"}
+            onChange={(e) => handleChange("description", e.target.value)}
+            rows={4} 
+            cols={35} 
+          ></textarea>
+        </FormGroup>
+      
     </FormStep>
   );
 };

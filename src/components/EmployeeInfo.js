@@ -29,11 +29,11 @@ const EmployeeInfo = ({ employee }) => {
     <tr>
       <Td>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <UserImage
+           <UserImage
             src={employee.profileImg || defaultImageUrl}
             alt="Profile Image"
-            style={{ marginLeft: "6px" }}
-          />
+            style={{ marginLeft: "20px" }}
+          /> 
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span style={{  textAlign: "left", color: "#6e6b7b", fontWeight: "700" }}>
               {employee.name}
