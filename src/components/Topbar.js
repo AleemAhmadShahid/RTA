@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Outlet } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   AiOutlineBell,
@@ -17,6 +17,7 @@ import {
   AiOutlineAppstore,
 } from "react-icons/ai";
 import { CgMenuGridR } from "react-icons/cg";
+import { clearUser } from "../redux/userSlice";
 
 const Nav = styled.div`
   background: #ffffff;
@@ -168,6 +169,7 @@ const SettingDropdownButton = styled.button`
   }
   &:hover {
     background-color: #ffa500;
+    color: white;
   }
   @media screen and (max-width: 845px) {
     width:100%;
@@ -222,6 +224,8 @@ const Topbar = () => {
   const togglesettingDropdown = () => {
     setIssettingDropdownOpen(!issettingDropdownOpen);
   };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -289,16 +293,16 @@ const Topbar = () => {
         <SettingIcon onClick={togglesettingDropdown} />
 <SettingDropdownContainer isOpen={issettingDropdownOpen}>
   <SettingDropdownGrid>
-    <SettingDropdownItem>
-      <SettingDropdownButton>
-        <AiOutlineHome />
-        <span>Profile</span>
-      </SettingDropdownButton>
-    </SettingDropdownItem>
-    <SettingDropdownItem>
-      <SettingDropdownButton>
+  <SettingDropdownItem>
+      <SettingDropdownButton onClick={() => navigate('/portal/iam/settings')}>
         <AiOutlineUser />
         <span>Settings</span>
+      </SettingDropdownButton>
+    </SettingDropdownItem>
+    <SettingDropdownItem  onClick={() => {dispatch(clearUser());localStorage.setItem('token', "");navigate('/login');}}>
+      <SettingDropdownButton>
+        <AiOutlineHome />
+        <span>Logout</span>
       </SettingDropdownButton>
     </SettingDropdownItem>
     {/* Add more items as needed */}

@@ -100,7 +100,6 @@ const Emp_list = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(role);
     const params = {
       page: currentPage,
       pageItems: entriesToShow,

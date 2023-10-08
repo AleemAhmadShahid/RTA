@@ -20,6 +20,7 @@ const Loader = styled.div`
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  margin: 10px;
   animation: ${spin} 2s linear infinite;
 `;
 
