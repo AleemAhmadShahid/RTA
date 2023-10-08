@@ -254,21 +254,21 @@ const Team_list = ({id}) => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalRoles || 0}
+              data={infoBoxData?.totalDepartments || 0}
               text={`Total ${pageName[id - 1].name}s`}
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantRoles || 0}
+              data={infoBoxData?.vacantDepartments || 0}
               text={`Vacant ${pageName[id - 1].name}s`}
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedRoles || 0}
+              data={infoBoxData?.closedDepartments || 0}
               text={`Closed ${pageName[id - 1].name}s`}
             />
            
