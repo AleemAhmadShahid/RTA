@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Switch from "../components/Switch";
 import {
   CenteredContainer,
   BoxContainer,
@@ -8,6 +9,8 @@ import {
   TableContainer,
   Table,
   Td,
+  SuccessBadge,
+  DangerBadge,
 } from "./styles/TableStyling";
 import {
   Heading,
@@ -26,7 +29,7 @@ import {
 
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
-import { BiLockAlt } from "react-icons/bi";
+import { BiLockAlt, BiDotsVerticalRounded } from "react-icons/bi";
 const LargeIcon = styled.span`
   font-size: 24px; /* Adjust the icon size as needed */
 `;
@@ -92,6 +95,7 @@ const StyledButton = styled.button`
     color: #fff;
   }
 `;
+
 const ResetButton = styled.button`
   background-color: #0000;
   color: #00000;
@@ -159,8 +163,162 @@ const Image = styled.img`
   margin: auto;
   background-color: #ededed;
 `;
+const APIbox = styled.div`
+  position: relative; /* To position the button relative to this container */
+  background-color: #ededed;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+`;
+const APIOptionsButton = styled.button`
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 10px; /* Adjust the right position as needed */
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
+const CheckboxLabel = styled.label`
+  display: block;
+  margin-top: 10px; /* Add margin for spacing */
+`;
+
+const SwitchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+const TimeInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0px; /* Add margin for spacing between the fields */
+`;
+
+const TimeInput = styled.input`
+  border: none;
+  border-bottom: 1px solid #ccc; /* Add a bottom border */
+  margin: 0 20px; /* Add spacing between the input fields */
+  padding: 5px; /* Add padding as needed */
+  width: 100%; /* Adjust the width as needed */
+  outline: none; /* Remove the default input focus outline */
+`;
+const Colon = styled.span`
+  font-size: 20px; /* Adjust the font size as needed */
+  margin: 0 5px; /* Add spacing around the colon */
+`;
+
+const Timer = ({ switchState }) => {
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
+  const handleStartTimeChange = (event) => {
+    const input = event.target.value;
+    // Ensure that only numeric characters are entered
+    if (/^\d*$/.test(input) && input.length <= 4) {
+      setStartTime(input);
+    }
+  };
+
+  const handleEndTimeChange = (event) => {
+    const input = event.target.value;
+    // Ensure that only numeric characters are entered
+    if (/^\d*$/.test(input) && input.length <= 4) {
+      setEndTime(input);
+    }
+  };
+
+  if (switchState) {
+    // Return null when the switch state is false to hide the Timer component
+    return null;
+  }
+
+  return (
+   <>
+      {/* Other content here */}
+      <TimeInputContainer>
+        <TimeInput
+          type="text"
+          placeholder="Start Time"
+          value={startTime}
+          onChange={handleStartTimeChange}
+        />
+        <Colon>-</Colon>
+        <TimeInput
+          type="text"
+          placeholder="End Time"
+          value={endTime}
+          onChange={handleEndTimeChange}
+        />
+      </TimeInputContainer>
+    </>
+  );
+};
+
+const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" ,marginBottom:'20px'}}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img src={imageUrl} alt="IMG" width={35} height={35} />
+          <span style={{ marginLeft: "10px" }}>{text}</span>
+        </div>
+        <div>
+          <Switch />
+        </div>
+      </div>
+    );
+  };
 const EmpSetting = () => {
   const [currentPage, setCurrentPage] = useState("account");
+
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const handleDeactivateClick = () => {
+    if (isChecked) {
+      setIsFormVisible(true);
+    }
+  };
+
+  const [buttonClicked, setButtonClicked] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleButtonClick = (buttonName) => {
+    setButtonClicked(buttonName);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+
+  const handleDeactivateDelete = () => {
+    // Handle the deactivation or deletion logic here.
+    // You can use the 'buttonClicked' state to determine which action to perform.
+    if (buttonClicked === "Deactivate") {
+      // Handle deactivation
+    } else if (buttonClicked === "Delete") {
+      // Handle deletion
+    }
+  };
+  const initialSwitchStates = {
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+    // Add more days as needed
+  };
+
+  const [switchStates, setSwitchStates] = useState(initialSwitchStates);
+
+  const handleSwitchChange = (day) => {
+    // Update the state for the specific day
+    setSwitchStates((prevState) => ({
+      ...prevState,
+      [day]: !prevState[day],
+    }));
+  };
+
   const renderContent = () => {
     if (currentPage === "account") {
       return (
@@ -169,7 +327,7 @@ const EmpSetting = () => {
             <Box>
               <H6>Profile Details</H6>
               <hr />
-              <UploadContainer>
+              <UploadContainer >
                 <UploadBox />
                 <PictureUploadButton style={{ fontSize: "14px" }}>
                   Upload
@@ -180,7 +338,7 @@ const EmpSetting = () => {
 
               <div style={{ display: "flex" }}>
                 <ColumnContainer>
-                  <LeftColumn>
+                  <LeftColumn style={{marginBottom:'20px'}}>
                     <FormGroup>
                       <FormLabel>First Name:</FormLabel>
                       <FormInput type="text" placeholder={" "} />
@@ -206,7 +364,7 @@ const EmpSetting = () => {
                   </RightColumn>
                 </ColumnContainer>
               </div>
-              <FormButton>Save changes</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>Save changes</FormButton>
               <PreviousButton> Discard</PreviousButton>
             </Box>
           </BoxContainer>
@@ -232,9 +390,73 @@ const EmpSetting = () => {
                   Are you sure you want to delete the account?
                 </label>
               </div>
-              <DeactivateButton>Deactivate Account</DeactivateButton>
+              <DeactivateButton onClick={handleDeactivateClick}>
+                Deactivate Account
+              </DeactivateButton>
             </Box>
           </BoxContainer>
+
+          <ButtonContainer>
+            <StyledButton
+              onClick={() => handleButtonClick("Deactivate")}
+              currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
+            >
+              <AiOutlineUser />
+              Deactivate
+            </StyledButton>
+
+            <StyledButton
+              onClick={() => handleButtonClick("Delete")}
+              currentPage={buttonClicked === "Delete" ? "Delete" : ""}
+            >
+              <AiOutlineUser />
+              Delete
+            </StyledButton>
+          </ButtonContainer>
+
+          <BoxContainer visible={buttonClicked !== null}>
+            <Box>
+              {buttonClicked === "Deactivate" && (
+                <CheckboxLabel style={{ marginBottom: "10px" }}>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />{" "}
+                  I confirm my account deactivation
+                </CheckboxLabel>
+              )}
+
+              {buttonClicked === "Delete" && (
+                <CheckboxLabel style={{ marginBottom: "10px" }}>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />{" "}
+                  I confirm my account deletion
+                </CheckboxLabel>
+              )}
+
+              {isChecked && (
+                <>
+                  <ColumnContainer>
+                    <LeftColumn>
+                      <FormLabel>Enter password:</FormLabel>
+                      <FormInput type="password" />
+                      <DeactivateButton onClick={handleDeactivateDelete}>
+                        {buttonClicked === "Deactivate"
+                          ? "Deactivate"
+                          : "Delete"}
+                      </DeactivateButton>
+                    </LeftColumn>
+                    <RightColumn></RightColumn>
+                  </ColumnContainer>
+                </>
+              )}
+            </Box>
+          </BoxContainer>
+
           <hr />
         </>
       );
@@ -278,7 +500,7 @@ const EmpSetting = () => {
               </div>
 
               <div>
-                <FormButton>Save</FormButton>
+                <FormButton style={{ marginBottom: "10px" }}>Save</FormButton>
                 <PreviousButton>Discard</PreviousButton>
               </div>
             </Box>
@@ -301,7 +523,7 @@ const EmpSetting = () => {
                 <RightColumn></RightColumn>
               </ColumnContainer>
               {/* <ButtonContainer> */}
-              <FormButton>Enable Two-Factor Authentication</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>Enable Two-Factor Authentication</FormButton>
               {/* </ButtonContainer> */}
             </Box>
           </BoxContainer>
@@ -309,7 +531,7 @@ const EmpSetting = () => {
           <BoxContainer>
             <Box>
               <H6>Create an API Key</H6>
-              {/* <hr /> */}
+
               <ColumnContainer>
                 <LeftColumn>
                   <FormGroup>
@@ -325,11 +547,36 @@ const EmpSetting = () => {
                   <FormButton>Create Key</FormButton>
                 </LeftColumn>
                 <RightColumn>
-                  {/* Place your image here */}
                   <Image src="/API.jpg" alt="API Key Image" />
                 </RightColumn>
               </ColumnContainer>
             </Box>
+          </BoxContainer>
+          <BoxContainer>
+            <Box>
+              <H6>API Key List & Access</H6>
+              <P>
+                An API key is a simle encrypted string that identifies an
+                application without any principal. They are usefull for
+                accessing public data anonmymously, and are used to associate
+                API requests with your project for quota and billing
+              </P>
+            </Box>
+            <APIbox>
+              <APIOptionsButton>
+                <BiDotsVerticalRounded />
+              </APIOptionsButton>
+
+              <P style={{ display: "inline-block", marginRight: "10px" }}>
+                {" "}
+                Server Key 1
+              </P>
+              <SuccessBadge>Full Access</SuccessBadge>
+              <P style={{ fontWeight: "bold" }}>
+                23e-333-3434-343-4a-asdasd-3ed3d
+              </P>
+              <P>Created on Apr,2020,18:20,GTM+4:10</P>
+            </APIbox>
           </BoxContainer>
 
           <hr />
@@ -351,15 +598,8 @@ const EmpSetting = () => {
                 <thead>
                   <Tr>
                     <Th>Type</Th>
-                    {/* <Th>
-                      <input
-                        type="checkbox"
-                       
-                      />
-                    </Th> */}
                     <Th>Email</Th>
                     <Th>Browser</Th>
-                    {/* <Th>Email</Th> */}
                     <Th>APP</Th>
                   </Tr>
                 </thead>
@@ -387,7 +627,7 @@ const EmpSetting = () => {
               <RightColumn></RightColumn>{" "}
             </ColumnContainer>
             <div>
-              <FormButton>Save Changes</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
               <PreviousButton>Discard</PreviousButton>
             </div>
           </Box>
@@ -402,10 +642,102 @@ const EmpSetting = () => {
       );
     } else if (currentPage === "connections") {
       return (
+        <BoxContainer>
         <Box>
-          <P>Connections</P>
-          {/* ... Connections content ... */}
+          <H6>Connected Accounts</H6>
+          <P>Display content from your connected accounts on your site</P>
+
+         
+          <GoogleImageWithTextAndSwitch
+            imageUrl="/Googlepng.png" 
+            text="Google"
+          />
+          <GoogleImageWithTextAndSwitch
+            imageUrl="/Slack.png" 
+            text="Slack"
+          />
         </Box>
+      </BoxContainer>
+      );
+    } else if (currentPage === "company") {
+      return (
+        <>
+          <BoxContainer>
+            <Box>
+              <H6>Company Logo</H6>
+              <UploadContainer>
+                <UploadBox />
+                <PictureUploadButton style={{ fontSize: "14px" }}>
+                  Upload
+                </PictureUploadButton>
+
+                <ResetButton> Reset</ResetButton>
+              </UploadContainer>
+              <ColumnContainer>
+                <LeftColumn>
+                  <FormGroup>
+                    <FormLabel>E-mail</FormLabel>
+                    <FormInput type="text" placeholder={" "} />
+                  </FormGroup>
+                </LeftColumn>
+                <RightColumn>
+                  <FormGroup>
+                    <FormLabel>Compnay</FormLabel>
+                    <FormInput type="text" />
+                  </FormGroup>
+                </RightColumn>
+              </ColumnContainer>
+              <FormButton>Save changes</FormButton>
+              <PreviousButton style={{ marginBottom: "10px" }}>
+                {" "}
+                Reset
+              </PreviousButton>
+            </Box>
+          </BoxContainer>
+
+          <BoxContainer>
+            <Box>
+              <H6>Operating Hours</H6>
+              <ColumnContainer>
+  <LeftColumn>
+    <div>
+    {Object.keys(switchStates).map((day) => (
+      <div key={day}>
+        <SwitchContainer>
+          <Switch
+            checked={switchStates[day]}
+            onChange={() => handleSwitchChange(day)}
+          />
+          <span>{day}</span>
+          <div style={{ marginLeft: "auto" }}>
+            {switchStates[day] ? (
+              <SuccessBadge>Opens</SuccessBadge>
+            ) : (
+              <DangerBadge>Closed</DangerBadge>
+            )}
+          </div>
+        </SwitchContainer>
+      </div>
+    ))}</div>
+  </LeftColumn>
+  <RightColumn style={{ flex: 2 }}>
+    <div>
+    {Object.keys(switchStates).map((day) => (
+      <div key={day}>
+        {switchStates[day] && (
+          
+          <Timer isBadgeOpen={switchStates[day]} />
+        )}
+      </div>
+    ))}</div>
+  </RightColumn>
+</ColumnContainer>
+
+ <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
+            </Box>
+          </BoxContainer>
+          <hr/>
+        </>
       );
     }
   };
@@ -452,10 +784,17 @@ const EmpSetting = () => {
 
         <StyledButton
           currentPage={currentPage}
-          page="Connections"
-          onClick={() => setCurrentPage("Connections")}
+          page="connections"
+          onClick={() => setCurrentPage("connections")}
         >
           Connections
+        </StyledButton>
+        <StyledButton
+          currentPage={currentPage}
+          page="company"
+          onClick={() => setCurrentPage("company")}
+        >
+          Company
         </StyledButton>
       </ButtonContainer>
 

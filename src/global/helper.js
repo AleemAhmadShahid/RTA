@@ -81,15 +81,7 @@ const constructQueryString = (paramsObject) =>
 }
 
 const parseCookies = () => {
-  const cookies = document.cookie.split('; ');
-  const cookieObject = {};
-
-  cookies.forEach((cookie) => {
-    const [name, value] = cookie.split('=');
-    cookieObject[name] = value;
-  });
-
-  return cookieObject;
+  return {token: localStorage.getItem('token')};
 }
 
 const setHeaders = () =>

@@ -48,20 +48,13 @@ const StepFour = ({ formData, handleChange }) => {
     setFunction([...state, state.length]);
   };
 
-  // const removeItem = (index, setFunction,state, key) => {
-  //   const newState = [...state];
-  //   newState.splice(index, 1);
-  //   setFunction(newState);
-  //   const newData = [...formData[key]];
-  //   newData.splice(index, 1);
-  //   handleChange(key, newData);
-  // };
+  
   const removeItem = (index, setFunction, state, key) => {
     const newState = [...state];
     newState.splice(index, 1);
     setFunction(newState);
 
-    // Check if formData[key] is an array before attempting to splice
+  
     if (Array.isArray(formData[key])) {
       const newData = [...formData[key]];
       newData.splice(index, 1);

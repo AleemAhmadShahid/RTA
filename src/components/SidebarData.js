@@ -15,10 +15,16 @@ export const SidebarData = [
   },
   {
     title: "Employees",
-    path: "/portal/iam/employee",
     icon: <AiIcons.AiOutlineUser />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
+    subNav: [
+      {
+        title: "List",
+        path: "/portal/iam/employee",
+        icon: <BiIcons.BiRadioCircle />,
+      }
+    ],
 
   },
   {
@@ -31,13 +37,8 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Role/List",
+        path: "/portal/iam/role",
         icon: <BiIcons.BiRadioCircle />,
-      },
-      {
-        title: "Add",
-        // path: "/Role/Add",
-        icon: <BiIcons.BiSolidAddToQueue />,
       },
     ],
   },
@@ -51,7 +52,7 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Teams/List",
+        path: "/portal/iam/team",
         icon: <BiIcons.BiRadioCircle />,
         cName: "sub-nav",
       },
@@ -68,7 +69,7 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Departments/List",
+        path: "/portal/iam/department",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],

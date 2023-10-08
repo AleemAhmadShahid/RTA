@@ -1,13 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const LoaderContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  margin-top:10px;
-  margin-bottom:10px;
+  height: ${(props) => (props.pageloader ? '100vh' : 'auto')};
+`;
+
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 `;
 
 const Loader = styled.div`
@@ -16,12 +20,18 @@ const Loader = styled.div`
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  animation: spin 1s linear infinite;
+  margin: 10px;
+  animation: ${spin} 2s linear infinite;
 `;
 
-const LoaderComponent = () => {
+const Image = styled.img`
+  max-width: 200px; /* Adjust the image size as needed */
+`;
+
+const LoaderComponent = ({ pageloader }) => {
   return (
-    <LoaderContainer>
+    <LoaderContainer pageloader={pageloader}>
+      {pageloader && <Image src="/RTA.png" alt="Image Alt Text" />}
       <Loader />
     </LoaderContainer>
   );

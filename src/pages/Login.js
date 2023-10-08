@@ -1,8 +1,11 @@
-import React,{ useState } from "react";
+import React,{ useState, useEffect } from "react";
 import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
 import {createPostRequest} from '../global/helper'
 import ErrorDialog from "../components/ErrorDialog";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/userSlice';
+
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -149,6 +152,9 @@ const CreateAccountButton = styled.button`
 
 const LoginPage = () => {
   const path = '/api/user/login';
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+ 
 
   const [formData, setFormData] = useState({
     email: '',
@@ -208,7 +214,8 @@ const LoginPage = () => {
         setIsDialogOpen(true);
       }
       else if (response.status === 200) {
-        document.cookie = `token=${response.token}; expires=${new Date(Date.now() + 59 * 60000).toUTCString()}; path=/;`;
+        localStorage.setItem('token', response.token);
+        dispatch(setUser(response.user));
         navigate("/portal/iam/employee");
       } else {
         console.error(response);
@@ -217,6 +224,13 @@ const LoginPage = () => {
       console.error('Error:', error);
     }
   };
+
+  useEffect(() => {
+    if(user.isAuthenticated)
+      navigate("/portal/iam/employee");
+    
+  }, []);
+
 
 
   return (

@@ -36,7 +36,7 @@ const SidebarNav = styled.nav`
   color: #000;
   transition: all 0.3s ease;
 
-  @media (min-width: 768px) {
+  @media (min-width: 845px) {
     left: 0; /* Keep the sidebar fixed on desktop view */
     width: 250px;
   }
