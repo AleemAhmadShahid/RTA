@@ -48,8 +48,18 @@ import {
   dropDownStyle,
 } from "../styles/TableStyling";
 
-const Role_list = () => {
+const Team_list = ({id}) => {
   const entriesOptions = [5, 10, 20, 50, 100];
+  const pageName = [
+    {
+      name: "Department",
+      columnName: "Department Head"
+    },
+    {
+      name: "Team",
+      columnName: "Team Lead"
+    },
+  ];
   const statusOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Active" },
@@ -95,16 +105,15 @@ const Role_list = () => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
+      type: id,
       name: searchTerm,
     };
     if (typeof status.value !== "object") params.status = status.value;
-    if (typeof roles.value !== "object") params.roless = roles.value;
-
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/role", params);
+        const data = await createGetRequest("/api/department", params);
         if (
           data.status === 401 &&
           (data.error === "Invalid or expired token" ||
@@ -113,11 +122,12 @@ const Role_list = () => {
           navigate("/login/");
         if (data.status === 404) {
           setRole([]);
+          setLoading(false);
           return;
         }
-        setRole(data.roles);
+        setRole(data.departments);
         setInfoBoxData(data.analytics);
-        setTotalPages(data.totalPages);
+        setTotalPages(data.totalPages);    
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -128,7 +138,8 @@ const Role_list = () => {
   }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
 
   const handleEditClick = (role) => {
-    setFormData(role);
+    const updatedRole = {...role, lead: role?.lead?._id, superDepartment: role?.superDepartment?._id};
+    setFormData(updatedRole);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -142,13 +153,15 @@ const Role_list = () => {
 
   const [selectedCheck, setSelectedCheck] = useState([
     "Name",
-    "Description",
+    pageName[id-1].columnName,
+    "Supervising Department",
     "Created By",
     "Actions",
   ]);
   const CheckOptions = [
     "Name",
-    "Description",
+    pageName[id-1].columnName,
+    "Supervising Department",
     "Created By",
     "Actions",
   ];
@@ -168,9 +181,9 @@ const Role_list = () => {
     icon: <FaPrint />,
   });
 
-  const [deleteRoleId, setDeleteRoleId] = useState("");
-  const deleteRole = async (id) => {
-    const response = await createDeleteRequest(`/api/role/${id}/`);
+  const [deleteDepartmentId, setDeleteEmployeeId] = useState("");
+  const deleteDepartment = async (id) => {
+    const response = await createDeleteRequest(`/api/department/${id}/`);
     if (response.status === 200) {
       setIsConfirmDialogOpen(false);
       setMessage("Deleted Successfully");
@@ -219,7 +232,7 @@ const Role_list = () => {
         show={isConfirmDialogOpen}
         handleClose={() => setIsConfirmDialogOpen(false)}
         handleYes={() => {
-          deleteRole(deleteRoleId);
+          deleteDepartment(deleteDepartmentId);
         }}
       />{" "}
       <CenteredContainer>
@@ -242,21 +255,21 @@ const Role_list = () => {
               icon={FiUserPlus}
               iconColor="#512da8"
               data={infoBoxData?.totalRoles || 0}
-              text="Total Roles"
+              text={`Total ${pageName[id - 1].name}s`}
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
               data={infoBoxData?.vacantRoles || 0}
-              text="Vacant Roles"
+              text={`Vacant ${pageName[id - 1].name}s`}
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
               data={infoBoxData?.closedRoles || 0}
-              text="Closed Roles"
+              text={`Closed ${pageName[id - 1].name}s`}
             />
            
           </CardsContainer> }
@@ -358,7 +371,7 @@ const Role_list = () => {
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Role</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add {pageName[id-1].name}</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -378,11 +391,14 @@ const Role_list = () => {
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("Description") && (
-                      <Th>DESCRIPTION</Th>
-                    )}
 
                     {selectedCheck.includes("Name") && <Th>NAME</Th>}
+
+                    {selectedCheck.includes(pageName[id-1].columnName) && (
+                      <Th>{pageName[id-1].columnName}</Th>
+                    )}
+
+                    {selectedCheck.includes("Supervising Department") && <Th>Supervising Department</Th>}
 
                    
                     {selectedCheck.includes("Created By") && (
@@ -423,13 +439,22 @@ const Role_list = () => {
                             }}
                           />
                         </Td>
-                  
-                        {selectedCheck.includes("Description") && (
-                          <Td style={{ whiteSpace: 'pre-line' }}>{role.description}</Td>
-                        )}
 
                         {selectedCheck.includes("Name") && (
                           <Td>{role.name}</Td>
+                        )}
+
+                        {selectedCheck.includes(pageName[id-1].columnName) && (
+                          <Td>
+                          { role?.lead 
+                            &&
+                            <EmployeeInfo isSpaceRequired={true} employee={role?.lead} />
+                          }
+                        </Td>
+                        )}
+
+                        {selectedCheck.includes("Supervising Department") && (
+                          <Td>{role?.superDepartment?.name}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
@@ -449,7 +474,8 @@ const Role_list = () => {
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
                                   setIsViewMode(false);
-                                  setFormData(role);
+                                  const updatedRole = {...role, lead: role?.lead?._id, superDepartment: role?.superDepartment?._id};
+                                  setFormData(updatedRole);
                                   setShowForm(true);
                                   setIsEditMode(!!role);
                                 }}
@@ -470,9 +496,9 @@ const Role_list = () => {
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
                                 setMessage(
-                                  "Do you want to delete this role?"
+                                  `Do you want to delete this ${pageName[id-1].name.toLowerCase()}?`
                                 );
-                                setDeleteRoleId(role._id);
+                                setDeleteEmployeeId(role._id);
                                 setIsConfirmDialogOpen(true);
                               }}
                             />
@@ -514,10 +540,12 @@ const Role_list = () => {
           isEditMode={isEditMode}
           isViewMode={isViewMode}
           onEditClick={handleEditClick}
+          id = {id}
+          pageName = {pageName}
         />
       )}
     </>
   );
 };
 
-export default Role_list;
+export default Team_list;

@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import Emp_list from "./pages/Employees/EmpMainPage";
 import Role_list from "./pages/Roles/RoleMainPage";
+import Team_list from "./pages/Teams/TeamMainPage";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom"; 
 import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";
@@ -23,7 +24,9 @@ function App() {
         <Route path="/portal" element={<Topbar />}>
           <Route path="iam" element={<Sidebar />}>
             <Route path="employee" element={<Emp_list />} /> 
-            <Route path="role" element={<Role_list />} /> 
+            <Route path="role" element={<Role_list />} />
+            <Route path="team" element={<Team_list  id={2}/>} /> 
+            <Route path="department" element={<Team_list  id={1}/>} /> 
             <Route path="settings" element={<EmpSetting />} /> 
           </Route>
         </Route>

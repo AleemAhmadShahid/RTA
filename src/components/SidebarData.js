@@ -52,7 +52,7 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Teams/List",
+        path: "/portal/iam/team",
         icon: <BiIcons.BiRadioCircle />,
         cName: "sub-nav",
       },
@@ -69,7 +69,7 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Departments/List",
+        path: "/portal/iam/department",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
