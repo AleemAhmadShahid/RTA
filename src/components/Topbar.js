@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
+import { useSelector } from 'react-redux';
+
 import {
   AiOutlineBell,
   AiOutlineSetting,
@@ -137,7 +139,8 @@ const DropdownLabel = styled.div`
 
 const Topbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+  const user = useSelector((state) => state.user);
+ 
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -205,7 +208,7 @@ const Topbar = () => {
         <IconContainer>
           <BellIcon />
           <SettingIcon />
-          <SimpleText>Company Name</SimpleText>
+          <SimpleText>{user?.user?.name}</SimpleText>
         </IconContainer>
       </Nav>
     </>
