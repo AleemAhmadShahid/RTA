@@ -40,7 +40,7 @@ function App() {
   }, [dispatch]); 
 
   if (isLoading) {
-    return <LoaderComponent/>;
+    return <LoaderComponent pageloader={true}/>;
   }
   else
   return (

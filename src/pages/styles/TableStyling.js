@@ -32,7 +32,6 @@ export const Tr = styled.tr`
   & > :first-child {
     width: 10px;
   }
-
 `;
 export const Td = styled.td`
   padding: 10px 4px;

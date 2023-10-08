@@ -141,7 +141,7 @@ const MultiStepForm = ({
         <FormCenteringContainer >
           <ModalContainer>
             <HeaderContainer>
-              <Heading>
+              <Heading style={{width:'300px'}}>
               {
                   isViewMode ? `View ${pageName[id-1].name}` : (isEditMode ? `Update ${pageName[id-1].name}` : `Create ${pageName[id-1].name}`)
               }

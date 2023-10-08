@@ -95,6 +95,7 @@ const StyledButton = styled.button`
     color: #fff;
   }
 `;
+
 const ResetButton = styled.button`
   background-color: #0000;
   color: #00000;
@@ -191,6 +192,72 @@ const SwitchContainer = styled.div`
   align-items: center;
   margin-bottom: 20px;
 `;
+const TimeInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0px; /* Add margin for spacing between the fields */
+`;
+
+const TimeInput = styled.input`
+  border: none;
+  border-bottom: 1px solid #ccc; /* Add a bottom border */
+  margin: 0 20px; /* Add spacing between the input fields */
+  padding: 5px; /* Add padding as needed */
+  width: 100%; /* Adjust the width as needed */
+  outline: none; /* Remove the default input focus outline */
+`;
+const Colon = styled.span`
+  font-size: 20px; /* Adjust the font size as needed */
+  margin: 0 5px; /* Add spacing around the colon */
+`;
+
+const Timer = ({ switchState }) => {
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
+  const handleStartTimeChange = (event) => {
+    const input = event.target.value;
+    // Ensure that only numeric characters are entered
+    if (/^\d*$/.test(input) && input.length <= 4) {
+      setStartTime(input);
+    }
+  };
+
+  const handleEndTimeChange = (event) => {
+    const input = event.target.value;
+    // Ensure that only numeric characters are entered
+    if (/^\d*$/.test(input) && input.length <= 4) {
+      setEndTime(input);
+    }
+  };
+
+  if (switchState) {
+    // Return null when the switch state is false to hide the Timer component
+    return null;
+  }
+
+  return (
+   <>
+      {/* Other content here */}
+      <TimeInputContainer>
+        <TimeInput
+          type="text"
+          placeholder="Start Time"
+          value={startTime}
+          onChange={handleStartTimeChange}
+        />
+        <Colon>-</Colon>
+        <TimeInput
+          type="text"
+          placeholder="End Time"
+          value={endTime}
+          onChange={handleEndTimeChange}
+        />
+      </TimeInputContainer>
+    </>
+  );
+};
+
 const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
     return (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" ,marginBottom:'20px'}}>
@@ -260,7 +327,7 @@ const EmpSetting = () => {
             <Box>
               <H6>Profile Details</H6>
               <hr />
-              <UploadContainer>
+              <UploadContainer >
                 <UploadBox />
                 <PictureUploadButton style={{ fontSize: "14px" }}>
                   Upload
@@ -271,7 +338,7 @@ const EmpSetting = () => {
 
               <div style={{ display: "flex" }}>
                 <ColumnContainer>
-                  <LeftColumn>
+                  <LeftColumn style={{marginBottom:'20px'}}>
                     <FormGroup>
                       <FormLabel>First Name:</FormLabel>
                       <FormInput type="text" placeholder={" "} />
@@ -297,7 +364,7 @@ const EmpSetting = () => {
                   </RightColumn>
                 </ColumnContainer>
               </div>
-              <FormButton>Save changes</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>Save changes</FormButton>
               <PreviousButton> Discard</PreviousButton>
             </Box>
           </BoxContainer>
@@ -433,7 +500,7 @@ const EmpSetting = () => {
               </div>
 
               <div>
-                <FormButton>Save</FormButton>
+                <FormButton style={{ marginBottom: "10px" }}>Save</FormButton>
                 <PreviousButton>Discard</PreviousButton>
               </div>
             </Box>
@@ -456,7 +523,7 @@ const EmpSetting = () => {
                 <RightColumn></RightColumn>
               </ColumnContainer>
               {/* <ButtonContainer> */}
-              <FormButton>Enable Two-Factor Authentication</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>Enable Two-Factor Authentication</FormButton>
               {/* </ButtonContainer> */}
             </Box>
           </BoxContainer>
@@ -560,7 +627,7 @@ const EmpSetting = () => {
               <RightColumn></RightColumn>{" "}
             </ColumnContainer>
             <div>
-              <FormButton>Save Changes</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
               <PreviousButton>Discard</PreviousButton>
             </div>
           </Box>
@@ -632,27 +699,41 @@ const EmpSetting = () => {
             <Box>
               <H6>Operating Hours</H6>
               <ColumnContainer>
-              <LeftColumn>
-                  {Object.keys(switchStates).map((day) => (
-                    <SwitchContainer key={day}>
-                      <Switch
-                        checked={switchStates[day]}
-                        onChange={() => handleSwitchChange(day)}
-                      />
-                      <span>{day}</span>
-                      <div style={{ marginLeft: "auto" }}>
-                        {switchStates[day] ? (
-                          <SuccessBadge>Open</SuccessBadge>
-                        ) : (
-                          <DangerBadge>Closed</DangerBadge>
-                        )}
-                      </div>
-                    </SwitchContainer>
-                  ))}
-                  <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
-                </LeftColumn>
-                <RightColumn></RightColumn>
-              </ColumnContainer>
+  <LeftColumn>
+    <div>
+    {Object.keys(switchStates).map((day) => (
+      <div key={day}>
+        <SwitchContainer>
+          <Switch
+            checked={switchStates[day]}
+            onChange={() => handleSwitchChange(day)}
+          />
+          <span>{day}</span>
+          <div style={{ marginLeft: "auto" }}>
+            {switchStates[day] ? (
+              <SuccessBadge>Opens</SuccessBadge>
+            ) : (
+              <DangerBadge>Closed</DangerBadge>
+            )}
+          </div>
+        </SwitchContainer>
+      </div>
+    ))}</div>
+  </LeftColumn>
+  <RightColumn style={{ flex: 2 }}>
+    <div>
+    {Object.keys(switchStates).map((day) => (
+      <div key={day}>
+        {switchStates[day] && (
+          
+          <Timer isBadgeOpen={switchStates[day]} />
+        )}
+      </div>
+    ))}</div>
+  </RightColumn>
+</ColumnContainer>
+
+ <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
             </Box>
           </BoxContainer>
           <hr/>
