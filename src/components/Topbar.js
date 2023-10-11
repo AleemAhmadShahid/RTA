@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   AiOutlineBell,
@@ -15,8 +15,10 @@ import {
   AiOutlineDashboard,
   AiOutlinePieChart,
   AiOutlineAppstore,
+  AiOutlineLogout,
+  AiOutlineMenu,
 } from "react-icons/ai";
-import { CgMenuGridR } from "react-icons/cg";
+import { CgMenuGridR,CgMenuRight  } from "react-icons/cg";
 import { clearUser } from "../redux/userSlice";
 
 const Nav = styled.div`
@@ -42,13 +44,13 @@ const Nav = styled.div`
   }
 
   border-radius: 5px;
-  
 `;
 
 const SimpleText = styled.span`
   font-size: 16px;
   margin-right: 10px;
 `;
+
 
 const SettingIcon = styled(AiOutlineSetting)`
   font-size: 20px;
@@ -63,11 +65,7 @@ const BellIcon = styled(AiOutlineBell)`
   margin-left: 13px;
 `;
 
-const MenuIcon = styled(CgMenuGridR)`
-  font-size: 20px;
-  margin-right: 10px;
-  cursor: pointer;
-`;
+
 
 const IconContainer = styled.div`
   display: flex;
@@ -111,7 +109,6 @@ const DropdownButton = styled.button`
   }
 `;
 const DropdownGrid = styled.div`
-
   display: grid;
   left: 0;
   margin-top: 1px;
@@ -143,14 +140,10 @@ const SettingDropdownContainer = styled.div`
     position: absolute;
     // right: auto;
     width: 50%;
-    right:20px;
-    
+    right: 20px;
   }
   z-index: 1000;
 `;
-
-
-
 
 const SettingDropdownButton = styled.button`
   background-color: #ffffff;
@@ -172,11 +165,9 @@ const SettingDropdownButton = styled.button`
     color: white;
   }
   @media screen and (max-width: 845px) {
-    width:100%;
-    
+    width: 100%;
   }
 `;
-
 
 const DropdownLabel = styled.div`
   font-size: 14px;
@@ -194,27 +185,80 @@ const SettingDropdownGrid = styled.div`
   grid-gap: 10px;
   text-align: center;
   padding: 2px;
-  margin-bottom:2px;
+  margin-bottom: 2px;
 `;
 
 const SettingDropdownItem = styled.div`
   display: flex;
-  align-items: left; 
+  align-items: left;
   justify-content: left;
-  gap: 10px; 
+  gap: 10px;
 `;
 const Sidebariconcontainer = styled.div`
   display: none;
   @media screen and (max-width: 845px) {
     display: block;
-    
   }
 `;
+
+
+
+const MenuIcon = styled(CgMenuGridR)`
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+ 
+`;
+
+
+
+
+
+
+
+
+
+const SideMenu = styled(AiOutlineMenu)`
+  font-size: 20px;
+  margin-right: 13px;
+  margin-left: 10px;
+  cursor: pointer;
+  
+  left: ${({ sidebar }) => (sidebar ? "250px" : "20px")};
+  background-color: #ffffff;
+  
+ 
+
+  @media (max-width: 845px) {
+    display: block; /* Display the icon in mobile view only */
+  }
+`;
+
+
+
+
+
+export const MobileIcon = styled.div`
+font-size: 20px;
+margin-right: 10px;
+margin-left: 10px;
+cursor: pointer;
+
+left: ${({ sidebar }) => (sidebar ? "250px" : "20px")};
+background-color: #ffffff;
+
+
+
+@media (max-width: 845px) {
+  display: block; /* Display the icon in mobile view only */
+}
+`;
+
+
 
 const Topbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const user = useSelector((state) => state.user);
- 
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -227,11 +271,17 @@ const Topbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
+
+
   return (
     <>
       <Outlet />
       <Nav>
         <IconContainer>
+        <Sidebariconcontainer>
+            <MobileIcon > <CgMenuRight /></MobileIcon>
+          </Sidebariconcontainer>
           <MenuIcon onClick={toggleDropdown} />
           <DropdownContainer isOpen={isDropdownOpen}>
             <DropdownGrid>
@@ -285,36 +335,39 @@ const Topbar = () => {
               </div>
             </DropdownGrid>
           </DropdownContainer>
-          <Sidebariconcontainer>
-          <SettingIcon></SettingIcon></Sidebariconcontainer>
+          
         </IconContainer>
         <IconContainer>
-        <BellIcon />
-        <SettingIcon onClick={togglesettingDropdown} />
-<SettingDropdownContainer isOpen={issettingDropdownOpen}>
-  <SettingDropdownGrid>
-  <SettingDropdownItem>
-      <SettingDropdownButton onClick={() => navigate('/portal/iam/settings')}>
-        <AiOutlineUser />
-        <span>Settings</span>
-      </SettingDropdownButton>
-    </SettingDropdownItem>
-    <SettingDropdownItem  onClick={() => {dispatch(clearUser());localStorage.setItem('token', "");navigate('/login');}}>
-      <SettingDropdownButton>
-        <AiOutlineHome />
-        <span>Logout</span>
-      </SettingDropdownButton>
-    </SettingDropdownItem>
-    {/* Add more items as needed */}
-  </SettingDropdownGrid>
-</SettingDropdownContainer>
+          <BellIcon />
+          <SettingIcon onClick={togglesettingDropdown} />
+          <SettingDropdownContainer isOpen={issettingDropdownOpen}>
+            <SettingDropdownGrid>
+              <SettingDropdownItem>
+                <SettingDropdownButton
+                  onClick={() => navigate("/portal/iam/settings")}
+                >
+                  <AiOutlineSetting />
+                  <span>Settings</span>
+                </SettingDropdownButton>
+              </SettingDropdownItem>
+              <SettingDropdownItem
+                onClick={() => {
+                  dispatch(clearUser());
+                  localStorage.setItem("token", "");
+                  navigate("/login");
+                }}
+              >
+                <SettingDropdownButton>
+                  <AiOutlineLogout />
+                  <span>Logout</span>
+                </SettingDropdownButton>
+              </SettingDropdownItem>
+             
+            </SettingDropdownGrid>
+          </SettingDropdownContainer>
 
-
-        
-        <SimpleText>{user?.user?.name}</SimpleText>
-      </IconContainer>
-
-     
+          <SimpleText>{user?.user?.name}</SimpleText>
+        </IconContainer>
       </Nav>
     </>
   );

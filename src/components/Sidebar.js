@@ -1,26 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-// import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
-import { CgMenuRight } from "react-icons/cg"; 
+import { CgMenuRight } from "react-icons/cg";
 import { Outlet } from "react-router-dom";
-
-// const NavIcon = styled(Link)`
-//   margin-left: 2rem;
-//   font-size: 2rem;
-//   height: 80px;
-//   display: flex;
-//   justify-content: flex-start;
-//   align-items: center;
-//   color: #000; /* Set font color to black */
-//   display: none; /* Hide the icon by default */
-
-//   @media (max-width: 767px) {
-//     display: flex; /* Display the icon in mobile view only */
-//   }
-// `;
 
 const SidebarNav = styled.nav`
   background: #ffffff;
@@ -54,9 +38,7 @@ const Heading = styled.h3`
   color: #000;
   margin-left: 1rem;
   font-size: 1.2rem;
-  margin-top:1rem;
-
- 
+  margin-top: 1rem;
 `;
 
 const MobileIcon = styled.div`
@@ -77,13 +59,14 @@ const MobileIcon = styled.div`
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
 
   const toggleSidebar = () => {
     setSidebar(!sidebar);
   };
 
   const toggleSubMenu = (index) => {
-    SidebarData[index].subNavOpen = !SidebarData[index].subNavOpen;
+    setActiveSubMenu(index);
   };
 
   return (
@@ -92,19 +75,27 @@ const Sidebar = () => {
       <IconContext.Provider value={{ color: "#000" }}>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
-            <MobileIcon sidebar={sidebar} onClick={toggleSidebar}>
-              <CgMenuRight />
-            </MobileIcon>
-            <Heading><MobileIcon sidebar={sidebar} onClick={toggleSidebar}>
-              <CgMenuRight />
-            </MobileIcon>Employee Management</Heading>
+            <Heading>
+              <MobileIcon sidebar={sidebar} onClick={toggleSidebar}>
+                <CgMenuRight />
+              </MobileIcon>
+              Employee Management
+            </Heading>
             {SidebarData.map((item, index) => {
               return (
                 <div key={index}>
-                  <SubMenu item={item} toggleSubMenu={() => toggleSubMenu(index)} />
+                  <SubMenu
+                    item={item}
+                    toggleSubMenu={() => toggleSubMenu(index)}
+                    active={activeSubMenu === index}
+                  />
                   {item.subNavOpen &&
                     item.subNav.map((subItem, subIndex) => (
-                      <SubMenu item={subItem} key={subIndex} />
+                      <SubMenu
+                        item={subItem}
+                        key={subIndex}
+                        active={activeSubMenu === subIndex}
+                      />
                     ))}
                 </div>
               );

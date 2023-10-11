@@ -15,6 +15,7 @@ export const SidebarData = [
   },
   {
     title: "Employees",
+    
     icon: <AiIcons.AiOutlineUser />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
@@ -31,7 +32,7 @@ export const SidebarData = [
     title: "Roles",
     // path: "/Roles",
     icon: <IoIcons.IoIosPaper />,
-    iconClosed: <RiIcons.RiArrowDownSFill />,
+    iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
     subNav: [

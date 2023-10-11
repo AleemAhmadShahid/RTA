@@ -210,6 +210,17 @@ const Colon = styled.span`
   font-size: 20px; /* Adjust the font size as needed */
   margin: 0 5px; /* Add spacing around the colon */
 `;
+const InvisibleElement = styled.div`
+  visibility: hidden;
+  height: 75px; /* Adjust the height as needed */
+  width: 100px; /* Adjust the width as needed */
+  @media (max-width: 845px) {
+   display:none;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
+`;
 
 const Timer = ({ switchState }) => {
   const [startTime, setStartTime] = useState("");
@@ -327,7 +338,7 @@ const EmpSetting = () => {
             <Box>
               <H6>Profile Details</H6>
               <hr />
-              <UploadContainer >
+              <UploadContainer style={{marginBottom:'20px'}}>
                 <UploadBox />
                 <PictureUploadButton style={{ fontSize: "14px" }}>
                   Upload
@@ -483,6 +494,12 @@ const EmpSetting = () => {
                   </LeftColumn>
 
                   <RightColumn>
+                    <InvisibleElement>
+                  <FormGroup>
+                      <FormLabel>Retype Password:</FormLabel>
+                      <FormInput type="password" id="confirmPassword" />
+                    </FormGroup>
+                    </InvisibleElement >
                     <FormGroup>
                       <FormLabel>Retype Password:</FormLabel>
                       <FormInput type="password" id="confirmPassword" />
@@ -665,7 +682,7 @@ const EmpSetting = () => {
           <BoxContainer>
             <Box>
               <H6>Company Logo</H6>
-              <UploadContainer>
+              <UploadContainer style={{marginBottom:'20px'}}>
                 <UploadBox />
                 <PictureUploadButton style={{ fontSize: "14px" }}>
                   Upload
