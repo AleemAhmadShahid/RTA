@@ -17,6 +17,8 @@ import { createGetRequest } from "./global/helper";
 import { clearUser, setUser } from "./redux/userSlice";
 import LoaderComponent from "./components/Loader"
 
+import Board from "./components/Board";
+
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -48,6 +50,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/board" element={<Board />} />
+      
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password/:id" element={<ResetPassword name="Reset Password?" description="Your new password must be different from previously used passwords"/>} />
         <Route path="/setup-password/:id" element={<ResetPassword name="Setup Password" description="Setup your new account and start using portal today"/>} />
@@ -60,6 +64,7 @@ function App() {
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />
                 <Route path="settings" element={<EmpSetting />} />
+                
               </Route>
             </>
           ) : (
