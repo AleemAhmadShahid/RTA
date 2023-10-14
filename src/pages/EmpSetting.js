@@ -30,6 +30,7 @@ import {
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiLockAlt, BiDotsVerticalRounded } from "react-icons/bi";
+import { useSelector } from "react-redux";
 const LargeIcon = styled.span`
   font-size: 24px; /* Adjust the icon size as needed */
 `;
@@ -283,17 +284,10 @@ const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
     );
   };
 const EmpSetting = () => {
+  const [user,setUser] = useState(useSelector((state) => state.user));
   const [currentPage, setCurrentPage] = useState("account");
 
-  const [isFormVisible, setIsFormVisible] = useState(false);
-
-  const handleDeactivateClick = () => {
-    if (isChecked) {
-      setIsFormVisible(true);
-    }
-  };
-
-  const [buttonClicked, setButtonClicked] = useState(null);
+  const [buttonClicked, setButtonClicked] = useState("Deactivate");
   const [isChecked, setIsChecked] = useState(false);
 
   const handleButtonClick = (buttonName) => {
@@ -331,6 +325,7 @@ const EmpSetting = () => {
   };
 
   const renderContent = () => {
+
     if (currentPage === "account") {
       return (
         <>
@@ -351,22 +346,18 @@ const EmpSetting = () => {
                 <ColumnContainer>
                   <LeftColumn style={{marginBottom:'20px'}}>
                     <FormGroup>
-                      <FormLabel>First Name:</FormLabel>
-                      <FormInput type="text" placeholder={" "} />
-                    </FormGroup>
-                    <FormGroup>
-                      <FormLabel>Last Name:</FormLabel>
-                      <FormInput type="text" name="lastName" />
+                      <FormLabel>Name:</FormLabel>
+                      <FormInput type="text" value={user.user.name} placeholder={" "} />
                     </FormGroup>
                     <FormGroup>
                       <FormLabel>Email:</FormLabel>
-                      <FormInput type="email" placeholder={"ABC@emaple.com"} />
+                      <FormInput type="email" value={user.user.email} disabled={"disabled"} placeholder={"ABC@emaple.com"} />
                     </FormGroup>
                   </LeftColumn>
                   <RightColumn>
                     <FormGroup>
                       <FormLabel>Phone:</FormLabel>
-                      <FormInput type="tel" placeholder={"+92"} />
+                      <FormInput type="tel" value={user.user.phoneNo[0]} placeholder={"+92"} />
                     </FormGroup>
                     <FormGroup>
                       <FormLabel>Address:</FormLabel>
@@ -379,34 +370,7 @@ const EmpSetting = () => {
               <PreviousButton> Discard</PreviousButton>
             </Box>
           </BoxContainer>
-          <BoxContainer>
-            <Box>
-              <H6>Delete Account</H6>
-              <hr />
-              <Warningbox>
-                <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
-                  Are you sure you want to delete this account
-                </P>
-                <P style={{ marginLeft: "10px" }}>
-                  Once you delete the account there is no going back
-                </P>
-              </Warningbox>
-              <div>
-                <input
-                  style={{ marginRight: "6px" }}
-                  type="checkbox"
-                  id="deleteConfirmation"
-                />
-                <label for="deleteConfirmation">
-                  Are you sure you want to delete the account?
-                </label>
-              </div>
-              <DeactivateButton onClick={handleDeactivateClick}>
-                Deactivate Account
-              </DeactivateButton>
-            </Box>
-          </BoxContainer>
-
+          
           <ButtonContainer>
             <StyledButton
               onClick={() => handleButtonClick("Deactivate")}
@@ -451,6 +415,22 @@ const EmpSetting = () => {
 
               {isChecked && (
                 <>
+                  <Warningbox>
+                    <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
+                      Are you sure you want to {buttonClicked.toLowerCase()} this account
+                    </P>
+                    {
+                      buttonClicked == "Delete" &&
+                      <P style={{ marginLeft: "10px" }}>
+                      Once you {buttonClicked.toLowerCase()} the account there is no going back
+                    </P> 
+                    ||
+                    <P style={{ marginLeft: "10px" }}>
+                      You can contact administrator to reactivate your account
+                  </P> 
+
+                    }
+                </Warningbox>
                   <ColumnContainer>
                     <LeftColumn>
                       <FormLabel>Enter password:</FormLabel>
@@ -467,8 +447,6 @@ const EmpSetting = () => {
               )}
             </Box>
           </BoxContainer>
-
-          <hr />
         </>
       );
     } else if (currentPage === "security") {
@@ -489,7 +467,7 @@ const EmpSetting = () => {
 
                     <FormGroup>
                       <FormLabel>New Password:</FormLabel>
-                      <FormInput type="password" id="newPassword" />
+                      <FormInput type="password" id="password" />
                     </FormGroup>
                   </LeftColumn>
 
@@ -497,7 +475,7 @@ const EmpSetting = () => {
                     <InvisibleElement>
                   <FormGroup>
                       <FormLabel>Retype Password:</FormLabel>
-                      <FormInput type="password" id="confirmPassword" />
+                      <FormInput type="password" id="nonepassword" />
                     </FormGroup>
                     </InvisibleElement >
                     <FormGroup>
@@ -699,7 +677,7 @@ const EmpSetting = () => {
                 </LeftColumn>
                 <RightColumn>
                   <FormGroup>
-                    <FormLabel>Compnay</FormLabel>
+                    <FormLabel>Company</FormLabel>
                     <FormInput type="text" />
                   </FormGroup>
                 </RightColumn>
@@ -782,6 +760,14 @@ const EmpSetting = () => {
 
         <StyledButton
           currentPage={currentPage}
+          page="company"
+          onClick={() => setCurrentPage("company")}
+        >
+          Company
+        </StyledButton>
+
+        <StyledButton
+          currentPage={currentPage}
           page="AccountBilling & Plans"
           onClick={() => setCurrentPage("AccountBilling & Plans")}
         >
@@ -806,13 +792,7 @@ const EmpSetting = () => {
         >
           Connections
         </StyledButton>
-        <StyledButton
-          currentPage={currentPage}
-          page="company"
-          onClick={() => setCurrentPage("company")}
-        >
-          Company
-        </StyledButton>
+        
       </ButtonContainer>
 
       {/* <BoxContainer>   */}
