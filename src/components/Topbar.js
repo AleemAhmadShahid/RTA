@@ -20,6 +20,7 @@ import {
 } from "react-icons/ai";
 import { CgMenuGridR,CgMenuRight  } from "react-icons/cg";
 import { clearUser } from "../redux/userSlice";
+import Sidebar from "./Sidebar";
 
 const Nav = styled.div`
   background: #ffffff;
@@ -272,7 +273,12 @@ const Topbar = () => {
   const dispatch = useDispatch();
 
 
+  const [sidebar, setSidebar] = useState(false);
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
 
+  const toggleSidebar = () => {
+    setSidebar(!sidebar);
+  };
 
   return (
     <>
@@ -280,7 +286,7 @@ const Topbar = () => {
       <Nav>
         <IconContainer>
         <Sidebariconcontainer>
-            <MobileIcon > <CgMenuRight /></MobileIcon>
+            <MobileIcon sidebar={sidebar} onClick={toggleSidebar}> <CgMenuRight/></MobileIcon>
           </Sidebariconcontainer>
           <MenuIcon onClick={toggleDropdown} />
           <DropdownContainer isOpen={isDropdownOpen}>

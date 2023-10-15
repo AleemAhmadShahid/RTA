@@ -1,5 +1,24 @@
 import React, { useState } from "react";
-import { SaveButton,FormButton } from "../pages/styles/MultiStepFormStyling";
+import styled from 'styled-components';
+
+const FormButton = styled.button`
+
+background-color: lightgray;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  margin-top: 8px;
+  margin-left:5px;
+  width:200px;
+  padding: 10px 20px;
+  font-size: small;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: grey;
+  }
+`;
 function AddColumn(props) {
     const [showNewColumnButton, setShowNewColumnButton] = useState(true);
     const [value, setValue] = useState("");
@@ -43,7 +62,7 @@ function AddColumn(props) {
         <div>
             {
                 showNewColumnButton ?
-                <FormButton  onClick={onNewColumnButtonClick}>Add Column</FormButton> :
+                <FormButton onClick={onNewColumnButtonClick}>New Column</FormButton> :
                 <input type="text" value={value} onChange={handleInputChange} onBlur={onNewColumnInputComplete} />
             }
         </div>

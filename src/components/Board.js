@@ -6,7 +6,6 @@ import AddColumn from './AddColumn';
 import { CenteredContainer } from '../pages/styles/TableStyling';
 const Container = styled.div`
   display: flex;
-  
 `;
 
 function Board(props) {
@@ -110,7 +109,7 @@ function Board(props) {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-           <CenteredContainer >
+           <CenteredContainer>
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
                 {provided => (
                     <Container {...provided.droppableProps} ref={provided.innerRef}>
@@ -121,11 +120,10 @@ function Board(props) {
                                 return <Column key={column.id} column={column} tasks={tasks} index={index} state={state} setState={setState} />;
                             })
                         }
-                        {provided.placeholder}
+                        {provided.placeholder}<AddColumn state={state} setState={setState} />
                     </Container>
-                )}
-            </Droppable> 
-            <AddColumn  state={state} setState={setState} />
+                )} 
+            </Droppable>
             </CenteredContainer>
         </DragDropContext>
     )

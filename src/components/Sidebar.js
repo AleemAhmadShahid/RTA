@@ -41,7 +41,7 @@ const Heading = styled.h3`
   margin-top: 1rem;
 `;
 
-const MobileIcon = styled.div`
+export const MobileIcon = styled.div`
   position: fixed;
   top: 70px;
   left: ${({ sidebar }) => (sidebar ? "250px" : "20px")};
@@ -50,10 +50,10 @@ const MobileIcon = styled.div`
   border-radius: 50%;
   cursor: pointer;
   z-index: 11;
-  display: none; /* Hide the icon by default */
+  display: none;
 
   @media (max-width: 845px) {
-    display: block; /* Display the icon in mobile view only */
+    display: block;
   }
 `;
 
@@ -66,7 +66,11 @@ const Sidebar = () => {
   };
 
   const toggleSubMenu = (index) => {
-    setActiveSubMenu(index);
+    if (activeSubMenu === index) {
+      setActiveSubMenu(null); 
+    } else {
+      setActiveSubMenu(index); 
+    }
   };
 
   return (

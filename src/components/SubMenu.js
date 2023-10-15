@@ -49,10 +49,15 @@ const SubMenuLink = styled(SidebarLink)`
   background: ${({ active }) => (active ? 'linear-gradient(to right, #ffa500, #ffd000)' : 'transparent')};
 `;
 
-const SubMenu = ({ item, active, onSubmenuClick }) => {
+const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu }) => {
   const [subnav, setSubnav] = useState(false);
 
-  const showSubnav = () => setSubnav(!subnav);
+  const showSubnav = () => {
+    setSubnav(!subnav);
+    if (closeSubmenu) {
+      closeSubmenu(); // Close other submenus if provided
+    }
+  };
 
   return (
     <>

@@ -229,7 +229,7 @@ const Timer = ({ switchState }) => {
 
   const handleStartTimeChange = (event) => {
     const input = event.target.value;
-    // Ensure that only numeric characters are entered
+   
     if (/^\d*$/.test(input) && input.length <= 4) {
       setStartTime(input);
     }
@@ -237,20 +237,20 @@ const Timer = ({ switchState }) => {
 
   const handleEndTimeChange = (event) => {
     const input = event.target.value;
-    // Ensure that only numeric characters are entered
+   
     if (/^\d*$/.test(input) && input.length <= 4) {
       setEndTime(input);
     }
   };
 
   if (switchState) {
-    // Return null when the switch state is false to hide the Timer component
+   
     return null;
   }
 
   return (
    <>
-      {/* Other content here */}
+      
       <TimeInputContainer>
         <TimeInput
           type="text"
@@ -299,8 +299,7 @@ const EmpSetting = () => {
   };
 
   const handleDeactivateDelete = () => {
-    // Handle the deactivation or deletion logic here.
-    // You can use the 'buttonClicked' state to determine which action to perform.
+ 
     if (buttonClicked === "Deactivate") {
       // Handle deactivation
     } else if (buttonClicked === "Delete") {
@@ -311,13 +310,12 @@ const EmpSetting = () => {
     Monday: false,
     Tuesday: false,
     Wednesday: false,
-    // Add more days as needed
+   
   };
 
   const [switchStates, setSwitchStates] = useState(initialSwitchStates);
 
   const handleSwitchChange = (day) => {
-    // Update the state for the specific day
     setSwitchStates((prevState) => ({
       ...prevState,
       [day]: !prevState[day],

@@ -15,7 +15,6 @@ export const SidebarData = [
   },
   {
     title: "Employees",
-    
     icon: <AiIcons.AiOutlineUser />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,

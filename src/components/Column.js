@@ -15,6 +15,9 @@ const Container = styled.div`
   padding-bottom: 10px;
   background:#ffff;
   padding:10px;
+//   height: ${props => props.height || 'auto'};
+   max-height: 400px; /* Adjust this value as needed */
+//   overflow-y: auto; 
 `;
 const Title = styled.h6`
   padding: 8px;
@@ -55,32 +58,34 @@ function Column(props) {
             columnOrder: newColumnOrder
         });
     }
-
+    const containerHeight = `${props.tasks.length * 50}px`;
     return (
         <Draggable draggableId={props.column.id} index={props.index}>
-            {provided => (
-                <Container {...provided.draggableProps} ref={provided.innerRef}>
-                    <Title {...provided.dragHandleProps}>
-                        {props.column.title}
-                        <span onClick={() => deleteColumn(props.column.id, props.index)}> X</span>
-                    </Title>
-                    <Droppable droppableId={props.column.id} type="task">
-                        {provided => (
-                            <TaskList {...provided.droppableProps} ref={provided.innerRef}>
-                                {
-                                    props.tasks.map((task, index) => 
-                                        (<Task key={task.id} task={task} index={index} columnId={props.column.id} state={props.state} setState={props.setState} />)
-                                    )
-                                }
-                                {provided.placeholder}
-                            </TaskList>
-                        )}
-                    </Droppable>
-                    <AddTask columnId={props.column.id} state={props.state} setState={props.setState} />
-                </Container>
-            )}
+          {provided => (
+            <Container
+              {...provided.draggableProps}
+              ref={provided.innerRef}
+              height={containerHeight} // Set the calculated height
+            >
+              <Title {...provided.dragHandleProps}>
+                {props.column.title}
+                <span onClick={() => deleteColumn(props.column.id, props.index)}> X</span>
+              </Title>
+              <Droppable droppableId={props.column.id} type="task">
+                {provided => (
+                  <TaskList {...provided.droppableProps} ref={provided.innerRef}>
+                    {props.tasks.map((task, index) => (
+                      <Task key={task.id} task={task} index={index} columnId={props.column.id} state={props.state} setState={props.setState} />
+                    ))}
+                    {provided.placeholder}
+                  </TaskList>
+                )}
+              </Droppable>
+              <AddTask columnId={props.column.id} state={props.state} setState={props.setState} />
+            </Container>
+          )}
         </Draggable>
-    )
-}
+      );
+    }
 
 export default Column;
