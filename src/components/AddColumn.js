@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
+import { Input,CloseButton,AddTaskButton } from "./AddTask";
 
 const FormButton = styled.button`
-
-background-color: lightgray;
+  background-color: lightgray;
   color: #fff;
   border: none;
   border-radius: 10px;
   margin-top: 8px;
-  margin-left:5px;
-  width:200px;
-  padding: 10px 20px;
-  font-size: small;
+  margin-left: 5px;
+  width: 250px;
+  text-align:left;
+  padding: 10px; 
+  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
@@ -19,54 +20,78 @@ background-color: lightgray;
     background-color: grey;
   }
 `;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+//   align-items: center;
+   width: 240px;
+//   margin-top: 8px;
+//   background:white;
+//   border-radius:10px;
+//   border:1px solid lightgrey ;
+
+`;
+
+
+
 function AddColumn(props) {
-    const [showNewColumnButton, setShowNewColumnButton] = useState(true);
-    const [value, setValue] = useState("");
+  const [showNewColumnButton, setShowNewColumnButton] = useState(true);
+  const [value, setValue] = useState("");
 
-    function handleInputChange(event) {
-        setValue(event.target.value);
+  function handleInputChange(event) {
+    setValue(event.target.value);
+  }
+
+  function onNewColumnButtonClick() {
+    setShowNewColumnButton(!showNewColumnButton); 
+    setValue(""); 
+  }
+
+  function onNewColumnInputComplete() {
+    if (value.trim() !== "") {
+      addNewColumn(value);
+      setValue("");
     }
+    setShowNewColumnButton(true); 
+  }
 
-    function onNewColumnButtonClick() {
-        setShowNewColumnButton(false);
-    }
+  function addNewColumn(title) {
+    const newColumnOrder = Array.from(props.state.columnOrder);
+    const newColumnId = "column-" + Math.floor(Math.random() * 100000);
+    newColumnOrder.push(newColumnId);
 
-    function onNewColumnInputComplete() {
-        setShowNewColumnButton(true);
-        addNewColumn(value);
-        setValue("");
-    }
+    const newColumn = {
+      id: newColumnId,
+      title: title,
+      taskIds: [],
+    };
 
-    function addNewColumn(title) {
-        const newColumnOrder = Array.from(props.state.columnOrder);
-        const newColumnId = 'column-' + Math.floor(Math.random() * 100000);
-        newColumnOrder.push(newColumnId);
-    
-        const newColumn = {
-            id: newColumnId,
-            title: title,
-            taskIds: [],
-        };
-    
-        props.setState({
-            ...props.state,
-            columnOrder: newColumnOrder,
-            columns: {
-                ...props.state.columns,
-                [newColumnId]: newColumn
-            }
-        });
-    }
+    props.setState({
+      ...props.state,
+      columnOrder: newColumnOrder,
+      columns: {
+        ...props.state.columns,
+        [newColumnId]: newColumn,
+      },
+    });
+  }
 
-    return (
+  return (
+    <Container>
+      {showNewColumnButton ? (
+        <FormButton onClick={onNewColumnButtonClick}>+Add a list</FormButton>
+      ) : (
         <div>
-            {
-                showNewColumnButton ?
-                <FormButton onClick={onNewColumnButtonClick}>New Column</FormButton> :
-                <input type="text" value={value} onChange={handleInputChange} onBlur={onNewColumnInputComplete} />
-            }
+          <Input style={{marginTop:'10px'}} type="text" value={value} onChange={handleInputChange} onBlur={onNewColumnInputComplete} />
+          <div>
+            <AddTaskButton onClick={onNewColumnInputComplete}>Add</AddTaskButton>
+            <CloseButton onClick={onNewColumnButtonClick}>X</CloseButton>
+          </div>
         </div>
-    )
+      )}
+    </Container>
+  );
 }
 
 export default AddColumn;

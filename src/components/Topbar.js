@@ -38,7 +38,7 @@ const Nav = styled.div`
   left: 0;
   right: 0;
   @media (min-width: 1200px) {
-    /* Width for desktop view */
+    
     width: 79.1%;
     top: 2.5%;
     left: 273px;
@@ -126,7 +126,7 @@ const DropdownGrid = styled.div`
 const SettingDropdownContainer = styled.div`
   position: absolute;
   top: 100%;
-  right: 0%; /* Updated to position it to the right */
+  right: 0%; 
   margin-top: 10px;
   display: flex;
   justify-content: left;
@@ -139,7 +139,7 @@ const SettingDropdownContainer = styled.div`
   padding: 10px;
   @media screen and (max-width: 845px) {
     position: absolute;
-    // right: auto;
+    
     width: 50%;
     right: 20px;
   }
@@ -150,7 +150,7 @@ const SettingDropdownButton = styled.button`
   background-color: #ffffff;
   color: #000000;
   border: none;
-  width: 100%; /* Adjust this value as needed */
+  width: 100%; 
   border-radius: 5px;
   padding: 4px;
   cursor: pointer;
@@ -231,7 +231,7 @@ const SideMenu = styled(AiOutlineMenu)`
  
 
   @media (max-width: 845px) {
-    display: block; /* Display the icon in mobile view only */
+    display: block; 
   }
 `;
 
@@ -251,7 +251,7 @@ background-color: #ffffff;
 
 
 @media (max-width: 845px) {
-  display: block; /* Display the icon in mobile view only */
+  display: block; 
 }
 `;
 

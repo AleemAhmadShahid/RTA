@@ -7,7 +7,7 @@ export const Input = styled.input`
   border-radius: 5px;
 `;
 
-const AddButton = styled.button`
+export const AddButton = styled.button`
   width: 100%;
   border: none;
   text-align: left;
@@ -20,7 +20,7 @@ const AddButton = styled.button`
   }
 `;
 
-const AddTaskButton = styled.button`
+export const AddTaskButton = styled.button`
   width: 40%;
   border: none;
   text-align: center;
@@ -36,7 +36,7 @@ const AddTaskButton = styled.button`
   }
 `;
 
-const CloseButton = styled.button`
+export const CloseButton = styled.button`
   width: 20px;
   height: 20px;
   background-color: white;
@@ -63,8 +63,8 @@ function AddTask(props) {
   function onNewTaskInputComplete() {
     if (value.trim() !== '') {
       addNewTask(props.columnId, value);
-      setValue(''); // Reset the value
-      setShowNewTaskButton(true); // Show the "Add a card" button again
+      setValue(''); 
+      setShowNewTaskButton(true); 
     }
   }
 

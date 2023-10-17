@@ -16,8 +16,12 @@ const Container = styled.div`
   background:#ffff;
   padding:10px;
 //   height: ${props => props.height || 'auto'};
-   max-height: 400px; /* Adjust this value as needed */
+  //  max-height: 400px; /* Adjust this value as needed */
 //   overflow-y: auto; 
+@media screen and (max-width: 845px) {
+    
+  width:100%;
+}
 `;
 const Title = styled.h6`
   padding: 8px;

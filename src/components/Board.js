@@ -5,7 +5,11 @@ import Column from './Column';
 import AddColumn from './AddColumn';
 import { CenteredContainer } from '../pages/styles/TableStyling';
 const Container = styled.div`
-  display: flex;
+// flex-direction:column;
+  @media screen and (min-width: 845px) {
+  
+    display: flex;
+}
 `;
 
 function Board(props) {

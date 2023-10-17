@@ -34,7 +34,7 @@ import { useSelector } from "react-redux";
 const LargeIcon = styled.span`
   font-size: 24px; /* Adjust the icon size as needed */
 `;
-const LeftColumn = styled.div`
+export const LeftColumn = styled.div`
   flex: 1;
   padding-right: 10px;
   // width:100%;
@@ -43,7 +43,7 @@ const LeftColumn = styled.div`
   }
 `;
 
-const RightColumn = styled.div`
+export const RightColumn = styled.div`
   flex: 1;
   padding-left: 10px;
 
@@ -52,7 +52,7 @@ const RightColumn = styled.div`
   }
 `;
 
-const ColumnContainer = styled.div`
+export const ColumnContainer = styled.div`
   display: flex;
   width: 100%;
   @media (max-width: 845px) {
@@ -630,7 +630,7 @@ const EmpSetting = () => {
       return (
         <Box>
           <P>Notification Settings</P>
-          {/* ... Notification settings content ... */}
+         
         </Box>
       );
     } else if (currentPage === "connections") {
