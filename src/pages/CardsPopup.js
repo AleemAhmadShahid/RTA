@@ -1,5 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import {
+  Heading,
+  CloseButtonContainer,
+  CloseButton,
+  closeForm,
+} from "./styles/MultiStepFormStyling";
 import { LeftColumn, RightColumn, ColumnContainer } from "./EmpSetting";
 import {
   AiOutlineBell,
@@ -13,10 +19,29 @@ import {
   AiOutlineDashboard,
   AiOutlinePieChart,
   AiOutlineAppstore,
+  AiOutlinePlus,
   AiOutlineLogout,
   AiOutlineMenu,
+  AiOutlineEye,
+  AiOutlineArrowRight,
 } from "react-icons/ai";
+import { BsPerson, BsClock } from "react-icons/bs";
+import { GrAttachment } from "react-icons/gr";
+import { MdContentCopy } from "react-icons/md";
+import { HiMenuAlt2 } from "react-icons/hi";
+import { H6 } from "./ForgetPassword";
+export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #f5f5f5;
+  background: #f5f5f5;
 
+  @media screen and (max-width: 845px) {
+    width: 100%;
+  }
+`;
 const CenterContainer = styled.div`
   position: absolute;
   top: 50%;
@@ -35,10 +60,10 @@ const CenterContainer = styled.div`
 const AddButton = styled.button`
   width: 100%;
   border: none;
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   text-align: left;
-  font-size:14px;
+  font-size: 14px;
   margin-bottom: 5px;
   padding: 4px;
   border-radius: 5px;
@@ -50,31 +75,90 @@ const AddButton = styled.button`
 `;
 
 const Icon = styled.span`
-  margin-right: 5px; 
-  margin-left:5px;
+  margin-right: 5px;
+  margin-left: 5px;
 `;
-
+const LeftIcon = styled.span`
+  margin-right: 18px;
+  margin-left: 5px;
+  font-size: 18px;
+`;
 const Box = styled.div`
   background: white;
   padding: 10px;
+  border-radius: 10px;
+`;
+const Input = styled.input`
+  width: 90%;
+  padding: 4px;
+  margin-left: 40px;
+  background: #f5f5f5;
+  border: 1px solid #f5f5f5;
   border-radius: 5px;
+  margin-bottom: 5px;
+`;
+const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 const CardsPopup = () => {
   return (
     <CenterContainer>
       <Box>
-        <h5 style={{ fontWeight: "bold" }}>Card Name</h5>
-        <decription>in list Done</decription>
+        <HeaderContainer
+          style={{ background: "white", border: "none", marginBottom: "30px" }}
+        >
+          <Heading style={{ fontWeight: "bold" }}>
+            <LeftIcon>
+              <AiOutlineAppstore />
+            </LeftIcon>
+            Card Name{" "}
+          </Heading>
+          <CloseButtonContainer>
+            <CloseButton>&#10005;</CloseButton>
+          </CloseButtonContainer>
+        </HeaderContainer>
+
         <ColumnContainer>
           <LeftColumn style={{ flex: "3" }}>
-            <h6>my name is aleem</h6>
+            <H6 style={{ fontWeight: "bold", marginLeft: "40px" }}>
+              Notification
+            </H6>
+            <AddButton style={{ width: "100px", marginLeft: "40px" }}>
+              <Icon>
+                <AiOutlineEye />
+              </Icon>
+              Watch
+            </AddButton>
+            <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
+              <LeftIcon>
+                <HiMenuAlt2 />
+              </LeftIcon>
+              Description
+            </H6>
+
+            <InputContainer>
+              <Input type="text" />
+            </InputContainer>
+            <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
+              {" "}
+              <LeftIcon>
+                <AiOutlineBell />
+              </LeftIcon>
+              Activity
+            </H6>
+            <InputContainer>
+              <Input type="text" />
+            </InputContainer>
           </LeftColumn>
           <RightColumn>
-            <h6>shaheer is gay</h6>
+            <h6>Add to card</h6>
             <AddButton>
               <Icon>
-                <AiOutlineBell />
+                <BsPerson />
               </Icon>
               Member
             </AddButton>
@@ -86,19 +170,26 @@ const CardsPopup = () => {
             </AddButton>
             <AddButton>
               <Icon>
-                < AiOutlineAppstore />
+                <AiOutlineBell />
               </Icon>
               Checklist
             </AddButton>
             <AddButton>
               <Icon>
-                <AiOutlineBell />
+                <BsClock />
               </Icon>
-              Attachment
+              Date
             </AddButton>
             <AddButton>
               <Icon>
-                < AiOutlineAppstore />
+                <GrAttachment />
+              </Icon>
+              Attachment
+            </AddButton>
+
+            <AddButton>
+              <Icon>
+                <AiOutlineAppstore />
               </Icon>
               Cover
             </AddButton>
@@ -109,30 +200,30 @@ const CardsPopup = () => {
               Custom Fields
             </AddButton>
             <t>Power-Ups</t>
-            <AddButton>
+            <AddButton style={{ background: "white" }}>
               <Icon>
-                <AiOutlineMail/>
+                <AiOutlinePlus />
               </Icon>
-              + Add Power-Ups
+             Add Power-Ups
             </AddButton>
-            <t>Power-Ups</t>
-            <AddButton>
+            <t>Automation</t>
+            <AddButton style={{ background: "white" }}>
               <Icon>
-                <AiOutlineBell />
+                <AiOutlinePlus />
               </Icon>
-              + Add Power-Ups
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <AiOutlineBell />
-              </Icon>
-              Labels
+              Add Button
             </AddButton>
             <AddButton>
               <Icon>
-                <AiOutlinePieChart />
+                <AiOutlineArrowRight />
               </Icon>
-              Checklist
+              Move
+            </AddButton>
+            <AddButton>
+              <Icon>
+                <MdContentCopy />
+              </Icon>
+              Copy
             </AddButton>
             <AddButton>
               <Icon>
@@ -140,12 +231,7 @@ const CardsPopup = () => {
               </Icon>
               Attachment
             </AddButton>
-            <AddButton>
-              <Icon>
-                <AiOutlineBell />
-              </Icon>
-              Cover
-            </AddButton>
+
             <AddButton>
               <Icon>
                 <AiOutlinePieChart />
