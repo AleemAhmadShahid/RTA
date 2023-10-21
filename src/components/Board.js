@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import Column from './Column';
 import AddColumn from './AddColumn';
 import { CenteredContainer } from '../pages/styles/TableStyling';
+import CardsPopup from '../pages/CardsPopup';
 const Container = styled.div`
-// flex-direction:column;
+
   @media screen and (min-width: 845px) {
   
     display: flex;
@@ -111,9 +112,9 @@ function Board(props) {
         });
     }
 
-    return (
+    return ( <CenteredContainer>
         <DragDropContext onDragEnd={onDragEnd}>
-           <CenteredContainer>
+          
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
                 {provided => (
                     <Container {...provided.droppableProps} ref={provided.innerRef}>
@@ -128,8 +129,8 @@ function Board(props) {
                     </Container>
                 )} 
             </Droppable>
-            </CenteredContainer>
-        </DragDropContext>
+            
+        </DragDropContext></CenteredContainer>
     )
 }
 

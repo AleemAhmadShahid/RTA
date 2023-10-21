@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   Heading,
@@ -30,6 +30,24 @@ import { GrAttachment } from "react-icons/gr";
 import { MdContentCopy } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { H6 } from "./ForgetPassword";
+
+const PopupOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Semi-transparent background to overlay content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure the pop-up is on top of other content */
+`;
 export const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -73,6 +91,16 @@ const AddButton = styled.button`
     background-color: grey;
   }
 `;
+const TextArea=styled.textarea`
+border-radius:5px;
+width:92%;
+padding: 4px;
+margin-left: 40px;
+background: #f5f5f5;
+border: 1px solid #f5f5f5;
+
+margin-bottom: 5px;
+`
 
 const Icon = styled.span`
   margin-right: 5px;
@@ -89,7 +117,7 @@ const Box = styled.div`
   border-radius: 10px;
 `;
 const Input = styled.input`
-  width: 90%;
+  width: 92%;
   padding: 4px;
   margin-left: 40px;
   background: #f5f5f5;
@@ -104,144 +132,175 @@ const InputContainer = styled.div`
   align-items: flex-start;
 `;
 
-const CardsPopup = () => {
+const CardsPopup = ({ task, closeCardPopup }) => {
+  const [description, setDescription] = useState(task.description);
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleSaveDescription = () => {
+    // Save the description to the task object
+    task.description = description;
+    // Close the card popup
+    
+  };
   return (
-    <CenterContainer>
-      <Box>
-        <HeaderContainer
-          style={{ background: "white", border: "none", marginBottom: "30px" }}
-        >
-          <Heading style={{ fontWeight: "bold" }}>
-            <LeftIcon>
-              <AiOutlineAppstore />
-            </LeftIcon>
-            Card Name{" "}
-          </Heading>
-          <CloseButtonContainer>
-            <CloseButton>&#10005;</CloseButton>
-          </CloseButtonContainer>
-        </HeaderContainer>
-
-        <ColumnContainer>
-          <LeftColumn style={{ flex: "3" }}>
-            <H6 style={{ fontWeight: "bold", marginLeft: "40px" }}>
-              Notification
-            </H6>
-            <AddButton style={{ width: "100px", marginLeft: "40px" }}>
-              <Icon>
-                <AiOutlineEye />
-              </Icon>
-              Watch
-            </AddButton>
-            <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
+    <PopupOverlay>
+      <CenterContainer>
+        <Box>
+          <HeaderContainer
+            style={{
+              background: "white",
+              border: "none",
+              marginBottom: "30px",
+            }}
+          >
+            <Heading style={{ fontWeight: "bold" }}>
               <LeftIcon>
-                <HiMenuAlt2 />
-              </LeftIcon>
-              Description
-            </H6>
-
-            <InputContainer>
-              <Input type="text" />
-            </InputContainer>
-            <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
-              {" "}
-              <LeftIcon>
-                <AiOutlineBell />
-              </LeftIcon>
-              Activity
-            </H6>
-            <InputContainer>
-              <Input type="text" />
-            </InputContainer>
-          </LeftColumn>
-          <RightColumn>
-            <h6>Add to card</h6>
-            <AddButton>
-              <Icon>
-                <BsPerson />
-              </Icon>
-              Member
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <AiOutlineDashboard />
-              </Icon>
-              Labels
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <AiOutlineBell />
-              </Icon>
-              Checklist
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <BsClock />
-              </Icon>
-              Date
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <GrAttachment />
-              </Icon>
-              Attachment
-            </AddButton>
-
-            <AddButton>
-              <Icon>
                 <AiOutlineAppstore />
-              </Icon>
-              Cover
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <AiOutlineBell />
-              </Icon>
-              Custom Fields
-            </AddButton>
-            <t>Power-Ups</t>
-            <AddButton style={{ background: "white" }}>
-              <Icon>
-                <AiOutlinePlus />
-              </Icon>
-             Add Power-Ups
-            </AddButton>
-            <t>Automation</t>
-            <AddButton style={{ background: "white" }}>
-              <Icon>
-                <AiOutlinePlus />
-              </Icon>
-              Add Button
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <AiOutlineArrowRight />
-              </Icon>
-              Move
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <MdContentCopy />
-              </Icon>
-              Copy
-            </AddButton>
-            <AddButton>
-              <Icon>
-                <AiOutlineMail />
-              </Icon>
-              Attachment
-            </AddButton>
+              </LeftIcon>
+              Card Name{" "}
+            </Heading>
+            <CloseButtonContainer>
+              <CloseButton onClick={closeCardPopup}>&#10005;</CloseButton>
+            </CloseButtonContainer>
+          </HeaderContainer>
 
-            <AddButton>
-              <Icon>
-                <AiOutlinePieChart />
-              </Icon>
-              Custom Fields
-            </AddButton>
-          </RightColumn>
-        </ColumnContainer>
-      </Box>
-    </CenterContainer>
+          <ColumnContainer>
+            <LeftColumn style={{ flex: "3" }}>
+              <H6 style={{ fontWeight: "bold", marginLeft: "40px" }}>
+                Notification
+              </H6>
+              <AddButton style={{ width: "100px", marginLeft: "40px" }}>
+                <Icon>
+                  <AiOutlineEye />
+                </Icon>
+                Watch
+              </AddButton>
+              <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
+                <LeftIcon>
+                  <HiMenuAlt2 />
+                </LeftIcon>
+                Description
+              </H6>
+
+              <InputContainer>
+                <TextArea
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  rows="4"
+                  
+                />
+              </InputContainer>
+              <AddButton style={{ width: "100px", marginLeft: "40px" }} onClick={handleSaveDescription}>Save </AddButton>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
+                  {" "}
+                  <LeftIcon>
+                    <AiOutlineBell />
+                  </LeftIcon>
+                  Activity
+                </H6>
+                <AddButton
+                  style={{ width: "100px", height: "30px", marginTop: "30px" }}
+                >
+                  Show Details
+                </AddButton>
+              </div>
+              <InputContainer>
+                <Input type="text" />
+              </InputContainer>
+            </LeftColumn>
+            <RightColumn>
+              <h6>Add to card</h6>
+              <AddButton>
+                <Icon>
+                  <BsPerson />
+                </Icon>
+                Member
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <AiOutlineDashboard />
+                </Icon>
+                Labels
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <AiOutlineBell />
+                </Icon>
+                Checklist
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <BsClock />
+                </Icon>
+                Date
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <GrAttachment />
+                </Icon>
+                Attachment
+              </AddButton>
+
+              <AddButton>
+                <Icon>
+                  <AiOutlineAppstore />
+                </Icon>
+                Cover
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <AiOutlineBell />
+                </Icon>
+                Custom Fields
+              </AddButton>
+              <t>Power-Ups</t>
+              <AddButton style={{ background: "white" }}>
+                <Icon>
+                  <AiOutlinePlus />
+                </Icon>
+                Add Power-Ups
+              </AddButton>
+              <t>Automation</t>
+              <AddButton style={{ background: "white" }}>
+                <Icon>
+                  <AiOutlinePlus />
+                </Icon>
+                Add Button
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <AiOutlineArrowRight />
+                </Icon>
+                Move
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <MdContentCopy />
+                </Icon>
+                Copy
+              </AddButton>
+              <AddButton>
+                <Icon>
+                  <AiOutlineMail />
+                </Icon>
+                Attachment
+              </AddButton>
+
+              <AddButton>
+                <Icon>
+                  <AiOutlinePieChart />
+                </Icon>
+                Custom Fields
+              </AddButton>
+            </RightColumn>
+          </ColumnContainer>
+        </Box>
+      </CenterContainer>
+    </PopupOverlay>
   );
 };
 
