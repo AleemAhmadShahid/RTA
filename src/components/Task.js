@@ -11,9 +11,9 @@ const Container = styled.div`
   margin-bottom: 8px;
   background-color: white;
   position: relative;
-  cursor: pointer; /* Add this to make the whole task clickable */
+  cursor: pointer; 
 
-  /* Add this part for the hover effect */
+ 
   &:hover .edit-button {
     display: block;
   }
@@ -26,7 +26,7 @@ const EditButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  display: none; /* Initially hide the edit button */
+  display: none; 
 `;
 
 const OptionsMenu = styled.div`
@@ -52,7 +52,7 @@ const OptionItem = styled.div`
 function Task(props) {
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
   const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
-  const menuRef = useRef(null); // Reference to the OptionsMenu
+  const menuRef = useRef(null); 
 
   const toggleOptionsMenu = () => {
     setIsOptionsMenuOpen(!isOptionsMenuOpen);
@@ -69,15 +69,15 @@ function Task(props) {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsOptionsMenuOpen(false); // Close the menu when clicking outside
+        setIsOptionsMenuOpen(false); 
       }
     };
 
-    // Add event listener when the component mounts
+    
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      // Remove the event listener when the component unmounts
+      
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
@@ -122,7 +122,7 @@ function Task(props) {
           <OptionItem onClick={openCardPopup}>Open card</OptionItem>
         </OptionsMenu>
         {isCardPopupOpen && (
-            <CardsPopup task={props.task} closeCardPopup={closeCardPopup} /> // Include CardsPopup component here
+            <CardsPopup task={props.task} closeCardPopup={closeCardPopup} />
           )}
       </Container>
       

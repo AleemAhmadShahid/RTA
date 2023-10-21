@@ -24,12 +24,9 @@ const FormButton = styled.button`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-//   align-items: center;
+
    width: 240px;
-//   margin-top: 8px;
-//   background:white;
-//   border-radius:10px;
-//   border:1px solid lightgrey ;
+
 
 `;
 

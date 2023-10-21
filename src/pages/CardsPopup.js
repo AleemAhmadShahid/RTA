@@ -140,10 +140,9 @@ const CardsPopup = ({ task, closeCardPopup }) => {
   };
 
   const handleSaveDescription = () => {
-    // Save the description to the task object
+   
     task.description = description;
-    // Close the card popup
-    
+  
   };
   return (
     <PopupOverlay>
