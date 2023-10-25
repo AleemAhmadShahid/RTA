@@ -4,24 +4,15 @@ import {
   Heading,
   CloseButtonContainer,
   CloseButton,
-  closeForm,
 } from "./styles/MultiStepFormStyling";
 import { LeftColumn, RightColumn, ColumnContainer } from "./EmpSetting";
 import {
   AiOutlineBell,
-  AiOutlineSetting,
-  AiOutlineHome,
-  AiOutlineUser,
-  AiOutlineCalendar,
   AiOutlineMail,
-  AiOutlineFileText,
-  AiOutlineSearch,
   AiOutlineDashboard,
   AiOutlinePieChart,
   AiOutlineAppstore,
   AiOutlinePlus,
-  AiOutlineLogout,
-  AiOutlineMenu,
   AiOutlineEye,
   AiOutlineArrowRight,
 } from "react-icons/ai";
@@ -37,12 +28,7 @@ const PopupOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Semi-transparent background to overlay content */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,16 +77,16 @@ const AddButton = styled.button`
     background-color: grey;
   }
 `;
-const TextArea=styled.textarea`
-border-radius:5px;
-width:92%;
-padding: 4px;
-margin-left: 40px;
-background: #f5f5f5;
-border: 1px solid #f5f5f5;
+const TextArea = styled.textarea`
+  border-radius: 5px;
+  width: 92%;
+  padding: 4px;
+  margin-left: 40px;
+  background: #f5f5f5;
+  border: 1px solid #f5f5f5;
 
-margin-bottom: 5px;
-`
+  margin-bottom: 5px;
+`;
 
 const Icon = styled.span`
   margin-right: 5px;
@@ -140,9 +126,7 @@ const CardsPopup = ({ task, closeCardPopup }) => {
   };
 
   const handleSaveDescription = () => {
-   
     task.description = description;
-  
   };
   return (
     <PopupOverlay>
@@ -189,10 +173,14 @@ const CardsPopup = ({ task, closeCardPopup }) => {
                   value={description}
                   onChange={handleDescriptionChange}
                   rows="4"
-                  
                 />
               </InputContainer>
-              <AddButton style={{ width: "100px", marginLeft: "40px" }} onClick={handleSaveDescription}>Save </AddButton>
+              <AddButton
+                style={{ width: "100px", marginLeft: "40px" }}
+                onClick={handleSaveDescription}
+              >
+                Save{" "}
+              </AddButton>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
                   {" "}

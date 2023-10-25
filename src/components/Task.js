@@ -19,9 +19,9 @@ const Container = styled.div`
   }
 `;
 
-const EditButton = styled.button`
+export const EditButton = styled.button`
   position: absolute;
-  top: 0;
+  top: 5px;
   right: 6px;
   background: none;
   border: none;
@@ -29,7 +29,7 @@ const EditButton = styled.button`
   display: none; 
 `;
 
-const OptionsMenu = styled.div`
+export const OptionsMenu = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
   position: absolute;
   top: 20px;
@@ -41,7 +41,7 @@ const OptionsMenu = styled.div`
   z-index: 1;
 `;
 
-const OptionItem = styled.div`
+export const OptionItem = styled.div`
   padding: 5px;
   cursor: pointer;
   &:hover {
@@ -104,6 +104,7 @@ function Task(props) {
       },
     });
   }
+  
 
   return (
     <Draggable draggableId={props.task.id} index={props.index}>
@@ -114,13 +115,13 @@ function Task(props) {
         ref={provided.innerRef}
       >
         {props.task.content}
-        <EditButton className="edit-button" onClick={toggleOptionsMenu}>
+         <EditButton className="edit-button" onClick={toggleOptionsMenu}>
           <MdModeEditOutline />
         </EditButton>
         <OptionsMenu isOpen={isOptionsMenuOpen} ref={menuRef}>
           <OptionItem onClick={() => deleteTask(props.columnId, props.index, props.task.id)}>Delete</OptionItem>
           <OptionItem onClick={openCardPopup}>Open card</OptionItem>
-        </OptionsMenu>
+        </OptionsMenu> 
         {isCardPopupOpen && (
             <CardsPopup task={props.task} closeCardPopup={closeCardPopup} />
           )}

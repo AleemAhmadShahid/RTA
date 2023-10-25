@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {AiFillPicture}  from "react-icons/ai";
+
 export const Input = styled.input`
   width: 100%;
   padding: 5px;
@@ -109,7 +109,7 @@ function AddTask(props) {
             onChange={handleInputChange}
             onBlur={onNewTaskInputComplete}
           />
-          <AddTaskButton>Add list</AddTaskButton>
+          <AddTaskButton>Add Card</AddTaskButton>
           <CloseButton onClick={() => setShowNewTaskButton(true)}>X</CloseButton>
         </div>
       )}

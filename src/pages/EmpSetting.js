@@ -62,6 +62,17 @@ export const ColumnContainer = styled.div`
     // width:100%;
   }
 `;
+export const ColumnContainer1 = styled.div`
+  // display: flex;
+  width: 100%;
+
+  @media (max-width: 845px) {
+    /* Apply styles for screens with a maximum width of 845px (adjust as needed) */
+    flex-direction: column; /* Stack columns vertically for mobile */
+    // align-items: center; /* Center-align columns in mobile view */
+    // width:100%;
+  }
+`;
 
 const Box = styled.div`
   margin-left: 20px;
@@ -195,17 +206,17 @@ const SwitchContainer = styled.div`
 `;
 const TimeInputContainer = styled.div`
   display: flex;
-  align-items: center;
+  // align-items: center;
   margin-top: 0px; /* Add margin for spacing between the fields */
 `;
 
 const TimeInput = styled.input`
   border: none;
-  border-bottom: 1px solid #ccc; /* Add a bottom border */
-  margin: 0 20px; /* Add spacing between the input fields */
-  padding: 5px; /* Add padding as needed */
-  width: 100%; /* Adjust the width as needed */
-  outline: none; /* Remove the default input focus outline */
+  border-bottom: 1px solid #ccc;
+  margin: 0 20px;
+  padding: 5px;
+  width: 100%;
+  outline: none;
 `;
 const Colon = styled.span`
   font-size: 20px; /* Adjust the font size as needed */
@@ -213,10 +224,10 @@ const Colon = styled.span`
 `;
 const InvisibleElement = styled.div`
   visibility: hidden;
-  height: 75px; /* Adjust the height as needed */
-  width: 100px; /* Adjust the width as needed */
+  height: 75px;
+  width: 100px;
   @media (max-width: 845px) {
-   display:none;
+    display: none;
     visibility: hidden;
     height: 0;
     width: 0;
@@ -229,7 +240,7 @@ const Timer = ({ switchState }) => {
 
   const handleStartTimeChange = (event) => {
     const input = event.target.value;
-   
+
     if (/^\d*$/.test(input) && input.length <= 4) {
       setStartTime(input);
     }
@@ -237,20 +248,18 @@ const Timer = ({ switchState }) => {
 
   const handleEndTimeChange = (event) => {
     const input = event.target.value;
-   
+
     if (/^\d*$/.test(input) && input.length <= 4) {
       setEndTime(input);
     }
   };
 
   if (switchState) {
-   
     return null;
   }
 
   return (
-   <>
-      
+    <>
       <TimeInputContainer>
         <TimeInput
           type="text"
@@ -271,20 +280,27 @@ const Timer = ({ switchState }) => {
 };
 
 const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
-    return (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" ,marginBottom:'20px'}}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img src={imageUrl} alt="IMG" width={35} height={35} />
-          <span style={{ marginLeft: "10px" }}>{text}</span>
-        </div>
-        <div>
-          <Switch />
-        </div>
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: "20px",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <img src={imageUrl} alt="IMG" width={35} height={35} />
+        <span style={{ marginLeft: "10px" }}>{text}</span>
       </div>
-    );
-  };
+      <div>
+        <Switch />
+      </div>
+    </div>
+  );
+};
 const EmpSetting = () => {
-  const [user,setUser] = useState(useSelector((state) => state.user));
+  const [user, setUser] = useState(useSelector((state) => state.user));
   const [currentPage, setCurrentPage] = useState("account");
 
   const [buttonClicked, setButtonClicked] = useState("Deactivate");
@@ -299,7 +315,6 @@ const EmpSetting = () => {
   };
 
   const handleDeactivateDelete = () => {
- 
     if (buttonClicked === "Deactivate") {
       // Handle deactivation
     } else if (buttonClicked === "Delete") {
@@ -310,7 +325,6 @@ const EmpSetting = () => {
     Monday: false,
     Tuesday: false,
     Wednesday: false,
-   
   };
 
   const [switchStates, setSwitchStates] = useState(initialSwitchStates);
@@ -323,7 +337,6 @@ const EmpSetting = () => {
   };
 
   const renderContent = () => {
-
     if (currentPage === "account") {
       return (
         <>
@@ -331,7 +344,7 @@ const EmpSetting = () => {
             <Box>
               <H6>Profile Details</H6>
               <hr />
-              <UploadContainer style={{marginBottom:'20px'}}>
+              <UploadContainer style={{ marginBottom: "20px" }}>
                 <UploadBox />
                 <PictureUploadButton style={{ fontSize: "14px" }}>
                   Upload
@@ -342,20 +355,33 @@ const EmpSetting = () => {
 
               <div style={{ display: "flex" }}>
                 <ColumnContainer>
-                  <LeftColumn style={{marginBottom:'20px'}}>
+                  <LeftColumn style={{ marginBottom: "20px" }}>
                     <FormGroup>
                       <FormLabel>Name:</FormLabel>
-                      <FormInput type="text" value={user.user.name} placeholder={" "} />
+                      <FormInput
+                        type="text"
+                        value={user.user.name}
+                        placeholder={" "}
+                      />
                     </FormGroup>
                     <FormGroup>
                       <FormLabel>Email:</FormLabel>
-                      <FormInput type="email" value={user.user.email} disabled={"disabled"} placeholder={"ABC@emaple.com"} />
+                      <FormInput
+                        type="email"
+                        value={user.user.email}
+                        disabled={"disabled"}
+                        placeholder={"ABC@emaple.com"}
+                      />
                     </FormGroup>
                   </LeftColumn>
                   <RightColumn>
                     <FormGroup>
                       <FormLabel>Phone:</FormLabel>
-                      <FormInput type="tel" value={user.user.phoneNo[0]} placeholder={"+92"} />
+                      <FormInput
+                        type="tel"
+                        value={user.user.phoneNo[0]}
+                        placeholder={"+92"}
+                      />
                     </FormGroup>
                     <FormGroup>
                       <FormLabel>Address:</FormLabel>
@@ -364,11 +390,13 @@ const EmpSetting = () => {
                   </RightColumn>
                 </ColumnContainer>
               </div>
-              <FormButton style={{ marginBottom: "10px" }}>Save changes</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>
+                Save changes
+              </FormButton>
               <PreviousButton> Discard</PreviousButton>
             </Box>
           </BoxContainer>
-          
+
           <ButtonContainer>
             <StyledButton
               onClick={() => handleButtonClick("Deactivate")}
@@ -415,20 +443,20 @@ const EmpSetting = () => {
                 <>
                   <Warningbox>
                     <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
-                      Are you sure you want to {buttonClicked.toLowerCase()} this account
+                      Are you sure you want to {buttonClicked.toLowerCase()}{" "}
+                      this account
                     </P>
-                    {
-                      buttonClicked == "Delete" &&
+                    {(buttonClicked == "Delete" && (
                       <P style={{ marginLeft: "10px" }}>
-                      Once you {buttonClicked.toLowerCase()} the account there is no going back
-                    </P> 
-                    ||
-                    <P style={{ marginLeft: "10px" }}>
-                      You can contact administrator to reactivate your account
-                  </P> 
-
-                    }
-                </Warningbox>
+                        Once you {buttonClicked.toLowerCase()} the account there
+                        is no going back
+                      </P>
+                    )) || (
+                      <P style={{ marginLeft: "10px" }}>
+                        You can contact administrator to reactivate your account
+                      </P>
+                    )}
+                  </Warningbox>
                   <ColumnContainer>
                     <LeftColumn>
                       <FormLabel>Enter password:</FormLabel>
@@ -471,11 +499,11 @@ const EmpSetting = () => {
 
                   <RightColumn>
                     <InvisibleElement>
-                  <FormGroup>
-                      <FormLabel>Retype Password:</FormLabel>
-                      <FormInput type="password" id="nonepassword" />
-                    </FormGroup>
-                    </InvisibleElement >
+                      <FormGroup>
+                        <FormLabel>Retype Password:</FormLabel>
+                        <FormInput type="password" id="nonepassword" />
+                      </FormGroup>
+                    </InvisibleElement>
                     <FormGroup>
                       <FormLabel>Retype Password:</FormLabel>
                       <FormInput type="password" id="confirmPassword" />
@@ -515,9 +543,10 @@ const EmpSetting = () => {
                 </LeftColumn>
                 <RightColumn></RightColumn>
               </ColumnContainer>
-              {/* <ButtonContainer> */}
-              <FormButton style={{ marginBottom: "10px" }}>Enable Two-Factor Authentication</FormButton>
-              {/* </ButtonContainer> */}
+
+              <FormButton style={{ marginBottom: "10px" }}>
+                Enable Two-Factor Authentication
+              </FormButton>
             </Box>
           </BoxContainer>
 
@@ -620,7 +649,9 @@ const EmpSetting = () => {
               <RightColumn></RightColumn>{" "}
             </ColumnContainer>
             <div>
-              <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
+              <FormButton style={{ marginBottom: "10px" }}>
+                Save Changes
+              </FormButton>
               <PreviousButton>Discard</PreviousButton>
             </div>
           </Box>
@@ -630,27 +661,22 @@ const EmpSetting = () => {
       return (
         <Box>
           <P>Notification Settings</P>
-         
         </Box>
       );
     } else if (currentPage === "connections") {
       return (
         <BoxContainer>
-        <Box>
-          <H6>Connected Accounts</H6>
-          <P>Display content from your connected accounts on your site</P>
+          <Box>
+            <H6>Connected Accounts</H6>
+            <P>Display content from your connected accounts on your site</P>
 
-         
-          <GoogleImageWithTextAndSwitch
-            imageUrl="/Googlepng.png" 
-            text="Google"
-          />
-          <GoogleImageWithTextAndSwitch
-            imageUrl="/Slack.png" 
-            text="Slack"
-          />
-        </Box>
-      </BoxContainer>
+            <GoogleImageWithTextAndSwitch
+              imageUrl="/Googlepng.png"
+              text="Google"
+            />
+            <GoogleImageWithTextAndSwitch imageUrl="/Slack.png" text="Slack" />
+          </Box>
+        </BoxContainer>
       );
     } else if (currentPage === "company") {
       return (
@@ -658,7 +684,7 @@ const EmpSetting = () => {
           <BoxContainer>
             <Box>
               <H6>Company Logo</H6>
-              <UploadContainer style={{marginBottom:'20px'}}>
+              <UploadContainer style={{ marginBottom: "20px" }}>
                 <UploadBox />
                 <PictureUploadButton style={{ fontSize: "14px" }}>
                   Upload
@@ -691,45 +717,43 @@ const EmpSetting = () => {
           <BoxContainer>
             <Box>
               <H6>Operating Hours</H6>
-              <ColumnContainer>
-  <LeftColumn>
-    <div>
-    {Object.keys(switchStates).map((day) => (
-      <div key={day}>
-        <SwitchContainer>
-          <Switch
-            checked={switchStates[day]}
-            onChange={() => handleSwitchChange(day)}
-          />
-          <span>{day}</span>
-          <div style={{ marginLeft: "auto" }}>
-            {switchStates[day] ? (
-              <SuccessBadge>Opens</SuccessBadge>
-            ) : (
-              <DangerBadge>Closed</DangerBadge>
-            )}
-          </div>
-        </SwitchContainer>
-      </div>
-    ))}</div>
-  </LeftColumn>
-  <RightColumn style={{ flex: 2 }}>
-    <div>
-    {Object.keys(switchStates).map((day) => (
-      <div key={day}>
-        {switchStates[day] && (
-          
-          <Timer isBadgeOpen={switchStates[day]} />
-        )}
-      </div>
-    ))}</div>
-  </RightColumn>
-</ColumnContainer>
+              <ColumnContainer1>
+                {/* <LeftColumn> */}
+                <div>
+                  {Object.keys(switchStates).map((day) => (
+                    <div key={day}>
+                      <SwitchContainer>
+                        <Switch
+                          checked={switchStates[day]}
+                          onChange={() => handleSwitchChange(day)}
+                        />
+                        <span>{day}</span>
 
- <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
+                        {switchStates[day] ? (
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <SuccessBadge>Opens</SuccessBadge>
+                            <Timer isBadgeOpen={switchStates[day]} />
+                          </div>
+                        ) : (
+                          <div style={{ marginLeft: "auto" }}>
+                            <DangerBadge>Closed</DangerBadge>
+                          </div>
+                        )}
+                      </SwitchContainer>
+                    </div>
+                  ))}
+                </div>
+                {/* </LeftColumn> */}
+              </ColumnContainer1>
+
+              <FormButton style={{ marginBottom: "10px" }}>
+                Save Changes
+              </FormButton>
             </Box>
           </BoxContainer>
-          <hr/>
+          <hr />
         </>
       );
     }
@@ -790,7 +814,6 @@ const EmpSetting = () => {
         >
           Connections
         </StyledButton>
-        
       </ButtonContainer>
 
       {/* <BoxContainer>   */}
