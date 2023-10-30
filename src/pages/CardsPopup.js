@@ -52,7 +52,7 @@ const CenterContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  width: 50%;
+  width: 45%;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 845px) {
@@ -67,9 +67,10 @@ const AddButton = styled.button`
   display: flex;
   align-items: center;
   text-align: left;
-  font-size: 14px;
-  margin-bottom: 5px;
-  padding: 4px;
+  font-size: 13px;
+  margin-bottom: 7px;
+  font-weight: medium; 
+  padding: 5px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 
@@ -87,6 +88,7 @@ const TextArea = styled.textarea`
 
   margin-bottom: 5px;
 `;
+
 
 const Icon = styled.span`
   margin-right: 5px;
@@ -139,7 +141,7 @@ const CardsPopup = ({ task, closeCardPopup }) => {
               marginBottom: "30px",
             }}
           >
-            <Heading style={{ fontWeight: "bold" }}>
+            <Heading style={{ fontWeight: "bold",fontSize:'16px' }}>
               <LeftIcon>
                 <AiOutlineAppstore />
               </LeftIcon>
@@ -152,7 +154,7 @@ const CardsPopup = ({ task, closeCardPopup }) => {
 
           <ColumnContainer>
             <LeftColumn style={{ flex: "3" }}>
-              <H6 style={{ fontWeight: "bold", marginLeft: "40px" }}>
+              <H6 style={{ fontWeight: "bold", marginLeft: "40px",fontSize:'12px' }}>
                 Notification
               </H6>
               <AddButton style={{ width: "100px", marginLeft: "40px" }}>
@@ -161,7 +163,7 @@ const CardsPopup = ({ task, closeCardPopup }) => {
                 </Icon>
                 Watch
               </AddButton>
-              <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
+              <H6 style={{ fontWeight: "bold", marginTop: "30px",fontSize:'12px' }}>
                 <LeftIcon>
                   <HiMenuAlt2 />
                 </LeftIcon>
@@ -182,7 +184,7 @@ const CardsPopup = ({ task, closeCardPopup }) => {
                 Save{" "}
               </AddButton>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <H6 style={{ fontWeight: "bold", marginTop: "30px" }}>
+                <H6 style={{ fontWeight: "bold", marginTop: "30px",fontSize:'12px' }}>
                   {" "}
                   <LeftIcon>
                     <AiOutlineBell />
@@ -200,7 +202,7 @@ const CardsPopup = ({ task, closeCardPopup }) => {
               </InputContainer>
             </LeftColumn>
             <RightColumn>
-              <h6>Add to card</h6>
+              <H6 style={{fontWeight: "bold",fontSize:'12px'}}>Add to card</H6>
               <AddButton>
                 <Icon>
                   <BsPerson />

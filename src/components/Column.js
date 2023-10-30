@@ -7,7 +7,7 @@ import { OptionItem} from "./Task";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 const Container = styled.div`
    margin-right: 8px;
-  border: 1px solid lightgrey;
+  // border: 1px solid lightgrey;
   border-radius: 10px;
   width: 250px;
   min-width: 250px;
@@ -16,7 +16,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: left;
   padding-bottom: 10px;
-  background: #ffff;
+  background: #f5f5f5;
   padding: 10px;
   height:100%;
   @media screen and (max-width: 845px) {
@@ -29,6 +29,7 @@ const Title = styled.h6`
   display: flex;
    align-items: right;
   padding: 8px;
+ 
   margin-left: 5px;
   font-weight: bold;
   position: relative;

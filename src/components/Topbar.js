@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -257,13 +257,20 @@ background-color: #ffffff;
 
 
 
+
 const Topbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const user = useSelector((state) => state.user);
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    if (isDropdownOpen) {
+      setIsDropdownOpen(false);
+    } else {
+      setIsDropdownOpen(true);
+      setIssettingDropdownOpen(false); 
+    }
   };
+  
   const [issettingDropdownOpen, setIssettingDropdownOpen] = useState(false);
 
   const togglesettingDropdown = () => {
@@ -280,6 +287,22 @@ const Topbar = () => {
     setSidebar(!sidebar);
   };
 
+  const dropdownRef = useRef(null);
+  
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
   return (
     <>
       <Outlet />
@@ -289,7 +312,7 @@ const Topbar = () => {
             <MobileIcon sidebar={sidebar} onClick={toggleSidebar}> <CgMenuRight/></MobileIcon>
           </Sidebariconcontainer>
           <MenuIcon onClick={toggleDropdown} />
-          <DropdownContainer isOpen={isDropdownOpen}>
+          <DropdownContainer isOpen={isDropdownOpen}  ref={dropdownRef} >
             <DropdownGrid>
               <div>
                 <DropdownButton>
@@ -346,7 +369,7 @@ const Topbar = () => {
         <IconContainer>
           <BellIcon />
           <SettingIcon onClick={togglesettingDropdown} />
-          <SettingDropdownContainer isOpen={issettingDropdownOpen}>
+          <SettingDropdownContainer isOpen={issettingDropdownOpen}  ref={dropdownRef}>
             <SettingDropdownGrid>
               <SettingDropdownItem>
                 <SettingDropdownButton

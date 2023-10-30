@@ -5,7 +5,8 @@ import { MdModeEditOutline } from 'react-icons/md';
 import CardsPopup from "../pages/CardsPopup";
 
 const Container = styled.div`
-  border: 1px solid lightgrey;
+  // border: 1px solid lightgrey;
+  box-shadow:5px;
   border-radius: 5px;
   padding: 8px;
   margin-bottom: 8px;
@@ -30,19 +31,27 @@ export const EditButton = styled.button`
 `;
 
 export const OptionsMenu = styled.div`
-  display: ${(props) => (props.isOpen ? 'block' : 'none')};
-  position: absolute;
-  top: 20px;
-  right: 0;
-  background-color: white;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  padding: 5px;
+display: ${(props) => (props.isOpen ? 'block' : 'none')};
+position: fixed;  
+width:auto;
+// background-color: white;
+// border: 1px solid lightgrey;
+border-radius: 5px;
+padding: 5px;
+margin-top:-35px;
+margin-left:230px;
   z-index: 1;
+  
+  
 `;
+
 
 export const OptionItem = styled.div`
   padding: 5px;
+  background-color: white;
+  margin-bottom:5px;
+  border-radius: 5px;
+  
   cursor: pointer;
   &:hover {
     background-color: lightgrey;

@@ -5,7 +5,7 @@ import {createPostRequest} from '../global/helper'
 import ErrorDialog from "../components/ErrorDialog";
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';
-
+import LoaderComponent from "../components/Loader";
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const LoginPageContainer = styled.div`
 
 const ImageContainer = styled.div`
   flex: 1;
-  background: url("/Login.jpg"); /* Reference the image using its path in the public folder */
+  background: url("/Login.jpg");
   background-size: cover;
    @media (max-width: 768px) { 
     display: none;
@@ -165,6 +165,7 @@ const LoginPage = () => {
   const [blankPasswordError, setBlankPasswordError] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
   };
@@ -175,10 +176,10 @@ const LoginPage = () => {
   };
 
   const handleInputChange = (e) => {
-    if (e.target.name == "email")
+    if (e.target.name === "email")
     {
       const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-      if (e.target.value == "")
+      if (e.target.value === "")
         setBlankEmailError("");
       else if(!emailPattern.test(e.target.value))
         setBlankEmailError("Invalid email");
@@ -200,13 +201,14 @@ const LoginPage = () => {
     document.cookie = `token=${''}; expires=${new Date(Date.now() - 59 * 60000).toUTCString()}; path=/;`;
         
 
-    if (formData.email == "")
+    if (formData.email === "")
       setBlankEmailError("Email cannot be blank");
-    if (formData.password == "")
+    if (formData.password === "")
       setBlankPasswordError("Password cannot be blank");
-    if(formData.email == "" || formData.password == "")
+    if(formData.email === "" || formData.password === "")
       return;
     try {
+      setLoading(true);
       const response  = await createPostRequest(formData, path);
       if (response.status === 401) 
       {
@@ -223,13 +225,16 @@ const LoginPage = () => {
     } catch (error) {
       console.error('Error:', error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     if(user.isAuthenticated)
       navigate("/portal/iam/employee");
     
-  }, []);
+  }, [useNavigate,user.isAuthenticated]);
 
 
 
@@ -272,9 +277,12 @@ const LoginPage = () => {
             Remember me
           </RememberMeLabel>
           <ForgotPasswordButton onClick={() => navigate("/forget-password")}>Forgot Password?</ForgotPasswordButton>
-          <LoginButton onClick={handleSubmit}>Log in</LoginButton>
+          <LoginButton  onClick={handleSubmit}>
+      {loading ? <LoaderComponent size={20} pageloader={false} /> : 'Log in'}
+  
+    </LoginButton>
           {/* <StyledH6>--Don't have an account?-- */}
-          {/* <CreateAccountButton >create an Account</CreateAccountButton></StyledH6> */}
+          {/* <CreateAccountButton >create an Account</CreateAccountButton></StyledH6> */} 
         </LoginForm>
       </LoginFormContainer>
     </LoginPageContainer>

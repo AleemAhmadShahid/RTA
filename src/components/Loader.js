@@ -6,7 +6,7 @@ const LoaderContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: ${(props) => (props.pageloader ? '100vh' : 'auto')};
+  height: ${(props) => (props.pageloader ? '50vh' : 'auto')};
 `;
 
 const spin = keyframes`
@@ -21,6 +21,8 @@ const Loader = styled.div`
   width: 40px;
   height: 40px;
   margin: 10px;
+  width: ${(props) => props.size}px;
+  height: ${(props) => props.size}px;
   animation: ${spin} 2s linear infinite;
 `;
 
@@ -28,11 +30,11 @@ const Image = styled.img`
   max-width: 200px; /* Adjust the image size as needed */
 `;
 
-const LoaderComponent = ({ pageloader }) => {
+const LoaderComponent = ({ pageloader, size }) => {
   return (
     <LoaderContainer pageloader={pageloader}>
       {pageloader && <Image src="/RTA.png" alt="Image Alt Text" />}
-      <Loader />
+      <Loader size={size} />
     </LoaderContainer>
   );
 };
