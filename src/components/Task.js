@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdOutlineEdit} from "react-icons/md";
 import CardsPopup from "../pages/CardsPopup";
 
 const Container = styled.div`
@@ -12,7 +12,7 @@ const Container = styled.div`
   background-color: white;
   position: relative;
   cursor: pointer;
-  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px 1px rgba(1, 0, 0, 0.2);
 
   &:hover .edit-button {
     display: block;
@@ -21,10 +21,14 @@ const Container = styled.div`
 
 export const EditButton = styled.button`
   position: absolute;
-  top: 5px;
+   top: 4px;
+  // width: 30px;
+  // height: 30px;
   right: 6px;
   background: none;
   border: none;
+  // border-radius: 50%;
+  // background:white;
   cursor: pointer;
   
   display: none;
@@ -37,7 +41,7 @@ export const OptionsMenu = styled.div`
   border-radius: 5px;
   padding: 5px;
   margin-top: -35px;
-  margin-left: 230px;
+  margin-left: 210px;
   z-index: 1;
 `;
 
@@ -155,7 +159,7 @@ function Task(props) {
           </TaskContent>
 
           <EditButton className="edit-button" onClick={toggleOptionsMenu}>
-            <MdModeEditOutline />
+            <MdOutlineEdit />
           </EditButton>
           <OptionsMenu isOpen={isOptionsMenuOpen} ref={menuRef}>
             <OptionItem
