@@ -26,6 +26,7 @@ export const EditButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+  
   display: none;
 `;
 
