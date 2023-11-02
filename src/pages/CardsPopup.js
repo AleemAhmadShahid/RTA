@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import {
   Heading,
@@ -69,7 +69,7 @@ const AddButton = styled.button`
   text-align: left;
   font-size: 13px;
   margin-bottom: 7px;
-  font-weight: medium; 
+  font-weight: medium;
   padding: 5px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
@@ -88,7 +88,6 @@ const TextArea = styled.textarea`
 
   margin-bottom: 5px;
 `;
-
 
 const Icon = styled.span`
   margin-right: 5px;
@@ -120,8 +119,10 @@ const InputContainer = styled.div`
   align-items: flex-start;
 `;
 
-const CardsPopup = ({ task, closeCardPopup }) => {
+const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
+  const fileInputRef = useRef(null);
   const [description, setDescription] = useState(task.description);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
@@ -130,6 +131,13 @@ const CardsPopup = ({ task, closeCardPopup }) => {
   const handleSaveDescription = () => {
     task.description = description;
   };
+
+  const handleImageSelection = (event) => {
+    const image = event.target.files[0];
+    setSelectedImage(image);
+    onImageSelect(image); 
+  };
+
   return (
     <PopupOverlay>
       <CenterContainer>
@@ -141,7 +149,7 @@ const CardsPopup = ({ task, closeCardPopup }) => {
               marginBottom: "30px",
             }}
           >
-            <Heading style={{ fontWeight: "bold",fontSize:'16px' }}>
+            <Heading style={{ fontWeight: "bold", fontSize: "16px" }}>
               <LeftIcon>
                 <AiOutlineAppstore />
               </LeftIcon>
@@ -154,7 +162,13 @@ const CardsPopup = ({ task, closeCardPopup }) => {
 
           <ColumnContainer>
             <LeftColumn style={{ flex: "3" }}>
-              <H6 style={{ fontWeight: "bold", marginLeft: "40px",fontSize:'12px' }}>
+              <H6
+                style={{
+                  fontWeight: "bold",
+                  marginLeft: "40px",
+                  fontSize: "12px",
+                }}
+              >
                 Notification
               </H6>
               <AddButton style={{ width: "100px", marginLeft: "40px" }}>
@@ -163,7 +177,13 @@ const CardsPopup = ({ task, closeCardPopup }) => {
                 </Icon>
                 Watch
               </AddButton>
-              <H6 style={{ fontWeight: "bold", marginTop: "30px",fontSize:'12px' }}>
+              <H6
+                style={{
+                  fontWeight: "bold",
+                  marginTop: "30px",
+                  fontSize: "12px",
+                }}
+              >
                 <LeftIcon>
                   <HiMenuAlt2 />
                 </LeftIcon>
@@ -184,7 +204,13 @@ const CardsPopup = ({ task, closeCardPopup }) => {
                 Save{" "}
               </AddButton>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <H6 style={{ fontWeight: "bold", marginTop: "30px",fontSize:'12px' }}>
+                <H6
+                  style={{
+                    fontWeight: "bold",
+                    marginTop: "30px",
+                    fontSize: "12px",
+                  }}
+                >
                   {" "}
                   <LeftIcon>
                     <AiOutlineBell />
@@ -202,7 +228,9 @@ const CardsPopup = ({ task, closeCardPopup }) => {
               </InputContainer>
             </LeftColumn>
             <RightColumn>
-              <H6 style={{fontWeight: "bold",fontSize:'12px'}}>Add to card</H6>
+              <H6 style={{ fontWeight: "bold", fontSize: "12px" }}>
+                Add to card
+              </H6>
               <AddButton>
                 <Icon>
                   <BsPerson />
@@ -229,7 +257,18 @@ const CardsPopup = ({ task, closeCardPopup }) => {
               </AddButton>
               <AddButton>
                 <Icon>
-                  <GrAttachment />
+                  <GrAttachment
+                    onClick={() =>
+                      fileInputRef.current && fileInputRef.current.click()
+                    }
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleImageSelection}
+                  />
                 </Icon>
                 Attachment
               </AddButton>

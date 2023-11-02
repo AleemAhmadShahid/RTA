@@ -52,7 +52,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
          <Route path="/cards" element={<CardsPopup />} />
-      
+        
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password/:id" element={<ResetPassword name="Reset Password?" description="Your new password must be different from previously used passwords"/>} />
         <Route path="/setup-password/:id" element={<ResetPassword name="Setup Password" description="Setup your new account and start using portal today"/>} />
@@ -66,6 +66,7 @@ function App() {
                 <Route path="department" element={<Team_list id={1} />} />
                 <Route path="settings" element={<EmpSetting />} />
                 <Route path="board" element={<Board />} />
+              
                 
               </Route>
             </>

@@ -7,12 +7,11 @@ const FormButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 10px;
-  margin-top: 8px;
-  margin-left: 5px;
-  width: 250px;
+
+  width: 230px;
   text-align:left;
   padding: 10px; 
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
