@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { MdOutlineEdit} from "react-icons/md";
+import { MdOutlineEdit } from "react-icons/md";
 import CardsPopup from "../pages/CardsPopup";
-
+import {
+  AiOutlineBell,
+  AiOutlineMail,
+  AiOutlineDashboard,
+  AiOutlinePieChart,
+  AiOutlineAppstore,
+  AiOutlinePlus,
+  AiOutlineEye,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
 const Container = styled.div`
   box-shadow: 5px;
   border-radius: 10px;
@@ -21,7 +30,7 @@ const Container = styled.div`
 
 export const EditButton = styled.button`
   position: absolute;
-   top: 4px;
+  top: 4px;
   // width: 30px;
   // height: 30px;
   right: 6px;
@@ -30,7 +39,7 @@ export const EditButton = styled.button`
   // border-radius: 50%;
   // background:white;
   cursor: pointer;
-  
+
   display: none;
 `;
 
@@ -41,7 +50,8 @@ export const OptionsMenu = styled.div`
   border-radius: 5px;
   padding: 5px;
   margin-top: -35px;
-  margin-left: 210px;
+  // margin-left: 25px;
+   margin-left: 210px;
   z-index: 1;
 `;
 
@@ -50,7 +60,9 @@ export const OptionItem = styled.div`
   background-color: white;
   margin-bottom: 5px;
   border-radius: 5px;
-
+  font-size: 12px;
+  font-weight:bold;
+ 
   cursor: pointer;
   &:hover {
     background-color: lightgrey;
@@ -63,24 +75,35 @@ const TaskContent = styled.div`
   align-items: left;
   text-align: left;
   font-size: 12px;
+  position: relative;
 `;
 
 const TaskImage = styled.img`
   width: 100%;
   height: 100%;
   margin-right: 10px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 `;
 const TaskImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
 `;
 
 const TaskText = styled.div`
   margin-right: 10px;
-  margin-bottom:-2px;
+  margin-bottom: -2px;
+`;
+
+const WatchIcon = styled.div`
+  position: relative;
+  margin-top: 5px;
+  // bottom: 5px;
+  left: 5px;
+  bottom: 0;
+  float: right;
+  font-size: 14px;
 `;
 
 function Task(props) {
@@ -126,6 +149,7 @@ function Task(props) {
       ...props.state,
       tasks: {
         ...newTasks,
+        // ...image,
       },
       columns: {
         ...props.state.columns,
@@ -141,6 +165,12 @@ function Task(props) {
   const handleTaskImage = (image) => {
     setTaskImage(image);
   };
+  const [isWatched, setIsWatched] = useState(false);
+
+  const handleWatchToggle = (watched) => {
+    setIsWatched(watched);
+  };
+
   return (
     <Draggable draggableId={props.task.id} index={props.index}>
       {(provided) => (
@@ -151,11 +181,20 @@ function Task(props) {
         >
           <TaskContent>
             <TaskImageContainer>
+              {" "}
               {taskImage ? (
-                <TaskImage src={URL.createObjectURL(taskImage)} alt="Task Image" />
+                <TaskImage
+                  src={URL.createObjectURL(taskImage)}
+                  alt="Task Image"
+                />
               ) : null}
               <TaskText>{props.task.content}</TaskText>
             </TaskImageContainer>
+            {isWatched && (
+              <WatchIcon>
+                <AiOutlineEye />
+              </WatchIcon>
+            )}
           </TaskContent>
 
           <EditButton className="edit-button" onClick={toggleOptionsMenu}>
@@ -170,12 +209,16 @@ function Task(props) {
               Delete
             </OptionItem>
             <OptionItem onClick={openCardPopup}>Open card</OptionItem>
+            <OptionItem>Copy</OptionItem>
+            <OptionItem>Edit label</OptionItem>
           </OptionsMenu>
+
           {isCardPopupOpen && (
             <CardsPopup
               task={props.task}
               closeCardPopup={closeCardPopup}
               onImageSelect={handleTaskImage}
+              onWatchToggle={handleWatchToggle}
             />
           )}
         </Container>

@@ -19,9 +19,9 @@
   font-size: 3rem;
 }
 body {
-  /* background-color: #f5f5f5;  */
+   background-color: #f5f5f5;  
   /* background-color: lightblue; */
-   background-color: rgb(205, 90, 145);
+   /* background-color: rgb(205, 90, 145); */
   margin: 0; 
   padding: 0;
 }

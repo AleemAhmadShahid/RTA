@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import Task from './Task';
 export const Input = styled.input`
   width: 100%;
   padding: 5px;
@@ -61,7 +61,7 @@ export const ImageInput = styled.input`
 function AddTask(props) {
   const [showNewTaskButton, setShowNewTaskButton] = useState(true);
   const [value, setValue] = useState('');
-  // const [image, setImage] = useState(null);
+   const [image, setImage] = useState(null);
 
   function onNewTaskButtonClick() {
     setShowNewTaskButton(false);
@@ -71,16 +71,11 @@ function AddTask(props) {
     setValue(event.target.value);
   }
 
-  // function handleImageChange(event) {
-  //   const selectedImage = event.target.files[0];
-  //   setImage(selectedImage);
-  // }
-
   function onNewTaskInputComplete() {
     if (value.trim() !== '') {
       addNewTask(props.columnId, value);
       setValue('');
-      // setImage(null);
+     
       setShowNewTaskButton(true);
     }
   }
@@ -95,7 +90,7 @@ function AddTask(props) {
     const newTask = {
       id: newTaskId,
       content: content,
-      // image: image, // Store the image in the task
+      
     };
 
     props.setState({
@@ -127,13 +122,10 @@ function AddTask(props) {
             onBlur={onNewTaskInputComplete}
             placeholder="Enter a title for the task"
           />
-          {/* <label>
-            <ImageInput type="file" onChange={handleImageChange} />
-            <AddTaskButton>Upload Image</AddTaskButton>
-          </label> */}
-          {/* {image && <p>Image selected: {image.name}</p>} */}
+           
           <AddTaskButton onClick={onNewTaskInputComplete}>Add Card</AddTaskButton>
           <CloseButton onClick={() => setShowNewTaskButton(true)}>X</CloseButton>
+          
         </div>
       )}
     </div>

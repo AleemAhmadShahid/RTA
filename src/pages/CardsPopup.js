@@ -21,6 +21,7 @@ import { GrAttachment } from "react-icons/gr";
 import { MdContentCopy } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { H6 } from "./ForgetPassword";
+import GenericPopup from "./GenericPopup";
 
 const PopupOverlay = styled.div`
   position: fixed;
@@ -31,8 +32,8 @@ const PopupOverlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 999; /* Ensure the pop-up is on top of other content */
+  // align-items: center;
+  z-index: 999;
 `;
 export const HeaderContainer = styled.div`
   display: flex;
@@ -40,11 +41,12 @@ export const HeaderContainer = styled.div`
   align-items: center;
   width: 100%;
   border: 1px solid #f5f5f5;
-  background: #f5f5f5;
+  // background: #f5f5f5;
 
   @media screen and (max-width: 845px) {
     width: 100%;
   }
+  background-color: #f1f2f4;
 `;
 const CenterContainer = styled.div`
   position: absolute;
@@ -52,7 +54,7 @@ const CenterContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  width: 45%;
+  width: 50%;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 845px) {
@@ -61,17 +63,20 @@ const CenterContainer = styled.div`
   z-index: 20;
 `;
 
-const AddButton = styled.button`
+export const AddButton = styled.button`
   width: 100%;
   border: none;
   display: flex;
   align-items: center;
   text-align: left;
   font-size: 13px;
+  font-weight: bold;
   margin-bottom: 7px;
+  background-color: #e5e7ec;
+  color: #172b4d;
   font-weight: medium;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 3px;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -83,23 +88,26 @@ const TextArea = styled.textarea`
   width: 92%;
   padding: 4px;
   margin-left: 40px;
-  background: #f5f5f5;
-  border: 1px solid #f5f5f5;
+  background: white;
+  border: 1px solid #172b4d;
 
   margin-bottom: 5px;
 `;
 
 const Icon = styled.span`
-  margin-right: 5px;
+  margin-right: 10px;
   margin-left: 5px;
+  font-size: 14px;
+  color: #42526e;
 `;
 const LeftIcon = styled.span`
   margin-right: 18px;
   margin-left: 5px;
-  font-size: 18px;
+  font-size: 20px;
+  color: #42526e;
 `;
 const Box = styled.div`
-  background: white;
+  background-color: #f1f2f4;
   padding: 10px;
   border-radius: 10px;
 `;
@@ -107,10 +115,11 @@ const Input = styled.input`
   width: 92%;
   padding: 4px;
   margin-left: 40px;
-  background: #f5f5f5;
-  border: 1px solid #f5f5f5;
-  border-radius: 5px;
+  background: white;
+  border: 0.1px solid lightgrey;
+  border-radius: 10px;
   margin-bottom: 5px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 `;
 const InputContainer = styled.div`
   width: 100%;
@@ -118,24 +127,76 @@ const InputContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
 `;
+const SubBox = styled.div`
+  background: orange;
+`;
 
-const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
+const CardsPopup = ({
+  task,
+  closeCardPopup,
+  onImageSelect,
+  onSaveImage,
+  onWatchToggle,
+  headingName,
+}) => {
   const fileInputRef = useRef(null);
   const [description, setDescription] = useState(task.description);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isMemberPopupOpen, setIsMemberPopupOpen] = useState(false);
+  const [isLabelPopupOpen, setIsLabelPopupOpen] = useState(false);
+  const [memberFormValues, setMemberFormValues] = useState({});
+  const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
+
+  const openMemberPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
+
+    setBoxPosition({ left, top });
+    console.log(left, top);
+
+    setIsMemberPopupOpen(true);
+  };
+  const closeMemberPopup = () => {
+    setIsMemberPopupOpen(false);
+  };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
+  const openLabelPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
+
+    setBoxPosition({ left, top });
+    console.log(left, top);
+
+    setIsLabelPopupOpen(true);
+  };
+  const closeLabelPopup = () => {
+    setIsLabelPopupOpen(false);
+  };
+
+  
 
   const handleSaveDescription = () => {
     task.description = description;
+  };
+  const [isWatched, setIsWatched] = useState(false);
+
+  const handleWatchClick = () => {
+    setIsWatched(!isWatched);
+    onWatchToggle(!isWatched);
   };
 
   const handleImageSelection = (event) => {
     const image = event.target.files[0];
     setSelectedImage(image);
-    onImageSelect(image); 
+    onImageSelect(image);
+    // onSaveImage(image);
   };
 
   return (
@@ -144,17 +205,31 @@ const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
         <Box>
           <HeaderContainer
             style={{
-              background: "white",
+              background: "#f1f2f4",
               border: "none",
-              marginBottom: "30px",
+              marginBottom: "40px",
             }}
           >
+            {selectedImage && (
+              <img
+                src={URL.createObjectURL(selectedImage)}
+                alt="Selected Image"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderTopLeftRadius: "10px",
+                  borderTopRightRadius: "10px",
+                }}
+              />
+            )}
             <Heading style={{ fontWeight: "bold", fontSize: "16px" }}>
               <LeftIcon>
                 <AiOutlineAppstore />
               </LeftIcon>
-              Card Name{" "}
+              {headingName}
+              {/* <H6>in list</H6> */}
             </Heading>
+
             <CloseButtonContainer>
               <CloseButton onClick={closeCardPopup}>&#10005;</CloseButton>
             </CloseButtonContainer>
@@ -164,14 +239,18 @@ const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
             <LeftColumn style={{ flex: "3" }}>
               <H6
                 style={{
-                  fontWeight: "bold",
+                  fontWeight: " 600",
                   marginLeft: "40px",
                   fontSize: "12px",
+                  color: "#172b4d",
                 }}
               >
                 Notification
               </H6>
-              <AddButton style={{ width: "100px", marginLeft: "40px" }}>
+              <AddButton
+                style={{ width: "100px", marginLeft: "40px", color: "#172b4d" }}
+                onClick={handleWatchClick}
+              >
                 <Icon>
                   <AiOutlineEye />
                 </Icon>
@@ -181,7 +260,8 @@ const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
                 style={{
                   fontWeight: "bold",
                   marginTop: "30px",
-                  fontSize: "12px",
+                  fontSize: "16px",
+                  color: "#172b4d",
                 }}
               >
                 <LeftIcon>
@@ -208,7 +288,8 @@ const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
                   style={{
                     fontWeight: "bold",
                     marginTop: "30px",
-                    fontSize: "12px",
+                    fontSize: "16px",
+                    color: "#172b4d",
                   }}
                 >
                   {" "}
@@ -228,16 +309,23 @@ const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
               </InputContainer>
             </LeftColumn>
             <RightColumn>
-              <H6 style={{ fontWeight: "bold", fontSize: "12px" }}>
+              <H6
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                  color: "#172b4d",
+                }}
+              >
                 Add to card
               </H6>
-              <AddButton>
+              <AddButton onClick={openMemberPopup}>
                 <Icon>
                   <BsPerson />
                 </Icon>
                 Member
-              </AddButton>
-              <AddButton>
+              </AddButton>         
+
+              <AddButton onClick={openLabelPopup}>
                 <Icon>
                   <AiOutlineDashboard />
                 </Icon>
@@ -255,13 +343,13 @@ const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
                 </Icon>
                 Date
               </AddButton>
-              <AddButton>
+              <AddButton
+                onClick={() =>
+                  fileInputRef.current && fileInputRef.current.click()
+                }
+              >
                 <Icon>
-                  <GrAttachment
-                    onClick={() =>
-                      fileInputRef.current && fileInputRef.current.click()
-                    }
-                  />
+                  <GrAttachment />
                   <input
                     type="file"
                     accept="image/*"
@@ -328,6 +416,47 @@ const CardsPopup = ({ task, closeCardPopup, onImageSelect }) => {
           </ColumnContainer>
         </Box>
       </CenterContainer>
+      {isMemberPopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              name: "Members ",
+              type: "text",
+              placeholder: "Enter member name",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeMemberPopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Show Other Workspace Members"
+        />
+      )}
+      {isLabelPopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              
+              name: "Label",
+              type: "text",
+              placeholder: "Enter label name",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeLabelPopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add Member"
+        />
+      )}
     </PopupOverlay>
   );
 };
