@@ -28,6 +28,14 @@ const Container = styled.div`
 
 
 `;
+const Container1 = styled.div`
+
+//  background-color:white;
+background: #f1f2f4;
+  padding: 5px;
+  border-radius:10px;
+
+`;
 
 
 
@@ -79,11 +87,12 @@ function AddColumn(props) {
         <FormButton onClick={onNewColumnButtonClick}>+Add a list</FormButton>
       ) : (
         <div>
+          <Container1>
           <Input style={{marginTop:'10px'}} type="text" value={value} onChange={handleInputChange} onBlur={onNewColumnInputComplete} />
           <div>
             <AddTaskButton onClick={onNewColumnInputComplete}>Add</AddTaskButton>
             <CloseButton onClick={onNewColumnButtonClick}>X</CloseButton>
-          </div>
+          </div></Container1>
         </div>
       )}
     </Container>

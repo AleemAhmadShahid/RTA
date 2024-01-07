@@ -69,7 +69,7 @@ export const AddButton = styled.button`
   display: flex;
   align-items: center;
   text-align: left;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   margin-bottom: 7px;
   background-color: #e5e7ec;
@@ -135,17 +135,23 @@ const CardsPopup = ({
   task,
   closeCardPopup,
   onImageSelect,
+   title,
   onSaveImage,
   onWatchToggle,
-  headingName,
+  column,
+  // props,
 }) => {
   const fileInputRef = useRef(null);
   const [description, setDescription] = useState(task.description);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isMemberPopupOpen, setIsMemberPopupOpen] = useState(false);
   const [isLabelPopupOpen, setIsLabelPopupOpen] = useState(false);
+  const [isCheckListPopupOpen, setIsCheckListPopupOpen] = useState(false);
+
   const [memberFormValues, setMemberFormValues] = useState({});
   const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
+  const [isEditable, setIsEditable] = useState(false);
+
 
   const openMemberPopup = (event) => {
     const clickedDiv = event.currentTarget;
@@ -157,6 +163,8 @@ const CardsPopup = ({
     console.log(left, top);
 
     setIsMemberPopupOpen(true);
+    setIsLabelPopupOpen(false);
+    setIsCheckListPopupOpen(false);
   };
   const closeMemberPopup = () => {
     setIsMemberPopupOpen(false);
@@ -175,15 +183,31 @@ const CardsPopup = ({
     console.log(left, top);
 
     setIsLabelPopupOpen(true);
+    setIsCheckListPopupOpen(false);
   };
   const closeLabelPopup = () => {
     setIsLabelPopupOpen(false);
   };
+  const openCheckListPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
 
-  
+    setBoxPosition({ left, top });
+    console.log(left, top);
+
+    setIsCheckListPopupOpen(true);
+    setIsLabelPopupOpen(false);
+
+  };
+  const closeCheckListPopup = () => {
+    setIsCheckListPopupOpen(false);
+  };
 
   const handleSaveDescription = () => {
     task.description = description;
+    setIsEditable(false);
   };
   const [isWatched, setIsWatched] = useState(false);
 
@@ -197,6 +221,9 @@ const CardsPopup = ({
     setSelectedImage(image);
     onImageSelect(image);
     // onSaveImage(image);
+  };
+  const handleInputContainerClick = () => {
+    setIsEditable(true);
   };
 
   return (
@@ -226,8 +253,12 @@ const CardsPopup = ({
               <LeftIcon>
                 <AiOutlineAppstore />
               </LeftIcon>
-              {headingName}
-              {/* <H6>in list</H6> */}
+              {task.content}
+              <div>
+                {/* {task.column.title} */}
+              </div>
+              
+               
             </Heading>
 
             <CloseButtonContainer>
@@ -270,19 +301,44 @@ const CardsPopup = ({
                 Description
               </H6>
 
-              <InputContainer>
+              <InputContainer onClick={handleInputContainerClick}>
                 <TextArea
                   value={description}
                   onChange={handleDescriptionChange}
                   rows="4"
                 />
               </InputContainer>
-              <AddButton
-                style={{ width: "100px", marginLeft: "40px" }}
-                onClick={handleSaveDescription}
-              >
-                Save{" "}
-              </AddButton>
+              <div style={{ display: "flex" }}>
+                <AddButton
+                  style={{
+                    width: "50px",
+                    marginLeft: "40px",
+                    backgroundColor: "#0096FF",
+                    color: "white",
+                    textAlign: "center",
+                    justifyContent: "center",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  onClick={handleSaveDescription}
+                >
+                  Save{" "}
+                </AddButton>
+
+                <AddButton
+                  style={{
+                    width: "50px",
+                    marginLeft: "10px",
+                    backgroundColor: " #f1f2f4",
+                    textAlign: "center",
+                    justifyContent: "center",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  Cancel{" "}
+                </AddButton>
+              </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <H6
                   style={{
@@ -304,10 +360,12 @@ const CardsPopup = ({
                   Show Details
                 </AddButton>
               </div>
+
               <InputContainer>
                 <Input type="text" />
               </InputContainer>
             </LeftColumn>
+
             <RightColumn>
               <H6
                 style={{
@@ -323,7 +381,7 @@ const CardsPopup = ({
                   <BsPerson />
                 </Icon>
                 Member
-              </AddButton>         
+              </AddButton>
 
               <AddButton onClick={openLabelPopup}>
                 <Icon>
@@ -331,7 +389,7 @@ const CardsPopup = ({
                 </Icon>
                 Labels
               </AddButton>
-              <AddButton>
+              <AddButton onClick={openCheckListPopup}>
                 <Icon>
                   <AiOutlineBell />
                 </Icon>
@@ -374,14 +432,14 @@ const CardsPopup = ({
                 Custom Fields
               </AddButton>
               <t>Power-Ups</t>
-              <AddButton style={{ background: "white" }}>
+              <AddButton>
                 <Icon>
                   <AiOutlinePlus />
                 </Icon>
                 Add Power-Ups
               </AddButton>
               <t>Automation</t>
-              <AddButton style={{ background: "white" }}>
+              <AddButton>
                 <Icon>
                   <AiOutlinePlus />
                 </Icon>
@@ -443,7 +501,6 @@ const CardsPopup = ({
           // heading={}
           fields={[
             {
-              
               name: "Label",
               type: "text",
               placeholder: "Enter label name",
@@ -454,7 +511,27 @@ const CardsPopup = ({
           // onSubmit={(formValues) => {
           //   console.log("Member form submitted:", formValues);
           // }}
-          buttonText="Add Member"
+          buttonText="Add "
+        />
+      )}
+      {isCheckListPopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              name: "Checklist",
+              type: "text",
+              placeholder: "Checklist",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeCheckListPopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
         />
       )}
     </PopupOverlay>

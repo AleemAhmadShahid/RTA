@@ -46,12 +46,10 @@ export const EditButton = styled.button`
 export const OptionsMenu = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   position: fixed;
-  width: auto;
   border-radius: 5px;
   padding: 5px;
   margin-top: -35px;
-  // margin-left: 25px;
-   margin-left: 210px;
+  margin-left: 210px;
   z-index: 1;
 `;
 
@@ -61,13 +59,14 @@ export const OptionItem = styled.div`
   margin-bottom: 5px;
   border-radius: 5px;
   font-size: 12px;
-  font-weight:bold;
- 
+  font-weight: bold;
   cursor: pointer;
+  
   &:hover {
     background-color: lightgrey;
   }
 `;
+
 
 const TaskContent = styled.div`
   display: flex;
@@ -219,6 +218,8 @@ function Task(props) {
               closeCardPopup={closeCardPopup}
               onImageSelect={handleTaskImage}
               onWatchToggle={handleWatchToggle}
+              // column={props.column.title}
+              
             />
           )}
         </Container>

@@ -7,6 +7,10 @@ export const Input = styled.input`
   border-radius: 10px;
   font-size: 12px;
    line-height: 22px; 
+   border:none;
+   &:focus {
+    outline: none;
+  }
 `;
 
 
@@ -74,6 +78,7 @@ function AddTask(props) {
   function onNewTaskInputComplete() {
     if (value.trim() !== '') {
       addNewTask(props.columnId, value);
+      // props.onTaskAdded(value);
       setValue('');
      
       setShowNewTaskButton(true);
