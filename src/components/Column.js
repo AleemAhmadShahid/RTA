@@ -3,21 +3,21 @@ import styled from "styled-components";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import Task from "./Task";
 import AddTask from "./AddTask";
-// import { OptionItem } from "./Task";
+
 import { BiDotsHorizontalRounded, BiFontSize } from "react-icons/bi";
 import { H6 } from "../pages/ForgetPassword";
-// import CardsPopup from "../pages/CardsPopup";
+
 import CardsPopup from "../pages/CardsPopup";
 const Container = styled.div`
   margin-right: 8px;
   border-radius: 10px;
-  width: 220px;
-  min-width: 220px;
+  width: 270px;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
   padding-bottom: 10px;
   background: #f1f2f4;
-  padding: 5px;
+  padding: 7px;
   height: 100%;
 `;
 
@@ -32,7 +32,7 @@ const Title = styled.h6`
   // flex: 1;
   padding: 8px;
 
-  margin-left: -5px;
+  // margin-left: -5px;
   font-weight: bold;
   position: relative;
   cursor: pointer;
@@ -45,15 +45,20 @@ const OptionsMenu = styled.div`
   background-color: white;
   border: 1px solid lightgrey;
   border-radius: 5px;
-  // padding: 5px;
+   padding:10px;
   // right: 0;
   margin-left: 240px;
   margin-top: 10px;
   top: 30px;
+
   z-index: 1;
   width: 280px;
-  font-size: 12px;
+  font-size: 13px;
+  // &:hover {
+  //   background-color: lightgrey;
+  // }
   text-decoration: none;
+  
 `;
 
 const TaskList = styled.div`
@@ -89,12 +94,12 @@ const Headingcontainer = styled.div`
   margin-top: -5px;
 `;
 const OptionItem = styled.div`
-  padding: 10px 17px;
+  padding: 5px;
   background-color: white;
 
   // border-radius: 5px;
   // width:100%;
-
+// margin-bottom:10px;
   cursor: pointer;
   &:hover {
     background-color: lightgrey;
@@ -183,15 +188,15 @@ function Column(props) {
               <OptionsMenu isOpen={isOptionsMenuOpen} ref={menuRef}>
                 <H6
                   style={{
-                    marginTop: "20px",
+                    marginTop: "5px",
                     display: "flex",
                     justifyContent: "center",
                     fontWeight: "bold",
-                    fontSize: "12px",
+                    fontSize: "13px",
                   }}
                 >
                   {" "}
-                  List Actions
+                  List actions
                 </H6>
                 <OptionItem
                   onClick={openAddCardInput(props.columnId, props.context)}

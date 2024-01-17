@@ -16,12 +16,12 @@ import {
 const Container = styled.div`
   box-shadow: 5px;
   border-radius: 10px;
-  padding: 8px;
+  padding: 8px ;
   margin-bottom: 8px;
   background-color: white;
   position: relative;
   cursor: pointer;
-  box-shadow: 0px 1px 2px 1px rgba(1, 0, 0, 0.2);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0.1, 0, 0.1);
 
   &:hover .edit-button {
     display: block;
@@ -31,13 +31,10 @@ const Container = styled.div`
 export const EditButton = styled.button`
   position: absolute;
   top: 4px;
-  // width: 30px;
-  // height: 30px;
+ 
   right: 6px;
   background: none;
   border: none;
-  // border-radius: 50%;
-  // background:white;
   cursor: pointer;
 
   display: none;
@@ -73,7 +70,7 @@ const TaskContent = styled.div`
   flex-direction: column;
   align-items: left;
   text-align: left;
-  font-size: 12px;
+  font-size: 13px;
   position: relative;
 `;
 
@@ -98,7 +95,7 @@ const TaskText = styled.div`
 const WatchIcon = styled.div`
   position: relative;
   margin-top: 5px;
-  // bottom: 5px;
+  
   left: 5px;
   bottom: 0;
   float: right;

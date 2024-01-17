@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Input,CloseButton,AddTaskButton } from "./AddTask";
-
+import { IoCloseOutline } from "react-icons/io5";
 const FormButton = styled.button`
   background-color: lightgray;
   color: #fff;
   border: none;
   border-radius: 10px;
 
-  width: 230px;
+  width: 270px;
   text-align:left;
   padding: 10px; 
   font-size: 14px;
@@ -24,7 +24,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-   width: 240px;
+   width: 250px;
 
 
 `;
@@ -88,10 +88,10 @@ function AddColumn(props) {
       ) : (
         <div>
           <Container1>
-          <Input style={{marginTop:'10px'}} type="text" value={value} onChange={handleInputChange} onBlur={onNewColumnInputComplete} />
+          <Input  type="text"placeholder="Enter list title..." value={value} onChange={handleInputChange} onBlur={onNewColumnInputComplete} />
           <div>
-            <AddTaskButton onClick={onNewColumnInputComplete}>Add</AddTaskButton>
-            <CloseButton onClick={onNewColumnButtonClick}>X</CloseButton>
+            <AddTaskButton onClick={onNewColumnInputComplete}>Add list</AddTaskButton>
+            <CloseButton onClick={onNewColumnButtonClick}><IoCloseOutline /></CloseButton>
           </div></Container1>
         </div>
       )}

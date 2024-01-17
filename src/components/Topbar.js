@@ -39,7 +39,7 @@ const Nav = styled.div`
   right: 0;
   @media (min-width: 1200px) {
     
-    width: 79.1%;
+    width: 79.4%;
     top: 2.5%;
     left: 273px;
   }
