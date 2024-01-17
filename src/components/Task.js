@@ -13,6 +13,7 @@ import {
   AiOutlineEye,
   AiOutlineArrowRight,
 } from "react-icons/ai";
+import { RxPencil1 } from "react-icons/rx";
 const Container = styled.div`
   box-shadow: 5px;
   border-radius: 10px;
@@ -194,7 +195,8 @@ function Task(props) {
           </TaskContent>
 
           <EditButton className="edit-button" onClick={toggleOptionsMenu}>
-            <MdOutlineEdit />
+            {/* <MdOutlineEdit /> */}
+            <RxPencil1 />
           </EditButton>
           <OptionsMenu isOpen={isOptionsMenuOpen} ref={menuRef}>
             <OptionItem

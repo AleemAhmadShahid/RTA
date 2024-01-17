@@ -7,7 +7,6 @@ import AddTask from "./AddTask";
 import { BiDotsHorizontalRounded, BiFontSize } from "react-icons/bi";
 import { H6 } from "../pages/ForgetPassword";
 
-import CardsPopup from "../pages/CardsPopup";
 const Container = styled.div`
   margin-right: 8px;
   border-radius: 10px;
@@ -36,7 +35,7 @@ const Title = styled.h6`
   font-weight: bold;
   position: relative;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
 `;
 
 const OptionsMenu = styled.div`

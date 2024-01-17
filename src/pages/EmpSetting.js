@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Switch from "../components/Switch";
+
+import AccountSettings from "../components/AccountSettings";
 import {
   CenteredContainer,
   BoxContainer,
@@ -300,7 +302,7 @@ const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
   );
 };
 const EmpSetting = () => {
-  const [user, setUser] = useState(useSelector((state) => state.user));
+  // const [user, setUser] = useState(useSelector((state) => state.user));
   const [currentPage, setCurrentPage] = useState("account");
 
   const [buttonClicked, setButtonClicked] = useState("Deactivate");
@@ -338,143 +340,148 @@ const EmpSetting = () => {
 
   const renderContent = () => {
     if (currentPage === "account") {
-      return (
+      return(
         <>
-          <BoxContainer>
-            <Box>
-              <H6>Profile Details</H6>
-              <hr />
-              <UploadContainer style={{ marginBottom: "20px" }}>
-                <UploadBox />
-                <PictureUploadButton style={{ fontSize: "14px" }}>
-                  Upload
-                </PictureUploadButton>
-
-                <ResetButton> Reset</ResetButton>
-              </UploadContainer>
-
-              <div style={{ display: "flex" }}>
-                <ColumnContainer>
-                  <LeftColumn style={{ marginBottom: "20px" }}>
-                    <FormGroup>
-                      <FormLabel>Name:</FormLabel>
-                      <FormInput
-                        type="text"
-                        value={user.user.name}
-                        placeholder={" "}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <FormLabel>Email:</FormLabel>
-                      <FormInput
-                        type="email"
-                        value={user.user.email}
-                        disabled={"disabled"}
-                        placeholder={"ABC@emaple.com"}
-                      />
-                    </FormGroup>
-                  </LeftColumn>
-                  <RightColumn>
-                    <FormGroup>
-                      <FormLabel>Phone:</FormLabel>
-                      <FormInput
-                        type="tel"
-                        value={user.user.phoneNo[0]}
-                        placeholder={"+92"}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <FormLabel>Address:</FormLabel>
-                      <FormInput type="text" placeholder={"ABC STREET"} />
-                    </FormGroup>
-                  </RightColumn>
-                </ColumnContainer>
-              </div>
-              <FormButton style={{ marginBottom: "10px" }}>
-                Save changes
-              </FormButton>
-              <PreviousButton> Discard</PreviousButton>
-            </Box>
-          </BoxContainer>
-
-          <ButtonContainer>
-            <StyledButton
-              onClick={() => handleButtonClick("Deactivate")}
-              currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
-            >
-              <AiOutlineUser />
-              Deactivate
-            </StyledButton>
-
-            <StyledButton
-              onClick={() => handleButtonClick("Delete")}
-              currentPage={buttonClicked === "Delete" ? "Delete" : ""}
-            >
-              <AiOutlineUser />
-              Delete
-            </StyledButton>
-          </ButtonContainer>
-
-          <BoxContainer visible={buttonClicked !== null}>
-            <Box>
-              {buttonClicked === "Deactivate" && (
-                <CheckboxLabel style={{ marginBottom: "10px" }}>
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />{" "}
-                  I confirm my account deactivation
-                </CheckboxLabel>
-              )}
-
-              {buttonClicked === "Delete" && (
-                <CheckboxLabel style={{ marginBottom: "10px" }}>
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />{" "}
-                  I confirm my account deletion
-                </CheckboxLabel>
-              )}
-
-              {isChecked && (
-                <>
-                  <Warningbox>
-                    <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
-                      Are you sure you want to {buttonClicked.toLowerCase()}{" "}
-                      this account
-                    </P>
-                    {(buttonClicked == "Delete" && (
-                      <P style={{ marginLeft: "10px" }}>
-                        Once you {buttonClicked.toLowerCase()} the account there
-                        is no going back
-                      </P>
-                    )) || (
-                      <P style={{ marginLeft: "10px" }}>
-                        You can contact administrator to reactivate your account
-                      </P>
-                    )}
-                  </Warningbox>
-                  <ColumnContainer>
-                    <LeftColumn>
-                      <FormLabel>Enter password:</FormLabel>
-                      <FormInput type="password" />
-                      <DeactivateButton onClick={handleDeactivateDelete}>
-                        {buttonClicked === "Deactivate"
-                          ? "Deactivate"
-                          : "Delete"}
-                      </DeactivateButton>
-                    </LeftColumn>
-                    <RightColumn></RightColumn>
-                  </ColumnContainer>
-                </>
-              )}
-            </Box>
-          </BoxContainer>
+        <AccountSettings/>
         </>
-      );
+      )
+     // return (
+        // <>
+        //   <BoxContainer>
+        //     <Box>
+        //       <H6>Profile Details</H6>
+        //       <hr />
+        //       <UploadContainer style={{ marginBottom: "20px" }}>
+        //         <UploadBox />
+        //         <PictureUploadButton style={{ fontSize: "14px" }}>
+        //           Upload
+        //         </PictureUploadButton>
+
+        //         <ResetButton> Reset</ResetButton>
+        //       </UploadContainer>
+
+        //       <div style={{ display: "flex" }}>
+        //         <ColumnContainer>
+        //           <LeftColumn style={{ marginBottom: "20px" }}>
+        //             <FormGroup>
+        //               <FormLabel>Name:</FormLabel>
+        //               <FormInput
+        //                 type="text"
+        //                 value={user.user.name}
+        //                 placeholder={" "}
+        //               />
+        //             </FormGroup>
+        //             <FormGroup>
+        //               <FormLabel>Email:</FormLabel>
+        //               <FormInput
+        //                 type="email"
+        //                 value={user.user.email}
+        //                 disabled={"disabled"}
+        //                 placeholder={"ABC@emaple.com"}
+        //               />
+        //             </FormGroup>
+        //           </LeftColumn>
+        //           <RightColumn>
+        //             <FormGroup>
+        //               <FormLabel>Phone:</FormLabel>
+        //               <FormInput
+        //                 type="tel"
+        //                 value={user.user.phoneNo[0]}
+        //                 placeholder={"+92"}
+        //               />
+        //             </FormGroup>
+        //             <FormGroup>
+        //               <FormLabel>Address:</FormLabel>
+        //               <FormInput type="text" placeholder={"ABC STREET"} />
+        //             </FormGroup>
+        //           </RightColumn>
+        //         </ColumnContainer>
+        //       </div>
+        //       <FormButton style={{ marginBottom: "10px" }}>
+        //         Save changes
+        //       </FormButton>
+        //       <PreviousButton> Discard</PreviousButton>
+        //     </Box>
+        //   </BoxContainer>
+
+        //   <ButtonContainer>
+        //     <StyledButton
+        //       onClick={() => handleButtonClick("Deactivate")}
+        //       currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
+        //     >
+        //       <AiOutlineUser />
+        //       Deactivate
+        //     </StyledButton>
+
+        //     <StyledButton
+        //       onClick={() => handleButtonClick("Delete")}
+        //       currentPage={buttonClicked === "Delete" ? "Delete" : ""}
+        //     >
+        //       <AiOutlineUser />
+        //       Delete
+        //     </StyledButton>
+        //   </ButtonContainer>
+
+        //   <BoxContainer visible={buttonClicked !== null}>
+        //     <Box>
+        //       {buttonClicked === "Deactivate" && (
+        //         <CheckboxLabel style={{ marginBottom: "10px" }}>
+        //           <input
+        //             type="checkbox"
+        //             checked={isChecked}
+        //             onChange={handleCheckboxChange}
+        //           />{" "}
+        //           I confirm my account deactivation
+        //         </CheckboxLabel>
+        //       )}
+
+        //       {buttonClicked === "Delete" && (
+        //         <CheckboxLabel style={{ marginBottom: "10px" }}>
+        //           <input
+        //             type="checkbox"
+        //             checked={isChecked}
+        //             onChange={handleCheckboxChange}
+        //           />{" "}
+        //           I confirm my account deletion
+        //         </CheckboxLabel>
+        //       )}
+
+        //       {isChecked && (
+        //         <>
+        //           <Warningbox>
+        //             <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
+        //               Are you sure you want to {buttonClicked.toLowerCase()}{" "}
+        //               this account
+        //             </P>
+        //             {(buttonClicked == "Delete" && (
+        //               <P style={{ marginLeft: "10px" }}>
+        //                 Once you {buttonClicked.toLowerCase()} the account there
+        //                 is no going back
+        //               </P>
+        //             )) || (
+        //               <P style={{ marginLeft: "10px" }}>
+        //                 You can contact administrator to reactivate your account
+        //               </P>
+        //             )}
+        //           </Warningbox>
+        //           <ColumnContainer>
+        //             <LeftColumn>
+        //               <FormLabel>Enter password:</FormLabel>
+        //               <FormInput type="password" />
+        //               <DeactivateButton onClick={handleDeactivateDelete}>
+        //                 {buttonClicked === "Deactivate"
+        //                   ? "Deactivate"
+        //                   : "Delete"}
+        //               </DeactivateButton>
+        //             </LeftColumn>
+        //             <RightColumn></RightColumn>
+        //           </ColumnContainer>
+        //         </>
+        //       )}
+        //     </Box>
+        //   </BoxContainer>
+        // </>
+    //  );
     } else if (currentPage === "security") {
       return (
         <>
