@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Switch from "../components/Switch";
-
-import AccountSettings from "../components/AccountSettings";
 import {
   CenteredContainer,
   BoxContainer,
@@ -301,13 +299,10 @@ const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
     </div>
   );
 };
-const EmpSetting = () => {
-  // const [user, setUser] = useState(useSelector((state) => state.user));
-  const [currentPage, setCurrentPage] = useState("account");
-
+const AccountSetting = () => {
+  const [user, setUser] = useState(useSelector((state) => state.user));
   const [buttonClicked, setButtonClicked] = useState("Deactivate");
   const [isChecked, setIsChecked] = useState(false);
-
   const handleButtonClick = (buttonName) => {
     setButtonClicked(buttonName);
   };
@@ -323,12 +318,349 @@ const EmpSetting = () => {
       // Handle deletion
     }
   };
+  return (
+    <>
+      <BoxContainer>
+        <Box>
+          <H6>Profile Details</H6>
+          <hr />
+          <UploadContainer style={{ marginBottom: "20px" }}>
+            <UploadBox />
+            <PictureUploadButton style={{ fontSize: "14px" }}>
+              Upload
+            </PictureUploadButton>
+
+            <ResetButton> Reset</ResetButton>
+          </UploadContainer>
+
+          <div style={{ display: "flex" }}>
+            <ColumnContainer>
+              <LeftColumn style={{ marginBottom: "20px" }}>
+                <FormGroup>
+                  <FormLabel>Name:</FormLabel>
+                  <FormInput
+                    type="text"
+                    value={user.user.name}
+                    placeholder={" "}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Email:</FormLabel>
+                  <FormInput
+                    type="email"
+                    value={user.user.email}
+                    disabled={"disabled"}
+                    placeholder={"ABC@emaple.com"}
+                  />
+                </FormGroup>
+              </LeftColumn>
+              <RightColumn>
+                <FormGroup>
+                  <FormLabel>Phone:</FormLabel>
+                  <FormInput
+                    type="tel"
+                    value={user.user.phoneNo[0]}
+                    placeholder={"+92"}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Address:</FormLabel>
+                  <FormInput type="text" placeholder={"ABC STREET"} />
+                </FormGroup>
+              </RightColumn>
+            </ColumnContainer>
+          </div>
+          <FormButton style={{ marginBottom: "10px" }}>Save changes</FormButton>
+          <PreviousButton> Discard</PreviousButton>
+        </Box>
+      </BoxContainer>
+
+      <ButtonContainer>
+        <StyledButton
+          onClick={() => handleButtonClick("Deactivate")}
+          currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
+        >
+          <AiOutlineUser />
+          Deactivate
+        </StyledButton>
+
+        <StyledButton
+          onClick={() => handleButtonClick("Delete")}
+          currentPage={buttonClicked === "Delete" ? "Delete" : ""}
+        >
+          <AiOutlineUser />
+          Delete
+        </StyledButton>
+      </ButtonContainer>
+
+      <BoxContainer visible={buttonClicked !== null}>
+        <Box>
+          {buttonClicked === "Deactivate" && (
+            <CheckboxLabel style={{ marginBottom: "10px" }}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />{" "}
+              I confirm my account deactivation
+            </CheckboxLabel>
+          )}
+
+          {buttonClicked === "Delete" && (
+            <CheckboxLabel style={{ marginBottom: "10px" }}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />{" "}
+              I confirm my account deletion
+            </CheckboxLabel>
+          )}
+
+          {isChecked && (
+            <>
+              <Warningbox>
+                <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
+                  Are you sure you want to {buttonClicked.toLowerCase()} this
+                  account
+                </P>
+                {(buttonClicked == "Delete" && (
+                  <P style={{ marginLeft: "10px" }}>
+                    Once you {buttonClicked.toLowerCase()} the account there is
+                    no going back
+                  </P>
+                )) || (
+                  <P style={{ marginLeft: "10px" }}>
+                    You can contact administrator to reactivate your account
+                  </P>
+                )}
+              </Warningbox>
+              <ColumnContainer>
+                <LeftColumn>
+                  <FormLabel>Enter password:</FormLabel>
+                  <FormInput type="password" />
+                  <DeactivateButton onClick={handleDeactivateDelete}>
+                    {buttonClicked === "Deactivate" ? "Deactivate" : "Delete"}
+                  </DeactivateButton>
+                </LeftColumn>
+                <RightColumn></RightColumn>
+              </ColumnContainer>
+            </>
+          )}
+        </Box>
+      </BoxContainer>
+    </>
+  );
+};
+const SecuritySetting = () => {
+  return (
+    <>
+      <BoxContainer>
+        <Box>
+          <H6>Change Password</H6>
+          <hr />
+
+          <div style={{ display: "flex" }}>
+            <ColumnContainer>
+              <LeftColumn>
+                <FormGroup>
+                  <FormLabel>Current Password:</FormLabel>
+                  <FormInput type="password" id="currentPassword" />
+                </FormGroup>
+
+                <FormGroup>
+                  <FormLabel>New Password:</FormLabel>
+                  <FormInput type="password" id="password" />
+                </FormGroup>
+              </LeftColumn>
+
+              <RightColumn>
+                <InvisibleElement>
+                  <FormGroup>
+                    <FormLabel>Retype Password:</FormLabel>
+                    <FormInput type="password" id="nonepassword" />
+                  </FormGroup>
+                </InvisibleElement>
+                <FormGroup>
+                  <FormLabel>Retype Password:</FormLabel>
+                  <FormInput type="password" id="confirmPassword" />
+                </FormGroup>
+              </RightColumn>
+            </ColumnContainer>
+          </div>
+          <div>
+            <H6>Password Requirements</H6>
+            <ul>
+              <li>Minimum 8 characters</li>
+              <li>At least one lowercase letter</li>
+              <li>At least one number</li>
+            </ul>
+          </div>
+
+          <div>
+            <FormButton style={{ marginBottom: "10px" }}>Save</FormButton>
+            <PreviousButton>Discard</PreviousButton>
+          </div>
+        </Box>
+      </BoxContainer>
+      <BoxContainer>
+        <Box>
+          <H6>Two-Step Verification</H6>
+          <hr />
+          <ColumnContainer>
+            <LeftColumn>
+              <P style={{ fontWeight: "bold", fontSize: "13px" }}>
+                Two-factor authentication is not yet enabled.
+              </P>
+              <P style={{ fontSize: "13px" }}>
+                Two-factor authentication adds an additional layer of security
+                to your account by requiring more than just a password to log
+                in. <span>Learn more</span>
+              </P>
+            </LeftColumn>
+            <RightColumn></RightColumn>
+          </ColumnContainer>
+
+          <FormButton style={{ marginBottom: "10px" }}>
+            Enable Two-Factor Authentication
+          </FormButton>
+        </Box>
+      </BoxContainer>
+
+      <BoxContainer>
+        <Box>
+          <H6>Create an API Key</H6>
+
+          <ColumnContainer>
+            <LeftColumn>
+              <FormGroup>
+                <FormLabel>Choose the API Key:</FormLabel>
+                <FormInput type="text" id="apiKey" />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>Name the API Key:</FormLabel>
+                <FormInput type="text" id="apiKeyName" />
+              </FormGroup>
+
+              <FormButton>Create Key</FormButton>
+            </LeftColumn>
+            <RightColumn>
+              <Image src="/API.jpg" alt="API Key Image" />
+            </RightColumn>
+          </ColumnContainer>
+        </Box>
+      </BoxContainer>
+      <BoxContainer>
+        <Box>
+          <H6>API Key List & Access</H6>
+          <P>
+            An API key is a simle encrypted string that identifies an
+            application without any principal. They are usefull for accessing
+            public data anonmymously, and are used to associate API requests
+            with your project for quota and billing
+          </P>
+        </Box>
+        <APIbox>
+          <APIOptionsButton>
+            <BiDotsVerticalRounded />
+          </APIOptionsButton>
+
+          <P style={{ display: "inline-block", marginRight: "10px" }}>
+            {" "}
+            Server Key 1
+          </P>
+          <SuccessBadge>Full Access</SuccessBadge>
+          <P style={{ fontWeight: "bold" }}>23e-333-3434-343-4a-asdasd-3ed3d</P>
+          <P>Created on Apr,2020,18:20,GTM+4:10</P>
+        </APIbox>
+      </BoxContainer>
+
+      <hr />
+    </>
+  );
+};
+const NotificationsSetting = () => {
+  return (
+    <BoxContainer>
+      <Box>
+        <H6>Notification</H6>
+        <hr />
+        <p style={{ fontSize: "13px" }}>
+          We need permission from your browser to show notifications. Request
+          permission:
+        </p>
+
+        <TableContainer>
+          <Table>
+            <thead>
+              <Tr>
+                <Th>Type</Th>
+                <Th>Email</Th>
+                <Th>Browser</Th>
+                <Th>APP</Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Td>New of you</Td>
+              <Td>
+                <input type="checkbox" />
+              </Td>
+              <Td>
+                <input type="checkbox" />
+              </Td>
+              <Td>
+                <input type="checkbox" />
+              </Td>
+            </tbody>
+          </Table>
+        </TableContainer>
+        <ColumnContainer>
+          <LeftColumn>
+            <FormGroup>
+              <FormLabel>When should we send you notifications?</FormLabel>
+              <FormInput type="text" id="notificationTiming" />
+            </FormGroup>
+          </LeftColumn>
+          <RightColumn></RightColumn>{" "}
+        </ColumnContainer>
+        <div>
+          <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
+          <PreviousButton>Discard</PreviousButton>
+        </div>
+      </Box>
+    </BoxContainer>
+  );
+};
+
+const BillingSetting = () => {
+  return (
+    <Box>
+      <P>Notification Settings</P>
+    </Box>
+  );
+};
+
+const ConnectionSetting = () => {
+  return (
+    <BoxContainer>
+      <Box>
+        <H6>Connected Accounts</H6>
+        <P>Display content from your connected accounts on your site</P>
+
+        <GoogleImageWithTextAndSwitch imageUrl="/Googlepng.png" text="Google" />
+        <GoogleImageWithTextAndSwitch imageUrl="/Slack.png" text="Slack" />
+      </Box>
+    </BoxContainer>
+  );
+};
+
+const CompanySetting=()=>{
   const initialSwitchStates = {
     Monday: false,
     Tuesday: false,
     Wednesday: false,
   };
-
   const [switchStates, setSwitchStates] = useState(initialSwitchStates);
 
   const handleSwitchChange = (day) => {
@@ -337,432 +669,105 @@ const EmpSetting = () => {
       [day]: !prevState[day],
     }));
   };
+  
+  return (
+    <>
+      <BoxContainer>
+        <Box>
+          <H6>Company Logo</H6>
+          <UploadContainer style={{ marginBottom: "20px" }}>
+            <UploadBox />
+            <PictureUploadButton style={{ fontSize: "14px" }}>
+              Upload
+            </PictureUploadButton>
 
+            <ResetButton> Reset</ResetButton>
+          </UploadContainer>
+          <ColumnContainer>
+            <LeftColumn>
+              <FormGroup>
+                <FormLabel>E-mail</FormLabel>
+                <FormInput type="text" placeholder={" "} />
+              </FormGroup>
+            </LeftColumn>
+            <RightColumn>
+              <FormGroup>
+                <FormLabel>Company</FormLabel>
+                <FormInput type="text" />
+              </FormGroup>
+            </RightColumn>
+          </ColumnContainer>
+          <FormButton>Save changes</FormButton>
+          <PreviousButton style={{ marginBottom: "10px" }}>
+            {" "}
+            Reset
+          </PreviousButton>
+        </Box>
+      </BoxContainer>
+
+      <BoxContainer>
+        <Box>
+          <H6>Operating Hours</H6>
+          <ColumnContainer1>
+            {/* <LeftColumn> */}
+            <div>
+              {Object.keys(switchStates).map((day) => (
+                <div key={day}>
+                  <SwitchContainer>
+                    <Switch
+                      checked={switchStates[day]}
+                      onChange={() => handleSwitchChange(day)}
+                    />
+                    <span>{day}</span>
+
+                    {switchStates[day] ? (
+                      <div
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
+                        <SuccessBadge>Opens</SuccessBadge>
+                        <Timer isBadgeOpen={switchStates[day]} />
+                      </div>
+                    ) : (
+                      <div style={{ marginLeft: "auto" }}>
+                        <DangerBadge>Closed</DangerBadge>
+                      </div>
+                    )}
+                  </SwitchContainer>
+                </div>
+              ))}
+            </div>
+            {/* </LeftColumn> */}
+          </ColumnContainer1>
+
+          <FormButton style={{ marginBottom: "10px" }}>
+            Save Changes
+          </FormButton>
+        </Box>
+      </BoxContainer>
+      <hr />
+    </>
+  );
+}
+
+const EmpSetting = () => {
+  const [currentPage, setCurrentPage] = useState("account");
+
+ 
+
+ 
   const renderContent = () => {
     if (currentPage === "account") {
-      return(
-        <>
-        <AccountSettings/>
-        </>
-      )
-     // return (
-        // <>
-        //   <BoxContainer>
-        //     <Box>
-        //       <H6>Profile Details</H6>
-        //       <hr />
-        //       <UploadContainer style={{ marginBottom: "20px" }}>
-        //         <UploadBox />
-        //         <PictureUploadButton style={{ fontSize: "14px" }}>
-        //           Upload
-        //         </PictureUploadButton>
-
-        //         <ResetButton> Reset</ResetButton>
-        //       </UploadContainer>
-
-        //       <div style={{ display: "flex" }}>
-        //         <ColumnContainer>
-        //           <LeftColumn style={{ marginBottom: "20px" }}>
-        //             <FormGroup>
-        //               <FormLabel>Name:</FormLabel>
-        //               <FormInput
-        //                 type="text"
-        //                 value={user.user.name}
-        //                 placeholder={" "}
-        //               />
-        //             </FormGroup>
-        //             <FormGroup>
-        //               <FormLabel>Email:</FormLabel>
-        //               <FormInput
-        //                 type="email"
-        //                 value={user.user.email}
-        //                 disabled={"disabled"}
-        //                 placeholder={"ABC@emaple.com"}
-        //               />
-        //             </FormGroup>
-        //           </LeftColumn>
-        //           <RightColumn>
-        //             <FormGroup>
-        //               <FormLabel>Phone:</FormLabel>
-        //               <FormInput
-        //                 type="tel"
-        //                 value={user.user.phoneNo[0]}
-        //                 placeholder={"+92"}
-        //               />
-        //             </FormGroup>
-        //             <FormGroup>
-        //               <FormLabel>Address:</FormLabel>
-        //               <FormInput type="text" placeholder={"ABC STREET"} />
-        //             </FormGroup>
-        //           </RightColumn>
-        //         </ColumnContainer>
-        //       </div>
-        //       <FormButton style={{ marginBottom: "10px" }}>
-        //         Save changes
-        //       </FormButton>
-        //       <PreviousButton> Discard</PreviousButton>
-        //     </Box>
-        //   </BoxContainer>
-
-        //   <ButtonContainer>
-        //     <StyledButton
-        //       onClick={() => handleButtonClick("Deactivate")}
-        //       currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
-        //     >
-        //       <AiOutlineUser />
-        //       Deactivate
-        //     </StyledButton>
-
-        //     <StyledButton
-        //       onClick={() => handleButtonClick("Delete")}
-        //       currentPage={buttonClicked === "Delete" ? "Delete" : ""}
-        //     >
-        //       <AiOutlineUser />
-        //       Delete
-        //     </StyledButton>
-        //   </ButtonContainer>
-
-        //   <BoxContainer visible={buttonClicked !== null}>
-        //     <Box>
-        //       {buttonClicked === "Deactivate" && (
-        //         <CheckboxLabel style={{ marginBottom: "10px" }}>
-        //           <input
-        //             type="checkbox"
-        //             checked={isChecked}
-        //             onChange={handleCheckboxChange}
-        //           />{" "}
-        //           I confirm my account deactivation
-        //         </CheckboxLabel>
-        //       )}
-
-        //       {buttonClicked === "Delete" && (
-        //         <CheckboxLabel style={{ marginBottom: "10px" }}>
-        //           <input
-        //             type="checkbox"
-        //             checked={isChecked}
-        //             onChange={handleCheckboxChange}
-        //           />{" "}
-        //           I confirm my account deletion
-        //         </CheckboxLabel>
-        //       )}
-
-        //       {isChecked && (
-        //         <>
-        //           <Warningbox>
-        //             <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
-        //               Are you sure you want to {buttonClicked.toLowerCase()}{" "}
-        //               this account
-        //             </P>
-        //             {(buttonClicked == "Delete" && (
-        //               <P style={{ marginLeft: "10px" }}>
-        //                 Once you {buttonClicked.toLowerCase()} the account there
-        //                 is no going back
-        //               </P>
-        //             )) || (
-        //               <P style={{ marginLeft: "10px" }}>
-        //                 You can contact administrator to reactivate your account
-        //               </P>
-        //             )}
-        //           </Warningbox>
-        //           <ColumnContainer>
-        //             <LeftColumn>
-        //               <FormLabel>Enter password:</FormLabel>
-        //               <FormInput type="password" />
-        //               <DeactivateButton onClick={handleDeactivateDelete}>
-        //                 {buttonClicked === "Deactivate"
-        //                   ? "Deactivate"
-        //                   : "Delete"}
-        //               </DeactivateButton>
-        //             </LeftColumn>
-        //             <RightColumn></RightColumn>
-        //           </ColumnContainer>
-        //         </>
-        //       )}
-        //     </Box>
-        //   </BoxContainer>
-        // </>
-    //  );
+      return <AccountSetting />;
     } else if (currentPage === "security") {
-      return (
-        <>
-          <BoxContainer>
-            <Box>
-              <H6>Change Password</H6>
-              <hr />
-
-              <div style={{ display: "flex" }}>
-                <ColumnContainer>
-                  <LeftColumn>
-                    <FormGroup>
-                      <FormLabel>Current Password:</FormLabel>
-                      <FormInput type="password" id="currentPassword" />
-                    </FormGroup>
-
-                    <FormGroup>
-                      <FormLabel>New Password:</FormLabel>
-                      <FormInput type="password" id="password" />
-                    </FormGroup>
-                  </LeftColumn>
-
-                  <RightColumn>
-                    <InvisibleElement>
-                      <FormGroup>
-                        <FormLabel>Retype Password:</FormLabel>
-                        <FormInput type="password" id="nonepassword" />
-                      </FormGroup>
-                    </InvisibleElement>
-                    <FormGroup>
-                      <FormLabel>Retype Password:</FormLabel>
-                      <FormInput type="password" id="confirmPassword" />
-                    </FormGroup>
-                  </RightColumn>
-                </ColumnContainer>
-              </div>
-              <div>
-                <H6>Password Requirements</H6>
-                <ul>
-                  <li>Minimum 8 characters</li>
-                  <li>At least one lowercase letter</li>
-                  <li>At least one number</li>
-                </ul>
-              </div>
-
-              <div>
-                <FormButton style={{ marginBottom: "10px" }}>Save</FormButton>
-                <PreviousButton>Discard</PreviousButton>
-              </div>
-            </Box>
-          </BoxContainer>
-          <BoxContainer>
-            <Box>
-              <H6>Two-Step Verification</H6>
-              <hr />
-              <ColumnContainer>
-                <LeftColumn>
-                  <P style={{ fontWeight: "bold", fontSize: "13px" }}>
-                    Two-factor authentication is not yet enabled.
-                  </P>
-                  <P style={{ fontSize: "13px" }}>
-                    Two-factor authentication adds an additional layer of
-                    security to your account by requiring more than just a
-                    password to log in. <span>Learn more</span>
-                  </P>
-                </LeftColumn>
-                <RightColumn></RightColumn>
-              </ColumnContainer>
-
-              <FormButton style={{ marginBottom: "10px" }}>
-                Enable Two-Factor Authentication
-              </FormButton>
-            </Box>
-          </BoxContainer>
-
-          <BoxContainer>
-            <Box>
-              <H6>Create an API Key</H6>
-
-              <ColumnContainer>
-                <LeftColumn>
-                  <FormGroup>
-                    <FormLabel>Choose the API Key:</FormLabel>
-                    <FormInput type="text" id="apiKey" />
-                  </FormGroup>
-
-                  <FormGroup>
-                    <FormLabel>Name the API Key:</FormLabel>
-                    <FormInput type="text" id="apiKeyName" />
-                  </FormGroup>
-
-                  <FormButton>Create Key</FormButton>
-                </LeftColumn>
-                <RightColumn>
-                  <Image src="/API.jpg" alt="API Key Image" />
-                </RightColumn>
-              </ColumnContainer>
-            </Box>
-          </BoxContainer>
-          <BoxContainer>
-            <Box>
-              <H6>API Key List & Access</H6>
-              <P>
-                An API key is a simle encrypted string that identifies an
-                application without any principal. They are usefull for
-                accessing public data anonmymously, and are used to associate
-                API requests with your project for quota and billing
-              </P>
-            </Box>
-            <APIbox>
-              <APIOptionsButton>
-                <BiDotsVerticalRounded />
-              </APIOptionsButton>
-
-              <P style={{ display: "inline-block", marginRight: "10px" }}>
-                {" "}
-                Server Key 1
-              </P>
-              <SuccessBadge>Full Access</SuccessBadge>
-              <P style={{ fontWeight: "bold" }}>
-                23e-333-3434-343-4a-asdasd-3ed3d
-              </P>
-              <P>Created on Apr,2020,18:20,GTM+4:10</P>
-            </APIbox>
-          </BoxContainer>
-
-          <hr />
-        </>
-      );
+      return <SecuritySetting />;
     } else if (currentPage === "Notifications") {
-      return (
-        <BoxContainer>
-          <Box>
-            <H6>Notification</H6>
-            <hr />
-            <p style={{ fontSize: "13px" }}>
-              We need permission from your browser to show notifications.
-              Request permission:
-            </p>
-
-            <TableContainer>
-              <Table>
-                <thead>
-                  <Tr>
-                    <Th>Type</Th>
-                    <Th>Email</Th>
-                    <Th>Browser</Th>
-                    <Th>APP</Th>
-                  </Tr>
-                </thead>
-                <tbody>
-                  <Td>New of you</Td>
-                  <Td>
-                    <input type="checkbox" />
-                  </Td>
-                  <Td>
-                    <input type="checkbox" />
-                  </Td>
-                  <Td>
-                    <input type="checkbox" />
-                  </Td>
-                </tbody>
-              </Table>
-            </TableContainer>
-            <ColumnContainer>
-              <LeftColumn>
-                <FormGroup>
-                  <FormLabel>When should we send you notifications?</FormLabel>
-                  <FormInput type="text" id="notificationTiming" />
-                </FormGroup>
-              </LeftColumn>
-              <RightColumn></RightColumn>{" "}
-            </ColumnContainer>
-            <div>
-              <FormButton style={{ marginBottom: "10px" }}>
-                Save Changes
-              </FormButton>
-              <PreviousButton>Discard</PreviousButton>
-            </div>
-          </Box>
-        </BoxContainer>
-      );
+      return <NotificationsSetting />;
     } else if (currentPage === "AccountBilling & Plans") {
-      return (
-        <Box>
-          <P>Notification Settings</P>
-        </Box>
-      );
+      return <BillingSetting />;
     } else if (currentPage === "connections") {
-      return (
-        <BoxContainer>
-          <Box>
-            <H6>Connected Accounts</H6>
-            <P>Display content from your connected accounts on your site</P>
-
-            <GoogleImageWithTextAndSwitch
-              imageUrl="/Googlepng.png"
-              text="Google"
-            />
-            <GoogleImageWithTextAndSwitch imageUrl="/Slack.png" text="Slack" />
-          </Box>
-        </BoxContainer>
-      );
+      return <ConnectionSetting />;
     } else if (currentPage === "company") {
-      return (
-        <>
-          <BoxContainer>
-            <Box>
-              <H6>Company Logo</H6>
-              <UploadContainer style={{ marginBottom: "20px" }}>
-                <UploadBox />
-                <PictureUploadButton style={{ fontSize: "14px" }}>
-                  Upload
-                </PictureUploadButton>
-
-                <ResetButton> Reset</ResetButton>
-              </UploadContainer>
-              <ColumnContainer>
-                <LeftColumn>
-                  <FormGroup>
-                    <FormLabel>E-mail</FormLabel>
-                    <FormInput type="text" placeholder={" "} />
-                  </FormGroup>
-                </LeftColumn>
-                <RightColumn>
-                  <FormGroup>
-                    <FormLabel>Company</FormLabel>
-                    <FormInput type="text" />
-                  </FormGroup>
-                </RightColumn>
-              </ColumnContainer>
-              <FormButton>Save changes</FormButton>
-              <PreviousButton style={{ marginBottom: "10px" }}>
-                {" "}
-                Reset
-              </PreviousButton>
-            </Box>
-          </BoxContainer>
-
-          <BoxContainer>
-            <Box>
-              <H6>Operating Hours</H6>
-              <ColumnContainer1>
-                {/* <LeftColumn> */}
-                <div>
-                  {Object.keys(switchStates).map((day) => (
-                    <div key={day}>
-                      <SwitchContainer>
-                        <Switch
-                          checked={switchStates[day]}
-                          onChange={() => handleSwitchChange(day)}
-                        />
-                        <span>{day}</span>
-
-                        {switchStates[day] ? (
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <SuccessBadge>Opens</SuccessBadge>
-                            <Timer isBadgeOpen={switchStates[day]} />
-                          </div>
-                        ) : (
-                          <div style={{ marginLeft: "auto" }}>
-                            <DangerBadge>Closed</DangerBadge>
-                          </div>
-                        )}
-                      </SwitchContainer>
-                    </div>
-                  ))}
-                </div>
-                {/* </LeftColumn> */}
-              </ColumnContainer1>
-
-              <FormButton style={{ marginBottom: "10px" }}>
-                Save Changes
-              </FormButton>
-            </Box>
-          </BoxContainer>
-          <hr />
-        </>
-      );
+      return <CompanySetting/>;
     }
   };
 
