@@ -31,9 +31,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiLockAlt, BiDotsVerticalRounded } from "react-icons/bi";
 import { useSelector } from "react-redux";
-const LargeIcon = styled.span`
-  font-size: 24px; /* Adjust the icon size as needed */
-`;
+
 export const LeftColumn = styled.div`
   flex: 1;
   padding-right: 10px;
@@ -206,8 +204,8 @@ const SwitchContainer = styled.div`
 `;
 const TimeInputContainer = styled.div`
   display: flex;
-  
-  margin-top: 0px; 
+
+  margin-top: 0px;
 `;
 
 const TimeInput = styled.input`
@@ -301,7 +299,7 @@ const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
 };
 const AccountSetting = () => {
   const [user, setUser] = useState(useSelector((state) => state.user));
-  
+
   return (
     <>
       <BoxContainer>
@@ -358,12 +356,10 @@ const AccountSetting = () => {
           <PreviousButton> Discard</PreviousButton>
         </Box>
       </BoxContainer>
-
-      
     </>
   );
 };
-const AccountDeactivateSetting=()=>{
+const AccountDeactivateSetting = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [buttonClicked, setButtonClicked] = useState("Deactivate");
   const handleButtonClick = (buttonName) => {
@@ -381,9 +377,9 @@ const AccountDeactivateSetting=()=>{
       // Handle deletion
     }
   };
-  return(
+  return (
     <>
-    <ButtonContainer>
+      <ButtonContainer>
         <StyledButton
           onClick={() => handleButtonClick("Deactivate")}
           currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
@@ -457,10 +453,9 @@ const AccountDeactivateSetting=()=>{
           )}
         </Box>
       </BoxContainer>
-      </>
+    </>
   );
-  
-}
+};
 const SecuritySetting = () => {
   return (
     <>
@@ -512,6 +507,13 @@ const SecuritySetting = () => {
           </div>
         </Box>
       </BoxContainer>
+      
+    </>
+  );
+};
+const SecurtiyTwoStepSetting = () => {
+  return (
+    <>
       <BoxContainer>
         <Box>
           <H6>Two-Step Verification</H6>
@@ -535,8 +537,14 @@ const SecuritySetting = () => {
           </FormButton>
         </Box>
       </BoxContainer>
+    </>
+  );
+};
+const SecurityCreateAPISetting=()=>{
+  return(
+    <>
 
-      <BoxContainer>
+<BoxContainer>
         <Box>
           <H6>Create an API Key</H6>
 
@@ -560,7 +568,17 @@ const SecuritySetting = () => {
           </ColumnContainer>
         </Box>
       </BoxContainer>
-      <BoxContainer>
+
+
+
+    </>
+  );
+}
+const SecurityAPIKeyListSetting=()=>
+{
+  return (
+    <>
+ <BoxContainer>
         <Box>
           <H6>API Key List & Access</H6>
           <P>
@@ -588,7 +606,8 @@ const SecuritySetting = () => {
       <hr />
     </>
   );
-};
+}
+
 const NotificationsSetting = () => {
   return (
     <BoxContainer>
@@ -664,21 +683,9 @@ const ConnectionSetting = () => {
   );
 };
 
-const CompanySetting=()=>{
-  const initialSwitchStates = {
-    Monday: false,
-    Tuesday: false,
-    Wednesday: false,
-  };
-  const [switchStates, setSwitchStates] = useState(initialSwitchStates);
+const CompanySetting = () => {
+ 
 
-  const handleSwitchChange = (day) => {
-    setSwitchStates((prevState) => ({
-      ...prevState,
-      [day]: !prevState[day],
-    }));
-  };
-  
   return (
     <>
       <BoxContainer>
@@ -714,7 +721,27 @@ const CompanySetting=()=>{
         </Box>
       </BoxContainer>
 
-      <BoxContainer>
+     
+    </>
+  );
+};
+const CompanyOperatingHourSetting=()=>{
+  const initialSwitchStates = {
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+  };
+  const [switchStates, setSwitchStates] = useState(initialSwitchStates);
+
+  const handleSwitchChange = (day) => {
+    setSwitchStates((prevState) => ({
+      ...prevState,
+      [day]: !prevState[day],
+    }));
+  };
+  return(
+    <>
+<BoxContainer>
         <Box>
           <H6>Operating Hours</H6>
           <ColumnContainer1>
@@ -730,9 +757,7 @@ const CompanySetting=()=>{
                     <span>{day}</span>
 
                     {switchStates[day] ? (
-                      <div
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
+                      <div style={{ display: "flex", alignItems: "center" }}>
                         <SuccessBadge>Opens</SuccessBadge>
                         <Timer isBadgeOpen={switchStates[day]} />
                       </div>
@@ -748,12 +773,13 @@ const CompanySetting=()=>{
             {/* </LeftColumn> */}
           </ColumnContainer1>
 
-          <FormButton style={{ marginBottom: "10px" }}>
-            Save Changes
-          </FormButton>
+          <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
         </Box>
       </BoxContainer>
       <hr />
+
+
+    
     </>
   );
 }
@@ -761,20 +787,23 @@ const CompanySetting=()=>{
 const EmpSetting = () => {
   const [currentPage, setCurrentPage] = useState("account");
 
- 
-
- 
   const renderContent = () => {
     if (currentPage === "account") {
       return (
         <>
-      <AccountSetting />
-      <AccountDeactivateSetting/>
-      </>
-      )
-      return <AccountDeactivateSetting/>;
+          <AccountSetting />
+          <AccountDeactivateSetting />
+        </>
+      );
     } else if (currentPage === "security") {
-      return <SecuritySetting />;
+      return (
+        <>
+          <SecuritySetting />
+          <SecurtiyTwoStepSetting />
+          <SecurityCreateAPISetting/>
+          <SecurityAPIKeyListSetting/>
+        </>
+      );
     } else if (currentPage === "Notifications") {
       return <NotificationsSetting />;
     } else if (currentPage === "AccountBilling & Plans") {
@@ -782,7 +811,15 @@ const EmpSetting = () => {
     } else if (currentPage === "connections") {
       return <ConnectionSetting />;
     } else if (currentPage === "company") {
-      return <CompanySetting/>;
+      return (
+      <>
+      
+      
+      <CompanySetting />
+      <CompanyOperatingHourSetting/>
+      
+      </>
+      )
     }
   };
 
