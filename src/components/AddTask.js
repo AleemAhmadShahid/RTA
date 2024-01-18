@@ -13,7 +13,7 @@ export const Input = styled.input`
     outline: none;
   }
 `;
-const Taskinput = styled.div`
+const Taskinput = styled.textarea`
 width: 100%;
 padding: 10px;
 border: 1px solid #ccc;

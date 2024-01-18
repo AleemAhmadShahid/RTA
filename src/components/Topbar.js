@@ -107,6 +107,7 @@ const DropdownButton = styled.button`
   }
   &:hover {
     background-color: #ffa500;
+    color:white;
   }
 `;
 const DropdownGrid = styled.div`

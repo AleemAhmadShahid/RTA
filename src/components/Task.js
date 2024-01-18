@@ -3,6 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
 import CardsPopup from "../pages/CardsPopup";
+// import GenericPopup from "../pages/GenericPopup";
 import {
   AiOutlineBell,
   AiOutlineMail,
@@ -14,25 +15,27 @@ import {
   AiOutlineArrowRight,
 } from "react-icons/ai";
 import { RxPencil1 } from "react-icons/rx";
+import GenericPopup from "../pages/GenericPopup";
 const Container = styled.div`
   box-shadow: 5px;
   border-radius: 10px;
-  padding: 8px ;
+  padding: 8px;
   margin-bottom: 8px;
   background-color: white;
   position: relative;
   cursor: pointer;
   box-shadow: 0px 1px 0px 0px rgba(0, 0.1, 0, 0.1);
-
+  // z-index:3;
   &:hover .edit-button {
     display: block;
   }
+  
 `;
 
 export const EditButton = styled.button`
   position: absolute;
   top: 4px;
- 
+
   right: 6px;
   background: none;
   border: none;
@@ -47,8 +50,9 @@ export const OptionsMenu = styled.div`
   border-radius: 5px;
   padding: 5px;
   margin-top: -35px;
-  margin-left: 210px;
+  margin-left: 250px;
   z-index: 1;
+  
 `;
 
 export const OptionItem = styled.div`
@@ -59,12 +63,12 @@ export const OptionItem = styled.div`
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
-  
+
   &:hover {
     background-color: lightgrey;
   }
-`;
 
+`;
 
 const TaskContent = styled.div`
   display: flex;
@@ -96,16 +100,25 @@ const TaskText = styled.div`
 const WatchIcon = styled.div`
   position: relative;
   margin-top: 5px;
-  
+
   left: 5px;
   bottom: 0;
   float: right;
   font-size: 14px;
 `;
+const LabelLine=styled.div`
+background-color: ${(props) => props.color || "transparent"};
+height:8px;
+width:40px;
+border-radius:5px;
+
+`
 
 function Task(props) {
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
+
   const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(null);
   const menuRef = useRef(null);
 
   const toggleOptionsMenu = () => {
@@ -175,6 +188,7 @@ function Task(props) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          // isOpen={isOptionsMenuOpen}
         >
           <TaskContent>
             <TaskImageContainer>
@@ -185,7 +199,13 @@ function Task(props) {
                   alt="Task Image"
                 />
               ) : null}
-              <TaskText>{props.task.content}</TaskText>
+              
+
+              <LabelLine color={selectedColor} />
+
+
+
+              <TaskText >{props.task.content}</TaskText>
             </TaskImageContainer>
             {isWatched && (
               <WatchIcon>
@@ -194,10 +214,13 @@ function Task(props) {
             )}
           </TaskContent>
 
-          <EditButton className="edit-button" onClick={toggleOptionsMenu}>
-            {/* <MdOutlineEdit /> */}
+          <EditButton
+            className="edit-button"
+            onClick={() => setIsOptionsMenuOpen(!isOptionsMenuOpen)}
+          >
             <RxPencil1 />
           </EditButton>
+
           <OptionsMenu isOpen={isOptionsMenuOpen} ref={menuRef}>
             <OptionItem
               onClick={() =>
@@ -218,9 +241,14 @@ function Task(props) {
               onImageSelect={handleTaskImage}
               onWatchToggle={handleWatchToggle}
               // column={props.column.title}
-              
+              // onColorChange={(color) => setSelectedColor(color)}
             />
-          )}
+           
+          )} 
+           {/* <GenericPopup
+            onColorChange={(color) => setSelectedColor(color)}
+            />  */}
+
         </Container>
       )}
     </Draggable>

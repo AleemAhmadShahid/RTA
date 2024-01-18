@@ -27,7 +27,7 @@ const Loader = styled.div`
 `;
 
 const Image = styled.img`
-  max-width: 200px; /* Adjust the image size as needed */
+  max-width: 200px; 
 `;
 
 const LoaderComponent = ({ pageloader, size }) => {

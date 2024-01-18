@@ -82,7 +82,11 @@ const GenericPopup = ({
   left,
   top,
   heading,
+  onColorChange,
+  checkedColors,
 }) => {
+  const isColorChecked = (color) =>
+    checkedColors && checkedColors.includes(color);
   const [formValues, setFormValues] = useState({});
 
   const handleChange = (fieldName, value) => {
@@ -95,6 +99,10 @@ const GenericPopup = ({
   const handleSubmit = () => {
     onSubmit(formValues);
     onClose();
+  };
+  const handleColorChange = (color) => {
+    // Call the callback function with the selected color
+    onColorChange(color);
   };
 
   return (
@@ -117,12 +125,7 @@ const GenericPopup = ({
           />
           {field.name === "Member" && (
             <>
-              {/* <Input
-                type={field.type}
-                value={formValues[field.name] || ""}
-                onChange={(e) => handleChange(field.name, e.target.value)}
-                placeholder={field.placeholder}
-              /> */}
+              
               <AddButton
                 style={{
                   textAlign: "center",
@@ -139,11 +142,18 @@ const GenericPopup = ({
           {field.name === "Label" && (
             <LabelContainer>
               <div style={{ display: "flex" }}>
-                <LabelCheckbox type="checkbox" />
+                <LabelCheckbox
+                  type="checkbox"
+                  onChange={() => onColorChange("#4bce97")}
+                  checked={isColorChecked("#4bce97")}
+                  
+                />
                 <LabelColorStrip color="#4bce97" />{" "}
               </div>
               <div style={{ display: "flex" }}>
-                <LabelCheckbox type="checkbox" />
+                <LabelCheckbox type="checkbox" 
+                onChange={() => onColorChange("#FFE140")}
+                checked={isColorChecked("#FFE140")}/>
                 <LabelColorStrip color="#FFE140" />{" "}
               </div>
               <div style={{ display: "flex" }}>
@@ -164,35 +174,21 @@ const GenericPopup = ({
               </div>
             </LabelContainer>
           )}
-          {field.name==="Checklist"&&(
+          {field.name === "Checklist" && (
             <AddButton
-            style={{
-              textAlign: "center",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onClick={handleSubmit}
-          >
-            {buttonText || "Submit"}
-          </AddButton>
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={handleSubmit}
+            >
+              {buttonText || "Submit"}
+            </AddButton>
           )}
         </div>
       ))}
-      <AddButton
-        style={{
-          textAlign: "center",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-
-          // Other button styles
-        }}
-        onClick={handleSubmit}
-      >
-        {buttonText || "Submit"}
-      </AddButton>
-      {/* <AddButton onClick={onCloseButtonClick || onClose}>Close</AddButton> */}
     </Box>
   );
 };

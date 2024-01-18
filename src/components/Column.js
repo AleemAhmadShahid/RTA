@@ -6,7 +6,8 @@ import AddTask from "./AddTask";
 
 import { BiDotsHorizontalRounded, BiFontSize } from "react-icons/bi";
 import { H6 } from "../pages/ForgetPassword";
-
+import { RxPencil1 } from "react-icons/rx";
+import CardsPopup from "../pages/CardsPopup";
 const Container = styled.div`
   margin-right: 8px;
   border-radius: 10px;

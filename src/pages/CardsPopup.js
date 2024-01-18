@@ -130,6 +130,16 @@ const InputContainer = styled.div`
 const SubBox = styled.div`
   background: orange;
 `;
+const ColorContainer = styled.div`
+  width: 50px;
+  border: none;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-bottom: 7px;
+  background-color: ${(props) => props.color || "transparent"};
+  border-radius: 3px;
+`;
 
 const CardsPopup = ({
   task,
@@ -226,6 +236,14 @@ const CardsPopup = ({
     setIsEditable(true);
   };
 
+
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  const handleColorChange = (color) => {
+    // Update the state with the selected color
+    setSelectedColor(color);
+  };
+
   return (
     <PopupOverlay>
       <CenterContainer>
@@ -278,8 +296,9 @@ const CardsPopup = ({
               >
                 Notification
               </H6>
+              <div   style={{  marginLeft: "40px" ,display:'flex'}}>
               <AddButton
-                style={{ width: "100px", marginLeft: "40px", color: "#172b4d" }}
+                style={{ width: "100px", marginRight: "20px", color: "#172b4d"}}
                 onClick={handleWatchClick}
               >
                 <Icon>
@@ -287,6 +306,13 @@ const CardsPopup = ({
                 </Icon>
                 Watch
               </AddButton>
+
+
+
+
+
+              <ColorContainer color={selectedColor} />
+              </div>
               <H6
                 style={{
                   fontWeight: "bold",
@@ -508,9 +534,8 @@ const CardsPopup = ({
             // Add other fields as needed
           ]}
           onClose={closeLabelPopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
+          onColorChange={handleColorChange}
+         
           buttonText="Add "
         />
       )}

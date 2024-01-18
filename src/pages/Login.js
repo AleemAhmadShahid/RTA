@@ -54,7 +54,8 @@ const LoginButton = styled.button`
   border: none;
   border-radius: 9px;
   width: 100%;
-  padding: 10px;
+  
+  height:45px;
   cursor: pointer;
   transition: background 0.3s ease;
 
@@ -94,7 +95,7 @@ const GoogleIcon = styled.img`
   // margin-right: 10px;
 `;
 const StyledH6 = styled.h6`
-  font-weight: 300; /* Thin font weight */
+  font-weight: 300; 
   font-size: 14px;
   text-align: center;
   margin-bottom: 10px;
@@ -278,7 +279,7 @@ const LoginPage = () => {
           </RememberMeLabel>
           <ForgotPasswordButton onClick={() => navigate("/forget-password")}>Forgot Password?</ForgotPasswordButton>
           <LoginButton  onClick={handleSubmit}>
-      {loading ? <LoaderComponent size={20} pageloader={false} /> : 'Log in'}
+      {loading ? <LoaderComponent  size={20} pageloader={false}  />  : 'Log in'}
   
     </LoginButton>
           {/* <StyledH6>--Don't have an account?-- */}

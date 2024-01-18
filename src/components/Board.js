@@ -121,7 +121,7 @@ function Board(props) {
    
       <CenteredContainer >
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="all-columns" direction="horizontal" type="column">
+          <Droppable droppableId="columns" direction="horizontal" type="column">
             {(provided) => (
               <Container {...provided.droppableProps} ref={provided.innerRef}>
                 {state.columnOrder.map((columnId, index) => {
