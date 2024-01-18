@@ -206,8 +206,8 @@ const SwitchContainer = styled.div`
 `;
 const TimeInputContainer = styled.div`
   display: flex;
-  // align-items: center;
-  margin-top: 0px; /* Add margin for spacing between the fields */
+  
+  margin-top: 0px; 
 `;
 
 const TimeInput = styled.input`
@@ -301,23 +301,7 @@ const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
 };
 const AccountSetting = () => {
   const [user, setUser] = useState(useSelector((state) => state.user));
-  const [buttonClicked, setButtonClicked] = useState("Deactivate");
-  const [isChecked, setIsChecked] = useState(false);
-  const handleButtonClick = (buttonName) => {
-    setButtonClicked(buttonName);
-  };
-
-  const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
-  };
-
-  const handleDeactivateDelete = () => {
-    if (buttonClicked === "Deactivate") {
-      // Handle deactivation
-    } else if (buttonClicked === "Delete") {
-      // Handle deletion
-    }
-  };
+  
   return (
     <>
       <BoxContainer>
@@ -375,7 +359,31 @@ const AccountSetting = () => {
         </Box>
       </BoxContainer>
 
-      <ButtonContainer>
+      
+    </>
+  );
+};
+const AccountDeactivateSetting=()=>{
+  const [isChecked, setIsChecked] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState("Deactivate");
+  const handleButtonClick = (buttonName) => {
+    setButtonClicked(buttonName);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+
+  const handleDeactivateDelete = () => {
+    if (buttonClicked === "Deactivate") {
+      // Handle deactivation
+    } else if (buttonClicked === "Delete") {
+      // Handle deletion
+    }
+  };
+  return(
+    <>
+    <ButtonContainer>
         <StyledButton
           onClick={() => handleButtonClick("Deactivate")}
           currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
@@ -449,9 +457,10 @@ const AccountSetting = () => {
           )}
         </Box>
       </BoxContainer>
-    </>
+      </>
   );
-};
+  
+}
 const SecuritySetting = () => {
   return (
     <>
@@ -757,7 +766,13 @@ const EmpSetting = () => {
  
   const renderContent = () => {
     if (currentPage === "account") {
-      return <AccountSetting />;
+      return (
+        <>
+      <AccountSetting />
+      <AccountDeactivateSetting/>
+      </>
+      )
+      return <AccountDeactivateSetting/>;
     } else if (currentPage === "security") {
       return <SecuritySetting />;
     } else if (currentPage === "Notifications") {
