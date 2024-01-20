@@ -5,7 +5,7 @@ import Topbar from "./components/Topbar";
 import Emp_list from "./pages/Employees/EmpMainPage";
 import Role_list from "./pages/Roles/RoleMainPage";
 import Team_list from "./pages/Teams/TeamMainPage";
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "react-router-dom"; 
+import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom"; 
 import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
@@ -17,15 +17,26 @@ import { createGetRequest } from "./global/helper";
 import { clearUser, setUser } from "./redux/userSlice";
 import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";
-
 import Board from "./components/Board";
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
+  const theme = useSelector((state) => state.theme);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (user.isAuthenticated)
+    {
+      if (location.pathname.includes('projectmanagement'))
+        document.body.style.backgroundColor = theme.projectManagement.backgroundColor;
+      else
+        document.body.style.backgroundColor = theme.default.backgroundColor;
+    }
+  })
+
+  useEffect(() => {    
     async function fetchData() {
       try {
         const response = await createGetRequest('/api/user/me/info/');
@@ -47,7 +58,6 @@ function App() {
   }
   else
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
@@ -64,10 +74,11 @@ function App() {
                 <Route path="role" element={<Role_list />} />
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />
-                <Route path="settings" element={<EmpSetting />} />
-                <Route path="board" element={<Board />} />
-              
-                
+                <Route path="settings" element={<EmpSetting />} />           
+              </Route>
+
+              <Route path="projectmanagement" element={<Sidebar />}>
+                <Route path="board" element={<Board />} /> 
               </Route>
             </>
           ) : (
@@ -85,7 +96,6 @@ function App() {
           }
         />
       </Routes>
-    </Router>
   );
 };
 

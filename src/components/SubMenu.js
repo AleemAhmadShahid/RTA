@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import {  useLocation } from "react-router-dom"; 
+
 
 const SidebarLink = styled(Link)`
   display: flex;
@@ -16,7 +18,7 @@ const SidebarLink = styled(Link)`
 
   &:hover {
     color: #ffffff;
-    background: linear-gradient(to right, #ffa500, #ffd000);
+    background: #f5f5f5;
     cursor: pointer;
     border-radius: 5px 5px 5px 5px;
   }
@@ -27,7 +29,7 @@ const SidebarLabel = styled.span`
 `;
 
 const DropdownLink = styled(Link)`
-  background: #ffffff;
+  background: ${({ active }) => (active ? 'linear-gradient(118deg, #ffa500, #ffa500)' : 'transparent')};
   height: 45px;
   padding-left: 2rem;
   display: flex;
@@ -39,18 +41,22 @@ const DropdownLink = styled(Link)`
 
   &:hover {
     color: #ffffff;
-    background: linear-gradient(to right, #ffa500, #ffd000);
+    background: #f5f5f5;
     cursor: pointer;
     border-radius: 5px 5px 5px 5px;
   }
 `;
 
 const SubMenuLink = styled(SidebarLink)`
-  background: ${({ active }) => (active ? 'linear-gradient(to right, #ffa500, #ffd000)' : 'transparent')};
+  background: ${({ active }) => (active ? 'linear-gradient(118deg, #ffa500, #ffa500)' : 'transparent')};
+  box-shadow:  ${({ active }) => (active ? 'rgba(115, 103, 240, 0.48) 0px 2px 6px' : '')};
 `;
 
 const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu }) => {
+
+  const location = useLocation();
   const [subnav, setSubnav] = useState(false);
+
 
   const showSubnav = () => {
     setSubnav(!subnav);
@@ -77,7 +83,7 @@ const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu }) => {
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            <DropdownLink to={item.path} key={index}>
+            <DropdownLink to={item.path} key={index} active={item.path == location.pathname}>
               {item.icon}
               <SidebarLabel>{item.title}</SidebarLabel>
             </DropdownLink>

@@ -289,13 +289,16 @@ const Topbar = () => {
   };
 
   const dropdownRef = useRef(null);
+  const settingsRef = useRef(null);
   
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target))
+     setIsDropdownOpen(false);
+    if (settingsRef.current && !settingsRef.current.contains(event.target))
+     setIssettingDropdownOpen(false);
+  };
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
 
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -313,7 +316,7 @@ const Topbar = () => {
             <MobileIcon sidebar={sidebar} onClick={toggleSidebar}> <CgMenuRight/></MobileIcon>
           </Sidebariconcontainer>
           <MenuIcon onClick={toggleDropdown} />
-          <DropdownContainer isOpen={isDropdownOpen}  ref={dropdownRef} >
+          <DropdownContainer isOpen={isDropdownOpen}  ref={dropdownRef}>
             <DropdownGrid>
               <div>
                 <DropdownButton>
@@ -321,7 +324,7 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>Self Service Portal</DropdownLabel>
               </div>
-              <div>
+              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/iam/employee');}}>
                 <DropdownButton>
                   <AiOutlineUser />
                 </DropdownButton>
@@ -345,7 +348,7 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>ATS</DropdownLabel>
               </div>
-              <div>
+              <div onClick={() => {setIsDropdownOpen(false); navigate('/portal/projectmanagement/board')}} >
                 <DropdownButton>
                   <AiOutlineSearch />
                 </DropdownButton>
@@ -370,11 +373,11 @@ const Topbar = () => {
         <IconContainer>
           <BellIcon />
           <SettingIcon onClick={togglesettingDropdown} />
-          <SettingDropdownContainer isOpen={issettingDropdownOpen}  ref={dropdownRef}>
+          <SettingDropdownContainer isOpen={issettingDropdownOpen}  ref={settingsRef}>
             <SettingDropdownGrid>
               <SettingDropdownItem>
                 <SettingDropdownButton
-                  onClick={() => navigate("/portal/iam/settings")}
+                  onClick={() => {setIssettingDropdownOpen(false);  navigate("/portal/iam/settings");}}
                 >
                   <AiOutlineSetting />
                   <span>Settings</span>

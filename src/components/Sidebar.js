@@ -91,16 +91,15 @@ const Sidebar = () => {
                   <SubMenu
                     item={item}
                     toggleSubMenu={() => toggleSubMenu(index)}
-                    active={activeSubMenu === index}
                   />
                   {item.subNavOpen &&
-                    item.subNav.map((subItem, subIndex) => (
+                    item.subNav.map((subItem, subIndex) => {
+                      return(
                       <SubMenu
                         item={subItem}
                         key={subIndex}
-                        active={activeSubMenu === subIndex}
-                      />
-                    ))}
+                      />);
+                      })}
                 </div>
               );
             })}
