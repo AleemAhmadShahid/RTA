@@ -21,6 +21,7 @@ border-radius: 8px;
 min-height: 70px;
 font-size: 14px;
 outline: none;
+resize: none;
 background-color:white;
 &:focus {
   border-color: blue;

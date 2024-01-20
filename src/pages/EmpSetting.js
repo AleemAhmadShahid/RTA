@@ -30,7 +30,12 @@ import {
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiLockAlt, BiDotsVerticalRounded } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser as setGlobalUser} from '../redux/userSlice';
+import {  validateAlphabeticWithSpace } from "../global/validators";
+import { StyledErrorH6 } from "./Login";
+import {createPutRequest} from '../global/helper'
+
 
 export const LeftColumn = styled.div`
   flex: 1;
@@ -232,6 +237,38 @@ const InvisibleElement = styled.div`
   }
 `;
 
+
+const handleChange = (
+  formData,
+  setFormData,
+  field,
+  value,
+  errors,
+  setErrors,
+  setError = false
+) => {
+  let data = {...formData};
+
+  const setField = (obj, keys, val) => {
+    if (keys.length === 1) obj[keys[0]] = val;
+    else {
+      const [head, ...rest] = keys;
+      if (!obj[head]) obj[head] = isNaN(parseInt(rest[0])) ? {} : [];
+      obj[head] = {...obj[head]};
+      obj[head] = setField(obj[head], rest, val);
+    }
+    return obj;
+  };
+
+  const fieldParts = field.split(".");
+  data = setField(data, fieldParts, value);
+  setFormData(data);
+  if (typeof setError === "function" && value === "")
+    setErrors(setField({ ...errors }, fieldParts, ""));
+  else if (typeof setError == "function")
+    setErrors(setField({ ...errors }, fieldParts, setError(value)));
+};
+
 const Timer = ({ switchState }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -298,7 +335,18 @@ const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
   );
 };
 const AccountSetting = () => {
-  const [user, setUser] = useState(useSelector((state) => state.user));
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.user);
+  const [user, setUser] = useState({...state});
+  const [errors, setErrors] = useState({});
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const handleSubmit = async () =>
+  {
+    dispatch(setGlobalUser(user.user));
+    const response  =  await createPutRequest(user.user,  `/api/user/${user.user._id}/`);
+    setButtonDisabled(true);
+  }
 
   return (
     <>
@@ -322,9 +370,11 @@ const AccountSetting = () => {
                   <FormLabel>Name:</FormLabel>
                   <FormInput
                     type="text"
+                    onChange={(e) => {setButtonDisabled(false);handleChange(user,setUser, 'user.name', e.target.value, errors, setErrors, validateAlphabeticWithSpace );}}
                     value={user.user.name}
                     placeholder={" "}
                   />
+                {errors?.user?.name && <StyledErrorH6>{errors?.user?.name}</StyledErrorH6>}
                 </FormGroup>
                 <FormGroup>
                   <FormLabel>Email:</FormLabel>
@@ -341,6 +391,7 @@ const AccountSetting = () => {
                   <FormLabel>Phone:</FormLabel>
                   <FormInput
                     type="tel"
+                    onChange={(e) => {setButtonDisabled(false);handleChange(user,setUser, "user.phoneNo", [e.target.value]);}}
                     value={user.user.phoneNo[0]}
                     placeholder={"+92"}
                   />
@@ -352,8 +403,8 @@ const AccountSetting = () => {
               </RightColumn>
             </ColumnContainer>
           </div>
-          <FormButton style={{ marginBottom: "10px" }}>Save changes</FormButton>
-          <PreviousButton> Discard</PreviousButton>
+          <FormButton style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }} disabled={buttonDisabled} onClick={handleSubmit}>Save changes</FormButton>
+          <PreviousButton onClick={() => {setUser(state); setButtonDisabled(true);} }> Discard</PreviousButton>
         </Box>
       </BoxContainer>
     </>
@@ -372,9 +423,7 @@ const AccountDeactivateSetting = () => {
 
   const handleDeactivateDelete = () => {
     if (buttonClicked === "Deactivate") {
-      // Handle deactivation
     } else if (buttonClicked === "Delete") {
-      // Handle deletion
     }
   };
   return (
@@ -382,7 +431,8 @@ const AccountDeactivateSetting = () => {
       <ButtonContainer>
         <StyledButton
           onClick={() => handleButtonClick("Deactivate")}
-          currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
+          currentPage={buttonClicked}
+          page={"Deactivate"}
         >
           <AiOutlineUser />
           Deactivate
@@ -390,7 +440,8 @@ const AccountDeactivateSetting = () => {
 
         <StyledButton
           onClick={() => handleButtonClick("Delete")}
-          currentPage={buttonClicked === "Delete" ? "Delete" : ""}
+          currentPage={buttonClicked}
+          page={"Delete"}
         >
           <AiOutlineUser />
           Delete
@@ -457,6 +508,16 @@ const AccountDeactivateSetting = () => {
   );
 };
 const SecuritySetting = () => {
+  const [data, setData] = useState({});
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const handleSubmit = async () =>
+  {
+    if (data.newPassword!=data.confirmPassword)
+      return;
+    const response  =  await createPutRequest(data,  `/api/user/changePassword`);
+    setButtonDisabled(true);
+  }
+
   return (
     <>
       <BoxContainer>
@@ -469,12 +530,12 @@ const SecuritySetting = () => {
               <LeftColumn>
                 <FormGroup>
                   <FormLabel>Current Password:</FormLabel>
-                  <FormInput type="password" id="currentPassword" />
+                  <FormInput value={data?.oldPassword || ""} type="password" id="currentPassword" onChange={(e) => {setButtonDisabled(false);handleChange(data,setData, "oldPassword", e.target.value);}}/>
                 </FormGroup>
 
                 <FormGroup>
                   <FormLabel>New Password:</FormLabel>
-                  <FormInput type="password" id="password" />
+                  <FormInput type="password" id="password" value={data?.newPassword || ""} onChange={(e) => {setButtonDisabled(false);handleChange(data,setData, "newPassword", e.target.value);}} />
                 </FormGroup>
               </LeftColumn>
 
@@ -487,7 +548,7 @@ const SecuritySetting = () => {
                 </InvisibleElement>
                 <FormGroup>
                   <FormLabel>Retype Password:</FormLabel>
-                  <FormInput type="password" id="confirmPassword" />
+                  <FormInput type="password" id="confirmPassword" value={data?.confirmPassword || ""} onChange={(e) => {setButtonDisabled(false);handleChange(data,setData, "confirmPassword", e.target.value);}} />
                 </FormGroup>
               </RightColumn>
             </ColumnContainer>
@@ -502,8 +563,8 @@ const SecuritySetting = () => {
           </div>
 
           <div>
-            <FormButton style={{ marginBottom: "10px" }}>Save</FormButton>
-            <PreviousButton>Discard</PreviousButton>
+            <FormButton onClick={handleSubmit} style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }} disabled={buttonDisabled}>Save</FormButton>
+            <PreviousButton onClick={() => {setData({}); setButtonDisabled(true);}}>Discard</PreviousButton>
           </div>
         </Box>
       </BoxContainer>
@@ -806,7 +867,7 @@ const EmpSetting = () => {
       );
     } else if (currentPage === "Notifications") {
       return <NotificationsSetting />;
-    } else if (currentPage === "AccountBilling & Plans") {
+    } else if (currentPage === "Accounts Billing & Plans") {
       return <BillingSetting />;
     } else if (currentPage === "connections") {
       return <ConnectionSetting />;
@@ -854,11 +915,11 @@ const EmpSetting = () => {
 
         <StyledButton
           currentPage={currentPage}
-          page="AccountBilling & Plans"
-          onClick={() => setCurrentPage("AccountBilling & Plans")}
+          page="Accounts Billing & Plans"
+          onClick={() => setCurrentPage("Accounts Billing & Plans")}
         >
           {" "}
-          AccountBilling & Plans
+          Accounts Billing & Plans
         </StyledButton>
 
         <StyledButton
