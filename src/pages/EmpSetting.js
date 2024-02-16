@@ -30,35 +30,48 @@ import {
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiLockAlt, BiDotsVerticalRounded } from "react-icons/bi";
-const LargeIcon = styled.span`
-  font-size: 24px; /* Adjust the icon size as needed */
-`;
-const LeftColumn = styled.div`
+import { useSelector, useDispatch } from "react-redux";
+import { setUser as setGlobalUser} from '../redux/userSlice';
+import {  validateAlphabeticWithSpace } from "../global/validators";
+import { StyledErrorH6 } from "./Login";
+import {createPutRequest} from '../global/helper'
+
+
+export const LeftColumn = styled.div`
   flex: 1;
   padding-right: 10px;
-  // width:100%;
+  
   @media (max-width: 845px) {
-    padding-right: 0; /* Reset padding for mobile view */
+    padding-right: 0; 
   }
 `;
 
-const RightColumn = styled.div`
+export const RightColumn = styled.div`
   flex: 1;
   padding-left: 10px;
 
   @media (max-width: 845px) {
-    padding-left: 0; /* Reset padding for mobile view */
+    padding-left: 0; 
   }
 `;
 
-const ColumnContainer = styled.div`
+export const ColumnContainer = styled.div`
   display: flex;
   width: 100%;
   @media (max-width: 845px) {
-    /* Apply styles for screens with a maximum width of 845px (adjust as needed) */
-    flex-direction: column; /* Stack columns vertically for mobile */
-    // align-items: center; /* Center-align columns in mobile view */
-    // width:100%;
+    
+    flex-direction: column; 
+   
+  }
+`;
+export const ColumnContainer1 = styled.div`
+ 
+  width: 100%;
+
+  @media (max-width: 845px) {
+    
+    flex-direction: column; 
+ 
   }
 `;
 
@@ -81,7 +94,7 @@ const StyledButton = styled.button`
   gap: 5px;
   transition: background-color 0.3s ease;
 
-  /* Conditional styles based on currentPage */
+  
   ${(props) =>
     props.currentPage === props.page
       ? `
@@ -153,7 +166,7 @@ const Warningbox = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   background: #fdf1dc;
   color: #ffa500;
-  // margin-left:10px;
+  
 `;
 const Image = styled.img`
   width: 330px !important;
@@ -164,7 +177,7 @@ const Image = styled.img`
   background-color: #ededed;
 `;
 const APIbox = styled.div`
-  position: relative; /* To position the button relative to this container */
+  position: relative;
   background-color: #ededed;
   margin-left: 20px;
   margin-right: 20px;
@@ -175,8 +188,8 @@ const APIbox = styled.div`
 `;
 const APIOptionsButton = styled.button`
   position: absolute;
-  top: 10px; /* Adjust the top position as needed */
-  right: 10px; /* Adjust the right position as needed */
+  top: 10px; 
+  right: 10px;
   background: none;
   border: none;
   cursor: pointer;
@@ -184,7 +197,7 @@ const APIOptionsButton = styled.button`
 
 const CheckboxLabel = styled.label`
   display: block;
-  margin-top: 10px; /* Add margin for spacing */
+  margin-top: 10px; 
 `;
 
 const SwitchContainer = styled.div`
@@ -194,22 +207,65 @@ const SwitchContainer = styled.div`
 `;
 const TimeInputContainer = styled.div`
   display: flex;
-  align-items: center;
-  margin-top: 0px; /* Add margin for spacing between the fields */
+
+  margin-top: 0px;
 `;
 
 const TimeInput = styled.input`
   border: none;
-  border-bottom: 1px solid #ccc; /* Add a bottom border */
-  margin: 0 20px; /* Add spacing between the input fields */
-  padding: 5px; /* Add padding as needed */
-  width: 100%; /* Adjust the width as needed */
-  outline: none; /* Remove the default input focus outline */
+  border-bottom: 1px solid #ccc;
+  margin: 0 20px;
+  padding: 5px;
+  width: 100%;
+  outline: none;
 `;
 const Colon = styled.span`
-  font-size: 20px; /* Adjust the font size as needed */
-  margin: 0 5px; /* Add spacing around the colon */
+  font-size: 20px; 
+  margin: 0 5px; 
 `;
+const InvisibleElement = styled.div`
+  visibility: hidden;
+  height: 75px;
+  width: 100px;
+  @media (max-width: 845px) {
+    display: none;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
+`;
+
+
+const handleChange = (
+  formData,
+  setFormData,
+  field,
+  value,
+  errors,
+  setErrors,
+  setError = false
+) => {
+  let data = {...formData};
+
+  const setField = (obj, keys, val) => {
+    if (keys.length === 1) obj[keys[0]] = val;
+    else {
+      const [head, ...rest] = keys;
+      if (!obj[head]) obj[head] = isNaN(parseInt(rest[0])) ? {} : [];
+      obj[head] = {...obj[head]};
+      obj[head] = setField(obj[head], rest, val);
+    }
+    return obj;
+  };
+
+  const fieldParts = field.split(".");
+  data = setField(data, fieldParts, value);
+  setFormData(data);
+  if (typeof setError === "function" && value === "")
+    setErrors(setField({ ...errors }, fieldParts, ""));
+  else if (typeof setError == "function")
+    setErrors(setField({ ...errors }, fieldParts, setError(value)));
+};
 
 const Timer = ({ switchState }) => {
   const [startTime, setStartTime] = useState("");
@@ -217,7 +273,7 @@ const Timer = ({ switchState }) => {
 
   const handleStartTimeChange = (event) => {
     const input = event.target.value;
-    // Ensure that only numeric characters are entered
+
     if (/^\d*$/.test(input) && input.length <= 4) {
       setStartTime(input);
     }
@@ -225,20 +281,18 @@ const Timer = ({ switchState }) => {
 
   const handleEndTimeChange = (event) => {
     const input = event.target.value;
-    // Ensure that only numeric characters are entered
+
     if (/^\d*$/.test(input) && input.length <= 4) {
       setEndTime(input);
     }
   };
 
   if (switchState) {
-    // Return null when the switch state is false to hide the Timer component
     return null;
   }
 
   return (
-   <>
-      {/* Other content here */}
+    <>
       <TimeInputContainer>
         <TimeInput
           type="text"
@@ -259,32 +313,104 @@ const Timer = ({ switchState }) => {
 };
 
 const GoogleImageWithTextAndSwitch = ({ imageUrl, text }) => {
-    return (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" ,marginBottom:'20px'}}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img src={imageUrl} alt="IMG" width={35} height={35} />
-          <span style={{ marginLeft: "10px" }}>{text}</span>
-        </div>
-        <div>
-          <Switch />
-        </div>
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: "20px",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <img src={imageUrl} alt="IMG" width={35} height={35} />
+        <span style={{ marginLeft: "10px" }}>{text}</span>
       </div>
-    );
-  };
-const EmpSetting = () => {
-  const [currentPage, setCurrentPage] = useState("account");
+      <div>
+        <Switch />
+      </div>
+    </div>
+  );
+};
+const AccountSetting = () => {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.user);
+  const [user, setUser] = useState({...state});
+  const [errors, setErrors] = useState({});
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const handleSubmit = async () =>
+  {
+    dispatch(setGlobalUser(user.user));
+    const response  =  await createPutRequest(user.user,  `/api/user/${user.user._id}/`);
+    setButtonDisabled(true);
+  }
 
-  const handleDeactivateClick = () => {
-    if (isChecked) {
-      setIsFormVisible(true);
-    }
-  };
+  return (
+    <>
+      <BoxContainer>
+        <Box>
+          <H6>Profile Details</H6>
+          <hr />
+          <UploadContainer style={{ marginBottom: "20px" }}>
+            <UploadBox />
+            <PictureUploadButton style={{ fontSize: "14px" }}>
+              Upload
+            </PictureUploadButton>
 
-  const [buttonClicked, setButtonClicked] = useState(null);
+            <ResetButton> Reset</ResetButton>
+          </UploadContainer>
+
+          <div style={{ display: "flex" }}>
+            <ColumnContainer>
+              <LeftColumn style={{ marginBottom: "20px" }}>
+                <FormGroup>
+                  <FormLabel>Name:</FormLabel>
+                  <FormInput
+                    type="text"
+                    onChange={(e) => {setButtonDisabled(false);handleChange(user,setUser, 'user.name', e.target.value, errors, setErrors, validateAlphabeticWithSpace );}}
+                    value={user.user.name}
+                    placeholder={" "}
+                  />
+                {errors?.user?.name && <StyledErrorH6>{errors?.user?.name}</StyledErrorH6>}
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Email:</FormLabel>
+                  <FormInput
+                    type="email"
+                    value={user.user.email}
+                    disabled={"disabled"}
+                    placeholder={"ABC@emaple.com"}
+                  />
+                </FormGroup>
+              </LeftColumn>
+              <RightColumn>
+                <FormGroup>
+                  <FormLabel>Phone:</FormLabel>
+                  <FormInput
+                    type="tel"
+                    onChange={(e) => {setButtonDisabled(false);handleChange(user,setUser, "user.phoneNo", [e.target.value]);}}
+                    value={user.user.phoneNo[0]}
+                    placeholder={"+92"}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel>Address:</FormLabel>
+                  <FormInput type="text" placeholder={"ABC STREET"} />
+                </FormGroup>
+              </RightColumn>
+            </ColumnContainer>
+          </div>
+          <FormButton style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }} disabled={buttonDisabled} onClick={handleSubmit}>Save changes</FormButton>
+          <PreviousButton onClick={() => {setUser(state); setButtonDisabled(true);} }> Discard</PreviousButton>
+        </Box>
+      </BoxContainer>
+    </>
+  );
+};
+const AccountDeactivateSetting = () => {
   const [isChecked, setIsChecked] = useState(false);
-
+  const [buttonClicked, setButtonClicked] = useState("Deactivate");
   const handleButtonClick = (buttonName) => {
     setButtonClicked(buttonName);
   };
@@ -294,451 +420,465 @@ const EmpSetting = () => {
   };
 
   const handleDeactivateDelete = () => {
-    // Handle the deactivation or deletion logic here.
-    // You can use the 'buttonClicked' state to determine which action to perform.
     if (buttonClicked === "Deactivate") {
-      // Handle deactivation
     } else if (buttonClicked === "Delete") {
-      // Handle deletion
     }
   };
+  return (
+    <>
+      <ButtonContainer>
+        <StyledButton
+          onClick={() => handleButtonClick("Deactivate")}
+          currentPage={buttonClicked}
+          page={"Deactivate"}
+        >
+          <AiOutlineUser />
+          Deactivate
+        </StyledButton>
+
+        <StyledButton
+          onClick={() => handleButtonClick("Delete")}
+          currentPage={buttonClicked}
+          page={"Delete"}
+        >
+          <AiOutlineUser />
+          Delete
+        </StyledButton>
+      </ButtonContainer>
+
+      <BoxContainer visible={buttonClicked !== null}>
+        <Box>
+          {buttonClicked === "Deactivate" && (
+            <CheckboxLabel style={{ marginBottom: "10px" }}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />{" "}
+              I confirm my account deactivation
+            </CheckboxLabel>
+          )}
+
+          {buttonClicked === "Delete" && (
+            <CheckboxLabel style={{ marginBottom: "10px" }}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />{" "}
+              I confirm my account deletion
+            </CheckboxLabel>
+          )}
+
+          {isChecked && (
+            <>
+              <Warningbox>
+                <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
+                  Are you sure you want to {buttonClicked.toLowerCase()} this
+                  account
+                </P>
+                {(buttonClicked == "Delete" && (
+                  <P style={{ marginLeft: "10px" }}>
+                    Once you {buttonClicked.toLowerCase()} the account there is
+                    no going back
+                  </P>
+                )) || (
+                  <P style={{ marginLeft: "10px" }}>
+                    You can contact administrator to reactivate your account
+                  </P>
+                )}
+              </Warningbox>
+              <ColumnContainer>
+                <LeftColumn>
+                  <FormLabel>Enter password:</FormLabel>
+                  <FormInput type="password" />
+                  <DeactivateButton onClick={handleDeactivateDelete}>
+                    {buttonClicked === "Deactivate" ? "Deactivate" : "Delete"}
+                  </DeactivateButton>
+                </LeftColumn>
+                <RightColumn></RightColumn>
+              </ColumnContainer>
+            </>
+          )}
+        </Box>
+      </BoxContainer>
+    </>
+  );
+};
+const SecuritySetting = () => {
+  const [data, setData] = useState({});
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const handleSubmit = async () =>
+  {
+    if (data.newPassword!=data.confirmPassword)
+      return;
+    const response  =  await createPutRequest(data,  `/api/user/changePassword`);
+    setButtonDisabled(true);
+  }
+
+  return (
+    <>
+      <BoxContainer>
+        <Box>
+          <H6>Change Password</H6>
+          <hr />
+
+          <div style={{ display: "flex" }}>
+            <ColumnContainer>
+              <LeftColumn>
+                <FormGroup>
+                  <FormLabel>Current Password:</FormLabel>
+                  <FormInput value={data?.oldPassword || ""} type="password" id="currentPassword" onChange={(e) => {setButtonDisabled(false);handleChange(data,setData, "oldPassword", e.target.value);}}/>
+                </FormGroup>
+
+                <FormGroup>
+                  <FormLabel>New Password:</FormLabel>
+                  <FormInput type="password" id="password" value={data?.newPassword || ""} onChange={(e) => {setButtonDisabled(false);handleChange(data,setData, "newPassword", e.target.value);}} />
+                </FormGroup>
+              </LeftColumn>
+
+              <RightColumn>
+                <InvisibleElement>
+                  <FormGroup>
+                    <FormLabel>Retype Password:</FormLabel>
+                    <FormInput type="password" id="nonepassword" />
+                  </FormGroup>
+                </InvisibleElement>
+                <FormGroup>
+                  <FormLabel>Retype Password:</FormLabel>
+                  <FormInput type="password" id="confirmPassword" value={data?.confirmPassword || ""} onChange={(e) => {setButtonDisabled(false);handleChange(data,setData, "confirmPassword", e.target.value);}} />
+                </FormGroup>
+              </RightColumn>
+            </ColumnContainer>
+          </div>
+          <div>
+            <H6>Password Requirements</H6>
+            <ul>
+              <li>Minimum 8 characters</li>
+              <li>At least one lowercase letter</li>
+              <li>At least one number</li>
+            </ul>
+          </div>
+
+          <div>
+            <FormButton onClick={handleSubmit} style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }} disabled={buttonDisabled}>Save</FormButton>
+            <PreviousButton onClick={() => {setData({}); setButtonDisabled(true);}}>Discard</PreviousButton>
+          </div>
+        </Box>
+      </BoxContainer>
+      
+    </>
+  );
+};
+const SecurtiyTwoStepSetting = () => {
+  return (
+    <>
+      <BoxContainer>
+        <Box>
+          <H6>Two-Step Verification</H6>
+          <hr />
+          <ColumnContainer>
+            <LeftColumn>
+              <P style={{ fontWeight: "bold", fontSize: "13px" }}>
+                Two-factor authentication is not yet enabled.
+              </P>
+              <P style={{ fontSize: "13px" }}>
+                Two-factor authentication adds an additional layer of security
+                to your account by requiring more than just a password to log
+                in. <span>Learn more</span>
+              </P>
+            </LeftColumn>
+            <RightColumn></RightColumn>
+          </ColumnContainer>
+
+          <FormButton style={{ marginBottom: "10px" }}>
+            Enable Two-Factor Authentication
+          </FormButton>
+        </Box>
+      </BoxContainer>
+    </>
+  );
+};
+const SecurityCreateAPISetting=()=>{
+  return(
+    <>
+
+<BoxContainer>
+        <Box>
+          <H6>Create an API Key</H6>
+
+          <ColumnContainer>
+            <LeftColumn>
+              <FormGroup>
+                <FormLabel>Choose the API Key:</FormLabel>
+                <FormInput type="text" id="apiKey" />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>Name the API Key:</FormLabel>
+                <FormInput type="text" id="apiKeyName" />
+              </FormGroup>
+
+              <FormButton>Create Key</FormButton>
+            </LeftColumn>
+            <RightColumn>
+              <Image src="/API.jpg" alt="API Key Image" />
+            </RightColumn>
+          </ColumnContainer>
+        </Box>
+      </BoxContainer>
+
+
+
+    </>
+  );
+}
+const SecurityAPIKeyListSetting=()=>
+{
+  return (
+    <>
+ <BoxContainer>
+        <Box>
+          <H6>API Key List & Access</H6>
+          <P>
+            An API key is a simle encrypted string that identifies an
+            application without any principal. They are usefull for accessing
+            public data anonmymously, and are used to associate API requests
+            with your project for quota and billing
+          </P>
+        </Box>
+        <APIbox>
+          <APIOptionsButton>
+            <BiDotsVerticalRounded />
+          </APIOptionsButton>
+
+          <P style={{ display: "inline-block", marginRight: "10px" }}>
+            {" "}
+            Server Key 1
+          </P>
+          <SuccessBadge>Full Access</SuccessBadge>
+          <P style={{ fontWeight: "bold" }}>23e-333-3434-343-4a-asdasd-3ed3d</P>
+          <P>Created on Apr,2020,18:20,GTM+4:10</P>
+        </APIbox>
+      </BoxContainer>
+
+      <hr />
+    </>
+  );
+}
+
+const NotificationsSetting = () => {
+  return (
+    <BoxContainer>
+      <Box>
+        <H6>Notification</H6>
+        <hr />
+        <p style={{ fontSize: "13px" }}>
+          We need permission from your browser to show notifications. Request
+          permission:
+        </p>
+
+        <TableContainer>
+          <Table>
+            <thead>
+              <Tr>
+                <Th>Type</Th>
+                <Th>Email</Th>
+                <Th>Browser</Th>
+                <Th>APP</Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Td>New of you</Td>
+              <Td>
+                <input type="checkbox" />
+              </Td>
+              <Td>
+                <input type="checkbox" />
+              </Td>
+              <Td>
+                <input type="checkbox" />
+              </Td>
+            </tbody>
+          </Table>
+        </TableContainer>
+        <ColumnContainer>
+          <LeftColumn>
+            <FormGroup>
+              <FormLabel>When should we send you notifications?</FormLabel>
+              <FormInput type="text" id="notificationTiming" />
+            </FormGroup>
+          </LeftColumn>
+          <RightColumn></RightColumn>{" "}
+        </ColumnContainer>
+        <div>
+          <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
+          <PreviousButton>Discard</PreviousButton>
+        </div>
+      </Box>
+    </BoxContainer>
+  );
+};
+
+const BillingSetting = () => {
+  return (
+    <Box>
+      <P>Notification Settings</P>
+    </Box>
+  );
+};
+
+const ConnectionSetting = () => {
+  return (
+    <BoxContainer>
+      <Box>
+        <H6>Connected Accounts</H6>
+        <P>Display content from your connected accounts on your site</P>
+
+        <GoogleImageWithTextAndSwitch imageUrl="/Googlepng.png" text="Google" />
+        <GoogleImageWithTextAndSwitch imageUrl="/Slack.png" text="Slack" />
+      </Box>
+    </BoxContainer>
+  );
+};
+
+const CompanySetting = () => {
+ 
+
+  return (
+    <>
+      <BoxContainer>
+        <Box>
+          <H6>Company Logo</H6>
+          <UploadContainer style={{ marginBottom: "20px" }}>
+            <UploadBox />
+            <PictureUploadButton style={{ fontSize: "14px" }}>
+              Upload
+            </PictureUploadButton>
+
+            <ResetButton> Reset</ResetButton>
+          </UploadContainer>
+          <ColumnContainer>
+            <LeftColumn>
+              <FormGroup>
+                <FormLabel>E-mail</FormLabel>
+                <FormInput type="text" placeholder={" "} />
+              </FormGroup>
+            </LeftColumn>
+            <RightColumn>
+              <FormGroup>
+                <FormLabel>Company</FormLabel>
+                <FormInput type="text" />
+              </FormGroup>
+            </RightColumn>
+          </ColumnContainer>
+          <FormButton>Save changes</FormButton>
+          <PreviousButton style={{ marginBottom: "10px" }}>
+            {" "}
+            Reset
+          </PreviousButton>
+        </Box>
+      </BoxContainer>
+
+     
+    </>
+  );
+};
+const CompanyOperatingHourSetting=()=>{
   const initialSwitchStates = {
     Monday: false,
     Tuesday: false,
     Wednesday: false,
-    // Add more days as needed
   };
-
   const [switchStates, setSwitchStates] = useState(initialSwitchStates);
 
   const handleSwitchChange = (day) => {
-    // Update the state for the specific day
     setSwitchStates((prevState) => ({
       ...prevState,
       [day]: !prevState[day],
     }));
   };
+  return(
+    <>
+<BoxContainer>
+        <Box>
+          <H6>Operating Hours</H6>
+          <ColumnContainer1>
+            {/* <LeftColumn> */}
+            <div>
+              {Object.keys(switchStates).map((day) => (
+                <div key={day}>
+                  <SwitchContainer>
+                    <Switch
+                      checked={switchStates[day]}
+                      onChange={() => handleSwitchChange(day)}
+                    />
+                    <span>{day}</span>
+
+                    {switchStates[day] ? (
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <SuccessBadge>Opens</SuccessBadge>
+                        <Timer isBadgeOpen={switchStates[day]} />
+                      </div>
+                    ) : (
+                      <div style={{ marginLeft: "auto" }}>
+                        <DangerBadge>Closed</DangerBadge>
+                      </div>
+                    )}
+                  </SwitchContainer>
+                </div>
+              ))}
+            </div>
+            {/* </LeftColumn> */}
+          </ColumnContainer1>
+
+          <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
+        </Box>
+      </BoxContainer>
+      <hr />
+
+
+    
+    </>
+  );
+}
+
+const EmpSetting = () => {
+  const [currentPage, setCurrentPage] = useState("account");
 
   const renderContent = () => {
     if (currentPage === "account") {
       return (
         <>
-          <BoxContainer>
-            <Box>
-              <H6>Profile Details</H6>
-              <hr />
-              <UploadContainer >
-                <UploadBox />
-                <PictureUploadButton style={{ fontSize: "14px" }}>
-                  Upload
-                </PictureUploadButton>
-
-                <ResetButton> Reset</ResetButton>
-              </UploadContainer>
-
-              <div style={{ display: "flex" }}>
-                <ColumnContainer>
-                  <LeftColumn style={{marginBottom:'20px'}}>
-                    <FormGroup>
-                      <FormLabel>First Name:</FormLabel>
-                      <FormInput type="text" placeholder={" "} />
-                    </FormGroup>
-                    <FormGroup>
-                      <FormLabel>Last Name:</FormLabel>
-                      <FormInput type="text" name="lastName" />
-                    </FormGroup>
-                    <FormGroup>
-                      <FormLabel>Email:</FormLabel>
-                      <FormInput type="email" placeholder={"ABC@emaple.com"} />
-                    </FormGroup>
-                  </LeftColumn>
-                  <RightColumn>
-                    <FormGroup>
-                      <FormLabel>Phone:</FormLabel>
-                      <FormInput type="tel" placeholder={"+92"} />
-                    </FormGroup>
-                    <FormGroup>
-                      <FormLabel>Address:</FormLabel>
-                      <FormInput type="text" placeholder={"ABC STREET"} />
-                    </FormGroup>
-                  </RightColumn>
-                </ColumnContainer>
-              </div>
-              <FormButton style={{ marginBottom: "10px" }}>Save changes</FormButton>
-              <PreviousButton> Discard</PreviousButton>
-            </Box>
-          </BoxContainer>
-          <BoxContainer>
-            <Box>
-              <H6>Delete Account</H6>
-              <hr />
-              <Warningbox>
-                <P style={{ fontWeight: "bold", marginLeft: "10px" }}>
-                  Are you sure you want to delete this account
-                </P>
-                <P style={{ marginLeft: "10px" }}>
-                  Once you delete the account there is no going back
-                </P>
-              </Warningbox>
-              <div>
-                <input
-                  style={{ marginRight: "6px" }}
-                  type="checkbox"
-                  id="deleteConfirmation"
-                />
-                <label for="deleteConfirmation">
-                  Are you sure you want to delete the account?
-                </label>
-              </div>
-              <DeactivateButton onClick={handleDeactivateClick}>
-                Deactivate Account
-              </DeactivateButton>
-            </Box>
-          </BoxContainer>
-
-          <ButtonContainer>
-            <StyledButton
-              onClick={() => handleButtonClick("Deactivate")}
-              currentPage={buttonClicked === "Deactivate" ? "Deactivate" : ""}
-            >
-              <AiOutlineUser />
-              Deactivate
-            </StyledButton>
-
-            <StyledButton
-              onClick={() => handleButtonClick("Delete")}
-              currentPage={buttonClicked === "Delete" ? "Delete" : ""}
-            >
-              <AiOutlineUser />
-              Delete
-            </StyledButton>
-          </ButtonContainer>
-
-          <BoxContainer visible={buttonClicked !== null}>
-            <Box>
-              {buttonClicked === "Deactivate" && (
-                <CheckboxLabel style={{ marginBottom: "10px" }}>
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />{" "}
-                  I confirm my account deactivation
-                </CheckboxLabel>
-              )}
-
-              {buttonClicked === "Delete" && (
-                <CheckboxLabel style={{ marginBottom: "10px" }}>
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />{" "}
-                  I confirm my account deletion
-                </CheckboxLabel>
-              )}
-
-              {isChecked && (
-                <>
-                  <ColumnContainer>
-                    <LeftColumn>
-                      <FormLabel>Enter password:</FormLabel>
-                      <FormInput type="password" />
-                      <DeactivateButton onClick={handleDeactivateDelete}>
-                        {buttonClicked === "Deactivate"
-                          ? "Deactivate"
-                          : "Delete"}
-                      </DeactivateButton>
-                    </LeftColumn>
-                    <RightColumn></RightColumn>
-                  </ColumnContainer>
-                </>
-              )}
-            </Box>
-          </BoxContainer>
-
-          <hr />
+          <AccountSetting />
+          <AccountDeactivateSetting />
         </>
       );
     } else if (currentPage === "security") {
       return (
         <>
-          <BoxContainer>
-            <Box>
-              <H6>Change Password</H6>
-              <hr />
-
-              <div style={{ display: "flex" }}>
-                <ColumnContainer>
-                  <LeftColumn>
-                    <FormGroup>
-                      <FormLabel>Current Password:</FormLabel>
-                      <FormInput type="password" id="currentPassword" />
-                    </FormGroup>
-
-                    <FormGroup>
-                      <FormLabel>New Password:</FormLabel>
-                      <FormInput type="password" id="newPassword" />
-                    </FormGroup>
-                  </LeftColumn>
-
-                  <RightColumn>
-                    <FormGroup>
-                      <FormLabel>Retype Password:</FormLabel>
-                      <FormInput type="password" id="confirmPassword" />
-                    </FormGroup>
-                  </RightColumn>
-                </ColumnContainer>
-              </div>
-              <div>
-                <H6>Password Requirements</H6>
-                <ul>
-                  <li>Minimum 8 characters</li>
-                  <li>At least one lowercase letter</li>
-                  <li>At least one number</li>
-                </ul>
-              </div>
-
-              <div>
-                <FormButton style={{ marginBottom: "10px" }}>Save</FormButton>
-                <PreviousButton>Discard</PreviousButton>
-              </div>
-            </Box>
-          </BoxContainer>
-          <BoxContainer>
-            <Box>
-              <H6>Two-Step Verification</H6>
-              <hr />
-              <ColumnContainer>
-                <LeftColumn>
-                  <P style={{ fontWeight: "bold", fontSize: "13px" }}>
-                    Two-factor authentication is not yet enabled.
-                  </P>
-                  <P style={{ fontSize: "13px" }}>
-                    Two-factor authentication adds an additional layer of
-                    security to your account by requiring more than just a
-                    password to log in. <span>Learn more</span>
-                  </P>
-                </LeftColumn>
-                <RightColumn></RightColumn>
-              </ColumnContainer>
-              {/* <ButtonContainer> */}
-              <FormButton style={{ marginBottom: "10px" }}>Enable Two-Factor Authentication</FormButton>
-              {/* </ButtonContainer> */}
-            </Box>
-          </BoxContainer>
-
-          <BoxContainer>
-            <Box>
-              <H6>Create an API Key</H6>
-
-              <ColumnContainer>
-                <LeftColumn>
-                  <FormGroup>
-                    <FormLabel>Choose the API Key:</FormLabel>
-                    <FormInput type="text" id="apiKey" />
-                  </FormGroup>
-
-                  <FormGroup>
-                    <FormLabel>Name the API Key:</FormLabel>
-                    <FormInput type="text" id="apiKeyName" />
-                  </FormGroup>
-
-                  <FormButton>Create Key</FormButton>
-                </LeftColumn>
-                <RightColumn>
-                  <Image src="/API.jpg" alt="API Key Image" />
-                </RightColumn>
-              </ColumnContainer>
-            </Box>
-          </BoxContainer>
-          <BoxContainer>
-            <Box>
-              <H6>API Key List & Access</H6>
-              <P>
-                An API key is a simle encrypted string that identifies an
-                application without any principal. They are usefull for
-                accessing public data anonmymously, and are used to associate
-                API requests with your project for quota and billing
-              </P>
-            </Box>
-            <APIbox>
-              <APIOptionsButton>
-                <BiDotsVerticalRounded />
-              </APIOptionsButton>
-
-              <P style={{ display: "inline-block", marginRight: "10px" }}>
-                {" "}
-                Server Key 1
-              </P>
-              <SuccessBadge>Full Access</SuccessBadge>
-              <P style={{ fontWeight: "bold" }}>
-                23e-333-3434-343-4a-asdasd-3ed3d
-              </P>
-              <P>Created on Apr,2020,18:20,GTM+4:10</P>
-            </APIbox>
-          </BoxContainer>
-
-          <hr />
+          <SecuritySetting />
+          <SecurtiyTwoStepSetting />
+          <SecurityCreateAPISetting/>
+          <SecurityAPIKeyListSetting/>
         </>
       );
     } else if (currentPage === "Notifications") {
-      return (
-        <BoxContainer>
-          <Box>
-            <H6>Notification</H6>
-            <hr />
-            <p style={{ fontSize: "13px" }}>
-              We need permission from your browser to show notifications.
-              Request permission:
-            </p>
-
-            <TableContainer>
-              <Table>
-                <thead>
-                  <Tr>
-                    <Th>Type</Th>
-                    <Th>Email</Th>
-                    <Th>Browser</Th>
-                    <Th>APP</Th>
-                  </Tr>
-                </thead>
-                <tbody>
-                  <Td>New of you</Td>
-                  <Td>
-                    <input type="checkbox" />
-                  </Td>
-                  <Td>
-                    <input type="checkbox" />
-                  </Td>
-                  <Td>
-                    <input type="checkbox" />
-                  </Td>
-                </tbody>
-              </Table>
-            </TableContainer>
-            <ColumnContainer>
-              <LeftColumn>
-                <FormGroup>
-                  <FormLabel>When should we send you notifications?</FormLabel>
-                  <FormInput type="text" id="notificationTiming" />
-                </FormGroup>
-              </LeftColumn>
-              <RightColumn></RightColumn>{" "}
-            </ColumnContainer>
-            <div>
-              <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
-              <PreviousButton>Discard</PreviousButton>
-            </div>
-          </Box>
-        </BoxContainer>
-      );
-    } else if (currentPage === "AccountBilling & Plans") {
-      return (
-        <Box>
-          <P>Notification Settings</P>
-          {/* ... Notification settings content ... */}
-        </Box>
-      );
+      return <NotificationsSetting />;
+    } else if (currentPage === "Accounts Billing & Plans") {
+      return <BillingSetting />;
     } else if (currentPage === "connections") {
-      return (
-        <BoxContainer>
-        <Box>
-          <H6>Connected Accounts</H6>
-          <P>Display content from your connected accounts on your site</P>
-
-         
-          <GoogleImageWithTextAndSwitch
-            imageUrl="/Googlepng.png" 
-            text="Google"
-          />
-          <GoogleImageWithTextAndSwitch
-            imageUrl="/Slack.png" 
-            text="Slack"
-          />
-        </Box>
-      </BoxContainer>
-      );
+      return <ConnectionSetting />;
     } else if (currentPage === "company") {
       return (
-        <>
-          <BoxContainer>
-            <Box>
-              <H6>Company Logo</H6>
-              <UploadContainer>
-                <UploadBox />
-                <PictureUploadButton style={{ fontSize: "14px" }}>
-                  Upload
-                </PictureUploadButton>
-
-                <ResetButton> Reset</ResetButton>
-              </UploadContainer>
-              <ColumnContainer>
-                <LeftColumn>
-                  <FormGroup>
-                    <FormLabel>E-mail</FormLabel>
-                    <FormInput type="text" placeholder={" "} />
-                  </FormGroup>
-                </LeftColumn>
-                <RightColumn>
-                  <FormGroup>
-                    <FormLabel>Compnay</FormLabel>
-                    <FormInput type="text" />
-                  </FormGroup>
-                </RightColumn>
-              </ColumnContainer>
-              <FormButton>Save changes</FormButton>
-              <PreviousButton style={{ marginBottom: "10px" }}>
-                {" "}
-                Reset
-              </PreviousButton>
-            </Box>
-          </BoxContainer>
-
-          <BoxContainer>
-            <Box>
-              <H6>Operating Hours</H6>
-              <ColumnContainer>
-  <LeftColumn>
-    <div>
-    {Object.keys(switchStates).map((day) => (
-      <div key={day}>
-        <SwitchContainer>
-          <Switch
-            checked={switchStates[day]}
-            onChange={() => handleSwitchChange(day)}
-          />
-          <span>{day}</span>
-          <div style={{ marginLeft: "auto" }}>
-            {switchStates[day] ? (
-              <SuccessBadge>Opens</SuccessBadge>
-            ) : (
-              <DangerBadge>Closed</DangerBadge>
-            )}
-          </div>
-        </SwitchContainer>
-      </div>
-    ))}</div>
-  </LeftColumn>
-  <RightColumn style={{ flex: 2 }}>
-    <div>
-    {Object.keys(switchStates).map((day) => (
-      <div key={day}>
-        {switchStates[day] && (
-          
-          <Timer isBadgeOpen={switchStates[day]} />
-        )}
-      </div>
-    ))}</div>
-  </RightColumn>
-</ColumnContainer>
-
- <FormButton style={{ marginBottom: "10px" }}>Save Changes</FormButton>
-            </Box>
-          </BoxContainer>
-          <hr/>
-        </>
-      );
+      <>
+      
+      
+      <CompanySetting />
+      <CompanyOperatingHourSetting/>
+      
+      </>
+      )
     }
   };
 
@@ -765,11 +905,19 @@ const EmpSetting = () => {
 
         <StyledButton
           currentPage={currentPage}
-          page="AccountBilling & Plans"
-          onClick={() => setCurrentPage("AccountBilling & Plans")}
+          page="company"
+          onClick={() => setCurrentPage("company")}
+        >
+          Company
+        </StyledButton>
+
+        <StyledButton
+          currentPage={currentPage}
+          page="Accounts Billing & Plans"
+          onClick={() => setCurrentPage("Accounts Billing & Plans")}
         >
           {" "}
-          AccountBilling & Plans
+          Accounts Billing & Plans
         </StyledButton>
 
         <StyledButton
@@ -788,13 +936,6 @@ const EmpSetting = () => {
           onClick={() => setCurrentPage("connections")}
         >
           Connections
-        </StyledButton>
-        <StyledButton
-          currentPage={currentPage}
-          page="company"
-          onClick={() => setCurrentPage("company")}
-        >
-          Company
         </StyledButton>
       </ButtonContainer>
 

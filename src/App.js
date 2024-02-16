@@ -5,7 +5,7 @@ import Topbar from "./components/Topbar";
 import Emp_list from "./pages/Employees/EmpMainPage";
 import Role_list from "./pages/Roles/RoleMainPage";
 import Team_list from "./pages/Teams/TeamMainPage";
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "react-router-dom"; 
+import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom"; 
 import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
@@ -15,14 +15,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import { createGetRequest } from "./global/helper";
 import { clearUser, setUser } from "./redux/userSlice";
-import LoaderComponent from "./components/Loader"
+import LoaderComponent from "./components/Loader";
+import CardsPopup from "./pages/CardsPopup";
+import Board from "./components/Board";
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
+  const theme = useSelector((state) => state.theme);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (user.isAuthenticated)
+    {
+      if (location.pathname.includes('projectmanagement'))
+        document.body.style.backgroundColor = theme.projectManagement.backgroundColor;
+      else
+        document.body.style.backgroundColor = theme.default.backgroundColor;
+    }
+  })
+
+  useEffect(() => {    
     async function fetchData() {
       try {
         const response = await createGetRequest('/api/user/me/info/');
@@ -44,10 +58,11 @@ function App() {
   }
   else
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage />} />
+         <Route path="/cards" element={<CardsPopup />} />
+        
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password/:id" element={<ResetPassword name="Reset Password?" description="Your new password must be different from previously used passwords"/>} />
         <Route path="/setup-password/:id" element={<ResetPassword name="Setup Password" description="Setup your new account and start using portal today"/>} />
@@ -59,7 +74,11 @@ function App() {
                 <Route path="role" element={<Role_list />} />
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />
-                <Route path="settings" element={<EmpSetting />} />
+                <Route path="settings" element={<EmpSetting />} />           
+              </Route>
+
+              <Route path="projectmanagement" element={<Sidebar />}>
+                <Route path="board" element={<Board />} /> 
               </Route>
             </>
           ) : (
@@ -77,7 +96,6 @@ function App() {
           }
         />
       </Routes>
-    </Router>
   );
 };
 

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   AiOutlineBell,
@@ -15,9 +15,12 @@ import {
   AiOutlineDashboard,
   AiOutlinePieChart,
   AiOutlineAppstore,
+  AiOutlineLogout,
+  AiOutlineMenu,
 } from "react-icons/ai";
-import { CgMenuGridR } from "react-icons/cg";
+import { CgMenuGridR,CgMenuRight  } from "react-icons/cg";
 import { clearUser } from "../redux/userSlice";
+import Sidebar from "./Sidebar";
 
 const Nav = styled.div`
   background: #ffffff;
@@ -35,20 +38,20 @@ const Nav = styled.div`
   left: 0;
   right: 0;
   @media (min-width: 1200px) {
-    /* Width for desktop view */
-    width: 79.1%;
+    
+    width: 79.4%;
     top: 2.5%;
     left: 273px;
   }
 
   border-radius: 5px;
-  
 `;
 
 const SimpleText = styled.span`
   font-size: 16px;
   margin-right: 10px;
 `;
+
 
 const SettingIcon = styled(AiOutlineSetting)`
   font-size: 20px;
@@ -63,11 +66,7 @@ const BellIcon = styled(AiOutlineBell)`
   margin-left: 13px;
 `;
 
-const MenuIcon = styled(CgMenuGridR)`
-  font-size: 20px;
-  margin-right: 10px;
-  cursor: pointer;
-`;
+
 
 const IconContainer = styled.div`
   display: flex;
@@ -108,10 +107,10 @@ const DropdownButton = styled.button`
   }
   &:hover {
     background-color: #ffa500;
+    color:white;
   }
 `;
 const DropdownGrid = styled.div`
-
   display: grid;
   left: 0;
   margin-top: 1px;
@@ -128,7 +127,7 @@ const DropdownGrid = styled.div`
 const SettingDropdownContainer = styled.div`
   position: absolute;
   top: 100%;
-  right: 0%; /* Updated to position it to the right */
+  right: 0%; 
   margin-top: 10px;
   display: flex;
   justify-content: left;
@@ -141,22 +140,18 @@ const SettingDropdownContainer = styled.div`
   padding: 10px;
   @media screen and (max-width: 845px) {
     position: absolute;
-    // right: auto;
-    width: 50%;
-    right:20px;
     
+    width: 50%;
+    right: 20px;
   }
   z-index: 1000;
 `;
-
-
-
 
 const SettingDropdownButton = styled.button`
   background-color: #ffffff;
   color: #000000;
   border: none;
-  width: 100%; /* Adjust this value as needed */
+  width: 100%; 
   border-radius: 5px;
   padding: 4px;
   cursor: pointer;
@@ -172,11 +167,9 @@ const SettingDropdownButton = styled.button`
     color: white;
   }
   @media screen and (max-width: 845px) {
-    width:100%;
-    
+    width: 100%;
   }
 `;
-
 
 const DropdownLabel = styled.div`
   font-size: 14px;
@@ -194,31 +187,91 @@ const SettingDropdownGrid = styled.div`
   grid-gap: 10px;
   text-align: center;
   padding: 2px;
-  margin-bottom:2px;
+  margin-bottom: 2px;
 `;
 
 const SettingDropdownItem = styled.div`
   display: flex;
-  align-items: left; 
+  align-items: left;
   justify-content: left;
-  gap: 10px; 
+  gap: 10px;
 `;
 const Sidebariconcontainer = styled.div`
   display: none;
   @media screen and (max-width: 845px) {
     display: block;
-    
   }
 `;
+
+
+
+const MenuIcon = styled(CgMenuGridR)`
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+ 
+`;
+
+
+
+
+
+
+
+
+
+const SideMenu = styled(AiOutlineMenu)`
+  font-size: 20px;
+  margin-right: 13px;
+  margin-left: 10px;
+  cursor: pointer;
+  
+  left: ${({ sidebar }) => (sidebar ? "250px" : "20px")};
+  background-color: #ffffff;
+  
+ 
+
+  @media (max-width: 845px) {
+    display: block; 
+  }
+`;
+
+
+
+
+
+export const MobileIcon = styled.div`
+font-size: 20px;
+margin-right: 10px;
+margin-left: 10px;
+cursor: pointer;
+
+left: ${({ sidebar }) => (sidebar ? "250px" : "20px")};
+background-color: #ffffff;
+
+
+
+@media (max-width: 845px) {
+  display: block; 
+}
+`;
+
+
+
 
 const Topbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const user = useSelector((state) => state.user);
- 
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    if (isDropdownOpen) {
+      setIsDropdownOpen(false);
+    } else {
+      setIsDropdownOpen(true);
+      setIssettingDropdownOpen(false); 
+    }
   };
+  
   const [issettingDropdownOpen, setIssettingDropdownOpen] = useState(false);
 
   const togglesettingDropdown = () => {
@@ -227,13 +280,43 @@ const Topbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
+  const [sidebar, setSidebar] = useState(false);
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
+
+  const toggleSidebar = () => {
+    setSidebar(!sidebar);
+  };
+
+  const dropdownRef = useRef(null);
+  const settingsRef = useRef(null);
+  
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target))
+     setIsDropdownOpen(false);
+    if (settingsRef.current && !settingsRef.current.contains(event.target))
+     setIssettingDropdownOpen(false);
+  };
+
+  useEffect(() => {
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
   return (
     <>
       <Outlet />
       <Nav>
         <IconContainer>
+        <Sidebariconcontainer>
+            <MobileIcon sidebar={sidebar} onClick={toggleSidebar}> <CgMenuRight/></MobileIcon>
+          </Sidebariconcontainer>
           <MenuIcon onClick={toggleDropdown} />
-          <DropdownContainer isOpen={isDropdownOpen}>
+          <DropdownContainer isOpen={isDropdownOpen}  ref={dropdownRef}>
             <DropdownGrid>
               <div>
                 <DropdownButton>
@@ -241,7 +324,7 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>Self Service Portal</DropdownLabel>
               </div>
-              <div>
+              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/iam/employee');}}>
                 <DropdownButton>
                   <AiOutlineUser />
                 </DropdownButton>
@@ -265,7 +348,7 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>ATS</DropdownLabel>
               </div>
-              <div>
+              <div onClick={() => {setIsDropdownOpen(false); navigate('/portal/projectmanagement/board')}} >
                 <DropdownButton>
                   <AiOutlineSearch />
                 </DropdownButton>
@@ -285,36 +368,39 @@ const Topbar = () => {
               </div>
             </DropdownGrid>
           </DropdownContainer>
-          <Sidebariconcontainer>
-          <SettingIcon></SettingIcon></Sidebariconcontainer>
+          
         </IconContainer>
         <IconContainer>
-        <BellIcon />
-        <SettingIcon onClick={togglesettingDropdown} />
-<SettingDropdownContainer isOpen={issettingDropdownOpen}>
-  <SettingDropdownGrid>
-  <SettingDropdownItem>
-      <SettingDropdownButton onClick={() => navigate('/portal/iam/settings')}>
-        <AiOutlineUser />
-        <span>Settings</span>
-      </SettingDropdownButton>
-    </SettingDropdownItem>
-    <SettingDropdownItem  onClick={() => {dispatch(clearUser());localStorage.setItem('token', "");navigate('/login');}}>
-      <SettingDropdownButton>
-        <AiOutlineHome />
-        <span>Logout</span>
-      </SettingDropdownButton>
-    </SettingDropdownItem>
-    {/* Add more items as needed */}
-  </SettingDropdownGrid>
-</SettingDropdownContainer>
+          <BellIcon />
+          <SettingIcon onClick={togglesettingDropdown} />
+          <SettingDropdownContainer isOpen={issettingDropdownOpen}  ref={settingsRef}>
+            <SettingDropdownGrid>
+              <SettingDropdownItem>
+                <SettingDropdownButton
+                  onClick={() => {setIssettingDropdownOpen(false);  navigate("/portal/iam/settings");}}
+                >
+                  <AiOutlineSetting />
+                  <span>Settings</span>
+                </SettingDropdownButton>
+              </SettingDropdownItem>
+              <SettingDropdownItem
+                onClick={() => {
+                  dispatch(clearUser());
+                  localStorage.setItem("token", "");
+                  navigate("/login");
+                }}
+              >
+                <SettingDropdownButton>
+                  <AiOutlineLogout />
+                  <span>Logout</span>
+                </SettingDropdownButton>
+              </SettingDropdownItem>
+             
+            </SettingDropdownGrid>
+          </SettingDropdownContainer>
 
-
-        
-        <SimpleText>{user?.user?.name}</SimpleText>
-      </IconContainer>
-
-     
+          <SimpleText>{user?.user?.name}</SimpleText>
+        </IconContainer>
       </Nav>
     </>
   );

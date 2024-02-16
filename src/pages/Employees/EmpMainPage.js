@@ -50,6 +50,8 @@ import {
   dropDownStyle,
 } from "../styles/TableStyling";
 
+import EmployeeTable from "../../components/Table";
+
 const Emp_list = () => {
   const entriesOptions = [5, 10, 20, 50, 100];
   const statusOptions = [
@@ -258,7 +260,6 @@ const Emp_list = () => {
           <CardsContainer>
             <InfoBox
               icon={BiUser}
-              // iconColor="blue"
               iconColor="#512da8"
               data={infoBoxData.totalUsers}
               text="Total Users"
@@ -400,8 +401,97 @@ const Emp_list = () => {
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
-            <TableContainer>
-              <Table>
+
+            <EmployeeTable
+            checkedEmployees={checkedEmployees}
+            setCheckedEmployees={setCheckedEmployees}
+  loading={loading}
+  data={employees}
+  columns={[    
+    { label: 'User', field: 'EmployeeInfo' },
+    { label: 'Employee Code', field: '_id' },
+    { label: 'Last Login', field: 'lastLogin' },
+    { label: 'Status', field: 'status' },
+    { label: 'Actions', field: 'actions' },
+  ]}
+
+   setCheckedItems={setCheckedEmployees}
+  renderRow={(employee, columns) => (
+    <React.Fragment key={employee._id}>
+      
+      {columns.map((column) => (
+        <Td key={column.field}>
+          {selectedCheck.includes(column.label) && (
+            <>
+              {column.field === 'EmployeeInfo' ? (
+                <EmployeeInfo employee={employee} />
+              ) : column.field === '_id' ? (
+                employee._id
+              ) : column.field === 'lastLogin' ? (
+                (employee.lastLogin &&
+                  new Date(employee.lastLogin).toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })) ||
+                'Resend Invite'
+              ) : column.field === 'status' ? (
+                employee.status === 1 ? (
+                  <SuccessBadge>Active</SuccessBadge>
+                ) : employee.status === 2 ? (
+                  <DangerBadge>Inactive</DangerBadge>
+                ) : (
+                  <DangerBadge>Deleted</DangerBadge>
+                )
+              ) : (
+                column.field === 'actions' && (
+                  <IconWrapper>
+                    <MdIcons.MdOutlineModeEditOutline
+                      onClick={() => {
+                        setFormData(employee);
+                        setShowForm(true);
+                        setIsEditMode(!!employee);
+                      }}
+                      style={{ fontSize: '18px' }}
+                    />
+                    <GrIcons.GrFormView
+                      style={{
+                        fontSize: '18px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        setMessage('Employee View is disabled by Admin');
+                        setIsDialogOpen(true);
+                      }}
+                    />
+                    <MdIcons.MdDeleteOutline
+                      style={{
+                        fontSize: '18px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        setMessage('Do you want to delete this employee?');
+                        setDeleteEmployeeId(employee._id);
+                        setIsConfirmDialogOpen(true);
+                      }}
+                    />
+                  </IconWrapper>
+                )
+              )}
+            </>
+          )}
+        </Td>
+      ))}
+    </React.Fragment>
+  )}
+  keyField="_id"
+/>
+
+
+            {/*<TableContainer>
+               <Table>
                 <thead>
                   <Tr>
                     <Th>
@@ -417,7 +507,7 @@ const Emp_list = () => {
                       />
                     </Th>
                     {selectedCheck.includes("User") && <Th>USER</Th>}
-                    {/* <Th>NAME</Th>  */}
+                    
                     {selectedCheck.includes("Employee Code") && (
                       <Th>EMPLOYEE CODE</Th>
                     )}
@@ -557,8 +647,8 @@ const Emp_list = () => {
                     </tr>
                   )}
                 </tbody>
-              </Table>
-            </TableContainer>
+              </Table> 
+            </TableContainer>*/}
 
             {employees.length !== 0 && totalPages >= 1 && (
               <PageBar
@@ -569,6 +659,7 @@ const Emp_list = () => {
             )}
           </BoxContainer>
         </div>
+        <hr />
       </CenteredContainer>
       {showForm && (
         <MultiStepForm

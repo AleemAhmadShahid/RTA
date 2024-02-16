@@ -41,7 +41,7 @@ const Dropdown = styled(Select)`
 `;
 
 const Box = styled.div`
-width:40%;
+width: ${(props) => props.width || '40%'};
 @media screen and (max-width:845px) {  
   width: 100%;
 }
@@ -62,7 +62,7 @@ const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
 
   return (
    
-    <Box>
+    <Box  width={width}>
       <Title>{title}</Title>
       <FilterBoxContainer>
         <Dropdown
