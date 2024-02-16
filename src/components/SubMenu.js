@@ -29,7 +29,7 @@ const SidebarLabel = styled.span`
 `;
 
 const DropdownLink = styled(Link)`
-  background: ${({ active }) => (active ? 'linear-gradient(118deg, #ffa500, #ffa500)' : 'transparent')};
+  background: ${({ active }) => (active ? 'linear-gradient(to right, #ffa500, #ffd000)' : 'transparent')};
   height: 45px;
   padding-left: 2rem;
   display: flex;
@@ -48,7 +48,7 @@ const DropdownLink = styled(Link)`
 `;
 
 const SubMenuLink = styled(SidebarLink)`
-  background: ${({ active }) => (active ? 'linear-gradient(118deg, #ffa500, #ffa500)' : 'transparent')};
+  background: ${({ active }) => (active ? 'linear-gradient(to right, #ffa500, #ffd000)' : 'transparent')};
   box-shadow:  ${({ active }) => (active ? 'rgba(115, 103, 240, 0.48) 0px 2px 6px' : '')};
 `;
 
@@ -61,7 +61,7 @@ const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu }) => {
   const showSubnav = () => {
     setSubnav(!subnav);
     if (closeSubmenu) {
-      closeSubmenu(); // Close other submenus if provided
+      closeSubmenu(); 
     }
   };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const UserImage = styled.img`
+export const UserImage = styled.img`
   width: 39px;
   height: 31px;
   border-radius: 50%;

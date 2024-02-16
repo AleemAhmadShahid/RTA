@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import { UserImage } from "../components/EmployeeInfo";
 import {
   Heading,
   CloseButtonContainer,
@@ -87,7 +88,7 @@ const TextArea = styled.textarea`
   border-radius: 5px;
   width: 92%;
   padding: 4px;
-  margin-left: 40px;
+  margin-left: 45px;
   background: white;
   border: 1px solid #172b4d;
 
@@ -157,7 +158,9 @@ const CardsPopup = ({
   const [isMemberPopupOpen, setIsMemberPopupOpen] = useState(false);
   const [isLabelPopupOpen, setIsLabelPopupOpen] = useState(false);
   const [isCheckListPopupOpen, setIsCheckListPopupOpen] = useState(false);
-
+  const [isDatePopupOpen, setIsDatePopupOpen] = useState(false);
+  const [isAttachmentPopupOpen, setIsAttachmentPopupOpen] = useState(false);
+  const [isCoverPopupOpen, setIsCoverPopupOpen] = useState(false);
   const [memberFormValues, setMemberFormValues] = useState({});
   const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
   const [isEditable, setIsEditable] = useState(false);
@@ -243,6 +246,74 @@ const CardsPopup = ({
     // Update the state with the selected color
     setSelectedColor(color);
   };
+
+
+
+
+
+
+//for date
+
+  const openDatePopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
+
+    setBoxPosition({ left, top });
+    console.log(left, top);
+
+    setIsDatePopupOpen(true);
+    
+  };
+  const closeDatePopup = () => {
+    setIsDatePopupOpen(false);
+  };
+
+  //for attachment
+  const openAttachmentPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
+
+    setBoxPosition({ left, top });
+    console.log(left, top);
+
+    setIsAttachmentPopupOpen(true);
+    
+  };
+  const closeAttachmentPopup = () => {
+    setIsAttachmentPopupOpen(false);
+  };
+
+//for cover
+const openCoverPopup = (event) => {
+  const clickedDiv = event.currentTarget;
+  const rect = clickedDiv.getBoundingClientRect();
+  const left = rect.left;
+  const top = rect.top;
+
+  setBoxPosition({ left, top });
+  console.log(left, top);
+
+  setIsCoverPopupOpen(true);
+  
+};
+const closeCoverPopup = () => {
+  setIsCoverPopupOpen(false);
+};
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <PopupOverlay>
@@ -338,7 +409,7 @@ const CardsPopup = ({
                 <AddButton
                   style={{
                     width: "50px",
-                    marginLeft: "40px",
+                    marginLeft: "45px",
                     backgroundColor: "#0096FF",
                     color: "white",
                     textAlign: "center",
@@ -375,7 +446,7 @@ const CardsPopup = ({
                   }}
                 >
                   {" "}
-                  <LeftIcon>
+                  <LeftIcon style={{marginRight:'20px'}}>
                     <AiOutlineBell />
                   </LeftIcon>
                   Activity
@@ -386,12 +457,18 @@ const CardsPopup = ({
                   Show Details
                 </AddButton>
               </div>
-
-              <InputContainer>
+              <div style={{display:'flex'}}>
+              <UserImage
+            // src={employee.profileImg || defaultImageUrl}
+            alt="Profile Image"
+            style={{ marginLeft: '0px' }}
+          />
+              <InputContainer style={{ marginLeft: '-30px' }} >
                 <Input type="text" />
               </InputContainer>
+              </div>
             </LeftColumn>
-
+            
             <RightColumn>
               <H6
                 style={{
@@ -421,31 +498,30 @@ const CardsPopup = ({
                 </Icon>
                 Checklist
               </AddButton>
-              <AddButton>
+              <AddButton  onClick={openDatePopup}>
                 <Icon>
                   <BsClock />
                 </Icon>
                 Date
               </AddButton>
               <AddButton
-                onClick={() =>
-                  fileInputRef.current && fileInputRef.current.click()
-                }
+                onClick= {openAttachmentPopup}
+                
               >
                 <Icon>
                   <GrAttachment />
-                  <input
+                  {/* <input
                     type="file"
                     accept="image/*"
                     ref={fileInputRef}
                     style={{ display: "none" }}
                     onChange={handleImageSelection}
-                  />
+                  /> */}
                 </Icon>
                 Attachment
               </AddButton>
 
-              <AddButton>
+              <AddButton onClick={openCoverPopup}>
                 <Icon>
                   <AiOutlineAppstore />
                 </Icon>
@@ -507,7 +583,7 @@ const CardsPopup = ({
           // heading={}
           fields={[
             {
-              name: "Members ",
+              name: "Members",
               type: "text",
               placeholder: "Enter member name",
             },
@@ -553,6 +629,66 @@ const CardsPopup = ({
             // Add other fields as needed
           ]}
           onClose={closeCheckListPopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
+        />
+      )}
+      {isDatePopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          // top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              name: "Date",
+              type: "text",
+              placeholder: "Dates",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeDatePopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
+        />
+      )}
+      {isAttachmentPopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          // top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              name: "Attachment",
+              type: "text",
+              placeholder: "Dates",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeAttachmentPopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
+        />
+      )}
+      {isCoverPopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              name: "Cover",
+              type: "text",
+              placeholder: "Dates",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeCoverPopup}
           // onSubmit={(formValues) => {
           //   console.log("Member form submitted:", formValues);
           // }}

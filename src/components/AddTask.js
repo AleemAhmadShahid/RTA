@@ -8,25 +8,29 @@ export const Input = styled.input`
   border-radius: 10px;
   font-size: 13px;
    line-height: 26px; 
+  
    border:none;
    &:focus {
     outline: none;
   }
 `;
 const Taskinput = styled.textarea`
-width: 100%;
-padding: 10px;
-border: 1px solid #ccc;
-border-radius: 8px;
-min-height: 70px;
-font-size: 14px;
-outline: none;
-resize: none;
-background-color:white;
-&:focus {
-  border-color: blue;
-}
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-height: 70px;
+  // white-space: pre-wrap;
+  // word-wrap: break-word;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  background-color: white;
+  &:focus {
+    border-color: blue;
+  }
 `;
+
 
 
 export const AddButton = styled.button`
@@ -134,6 +138,11 @@ function AddTask(props) {
       },
     });
   }
+  const handleEnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      onNewTaskInputComplete();
+    }
+  };
 
   return (
     <div>
@@ -148,6 +157,7 @@ function AddTask(props) {
             value={value}
             onChange={handleInputChange}
             onBlur={onNewTaskInputComplete}
+            onKeyDown={handleEnterKeyPress}
           />
           
           <AddTaskButton onClick={onNewTaskInputComplete}>Add Card</AddTaskButton>

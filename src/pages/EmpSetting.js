@@ -40,9 +40,9 @@ import {createPutRequest} from '../global/helper'
 export const LeftColumn = styled.div`
   flex: 1;
   padding-right: 10px;
-  // width:100%;
+  
   @media (max-width: 845px) {
-    padding-right: 0; /* Reset padding for mobile view */
+    padding-right: 0; 
   }
 `;
 
@@ -51,7 +51,7 @@ export const RightColumn = styled.div`
   padding-left: 10px;
 
   @media (max-width: 845px) {
-    padding-left: 0; /* Reset padding for mobile view */
+    padding-left: 0; 
   }
 `;
 
@@ -59,21 +59,19 @@ export const ColumnContainer = styled.div`
   display: flex;
   width: 100%;
   @media (max-width: 845px) {
-    /* Apply styles for screens with a maximum width of 845px (adjust as needed) */
-    flex-direction: column; /* Stack columns vertically for mobile */
-    // align-items: center; /* Center-align columns in mobile view */
-    // width:100%;
+    
+    flex-direction: column; 
+   
   }
 `;
 export const ColumnContainer1 = styled.div`
-  // display: flex;
+ 
   width: 100%;
 
   @media (max-width: 845px) {
-    /* Apply styles for screens with a maximum width of 845px (adjust as needed) */
-    flex-direction: column; /* Stack columns vertically for mobile */
-    // align-items: center; /* Center-align columns in mobile view */
-    // width:100%;
+    
+    flex-direction: column; 
+ 
   }
 `;
 
@@ -96,7 +94,7 @@ const StyledButton = styled.button`
   gap: 5px;
   transition: background-color 0.3s ease;
 
-  /* Conditional styles based on currentPage */
+  
   ${(props) =>
     props.currentPage === props.page
       ? `
@@ -168,7 +166,7 @@ const Warningbox = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   background: #fdf1dc;
   color: #ffa500;
-  // margin-left:10px;
+  
 `;
 const Image = styled.img`
   width: 330px !important;
@@ -179,7 +177,7 @@ const Image = styled.img`
   background-color: #ededed;
 `;
 const APIbox = styled.div`
-  position: relative; /* To position the button relative to this container */
+  position: relative;
   background-color: #ededed;
   margin-left: 20px;
   margin-right: 20px;
@@ -190,8 +188,8 @@ const APIbox = styled.div`
 `;
 const APIOptionsButton = styled.button`
   position: absolute;
-  top: 10px; /* Adjust the top position as needed */
-  right: 10px; /* Adjust the right position as needed */
+  top: 10px; 
+  right: 10px;
   background: none;
   border: none;
   cursor: pointer;
@@ -199,7 +197,7 @@ const APIOptionsButton = styled.button`
 
 const CheckboxLabel = styled.label`
   display: block;
-  margin-top: 10px; /* Add margin for spacing */
+  margin-top: 10px; 
 `;
 
 const SwitchContainer = styled.div`
@@ -222,8 +220,8 @@ const TimeInput = styled.input`
   outline: none;
 `;
 const Colon = styled.span`
-  font-size: 20px; /* Adjust the font size as needed */
-  margin: 0 5px; /* Add spacing around the colon */
+  font-size: 20px; 
+  margin: 0 5px; 
 `;
 const InvisibleElement = styled.div`
   visibility: hidden;

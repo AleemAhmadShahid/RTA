@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Input,CloseButton,AddTaskButton } from "./AddTask";
+import { Input, CloseButton, AddTaskButton } from "./AddTask";
 import { IoCloseOutline } from "react-icons/io5";
 const FormButton = styled.button`
   background-color: lightgray;
@@ -9,8 +9,8 @@ const FormButton = styled.button`
   border-radius: 10px;
 
   width: 270px;
-  text-align:left;
-  padding: 10px; 
+  text-align: left;
+  padding: 10px;
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -24,23 +24,26 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-   width: 250px;
-
-
+  width: 270px;
 `;
 const Container1 = styled.div`
-
-//  background-color:white;
-background: #f1f2f4;
+  //  background-color:white;
+  background: #f1f2f4;
   padding: 5px;
-  border-radius:10px;
-
+  border-radius: 10px;
 `;
+const useEnterKeyPress = (callback) => {
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      callback();
+    }
+  };
 
-
-
+  return handleKeyPress;
+};
 function AddColumn(props) {
   const [showNewColumnButton, setShowNewColumnButton] = useState(true);
+  const handleEnterKeyPress = useEnterKeyPress(onNewColumnInputComplete);
   const [value, setValue] = useState("");
 
   function handleInputChange(event) {
@@ -48,8 +51,8 @@ function AddColumn(props) {
   }
 
   function onNewColumnButtonClick() {
-    setShowNewColumnButton(!showNewColumnButton); 
-    setValue(""); 
+    setShowNewColumnButton(!showNewColumnButton);
+    setValue("");
   }
 
   function onNewColumnInputComplete() {
@@ -57,7 +60,7 @@ function AddColumn(props) {
       addNewColumn(value);
       setValue("");
     }
-    setShowNewColumnButton(true); 
+    setShowNewColumnButton(true);
   }
 
   function addNewColumn(title) {
@@ -80,7 +83,7 @@ function AddColumn(props) {
       },
     });
   }
-
+ 
   return (
     <Container>
       {showNewColumnButton ? (
@@ -88,11 +91,23 @@ function AddColumn(props) {
       ) : (
         <div>
           <Container1>
-          <Input  type="text"placeholder="Enter list title..." value={value} onChange={handleInputChange} onBlur={onNewColumnInputComplete} />
-          <div>
-            <AddTaskButton onClick={onNewColumnInputComplete}>Add list</AddTaskButton>
-            <CloseButton onClick={onNewColumnButtonClick}><IoCloseOutline /></CloseButton>
-          </div></Container1>
+            <Input
+              type="text"
+              placeholder="Enter list title..."
+              value={value}
+              onChange={handleInputChange}
+              onBlur={onNewColumnInputComplete}
+              onKeyDown={handleEnterKeyPress}
+            />
+            <div>
+              <AddTaskButton onClick={onNewColumnInputComplete}>
+                Add list
+              </AddTaskButton>
+              <CloseButton onClick={onNewColumnButtonClick}>
+                <IoCloseOutline />
+              </CloseButton>
+            </div>
+          </Container1>
         </div>
       )}
     </Container>

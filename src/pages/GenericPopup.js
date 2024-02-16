@@ -1,10 +1,12 @@
-// GenericPopup.js
 import React, { useState } from "react";
-import { CloseButton } from "./styles/MultiStepFormStyling";
+import { CloseButton, P } from "./styles/MultiStepFormStyling";
 import styled from "styled-components";
 // import { AddButton } from "../components/AddTask";
 import { AddButton } from "./CardsPopup";
-// import { H6 } from "./styles/MultiStepFormStyling";
+import Calendar from "react-calendar";
+// import 'react-calendar/dist/Calendar.css';
+import "../pages/styles/Calender.css";
+import FilterBox from "../components/FilterBox";
 const Box = styled.div`
   z-index: 20;
   position: absolute;
@@ -19,6 +21,7 @@ const Box = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin-top: 35px;
 `;
+
 const Input = styled.input`
   width: 100%;
   padding: 5px;
@@ -72,6 +75,22 @@ const LabelColorStrip = styled.div`
   background-color: ${(props) => props.color || "transparent"};
   margin-bottom: 10px;
 `;
+const DateInput = styled.input`
+  width: 40%;
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+  background-color: ${(props) => (props.disabled ? "#f0f0f0" : "white")};
+  margin-bottom: 5px;
+  margin-right: 10px;
+  &:focus {
+    border-color: blue;
+  }
+`;
 
 const GenericPopup = ({
   fields,
@@ -88,6 +107,17 @@ const GenericPopup = ({
   const isColorChecked = (color) =>
     checkedColors && checkedColors.includes(color);
   const [formValues, setFormValues] = useState({});
+
+  const [dueDate, setdueDate] = useState({ value: null, label: "Select" });
+  const [isEditable, setIsEditable] = useState(true);
+  const handleCheckboxChange = () => {
+    setIsEditable(!isEditable);
+  };
+
+  const dueDateOptions = [
+    { value: "option1", label: "After 1 hour " },
+    { value: "option2", label: "After 2 hour" },
+  ];
 
   const handleChange = (fieldName, value) => {
     setFormValues((prevValues) => ({
@@ -117,15 +147,21 @@ const GenericPopup = ({
               </CloseButton>
             </CloseButtonContainer>
           </HeadingContainer>
-          <Input
+          {/* <Input
             type={field.type}
             value={formValues[field.name] || ""}
             onChange={(e) => handleChange(field.name, e.target.value)}
             placeholder={field.placeholder}
-          />
-          {field.name === "Member" && (
+          /> */}
+          {field.name === "Members" && (
             <>
-              
+              <Input
+                type={field.type}
+                value={formValues[field.name] || ""}
+                onChange={(e) => handleChange(field.name, e.target.value)}
+                placeholder={field.placeholder}
+              />
+
               <AddButton
                 style={{
                   textAlign: "center",
@@ -140,41 +176,260 @@ const GenericPopup = ({
             </>
           )}
           {field.name === "Label" && (
-            <LabelContainer>
-              <div style={{ display: "flex" }}>
-                <LabelCheckbox
-                  type="checkbox"
-                  onChange={() => onColorChange("#4bce97")}
-                  checked={isColorChecked("#4bce97")}
-                  
-                />
-                <LabelColorStrip color="#4bce97" />{" "}
-              </div>
-              <div style={{ display: "flex" }}>
-                <LabelCheckbox type="checkbox" 
-                onChange={() => onColorChange("#FFE140")}
-                checked={isColorChecked("#FFE140")}/>
-                <LabelColorStrip color="#FFE140" />{" "}
-              </div>
-              <div style={{ display: "flex" }}>
-                <LabelCheckbox type="checkbox" />
-                <LabelColorStrip color="#faa53d" />{" "}
-              </div>
-              <div style={{ display: "flex" }}>
-                <LabelCheckbox type="checkbox" />
-                <LabelColorStrip color=" #f87462" />{" "}
-              </div>
-              <div style={{ display: "flex" }}>
-                <LabelCheckbox type="checkbox" />
-                <LabelColorStrip color="#9f8fef" />{" "}
-              </div>
-              <div style={{ display: "flex" }}>
-                <LabelCheckbox type="checkbox" />
-                <LabelColorStrip color="#579dff" />{" "}
-              </div>
-            </LabelContainer>
+            <>
+              <Input
+                type={field.type}
+                value={formValues[field.name] || ""}
+                onChange={(e) => handleChange(field.name, e.target.value)}
+                placeholder={field.placeholder}
+              />
+              <LabelContainer>
+                <div style={{ display: "flex" }}>
+                  <LabelCheckbox
+                    type="checkbox"
+                    onChange={() => onColorChange("#4bce97")}
+                    checked={isColorChecked("#4bce97")}
+                  />
+                  <LabelColorStrip color="#4bce97" />{" "}
+                </div>
+                <div style={{ display: "flex" }}>
+                  <LabelCheckbox
+                    type="checkbox"
+                    onChange={() => onColorChange("#FFE140")}
+                    checked={isColorChecked("#FFE140")}
+                  />
+                  <LabelColorStrip color="#FFE140" />{" "}
+                </div>
+                <div style={{ display: "flex" }}>
+                  <LabelCheckbox type="checkbox" />
+                  <LabelColorStrip color="#faa53d" />{" "}
+                </div>
+                <div style={{ display: "flex" }}>
+                  <LabelCheckbox type="checkbox" />
+                  <LabelColorStrip color=" #f87462" />{" "}
+                </div>
+                <div style={{ display: "flex" }}>
+                  <LabelCheckbox type="checkbox" />
+                  <LabelColorStrip color="#9f8fef" />{" "}
+                </div>
+                <div style={{ display: "flex" }}>
+                  <LabelCheckbox type="checkbox" />
+                  <LabelColorStrip color="#579dff" />{" "}
+                </div>
+              </LabelContainer>
+            </>
           )}
           {field.name === "Checklist" && (
+            <AddButton
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={handleSubmit}
+            >
+              {buttonText || "Submit"}
+            </AddButton>
+          )}
+          {field.name === "Date" && (
+            <>
+              {/* <DateTimePicker/> */}
+
+              <Calendar />
+              <P
+                style={{
+                  marginBottom: "1px",
+                  fontSize: "12px",
+                  marginLeft: "-4px",
+                  fontWeight: "bold",
+                }}
+              >
+                {" "}
+                Start date
+              </P>
+              <div style={{ display: "flex" }}>
+                <input
+                  style={{ marginRight: "5px" }}
+                  type="checkbox"
+                  checked={isEditable}
+                  onChange={handleCheckboxChange}
+                />
+                {isEditable ? (
+                  <DateInput
+                    type="text"
+                    id="dateInput"
+                    name="dateInput"
+                    // value={selectedDate}
+                    // onChange={handleDateChange}
+                    placeholder="M/D/YYYY"
+                  />
+                ) : (
+                  <span>
+                    <DateInput
+                      type="text"
+                      id="dateInput"
+                      name="dateInput"
+                      disabled={!isEditable}
+                      // value={selectedDate}
+                      // onChange={handleDateChange}
+                      placeholder="M/D/YYYY"
+                    />
+                  </span>
+                )}
+              </div>
+              <P
+                style={{
+                  marginBottom: "1px",
+                  fontSize: "12px",
+                  marginLeft: "-4px",
+                  fontWeight: "bold",
+                }}
+              >
+                {" "}
+                Due date
+              </P>
+              <div style={{ display: "flex" }}>
+                <DateInput
+                  type="text"
+                  id="dateInput"
+                  name="dateInput"
+                  // value={selectedDate}
+                  // onChange={handleDateChange}
+                  placeholder="M/D/YYYY"
+                />
+                <DateInput
+                  type="text"
+                  id="dateInput"
+                  name="dateInput"
+                  // value={selectedDate}
+                  // onChange={handleDateChange}
+                  placeholder="h:mm A"
+                />
+              </div>
+              {/* <p> Set due date Reminder</p> */}
+
+              <FilterBox
+                width="100%"
+                options={dueDateOptions}
+                onValueChange={(selectedOption) => setdueDate(selectedOption)}
+                selectedValue={dueDate}
+                title="Set Due Date Reminder"
+              />
+              <P
+                style={{
+                  marginBottom: "1px",
+                  fontSize: "14px",
+                  marginLeft: "-4px",
+                }}
+              >
+                {" "}
+                Reminders will be send toall members and watches of this card
+              </P>
+
+              <AddButton
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={handleSubmit}
+              >
+                {"Save"}
+              </AddButton>
+
+              <AddButton
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "white",
+                }}
+                onClick={handleSubmit}
+              >
+                {"Remove"}
+              </AddButton>
+            </>
+          )}
+          {field.name === "Attachment" && (
+            <>
+              <H6
+                style={{
+                  textAlign: "left",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                Attach a file from your computer
+              </H6>
+
+              <P
+                style={{
+                  textAlign: "left",
+                  marginLeft: "-2px",
+                  fontSize: "12px",
+                }}
+              >
+                You can also drag and drop files to upload them
+              </P>
+              <AddButton
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={handleSubmit}
+              >
+                {"Choose a file"}
+              </AddButton>
+              <hr />
+              <P>Search or paste a link</P>
+              <Input />
+
+              <P>Display text</P>
+              <Input />
+              <div style={{ display: "flex", width: "100px" }}>
+                <AddButton
+                  style={{
+                    textAlign: "center",
+
+                    justifyContent: "center",
+                    marginRight: "10px",
+                  }}
+                  onClick={handleSubmit}
+                >
+                  {"Cancel"}
+                </AddButton>
+                <AddButton
+                  style={{
+                    textAlign: "center",
+
+                    justifyContent: "center",
+                  }}
+                  onClick={handleSubmit}
+                >
+                  {"Submit"}
+                </AddButton>
+              </div>
+            </>
+          )}
+          {field.name === "Cover" && (
+            <AddButton
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={handleSubmit}
+            >
+              {buttonText || "Submit"}
+            </AddButton>
+          )}
+          {field.name === "Custom Fields" && (
             <AddButton
               style={{
                 textAlign: "center",

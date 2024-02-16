@@ -25,7 +25,8 @@ const Container = styled.div`
   position: relative;
   cursor: pointer;
   box-shadow: 0px 1px 0px 0px rgba(0, 0.1, 0, 0.1);
-  // z-index:3;
+ 
+   word-wrap: break-word;
   &:hover .edit-button {
     display: block;
   }
@@ -107,7 +108,8 @@ const WatchIcon = styled.div`
   font-size: 14px;
 `;
 const LabelLine=styled.div`
-background-color: ${(props) => props.color || "transparent"};
+// background-color: ${(props) => props.color || "black"};
+background:black;
 height:8px;
 width:40px;
 border-radius:5px;
@@ -182,6 +184,7 @@ function Task(props) {
   };
 
   return (
+    <>
     <Draggable draggableId={props.task.id} index={props.index}>
       {(provided) => (
         <Container
@@ -234,7 +237,14 @@ function Task(props) {
             <OptionItem>Edit label</OptionItem>
           </OptionsMenu>
 
-          {isCardPopupOpen && (
+          
+           {/* <GenericPopup
+            onColorChange={(color) => setSelectedColor(color)}
+            />  */}
+
+        </Container>
+      )}
+    </Draggable>{isCardPopupOpen && (
             <CardsPopup
               task={props.task}
               closeCardPopup={closeCardPopup}
@@ -245,13 +255,7 @@ function Task(props) {
             />
            
           )} 
-           {/* <GenericPopup
-            onColorChange={(color) => setSelectedColor(color)}
-            />  */}
-
-        </Container>
-      )}
-    </Draggable>
+          </>
   );
 }
 
