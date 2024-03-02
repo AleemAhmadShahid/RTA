@@ -117,7 +117,7 @@ function Board(props) {
 
   return (
    
-    // <CenteredContainer style={{background:'lightblue'}}>
+   
    
       <CenteredContainer >
         <DragDropContext onDragEnd={onDragEnd}>
@@ -146,7 +146,7 @@ function Board(props) {
         </DragDropContext>
       </CenteredContainer>
    
-    // </CenteredContainer>
+    
    
   );
 }

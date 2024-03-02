@@ -18,6 +18,7 @@ import { clearUser, setUser } from "./redux/userSlice";
 import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";
 import Board from "./components/Board";
+import Calendar from "./components/Calendar";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ function App() {
           dispatch(setUser(response));
        else 
           clearUser();
-      
+       
       } catch (error) {
       }
       setIsLoading(false);
@@ -78,7 +79,8 @@ function App() {
               </Route>
 
               <Route path="projectmanagement" element={<Sidebar />}>
-                <Route path="board" element={<Board />} /> 
+                {/* <Route path="board" element={<Board />} />  */}
+                <Route path="board" element={<Calendar />} />
               </Route>
             </>
           ) : (

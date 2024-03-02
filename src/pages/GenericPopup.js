@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { CloseButton, P } from "./styles/MultiStepFormStyling";
 import styled from "styled-components";
 // import { AddButton } from "../components/AddTask";
@@ -131,10 +131,24 @@ const GenericPopup = ({
     onClose();
   };
   const handleColorChange = (color) => {
-    // Call the callback function with the selected color
+    
     onColorChange(color);
   };
 
+
+  const fileInputRef = useRef(null);
+  const handleImageSelection = (event) => {
+    const file = event.target.files[0];
+    // Handle the selected image here
+    console.log("Selected image:", file);
+  };
+
+   const handleButtonClick = () => {
+     fileInputRef.current.click();
+   };
+
+
+  
   return (
     <Box left={left} top={top}>
       {fields.map((field) => (
@@ -147,12 +161,7 @@ const GenericPopup = ({
               </CloseButton>
             </CloseButtonContainer>
           </HeadingContainer>
-          {/* <Input
-            type={field.type}
-            value={formValues[field.name] || ""}
-            onChange={(e) => handleChange(field.name, e.target.value)}
-            placeholder={field.placeholder}
-          /> */}
+        
           {field.name === "Members" && (
             <>
               <Input
@@ -234,7 +243,7 @@ const GenericPopup = ({
           )}
           {field.name === "Date" && (
             <>
-              {/* <DateTimePicker/> */}
+             
 
               <Calendar />
               <P
@@ -381,9 +390,16 @@ const GenericPopup = ({
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                onClick={handleSubmit}
+                onClick={handleButtonClick}
               >
                 {"Choose a file"}
+                <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleImageSelection}
+                  />
               </AddButton>
               <hr />
               <P>Search or paste a link</P>
@@ -399,7 +415,7 @@ const GenericPopup = ({
                     justifyContent: "center",
                     marginRight: "10px",
                   }}
-                  onClick={handleSubmit}
+                  onClick={onClose}
                 >
                   {"Cancel"}
                 </AddButton>
@@ -430,6 +446,32 @@ const GenericPopup = ({
             </AddButton>
           )}
           {field.name === "Custom Fields" && (
+            <AddButton
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={handleSubmit}
+            >
+              {buttonText || "Submit"}
+            </AddButton>
+          )}
+           {field.name === "Move" && (
+            <AddButton
+              style={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={handleSubmit}
+            >
+              {buttonText || "Submit"}
+            </AddButton>
+          )}
+          {field.name === "Copy" && (
             <AddButton
               style={{
                 textAlign: "center",

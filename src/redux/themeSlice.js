@@ -5,7 +5,8 @@ const initialState = {
     backgroundColor: "#f5f5f5"
   },
   projectManagement: {
-    backgroundColor: "rgb(0, 121, 191)"
+    // backgroundColor: "rgb(0, 121, 191)"
+    backgroundColor: "#f5f5f5"
   }
 };
 

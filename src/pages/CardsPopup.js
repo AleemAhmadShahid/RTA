@@ -161,6 +161,8 @@ const CardsPopup = ({
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false);
   const [isAttachmentPopupOpen, setIsAttachmentPopupOpen] = useState(false);
   const [isCoverPopupOpen, setIsCoverPopupOpen] = useState(false);
+  const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
+  const [isCopyPopupOpen, setIsCopyPopupOpen] = useState(false);
   const [memberFormValues, setMemberFormValues] = useState({});
   const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
   const [isEditable, setIsEditable] = useState(false);
@@ -302,6 +304,40 @@ const openCoverPopup = (event) => {
 };
 const closeCoverPopup = () => {
   setIsCoverPopupOpen(false);
+};
+//for move
+
+const openMovePopup = (event) => {
+  const clickedDiv = event.currentTarget;
+  const rect = clickedDiv.getBoundingClientRect();
+  const left = rect.left;
+  const top = rect.top;
+
+  setBoxPosition({ left, top });
+  console.log(left, top);
+
+  setIsMovePopupOpen(true);
+  
+};
+const closeMovePopup = () => {
+  setIsMovePopupOpen(false);
+};
+
+//for copy
+const openCopyPopup = (event) => {
+  const clickedDiv = event.currentTarget;
+  const rect = clickedDiv.getBoundingClientRect();
+  const left = rect.left;
+  const top = rect.top;
+
+  setBoxPosition({ left, top });
+  console.log(left, top);
+
+  setIsCopyPopupOpen(true);
+  
+};
+const closeCopyPopup = () => {
+  setIsCopyPopupOpen(false);
 };
 
 
@@ -510,13 +546,7 @@ const closeCoverPopup = () => {
               >
                 <Icon>
                   <GrAttachment />
-                  {/* <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleImageSelection}
-                  /> */}
+                  
                 </Icon>
                 Attachment
               </AddButton>
@@ -547,13 +577,13 @@ const closeCoverPopup = () => {
                 </Icon>
                 Add Button
               </AddButton>
-              <AddButton>
+              <AddButton onClick={openMovePopup}>
                 <Icon>
                   <AiOutlineArrowRight />
                 </Icon>
                 Move
               </AddButton>
-              <AddButton>
+              <AddButton onClick={openCopyPopup}>
                 <Icon>
                   <MdContentCopy />
                 </Icon>
@@ -590,9 +620,7 @@ const closeCoverPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeMemberPopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
+         
           buttonText="Show Other Workspace Members"
         />
       )}
@@ -629,49 +657,41 @@ const closeCoverPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeCheckListPopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
+          
           buttonText="Add "
         />
       )}
       {isDatePopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-          // top={boxPosition.top}
-          // heading={}
+          
           fields={[
             {
               name: "Date",
               type: "text",
               placeholder: "Dates",
             },
-            // Add other fields as needed
+            
           ]}
           onClose={closeDatePopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
+          
           buttonText="Add "
         />
       )}
       {isAttachmentPopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-          // top={boxPosition.top}
-          // heading={}
+         
           fields={[
             {
               name: "Attachment",
               type: "text",
               placeholder: "Dates",
             },
-            // Add other fields as needed
+            
           ]}
           onClose={closeAttachmentPopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
+          
           buttonText="Add "
         />
       )}
@@ -689,6 +709,50 @@ const closeCoverPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeCoverPopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
+        />
+      )}
+
+
+
+
+      {isMovePopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              name: "Move",
+              type: "text",
+              placeholder: "Dates",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeMovePopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
+        />
+      )}
+      {isCopyPopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top}
+          // heading={}
+          fields={[
+            {
+              name: "Copy",
+              type: "text",
+              placeholder: "Dates",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeCopyPopup}
           // onSubmit={(formValues) => {
           //   console.log("Member form submitted:", formValues);
           // }}
