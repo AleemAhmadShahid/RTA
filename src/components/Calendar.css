@@ -1,0 +1,101 @@
+.custom-calendar .fc-event {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.custom-calendar .fc-event .event-text {
+    margin-right: 10px;
+    color: black;
+    background: black;
+}
+
+.custom-calendar .fc-event .event-title {
+    color: black;
+}
+
+
+
+
+.fc {
+
+    & .fc-col-header-cell-cushion {
+      display: inline-block;
+      padding: 2px 4px;
+      color:black;
+    }
+  
+  }
+  :root {
+    --fc-border-color: grey;
+    --fc-daygrid-event-dot-width: 5px;
+    --fc-neutral-text-color: #808080;
+    --fc-border-color: #ddd;
+
+    --fc-button-text-color: #fff;
+    --fc-button-bg-color: #2C3E50;
+    --fc-button-border-color: #2C3E50;
+    --fc-button-hover-bg-color: #1e2b37;
+    --fc-button-hover-border-color: #1a252f;
+    --fc-button-active-bg-color: #1a252f;
+    --fc-button-active-border-color: #151e27;
+  }
+  .fc-event-title {
+    display: inline-block; /* need this to be sticky cross-browser */
+    vertical-align: top; /* for not messing up line-height */
+    left: 0;  /* for sticky */
+    right: 0; /* for sticky */
+    max-width: 100%; /* clip overflow on this element */
+    white-space: normal; /* allow text to wrap */
+    height: auto; /* allow the height to increase to accommodate more text */
+}
+.fc-event-main-frame {
+    display: flex; 
+  }
+.fc-event-resizer {
+    /* border-radius: calc(var(--fc-event-resizer-dot-total-width) * 2);
+    border-width: var(--fc-event-resizer-dot-border-width); */
+   
+    height: var(--fc-event-resizer-dot-total-width);
+    border-style: solid;
+    border-color: inherit;
+    background: var(--fc-page-bg-color);
+    
+}
+.fc-event-title {
+    
+    
+    white-space: normal; /* allow text to wrap */
+}
+
+
+
+
+
+.fc-icon {
+    /* added for fc */
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    user-select: none;
+  
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'fcicons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+}
+ td {
+    vertical-align: top;
+    padding: 0;
+    color:black;
+  }
+  a[data-navlink]:hover {
+    text-decoration: underline;
+    color:black;
+  }
+

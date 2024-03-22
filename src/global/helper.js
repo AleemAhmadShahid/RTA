@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://rta.blessingconnectionsllc.com:3000";
+const BACKEND_URL = "http://dev-portal.remoteteamworkadministration.us:3000";
 
 const createPostRequest = async (formData , path) =>
 {
