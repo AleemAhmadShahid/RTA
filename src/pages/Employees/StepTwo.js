@@ -11,7 +11,7 @@ import {
   EntriesDropdown,
   dropDownStyle
   } from "../styles/TableStyling";
-import { createGetRequest } from "../../global/helper";
+import { createGetRequest } from "../../global/requests";
 
 const StepTwo = ({ formData, handleChange }) => {
   const [role, setRoles] = useState([{}]);
@@ -20,13 +20,13 @@ const StepTwo = ({ formData, handleChange }) => {
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/role");
-        if (data.status == 200)
+        if (data.status === 200)
         {
           const roles = data.roles.map((role) => ({ label: role.name, value: role._id }));
           setRoles(roles);
           if(formData?.roles?.[0])
           {
-            const findSelectedRole = data.roles.find((roleObj)=> formData.roles[0] == roleObj._id);
+            const findSelectedRole = data.roles.find((roleObj)=> formData.roles[0] === roleObj._id);
             setSelectedRole({ label: findSelectedRole.name, value: findSelectedRole._id });
           }
         }
@@ -45,7 +45,7 @@ const StepTwo = ({ formData, handleChange }) => {
           <FormLabel>Date of Joining</FormLabel>
           <FormInput
             type="date"
-            value={formData.dateOfJoining && formData.dateOfJoining.split('T')[0] || ""}
+            value={(formData.dateOfJoining && formData.dateOfJoining.split('T')[0]) || ""}
             onChange={(e) => handleChange("dateOfJoining", e.target.value)}
           />
         </FormGroup>

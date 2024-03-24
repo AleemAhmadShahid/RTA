@@ -9,7 +9,7 @@ import {
   EntriesDropdown,
   dropDownStyle
   } from "../styles/TableStyling";
-import { createGetRequest } from "../../global/helper";
+import { createGetRequest } from "../../global/requests";
 
 import { StyledErrorH6 } from "../Login";
 
@@ -27,24 +27,24 @@ const StepOne = ({ formData, errors, handleChange, id, pageName }) => {
       console.log(formData);
       try {
         const userData = await createGetRequest("/api/user");
-        if (userData.status == 200)
+        if (userData.status === 200)
         {
           const employees = userData.users.map((employee) => ({ label: employee.name, value: employee._id }));
           setEmployees(employees);
           if(formData?.lead)
           {
-            const findSelectedEmployee = userData.users.find((employeeObj)=> formData.lead == employeeObj._id);
+            const findSelectedEmployee = userData.users.find((employeeObj)=> formData.lead === employeeObj._id);
             setSelectedEmployee({ label: findSelectedEmployee.name, value: findSelectedEmployee._id });
           }
         }
         const superDepartmentData = await createGetRequest("/api/department", { type: 1});
-        if (superDepartmentData.status == 200)
+        if (superDepartmentData.status === 200)
         {
           const superDepartments = superDepartmentData.departments.map((departmentObj) => ({ label: departmentObj.name, value: departmentObj._id }));
           setSuperDepartments(superDepartments);
           if(formData?.superDepartment)
           {
-            const findSelectedSuperDepartment = superDepartmentData.departments.find((departmentObj)=> formData.superDepartment == departmentObj._id);
+            const findSelectedSuperDepartment = superDepartmentData.departments.find((departmentObj)=> formData.superDepartment === departmentObj._id);
             setSelectedSuperDepartment({ label: findSelectedSuperDepartment.name, value: findSelectedSuperDepartment._id });
           }
         }

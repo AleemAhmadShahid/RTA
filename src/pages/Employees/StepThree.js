@@ -16,7 +16,7 @@ import {
   EntriesDropdown,
   dropDownStyle
   } from "../styles/TableStyling";
-import {  createfileUploadRequest } from "../../global/helper";
+import {  createfileUploadRequest } from "../../global/requests";
 
 
 const StepThree = ({ formData, handleChange }) => {
@@ -76,8 +76,8 @@ const StepThree = ({ formData, handleChange }) => {
                 <FormLabel>Level</FormLabel>
                   <EntriesDropdown
                     width="100%"
-                  value={formData?.qualification?.[index]?.level 
-                    && {label: formData?.qualification?.[index]?.level, value: formData?.qualification?.[index]?.level}
+                  value={(formData?.qualification?.[index]?.level 
+                    && {label: formData?.qualification?.[index]?.level, value: formData?.qualification?.[index]?.level})
                     || {label: "Bachelors", value: "Bachelors"}}
                   onChange={(selectedOption) =>{
                       handleChange(

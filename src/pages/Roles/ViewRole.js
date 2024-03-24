@@ -7,7 +7,7 @@ import {
 } from "../styles/MultiStepFormStyling";
 
 import EmployeeInfo from "../../components/EmployeeInfo";
-import { createGetRequest } from "../../global/helper";
+import { createGetRequest } from "../../global/requests";
 
 const ViewRole = ({ role}) => {
 

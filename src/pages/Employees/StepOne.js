@@ -15,7 +15,7 @@ import {
 } from "../styles/MultiStepFormStyling";
 import { StyledErrorH6 } from "../Login";
 
-import {  createfileUploadRequest } from "../../global/helper";
+import {  createfileUploadRequest } from "../../global/requests";
 import {  validateAlphabeticWithSpace, validateEmail, validateNumeric } from "../../global/validators";
 
 const StepOne = ({ formData, errors, handleChange }) => {
@@ -104,7 +104,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>Date of Birth</FormLabel>
         <FormInput
           type="date"
-          value={formData.dateOfBirth && formData.dateOfBirth.split('T')[0] || ""}
+          value={(formData.dateOfBirth && formData.dateOfBirth.split('T')[0]) || ""}
           onChange={(e) => handleChange("dateOfBirth", e.target.value)}
         />
       </FormGroup>

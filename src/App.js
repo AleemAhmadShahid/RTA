@@ -13,7 +13,7 @@ import ResetPassword from "./pages/ResetPassword";
 import EmpSetting from "./pages/EmpSetting";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import { createGetRequest } from "./global/helper";
+import { createGetRequest } from "./global/requests";
 import { clearUser, setUser } from "./redux/userSlice";
 import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";

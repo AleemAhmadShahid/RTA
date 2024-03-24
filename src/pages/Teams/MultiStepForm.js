@@ -14,8 +14,9 @@ import {
   FormCenteringContainer,
 } from "../styles/MultiStepFormStyling";
 import StepOne from "./StepOne";
-import ViewRole from "./ViewRole";
-import { createPostRequest, createPutRequest } from "../../global/helper";
+import ViewTeam from "./ViewTeam";
+import { createPostRequest, createPutRequest } from "../../global/requests";
+import toast  from 'react-hot-toast';
 
 const MultiStepForm = ({
   showForm,
@@ -24,7 +25,6 @@ const MultiStepForm = ({
   setFormData,
   setMessage,
   setIsDialogOpen,
-  setshowToast,
   reload,
   setReload,
   isEditMode,
@@ -66,8 +66,6 @@ const MultiStepForm = ({
   const closeForm = (message) => {
     setFormData({});
     setShowForm(false);
-    if (typeof message != "object") setshowToast(true);
-    setTimeout(() => setshowToast(false), 2000);
   };
 
   
@@ -101,7 +99,7 @@ const MultiStepForm = ({
       if (response.status === 201) {
         handleChange("_id", response.department._id);
         setReload(!reload);
-        setMessage("Operation Successful");
+        toast.success(pageName[id-1].name + " added Succesfully!");
       } else {
         setMessage(response.error || response.message);
         setIsDialogOpen(true);
@@ -112,7 +110,7 @@ const MultiStepForm = ({
         copyFormData,
         `/api/department/${formData._id}/`
       );
-      setMessage("Operation Successful");
+      toast.success(pageName[id-1].name + " updated Succesfully!");
       setReload(!reload);
     }
     if (typeof nextStep != "function") closeForm("anything");
@@ -155,7 +153,7 @@ const MultiStepForm = ({
             <InnermodalContainer>             
             {
               isViewMode ? (
-                <ViewRole role={formData}/>
+                <ViewTeam team={formData}/>
               ) : (
                 <>
                   {renderStep()}

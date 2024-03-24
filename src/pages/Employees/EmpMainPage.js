@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
-import LoaderComponent from "../../components/Loader";
 import {
   createGetRequest,
   createDeleteRequest,
   createPutRequest,
-} from "../../global/helper";
+} from "../../global/requests";
+import { handleCheckChange } from "../../global/helper";
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../components/Cards";
 import PageBar from "../../components/PageBar";
 import FilterBox from "../../components/FilterBox";
-import ToastDialogBox, { DialogOverlay } from "../../components/Toast";
 import ErrorDialog from "../../components/ErrorDialog";
 import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
@@ -20,13 +19,8 @@ import EmployeeInfo from "../../components/EmployeeInfo";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import {
-  FaPrint,
-  FaFileCsv,
-  FaFileExcel,
-  FaFilePdf,
-  FaCopy,
-} from "react-icons/fa";
+import { FaPrint} from "react-icons/fa";
+
 import {
   Td,
   Tr,
@@ -51,27 +45,23 @@ import {
 } from "../styles/TableStyling";
 
 import EmployeeTable from "../../components/Table";
+import { entriesOptions, exportOptions } from "../../global/constants"
+import toast  from 'react-hot-toast';
 
 const Emp_list = () => {
-  const entriesOptions = [5, 10, 20, 50, 100];
-  const statusOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
+
+  
   const bulkOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Active" },
     { value: 2, label: "Deactive" },
     { value: 3, label: "Delete" },
   ];
-
-  const exportOptions = [
-    { label: "Print", icon: <FaPrint /> },
-    { label: "CSV", icon: <FaFileCsv /> },
-    { label: "Excel", icon: <FaFileExcel /> },
-    { label: "PDF", icon: <FaFilePdf /> },
-    { label: "Copy", icon: <FaCopy /> },
+  
+  const statusOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Inactive" },
   ];
 
   const navigate = useNavigate();
@@ -115,12 +105,7 @@ const Emp_list = () => {
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/user", params);
-        if (
-          data.status === 401 &&
-          (data.error === "Invalid or expired token" ||
-            data.error === "No token provided")
-        )
-          navigate("/login/");
+      
         if (data.status === 404) {
           setEmployees([]);
           return;
@@ -159,7 +144,6 @@ const Emp_list = () => {
     setIsEditMode(false);
   };
 
-  const [showToast, setshowToast] = useState(false);
 
   const [selectedCheck, setSelectedCheck] = useState([
     "User",
@@ -177,16 +161,6 @@ const Emp_list = () => {
     "Actions",
   ];
 
-  const handleCheckChange = (optionLabel) => {
-    let selectedCheckCopy = [...selectedCheck];
-    if (!selectedCheckCopy.includes(optionLabel))
-      selectedCheckCopy.push(optionLabel);
-    else
-      selectedCheckCopy = selectedCheckCopy.filter(
-        (check) => check !== optionLabel
-      );
-    setSelectedCheck(selectedCheckCopy);
-  };
   const [Export, setExport] = useState({
     label: "Export",
     icon: <FaPrint />,
@@ -197,12 +171,8 @@ const Emp_list = () => {
     const response = await createDeleteRequest(`/api/user/${id}/`);
     if (response.status === 200) {
       setIsConfirmDialogOpen(false);
-      setMessage("Deleted Successfully");
+      toast.success("Employee Deleted Successfully");
       setReload(!reload);
-      setshowToast(true);
-      setTimeout(() => {
-        setshowToast(false);
-      }, 1500);
     }
   };
 
@@ -218,11 +188,7 @@ const Emp_list = () => {
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      setMessage(`${bulkOption.label}d Successfully`);
-      setshowToast(true);
-      setTimeout(() => {
-        setshowToast(false);
-      }, 1500);
+      toast.success("Employee " + `${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
@@ -251,11 +217,6 @@ const Emp_list = () => {
         }}
       />{" "}
       <CenteredContainer>
-        {showToast && (
-          <DialogOverlay show={showToast}>
-            <ToastDialogBox message={message} />
-          </DialogOverlay>
-        )}
         <div>
           <CardsContainer>
             <InfoBox
@@ -353,7 +314,7 @@ const Emp_list = () => {
                     value: option,
                     label: (
                       <div
-                        onClick={() => handleCheckChange(option)}
+                        onClick={() => handleCheckChange(option, selectedCheck, setSelectedCheck)}
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <input
@@ -669,7 +630,6 @@ const Emp_list = () => {
           setFormData={setFormData}
           setMessage={setMessage}
           setIsDialogOpen={setIsDialogOpen}
-          setshowToast={setshowToast}
           reload={reload}
           setReload={setReload}
           isEditMode={isEditMode}

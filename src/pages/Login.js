@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from "react";
 import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
-import {createPostRequest} from '../global/helper'
+import {createPostRequest} from '../global/requests'
 import ErrorDialog from "../components/ErrorDialog";
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';

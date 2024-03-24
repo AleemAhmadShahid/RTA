@@ -5,12 +5,12 @@ import {
   createGetRequest,
   createDeleteRequest,
   createPutRequest,
-} from "../../global/helper";
+} from "../../global/requests";
+import { handleCheckChange } from "../../global/helper";
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../components/Cards";
 import PageBar from "../../components/PageBar";
 import FilterBox from "../../components/FilterBox";
-import ToastDialogBox, { DialogOverlay } from "../../components/Toast";
 import ErrorDialog from "../../components/ErrorDialog";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 import EmployeeInfo from "../../components/EmployeeInfo";
@@ -18,21 +18,15 @@ import EmployeeInfo from "../../components/EmployeeInfo";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import {
-  FaPrint,
-  FaFileCsv,
-  FaFileExcel,
-  FaFilePdf,
-  FaCopy,
-} from "react-icons/fa";
+import { FaPrint} from "react-icons/fa";
+import toast  from 'react-hot-toast';
+
 import {
   Td,
   Tr,
   Th,
   AddEmployeeContainer,
   Table,
-  SuccessBadge,
-  DangerBadge,
   CreateEmployeeHeading,
   BoxContainer,
   AddEmployeeButton,
@@ -47,9 +41,10 @@ import {
   StyledSearchBar,
   dropDownStyle,
 } from "../styles/TableStyling";
+import { entriesOptions, exportOptions } from "../../global/constants"
+
 
 const Team_list = ({id}) => {
-  const entriesOptions = [5, 10, 20, 50, 100];
   const pageName = [
     {
       name: "Department",
@@ -60,22 +55,10 @@ const Team_list = ({id}) => {
       columnName: "Team Lead"
     },
   ];
-  const statusOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
+
   const bulkOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Delete" },
-  ];
-
-  const exportOptions = [
-    { label: "Print", icon: <FaPrint /> },
-    { label: "CSV", icon: <FaFileCsv /> },
-    { label: "Excel", icon: <FaFileExcel /> },
-    { label: "PDF", icon: <FaFilePdf /> },
-    { label: "Copy", icon: <FaCopy /> },
   ];
 
   const navigate = useNavigate();
@@ -83,8 +66,8 @@ const Team_list = ({id}) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedRole, setCheckedRole] = useState([]);
-  const [roles, setRole] = useState([]);
+  const [checkedTeam, setcheckedTeam] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -114,18 +97,12 @@ const Team_list = ({id}) => {
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/department", params);
-        if (
-          data.status === 401 &&
-          (data.error === "Invalid or expired token" ||
-            data.error === "No token provided")
-        )
-          navigate("/login/");
         if (data.status === 404) {
-          setRole([]);
+          setTeams([]);
           setLoading(false);
           return;
         }
-        setRole(data.departments);
+        setTeams(data.departments);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);    
         setLoading(false);
@@ -137,9 +114,9 @@ const Team_list = ({id}) => {
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
 
-  const handleEditClick = (role) => {
-    const updatedRole = {...role, lead: role?.lead?._id, superDepartment: role?.superDepartment?._id};
-    setFormData(updatedRole);
+  const handleEditClick = (team) => {
+    const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
+    setFormData(updatedteam);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -149,7 +126,6 @@ const Team_list = ({id}) => {
     setIsEditMode(false);
   };
 
-  const [showToast, setshowToast] = useState(false);
 
   const [selectedCheck, setSelectedCheck] = useState([
     "Name",
@@ -166,48 +142,30 @@ const Team_list = ({id}) => {
     "Actions",
   ];
 
-  const handleCheckChange = (optionLabel) => {
-    let selectedCheckCopy = [...selectedCheck];
-    if (!selectedCheckCopy.includes(optionLabel))
-      selectedCheckCopy.push(optionLabel);
-    else
-      selectedCheckCopy = selectedCheckCopy.filter(
-        (check) => check !== optionLabel
-      );
-    setSelectedCheck(selectedCheckCopy);
-  };
   const [Export, setExport] = useState({
     label: "Export",
     icon: <FaPrint />,
   });
 
   const [deleteDepartmentId, setDeleteEmployeeId] = useState("");
-  const deleteDepartment = async (id) => {
-    const response = await createDeleteRequest(`/api/department/${id}/`);
+  const deleteDepartment = async (departmentId) => {
+    const response = await createDeleteRequest(`/api/department/${departmentId}/`);
     if (response.status === 200) {
       setIsConfirmDialogOpen(false);
-      setMessage("Deleted Successfully");
+      toast.success(pageName[id-1].name + " deleted successfully!");
       setReload(!reload);
-      setshowToast(true);
-      setTimeout(() => {
-        setshowToast(false);
-      }, 1500);
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {roles: checkedRole};
-    if (checkedRole.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/role/bulkDelete/";
+    const data = {teams: checkedTeam};
+    if (checkedTeam.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/department/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      setMessage(`${bulkOption.label}d Successfully`);
-      setshowToast(true);
-      setTimeout(() => {
-        setshowToast(false);
-      }, 1500);
+      toast.success(pageName[id-1].name + `${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
@@ -236,11 +194,6 @@ const Team_list = ({id}) => {
         }}
       />{" "}
       <CenteredContainer>
-        {showToast && (
-          <DialogOverlay show={showToast}>
-            <ToastDialogBox message={message} />
-          </DialogOverlay>
-        )}
         <div>
           {<CardsContainer>
             {/* <InfoBox
@@ -327,7 +280,7 @@ const Team_list = ({id}) => {
                     value: option,
                     label: (
                       <div
-                        onClick={() => handleCheckChange(option)}
+                        onClick={() => handleCheckChange(option, selectedCheck, setSelectedCheck)}
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <input
@@ -384,10 +337,10 @@ const Team_list = ({id}) => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedRole(
-                              roles.map((role) => role._id)
+                            setcheckedTeam(
+                              teams.map((team) => team._id)
                             );
-                          else setCheckedRole([]);
+                          else setcheckedTeam([]);
                         }}
                       />
                     </Th>
@@ -415,25 +368,25 @@ const Team_list = ({id}) => {
                       </td>
                     </tr>
                   ) : (
-                    roles &&
-                    roles.map((role) => (
-                      <Tr key={role._id}>
+                    teams &&
+                    teams.map((team) => (
+                      <Tr key={team._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedRole.includes(role._id)}
+                            checked={checkedTeam.includes(team._id)}
                             onChange={() => {
-                              if (!checkedRole.includes(role._id))
-                                setCheckedRole([
-                                  ...checkedRole,
-                                  role._id,
+                              if (!checkedTeam.includes(team._id))
+                                setcheckedTeam([
+                                  ...checkedTeam,
+                                  team._id,
                                 ]);
                               else
-                                setCheckedRole(
-                                  checkedRole.filter(
-                                    (checkedRole) =>
-                                      checkedRole !== role._id
+                                setcheckedTeam(
+                                  checkedTeam.filter(
+                                    (checkedTeam) =>
+                                      checkedTeam !== team._id
                                   )
                                 );
                             }}
@@ -441,27 +394,27 @@ const Team_list = ({id}) => {
                         </Td>
 
                         {selectedCheck.includes("Name") && (
-                          <Td>{role.name}</Td>
+                          <Td>{team.name}</Td>
                         )}
 
                         {selectedCheck.includes(pageName[id-1].columnName) && (
                           <Td>
-                          { role?.lead 
+                          { team?.lead 
                             &&
-                            <EmployeeInfo isSpaceRequired={true} employee={role?.lead} />
+                            <EmployeeInfo isSpaceRequired={true} employee={team?.lead} />
                           }
                         </Td>
                         )}
 
                         {selectedCheck.includes("Supervising Department") && (
-                          <Td>{role?.superDepartment?.name}</Td>
+                          <Td>{team?.superDepartment?.name}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { role?.createdBy 
+                            { team?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={role?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={team?.createdBy} />
                             }
                           </Td>
                         )}
@@ -474,10 +427,10 @@ const Team_list = ({id}) => {
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
                                   setIsViewMode(false);
-                                  const updatedRole = {...role, lead: role?.lead?._id, superDepartment: role?.superDepartment?._id};
-                                  setFormData(updatedRole);
+                                  const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
+                                  setFormData(updatedteam);
                                   setShowForm(true);
-                                  setIsEditMode(!!role);
+                                  setIsEditMode(!!team);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -485,7 +438,7 @@ const Team_list = ({id}) => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(role);
+                              setFormData(team);
                               setIsViewMode(true);
                               toggleForm();
                             }}
@@ -498,7 +451,7 @@ const Team_list = ({id}) => {
                                 setMessage(
                                   `Do you want to delete this ${pageName[id-1].name.toLowerCase()}?`
                                 );
-                                setDeleteEmployeeId(role._id);
+                                setDeleteEmployeeId(team._id);
                                 setIsConfirmDialogOpen(true);
                               }}
                             />
@@ -507,7 +460,7 @@ const Team_list = ({id}) => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!roles || roles.length === 0) && (
+                  {!loading && (!teams || teams.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -516,7 +469,7 @@ const Team_list = ({id}) => {
               </Table>
             </TableContainer>
 
-            {roles.length !== 0 && totalPages >= 1 && (
+            {teams.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -534,7 +487,6 @@ const Team_list = ({id}) => {
           setFormData={setFormData}
           setMessage={setMessage}
           setIsDialogOpen={setIsDialogOpen}
-          setshowToast={setshowToast}
           reload={reload}
           setReload={setReload}
           isEditMode={isEditMode}

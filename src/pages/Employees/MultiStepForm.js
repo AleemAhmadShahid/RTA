@@ -21,7 +21,8 @@ import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
-import { createPostRequest, createPutRequest } from "../../global/helper";
+import { createPostRequest, createPutRequest } from "../../global/requests";
+import toast  from 'react-hot-toast';
 
 const MultiStepForm = ({
   showForm,
@@ -30,7 +31,6 @@ const MultiStepForm = ({
   setFormData,
   setMessage,
   setIsDialogOpen,
-  setshowToast,
   reload,
   setReload,
   isEditMode,
@@ -69,8 +69,6 @@ const MultiStepForm = ({
   const closeForm = (message) => {
     setFormData({});
     setShowForm(false);
-    if (typeof message != "object") setshowToast(true);
-    setTimeout(() => setshowToast(false), 2000);
   };
 
   
@@ -103,7 +101,7 @@ const MultiStepForm = ({
       if (response.status === 201) {
         handleChange("_id", response.user._id);
         setReload(!reload);
-        setMessage("Operation Successful");
+        toast.success("Employee added Succesfully!");
       } else {
         setMessage(response.error);
         setIsDialogOpen(true);
@@ -114,7 +112,7 @@ const MultiStepForm = ({
         copyFormData,
         `/api/user/${formData._id}/`
       );
-      setMessage("Operation Successful");
+      toast.success("Employee updated Succesfully!");
       setReload(!reload);
     }
     if (typeof nextStep != "function") closeForm("anything");

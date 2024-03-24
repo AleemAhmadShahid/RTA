@@ -2,7 +2,7 @@ import React , { useState } from "react";
 import styled from "styled-components";
 import { FormLabel } from "./styles/MultiStepFormStyling";
 import { useNavigate  } from "react-router-dom";
-import { createPostRequest } from "../global/helper";
+import { createPostRequest } from "../global/requests";
 import ErrorDialog from "../components/ErrorDialog";
 
 export const Container = styled.div`

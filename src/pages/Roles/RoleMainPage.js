@@ -5,12 +5,13 @@ import {
   createGetRequest,
   createDeleteRequest,
   createPutRequest,
-} from "../../global/helper";
+} from "../../global/requests";
+import { handleCheckChange } from "../../global/helper";
+
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../components/Cards";
 import PageBar from "../../components/PageBar";
 import FilterBox from "../../components/FilterBox";
-import ToastDialogBox, { DialogOverlay } from "../../components/Toast";
 import ErrorDialog from "../../components/ErrorDialog";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 import EmployeeInfo from "../../components/EmployeeInfo";
@@ -18,21 +19,14 @@ import EmployeeInfo from "../../components/EmployeeInfo";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import {
-  FaPrint,
-  FaFileCsv,
-  FaFileExcel,
-  FaFilePdf,
-  FaCopy,
-} from "react-icons/fa";
+import { FaPrint} from "react-icons/fa";
+
 import {
   Td,
   Tr,
   Th,
   AddEmployeeContainer,
   Table,
-  SuccessBadge,
-  DangerBadge,
   CreateEmployeeHeading,
   BoxContainer,
   AddEmployeeButton,
@@ -48,24 +42,15 @@ import {
   dropDownStyle,
 } from "../styles/TableStyling";
 
+import { entriesOptions, exportOptions } from "../../global/constants"
+import toast  from 'react-hot-toast';
+
+
 const Role_list = () => {
-  const entriesOptions = [5, 10, 20, 50, 100];
-  const statusOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
+
   const bulkOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Delete" },
-  ];
-
-  const exportOptions = [
-    { label: "Print", icon: <FaPrint /> },
-    { label: "CSV", icon: <FaFileCsv /> },
-    { label: "Excel", icon: <FaFileExcel /> },
-    { label: "PDF", icon: <FaFilePdf /> },
-    { label: "Copy", icon: <FaCopy /> },
   ];
 
   const navigate = useNavigate();
@@ -86,7 +71,6 @@ const Role_list = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [message, setMessage] = useState();
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
 
   const [loading, setLoading] = useState(true);
@@ -97,20 +81,13 @@ const Role_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof status.value !== "object") params.status = status.value;
-    if (typeof roles.value !== "object") params.roless = roles.value;
+    if (typeof roles.value !== "object") params.roles = roles.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/role", params);
-        if (
-          data.status === 401 &&
-          (data.error === "Invalid or expired token" ||
-            data.error === "No token provided")
-        )
-          navigate("/login/");
         if (data.status === 404) {
           setRole([]);
           return;
@@ -125,7 +102,7 @@ const Role_list = () => {
 
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
+  }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
   const handleEditClick = (role) => {
     setFormData(role);
@@ -137,8 +114,6 @@ const Role_list = () => {
     setShowForm(!showForm);
     setIsEditMode(false);
   };
-
-  const [showToast, setshowToast] = useState(false);
 
   const [selectedCheck, setSelectedCheck] = useState([
     "Name",
@@ -153,16 +128,6 @@ const Role_list = () => {
     "Actions",
   ];
 
-  const handleCheckChange = (optionLabel) => {
-    let selectedCheckCopy = [...selectedCheck];
-    if (!selectedCheckCopy.includes(optionLabel))
-      selectedCheckCopy.push(optionLabel);
-    else
-      selectedCheckCopy = selectedCheckCopy.filter(
-        (check) => check !== optionLabel
-      );
-    setSelectedCheck(selectedCheckCopy);
-  };
   const [Export, setExport] = useState({
     label: "Export",
     icon: <FaPrint />,
@@ -173,12 +138,8 @@ const Role_list = () => {
     const response = await createDeleteRequest(`/api/role/${id}/`);
     if (response.status === 200) {
       setIsConfirmDialogOpen(false);
-      setMessage("Deleted Successfully");
       setReload(!reload);
-      setshowToast(true);
-      setTimeout(() => {
-        setshowToast(false);
-      }, 1500);
+      toast.success("Role deleted Successfully!");
     }
   };
 
@@ -190,11 +151,7 @@ const Role_list = () => {
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      setMessage(`${bulkOption.label}d Successfully`);
-      setshowToast(true);
-      setTimeout(() => {
-        setshowToast(false);
-      }, 1500);
+      toast.success(`${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
@@ -223,11 +180,6 @@ const Role_list = () => {
         }}
       />{" "}
       <CenteredContainer>
-        {showToast && (
-          <DialogOverlay show={showToast}>
-            <ToastDialogBox message={message} />
-          </DialogOverlay>
-        )}
         <div>
           {<CardsContainer>
             {/* <InfoBox
@@ -314,7 +266,7 @@ const Role_list = () => {
                     value: option,
                     label: (
                       <div
-                        onClick={() => handleCheckChange(option)}
+                        onClick={() => handleCheckChange(option, selectedCheck, setSelectedCheck)}
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <input
@@ -508,7 +460,6 @@ const Role_list = () => {
           setFormData={setFormData}
           setMessage={setMessage}
           setIsDialogOpen={setIsDialogOpen}
-          setshowToast={setshowToast}
           reload={reload}
           setReload={setReload}
           isEditMode={isEditMode}

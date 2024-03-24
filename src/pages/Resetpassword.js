@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FormLabel } from "./styles/MultiStepFormStyling";
 import { FiEye, FiEyeOff } from "react-icons/fi"; 
 import { useParams } from 'react-router-dom';
-import { createPostRequest } from "../global/helper";
+import { createPostRequest } from "../global/requests";
 import ErrorDialog from "../components/ErrorDialog";
 import { Container,RTAHeader,LeftPanel,Image,RightPanel,Title,ButtonContainer,SendButton,CancelButton,Box,H6 } from "./ForgetPassword";
 
