@@ -47,7 +47,8 @@ const Calendar = () => {
         resourceTimeGridPlugin,
         resourceTimelinePlugin,
       ],
-      initialView: "timeGridDay",
+      // initialView: "resourceTimeline",
+      initialView: 'dayGridMonth',
       editable: true,
       eventBackgroundColor: "lightgrey",
       eventBorderColor: "lightgrey",
@@ -55,15 +56,21 @@ const Calendar = () => {
       eventClick: handleEventClick,
         // eventContent: renderEventContent,
 
-      events: [
-        { title: "Event 1", start: "2024-03-01", image: "/RTA.png" },
-        { title: "Event 2", start: "2024-03-05", end: "2024-03-07" },
-        { title: "My name is aleem and am going to be a pilot aaaaaaaaaaaaaaaaaa aaaa a a a", start: "2024-03-01" },
-        { title: "Event 4", start: "2024-03-05", end: "2024-03-07" },
-      ],
-      
-     
-
+      // events: [
+      //   { title: "Event 1", start: "2024-03-01", image: "/RTA.png" },
+      //   { title: "Event 2", start: "2024-03-05", end: "2024-03-07" },
+      //   { title: "My name is aleem and am going to be a pilot aaaaaaaaaaaaaaaaaa aaaa a a a", start: "2024-03-01" },
+      //   { title: "Event 4", start: "2024-03-05", end: "2024-03-07" },
+      // ],
+      // resources: [
+      //   { id: 'a', title: 'Resource A' },
+      //   { id: 'b', title: 'Resource B' },
+      //   { id: 'c', title: 'Resource C' },
+      //   // Add more resources as needed
+      // ],
+      eventColor:"Green",
+      resources: 'https://fullcalendar.io/api/demo-feeds/resources.json?with-nesting&with-colors',
+    events: 'https://fullcalendar.io/api/demo-feeds/events.json?single-day&for-resource-timeline'
     });
     calendar.render();
     return () => {

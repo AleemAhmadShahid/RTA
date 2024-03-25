@@ -23,7 +23,8 @@ import { MdContentCopy } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { H6 } from "./ForgetPassword";
 import GenericPopup from "./GenericPopup";
-
+import Progressbar from "../components/ProgressBar";
+import { TbCheckbox } from "react-icons/tb";
 const PopupOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -146,7 +147,7 @@ const CardsPopup = ({
   task,
   closeCardPopup,
   onImageSelect,
-   title,
+  title,
   onSaveImage,
   onWatchToggle,
   column,
@@ -166,7 +167,6 @@ const CardsPopup = ({
   const [memberFormValues, setMemberFormValues] = useState({});
   const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
   const [isEditable, setIsEditable] = useState(false);
-
 
   const openMemberPopup = (event) => {
     const clickedDiv = event.currentTarget;
@@ -203,6 +203,13 @@ const CardsPopup = ({
   const closeLabelPopup = () => {
     setIsLabelPopupOpen(false);
   };
+  //checklist
+
+  
+  const [showDiv, setShowDiv] = useState(false);
+  const handleChecklistButtonClick = (value) => {
+    setShowDiv(value);
+  };
   const openCheckListPopup = (event) => {
     const clickedDiv = event.currentTarget;
     const rect = clickedDiv.getBoundingClientRect();
@@ -214,7 +221,6 @@ const CardsPopup = ({
 
     setIsCheckListPopupOpen(true);
     setIsLabelPopupOpen(false);
-
   };
   const closeCheckListPopup = () => {
     setIsCheckListPopupOpen(false);
@@ -241,7 +247,6 @@ const CardsPopup = ({
     setIsEditable(true);
   };
 
-
   const [selectedColor, setSelectedColor] = useState(null);
 
   const handleColorChange = (color) => {
@@ -249,12 +254,7 @@ const CardsPopup = ({
     setSelectedColor(color);
   };
 
-
-
-
-
-
-//for date
+  //for date
 
   const openDatePopup = (event) => {
     const clickedDiv = event.currentTarget;
@@ -266,7 +266,6 @@ const CardsPopup = ({
     console.log(left, top);
 
     setIsDatePopupOpen(true);
-    
   };
   const closeDatePopup = () => {
     setIsDatePopupOpen(false);
@@ -283,73 +282,58 @@ const CardsPopup = ({
     console.log(left, top);
 
     setIsAttachmentPopupOpen(true);
-    
   };
   const closeAttachmentPopup = () => {
     setIsAttachmentPopupOpen(false);
   };
 
-//for cover
-const openCoverPopup = (event) => {
-  const clickedDiv = event.currentTarget;
-  const rect = clickedDiv.getBoundingClientRect();
-  const left = rect.left;
-  const top = rect.top;
+  //for cover
+  const openCoverPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
 
-  setBoxPosition({ left, top });
-  console.log(left, top);
+    setBoxPosition({ left, top });
+    console.log(left, top);
 
-  setIsCoverPopupOpen(true);
-  
-};
-const closeCoverPopup = () => {
-  setIsCoverPopupOpen(false);
-};
-//for move
+    setIsCoverPopupOpen(true);
+  };
+  const closeCoverPopup = () => {
+    setIsCoverPopupOpen(false);
+  };
+  //for move
 
-const openMovePopup = (event) => {
-  const clickedDiv = event.currentTarget;
-  const rect = clickedDiv.getBoundingClientRect();
-  const left = rect.left;
-  const top = rect.top;
+  const openMovePopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
 
-  setBoxPosition({ left, top });
-  console.log(left, top);
+    setBoxPosition({ left, top });
+    console.log(left, top);
 
-  setIsMovePopupOpen(true);
-  
-};
-const closeMovePopup = () => {
-  setIsMovePopupOpen(false);
-};
+    setIsMovePopupOpen(true);
+  };
+  const closeMovePopup = () => {
+    setIsMovePopupOpen(false);
+  };
 
-//for copy
-const openCopyPopup = (event) => {
-  const clickedDiv = event.currentTarget;
-  const rect = clickedDiv.getBoundingClientRect();
-  const left = rect.left;
-  const top = rect.top;
+  //for copy
+  const openCopyPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
 
-  setBoxPosition({ left, top });
-  console.log(left, top);
+    setBoxPosition({ left, top });
+    console.log(left, top);
 
-  setIsCopyPopupOpen(true);
-  
-};
-const closeCopyPopup = () => {
-  setIsCopyPopupOpen(false);
-};
-
-
-
-
-
-
-
-
-
-
-
+    setIsCopyPopupOpen(true);
+  };
+  const closeCopyPopup = () => {
+    setIsCopyPopupOpen(false);
+  };
 
   return (
     <PopupOverlay>
@@ -379,11 +363,7 @@ const closeCopyPopup = () => {
                 <AiOutlineAppstore />
               </LeftIcon>
               {task.content}
-              <div>
-                {/* {task.column.title} */}
-              </div>
-              
-               
+              <div>{/* {task.column.title} */}</div>
             </Heading>
 
             <CloseButtonContainer>
@@ -403,22 +383,22 @@ const closeCopyPopup = () => {
               >
                 Notification
               </H6>
-              <div   style={{  marginLeft: "40px" ,display:'flex'}}>
-              <AddButton
-                style={{ width: "100px", marginRight: "20px", color: "#172b4d"}}
-                onClick={handleWatchClick}
-              >
-                <Icon>
-                  <AiOutlineEye />
-                </Icon>
-                Watch
-              </AddButton>
+              <div style={{ marginLeft: "40px", display: "flex" }}>
+                <AddButton
+                  style={{
+                    width: "100px",
+                    marginRight: "20px",
+                    color: "#172b4d",
+                  }}
+                  onClick={handleWatchClick}
+                >
+                  <Icon>
+                    <AiOutlineEye />
+                  </Icon>
+                  Watch
+                </AddButton>
 
-
-
-
-
-              <ColorContainer color={selectedColor} />
+                <ColorContainer color={selectedColor} />
               </div>
               <H6
                 style={{
@@ -472,6 +452,76 @@ const closeCopyPopup = () => {
                   Cancel{" "}
                 </AddButton>
               </div>
+              {/* checklist */}
+
+              {showDiv && ( 
+                <div>
+                  {/* Checklist header */}
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <H6
+                      style={{
+                        fontWeight: "bold",
+                        marginTop: "30px",
+                        fontSize: "16px",
+                        color: "#172b4d",
+                      }}
+                    >
+                      {" "}
+                      <LeftIcon style={{ marginRight: "20px" }}>
+                        <TbCheckbox />
+                      </LeftIcon>
+                      CheckList
+                    </H6>
+                
+                    <AddButton
+                      style={{
+                        width: "60px",
+                        height: "30px",
+                        marginTop: "30px",
+                      }}
+                    >
+                      Delete
+                    </AddButton>
+                  </div>
+                  {/* Progress bar */}
+                  <div style={{ display: "flex" }}>
+                    <LeftIcon style={{ marginRight: "20px" }}>
+                      {/* <ProgressBarPercent/> */}
+                    </LeftIcon>
+                    <div style={{ width: "100%" }}>
+                      <Progressbar />
+                    </div>
+                  </div>
+                  
+                  <div style={{ display: "flex" }}>
+                    <input
+                      style={{ marginLeft: "10px" }}
+                      type="checkbox"
+                    ></input>
+                    <InputContainer>
+                      <Input
+                        style={{ marginLeft: "25px", width: "95%" }}
+                        type="text"
+                      />
+                    </InputContainer>
+                  </div>
+                  
+                  <AddButton
+                    style={{
+                      marginLeft: "45px",
+                      width: "100px",
+                      height: "30px",
+                    }}
+                  >
+                    Add an Item
+                  </AddButton>
+                  
+                  <GenericPopup onAddButtonClick={handleChecklistButtonClick} />
+                </div>
+              )}
+
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <H6
                   style={{
@@ -482,7 +532,7 @@ const closeCopyPopup = () => {
                   }}
                 >
                   {" "}
-                  <LeftIcon style={{marginRight:'20px'}}>
+                  <LeftIcon style={{ marginRight: "20px" }}>
                     <AiOutlineBell />
                   </LeftIcon>
                   Activity
@@ -493,18 +543,18 @@ const closeCopyPopup = () => {
                   Show Details
                 </AddButton>
               </div>
-              <div style={{display:'flex'}}>
-              <UserImage
-            // src={employee.profileImg || defaultImageUrl}
-            alt="Profile Image"
-            style={{ marginLeft: '0px' }}
-          />
-              <InputContainer style={{ marginLeft: '-30px' }} >
-                <Input type="text" />
-              </InputContainer>
+              <div style={{ display: "flex" }}>
+                <UserImage
+                  // src={employee.profileImg || defaultImageUrl}
+                  alt="Profile Image"
+                  style={{ marginLeft: "0px" }}
+                />
+                <InputContainer style={{ marginLeft: "-30px" }}>
+                  <Input type="text" />
+                </InputContainer>
               </div>
             </LeftColumn>
-            
+
             <RightColumn>
               <H6
                 style={{
@@ -534,19 +584,15 @@ const closeCopyPopup = () => {
                 </Icon>
                 Checklist
               </AddButton>
-              <AddButton  onClick={openDatePopup}>
+              <AddButton onClick={openDatePopup}>
                 <Icon>
                   <BsClock />
                 </Icon>
                 Date
               </AddButton>
-              <AddButton
-                onClick= {openAttachmentPopup}
-                
-              >
+              <AddButton onClick={openAttachmentPopup}>
                 <Icon>
                   <GrAttachment />
-                  
                 </Icon>
                 Attachment
               </AddButton>
@@ -620,7 +666,6 @@ const closeCopyPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeMemberPopup}
-         
           buttonText="Show Other Workspace Members"
         />
       )}
@@ -639,7 +684,6 @@ const closeCopyPopup = () => {
           ]}
           onClose={closeLabelPopup}
           onColorChange={handleColorChange}
-         
           buttonText="Add "
         />
       )}
@@ -657,41 +701,34 @@ const closeCopyPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeCheckListPopup}
-          
           buttonText="Add "
         />
       )}
       {isDatePopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-          
           fields={[
             {
               name: "Date",
               type: "text",
               placeholder: "Dates",
             },
-            
           ]}
           onClose={closeDatePopup}
-          
           buttonText="Add "
         />
       )}
       {isAttachmentPopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-         
           fields={[
             {
               name: "Attachment",
               type: "text",
               placeholder: "Dates",
             },
-            
           ]}
           onClose={closeAttachmentPopup}
-          
           buttonText="Add "
         />
       )}
@@ -716,13 +753,10 @@ const closeCopyPopup = () => {
         />
       )}
 
-
-
-
       {isMovePopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-          top={boxPosition.top}
+          top={boxPosition.top-100}
           // heading={}
           fields={[
             {
@@ -742,7 +776,7 @@ const closeCopyPopup = () => {
       {isCopyPopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-          top={boxPosition.top}
+          top={boxPosition.top-100}
           // heading={}
           fields={[
             {

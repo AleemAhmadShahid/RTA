@@ -7,6 +7,8 @@ import Calendar from "react-calendar";
 // import 'react-calendar/dist/Calendar.css';
 import "../pages/styles/Calender.css";
 import FilterBox from "../components/FilterBox";
+import EntriesDropdown from "../components/CheckBoxMenu";
+
 const Box = styled.div`
   z-index: 20;
   position: absolute;
@@ -103,6 +105,7 @@ const GenericPopup = ({
   heading,
   onColorChange,
   checkedColors,
+  onAddButtonClick,
 }) => {
   const isColorChecked = (color) =>
     checkedColors && checkedColors.includes(color);
@@ -131,10 +134,8 @@ const GenericPopup = ({
     onClose();
   };
   const handleColorChange = (color) => {
-    
     onColorChange(color);
   };
-
 
   const fileInputRef = useRef(null);
   const handleImageSelection = (event) => {
@@ -143,12 +144,24 @@ const GenericPopup = ({
     console.log("Selected image:", file);
   };
 
-   const handleButtonClick = () => {
-     fileInputRef.current.click();
-   };
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
 
+  const CheckListOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "CheckList" },
+  ];
+  const [CheckListOption, setCheckListOption] = useState({
+    value: {},
+    label: "Select",
+  });
 
-  
+  const ChecklistButtonClick = () => {
+    if (typeof onAddButtonClick === "function") {
+      onAddButtonClick(true);
+    }
+  };
   return (
     <Box left={left} top={top}>
       {fields.map((field) => (
@@ -161,7 +174,7 @@ const GenericPopup = ({
               </CloseButton>
             </CloseButtonContainer>
           </HeadingContainer>
-        
+
           {field.name === "Members" && (
             <>
               <Input
@@ -229,22 +242,56 @@ const GenericPopup = ({
             </>
           )}
           {field.name === "Checklist" && (
-            <AddButton
-              style={{
-                textAlign: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onClick={handleSubmit}
-            >
-              {buttonText || "Submit"}
-            </AddButton>
+            <>
+              <H6
+                style={{
+                  textAlign: "left",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                }}
+              >
+                Title
+              </H6>
+
+              <Input />
+              <H6
+                style={{
+                  textAlign: "left",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                }}
+              >
+                Copy Item from
+              </H6>
+              <FilterBox
+                width={"100%"}
+                marginRight={"0px"}
+                options={CheckListOptions}
+                onValueChange={(selectedOption) =>
+                  setCheckListOption(selectedOption)
+                }
+                selectedValue={CheckListOption}
+                title=""
+              />
+
+              <div style={{ display: "flex", width: "100px" }}>
+                <AddButton
+                  style={{
+                    textAlign: "center",
+                    background: "#0096FF",
+                    color: "white",
+                    justifyContent: "center",
+                    marginRight: "10px",
+                  }}
+                  onClick={ChecklistButtonClick}
+                >
+                  {"Add"}
+                </AddButton>
+              </div>
+            </>
           )}
           {field.name === "Date" && (
             <>
-             
-
               <Calendar />
               <P
                 style={{
@@ -362,6 +409,7 @@ const GenericPopup = ({
               </AddButton>
             </>
           )}
+
           {field.name === "Attachment" && (
             <>
               <H6
@@ -394,12 +442,12 @@ const GenericPopup = ({
               >
                 {"Choose a file"}
                 <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleImageSelection}
-                  />
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleImageSelection}
+                />
               </AddButton>
               <hr />
               <P>Search or paste a link</P>
@@ -458,31 +506,88 @@ const GenericPopup = ({
               {buttonText || "Submit"}
             </AddButton>
           )}
-           {field.name === "Move" && (
-            <AddButton
-              style={{
-                textAlign: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onClick={handleSubmit}
-            >
-              {buttonText || "Submit"}
-            </AddButton>
+          {field.name === "Move" && (
+            <>
+            <P>Board</P>
+              <FilterBox
+                width={"100%"}
+                marginRight={"0px"}
+                options={CheckListOptions}
+                onValueChange={(selectedOption) =>
+                  setCheckListOption(selectedOption)
+                }
+                selectedValue={CheckListOption}
+                title=""
+              />
+
+              <div style={{ display: "flex" }}>
+                <div>
+              <P style={{ marginBottom:'0px' }}>Card</P>
+                <FilterBox
+                  style={{ flex: 2 }}
+                  width={"100%"}
+                  marginRight={"10px"}
+                  options={CheckListOptions}
+                  onValueChange={(selectedOption) =>
+                    setCheckListOption(selectedOption)
+                  }
+                  selectedValue={CheckListOption}
+                  title=""
+                />
+                </div>
+                <div>
+                <P style={{ marginBottom:'0px' }}>Position</P>
+                <FilterBox
+                  style={{ flex: 1 }}
+                  width={"100%"}
+                  marginRight={"0px"}
+                  options={CheckListOptions}
+                  onValueChange={(selectedOption) =>
+                    setCheckListOption(selectedOption)
+                  }
+                  selectedValue={CheckListOption}
+                  title=""
+                /></div>
+              </div>
+
+              <AddButton
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={handleSubmit}
+              >
+                {buttonText || "Submit"}
+              </AddButton>
+            </>
           )}
           {field.name === "Copy" && (
-            <AddButton
-              style={{
-                textAlign: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              onClick={handleSubmit}
-            >
-              {buttonText || "Submit"}
-            </AddButton>
+            <>
+              <Input type={field.type} />
+              <FilterBox
+                width={"100%"}
+                marginRight={"0px"}
+                options={CheckListOptions}
+                onValueChange={(selectedOption) =>
+                  setCheckListOption(selectedOption)
+                }
+                selectedValue={CheckListOption}
+                title=""
+              />
+              <AddButton
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={handleSubmit}
+              >
+                {buttonText || "Submit"}
+              </AddButton>
+            </>
           )}
         </div>
       ))}
