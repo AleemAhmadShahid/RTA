@@ -21,7 +21,7 @@ export const Td = styled.td`
   font-size: 0.7rem;
 `;
 
-const EmployeeContainer = styled.div`
+export const EmployeeContainer = styled.div`
   display: flex;
   flex-direction: column;
   &:hover {
@@ -52,13 +52,13 @@ const EmployeeInfo = ({ employee, isSpaceRequired }) => {
       <Td>
         <div style={{ display: "flex", alignItems: "center" }}>
            <UserImage
-            src={employee.profileImg || defaultImageUrl}
+              src={employee?.profileImg || defaultImageUrl}
             alt="Profile Image"
             style={{ ...(isSpaceRequired === true ? { marginLeft: '40px' } : {}) }}
           /> 
           <EmployeeContainer>
-            <EmployeeName>{employee.name}</EmployeeName>
-            <EmployeeEmail>{employee.email}</EmployeeEmail>
+            <EmployeeName>{employee?.name}</EmployeeName> {/* Using optional chaining */}
+            <EmployeeEmail>{employee?.email}</EmployeeEmail> {/* Using optional chaining */}
           </EmployeeContainer>
         </div>
       </Td>

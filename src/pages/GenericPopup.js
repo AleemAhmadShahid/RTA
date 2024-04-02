@@ -8,6 +8,7 @@ import Calendar from "react-calendar";
 import "../pages/styles/Calender.css";
 import FilterBox from "../components/FilterBox";
 import EntriesDropdown from "../components/CheckBoxMenu";
+import EmployeeInfo from "../components/EmployeeInfo";
 
 const Box = styled.div`
   z-index: 20;
@@ -508,7 +509,7 @@ const GenericPopup = ({
           )}
           {field.name === "Move" && (
             <>
-            <P>Board</P>
+              <P>Board</P>
               <FilterBox
                 width={"100%"}
                 marginRight={"0px"}
@@ -522,32 +523,33 @@ const GenericPopup = ({
 
               <div style={{ display: "flex" }}>
                 <div>
-              <P style={{ marginBottom:'0px' }}>Card</P>
-                <FilterBox
-                  style={{ flex: 2 }}
-                  width={"100%"}
-                  marginRight={"10px"}
-                  options={CheckListOptions}
-                  onValueChange={(selectedOption) =>
-                    setCheckListOption(selectedOption)
-                  }
-                  selectedValue={CheckListOption}
-                  title=""
-                />
+                  <P style={{ marginBottom: "0px" }}>Card</P>
+                  <FilterBox
+                    style={{ flex: 2 }}
+                    width={"100%"}
+                    marginRight={"10px"}
+                    options={CheckListOptions}
+                    onValueChange={(selectedOption) =>
+                      setCheckListOption(selectedOption)
+                    }
+                    selectedValue={CheckListOption}
+                    title=""
+                  />
                 </div>
                 <div>
-                <P style={{ marginBottom:'0px' }}>Position</P>
-                <FilterBox
-                  style={{ flex: 1 }}
-                  width={"100%"}
-                  marginRight={"0px"}
-                  options={CheckListOptions}
-                  onValueChange={(selectedOption) =>
-                    setCheckListOption(selectedOption)
-                  }
-                  selectedValue={CheckListOption}
-                  title=""
-                /></div>
+                  <P style={{ marginBottom: "0px" }}>Position</P>
+                  <FilterBox
+                    style={{ flex: 1 }}
+                    width={"100%"}
+                    marginRight={"0px"}
+                    options={CheckListOptions}
+                    onValueChange={(selectedOption) =>
+                      setCheckListOption(selectedOption)
+                    }
+                    selectedValue={CheckListOption}
+                    title=""
+                  />
+                </div>
               </div>
 
               <AddButton
@@ -576,6 +578,72 @@ const GenericPopup = ({
                 selectedValue={CheckListOption}
                 title=""
               />
+              <AddButton
+                style={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={handleSubmit}
+              >
+                {buttonText || "Submit"}
+              </AddButton>
+            </>
+          )}
+          {field.name === "Filters" && (
+            <>
+              <H6
+                style={{
+                  textAlign: "left",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                }}
+              >
+                Title
+              </H6>
+
+              <Input style={{ marginBottom: 0 }} />
+              <hr />
+              <H6
+                style={{
+                  textAlign: "left",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                }}
+              >
+                Members
+              </H6>
+              {/* <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  type="checkbox"
+                  style={{ marginLeft: "10px", marginBottom: "10px" }}
+                />
+                <EmployeeInfo />
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  type="checkbox"
+                  style={{ marginLeft: "10px", marginBottom: "10px" }}
+                />
+                <EmployeeInfo />
+              </div> */}
+              <div style={{ display: "flex", alignItems: "center" }}>
+  <input
+    type="checkbox"
+    style={{ width: "14px", height: "14px", marginLeft: "10px", marginBottom: "10px" }}
+  />
+  <EmployeeInfo />
+</div>
+<div style={{ display: "flex", alignItems: "center" }}>
+  <input
+    type="checkbox"
+    style={{ width: "14px", height: "14px", marginLeft: "10px", marginBottom: "10px" }}
+  />
+  <EmployeeInfo />
+</div>
+
+
               <AddButton
                 style={{
                   textAlign: "center",
