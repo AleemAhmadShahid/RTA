@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/react": "^6.1.11",
     "@material-ui/pickers": "^3.3.11",
     "@reduxjs/toolkit": "^1.9.7",
