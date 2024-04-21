@@ -6,12 +6,12 @@ import {
   FormLabel,
   FormInput,
   
-} from "../styles/MultiStepFormStyling";
+} from "../../../styles/MultiStepFormStyling";
 import {
   EntriesDropdown,
   dropDownStyle
-  } from "../styles/TableStyling";
-import { createGetRequest } from "../../global/requests";
+  } from "../../../styles/TableStyling";
+import { createGetRequest } from "../../../global/requests";
 
 const StepTwo = ({ formData, handleChange }) => {
   const [role, setRoles] = useState([{}]);

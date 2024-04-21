@@ -3,7 +3,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Column from "./Column";
 import AddColumn from "./AddColumn";
-import { CenteredContainer } from "../pages/styles/TableStyling";
+import { CenteredContainer } from "../styles/TableStyling";
 
 
 const Container = styled.div`

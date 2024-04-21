@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import { CloseButton, P } from "./styles/MultiStepFormStyling";
+import { CloseButton, P } from "../styles/MultiStepFormStyling";
 import styled from "styled-components";
 // import { AddButton } from "../components/AddTask";
 import { AddButton } from "./CardsPopup";
 import Calendar from "react-calendar";
 // import 'react-calendar/dist/Calendar.css';
-import "../pages/styles/Calender.css";
+import "../styles/Calender.css";
 import FilterBox from "../components/FilterBox";
 import EntriesDropdown from "../components/CheckBoxMenu";
 import EmployeeInfo from "../components/EmployeeInfo";

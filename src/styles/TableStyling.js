@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import SearchBar from "../../components/searchbar";
+import SearchBar from "../components/searchbar";
 
 export const CreateEmployeeHeading = styled.h6`
   margin-bottom: 0px;

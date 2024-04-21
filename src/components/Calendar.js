@@ -13,7 +13,7 @@ import resourcePlugin from "@fullcalendar/resource";
 import resourceDayGridPlugin from "@fullcalendar/resource-daygrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
-import { CenteredContainer } from "../pages/styles/TableStyling";
+import { CenteredContainer } from "../styles/TableStyling";
 import CardsPopup from "../pages/CardsPopup";
 import "./Calendar.css";
 import FilterBox from "./FilterBox";

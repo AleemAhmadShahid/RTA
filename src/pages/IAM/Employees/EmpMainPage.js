@@ -4,16 +4,16 @@ import {
   createGetRequest,
   createDeleteRequest,
   createPutRequest,
-} from "../../global/requests";
-import { handleCheckChange } from "../../global/helper";
+} from "../../../global/requests";
+import { handleCheckChange } from "../../../global/helper";
 import { useNavigate } from "react-router-dom";
-import InfoBox from "../../components/Cards";
-import PageBar from "../../components/PageBar";
-import FilterBox from "../../components/FilterBox";
+import InfoBox from "../../../components/Cards";
+import PageBar from "../../../components/PageBar";
+import FilterBox from "../../../components/FilterBox";
 import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 
-import EmployeeInfo from "../../components/EmployeeInfo";
+import EmployeeInfo from "../../../components/EmployeeInfo";
 
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
@@ -41,13 +41,13 @@ import {
   EntriesDropdown,
   StyledSearchBar,
   dropDownStyle,
-} from "../styles/TableStyling";
+} from "../../../styles/TableStyling";
 
-import EmployeeTable from "../../components/Table";
-import { entriesOptions, exportOptions } from "../../global/constants"
+import EmployeeTable from "../../../components/Table";
+import { entriesOptions, exportOptions } from "../../../global/constants"
 import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import {  setErrorModal } from '../../redux/modalSlice';
+import {  setErrorModal } from '../../../redux/modalSlice';
 
 const Emp_list = () => {
   const dispatch = useDispatch();

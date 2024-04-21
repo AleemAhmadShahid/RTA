@@ -16,12 +16,12 @@ import {
   HeaderContainer,
   Heading,
   FormCenteringContainer,
-} from "../styles/MultiStepFormStyling";
+} from "../../../styles/MultiStepFormStyling";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
-import { changeHandler, saveHandler } from "../../global/helper";
+import { changeHandler, saveHandler } from "../../../global/helper";
 
 
 

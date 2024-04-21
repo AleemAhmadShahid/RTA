@@ -5,7 +5,7 @@ import {
   Heading,
   CloseButtonContainer,
   CloseButton,
-} from "./styles/MultiStepFormStyling";
+} from "../styles/MultiStepFormStyling";
 import { LeftColumn, RightColumn, ColumnContainer } from "./EmpSetting";
 import {
   AiOutlineBell,

@@ -2,9 +2,9 @@ import "./App.css";
 
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
-import Emp_list from "./pages/Employees/EmpMainPage";
-import Role_list from "./pages/Roles/RoleMainPage";
-import Team_list from "./pages/Teams/TeamMainPage";
+import Emp_list from "./pages/IAM/Employees/EmpMainPage";
+import Role_list from "./pages/IAM/Roles/RoleMainPage";
+import Team_list from "./pages/IAM/Teams/TeamMainPage";
 import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom"; 
 import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";

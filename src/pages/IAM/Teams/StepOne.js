@@ -4,16 +4,16 @@ import {
   FormGroup,
   FormLabel,
   FormInput,
-} from "../styles/MultiStepFormStyling";
+} from "../../../styles/MultiStepFormStyling";
 import {
   EntriesDropdown,
   dropDownStyle
-  } from "../styles/TableStyling";
-import { createGetRequest } from "../../global/requests";
+  } from "../../../styles/TableStyling";
+import { createGetRequest } from "../../../global/requests";
 
-import { StyledErrorH6 } from "../Login";
+import { StyledErrorH6 } from "../../Login";
 
-import { validateAlphanumericWithSpace } from "../../global/validators";
+import { validateAlphanumericWithSpace } from "../../../global/validators";
 
 const StepOne = ({ formData, errors, handleChange, id, pageName }) => {
 

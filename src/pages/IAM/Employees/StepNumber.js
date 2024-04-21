@@ -3,7 +3,7 @@ import React from "react";
 import {
   StepNumberContainer,
   NumberCircle,
-} from "../styles/MultiStepFormStyling";
+} from "../../styles/MultiStepFormStyling";
 
 const StepNumber = ({ currentStep, totalSteps }) => {
   return (

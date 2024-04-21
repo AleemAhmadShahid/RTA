@@ -12,9 +12,9 @@ import {
   Step3CloseButton,
   Step3AddButton,
   H6,
-} from "../styles/MultiStepFormStyling";
-import { EntriesDropdown, dropDownStyle } from "../styles/TableStyling";
-import { createfileUploadRequest } from "../../global/requests";
+} from "../../../styles/MultiStepFormStyling";
+import { EntriesDropdown, dropDownStyle } from "../../../styles/TableStyling";
+import { createfileUploadRequest } from "../../../global/requests";
 
 const StepFour = ({ formData, handleChange }) => {
   const [liscenseAndCertifications, setLiscenseAndCertifications] = useState(

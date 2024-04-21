@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
-import { FormLabel } from "./styles/MultiStepFormStyling";
+import { FormLabel } from "../styles/MultiStepFormStyling";
 import { FiEye, FiEyeOff } from "react-icons/fi"; 
 import { useParams } from 'react-router-dom';
 import { createPostRequest } from "../global/requests";

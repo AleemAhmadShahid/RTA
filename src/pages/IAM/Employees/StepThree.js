@@ -11,12 +11,12 @@ import {
   Step3CloseButton,
   Step3AddButton,
   H6,
-} from "../styles/MultiStepFormStyling";
+} from "../../../styles/MultiStepFormStyling";
 import {
   EntriesDropdown,
   dropDownStyle
-  } from "../styles/TableStyling";
-import {  createfileUploadRequest } from "../../global/requests";
+  } from "../../../styles/TableStyling";
+import {  createfileUploadRequest } from "../../../global/requests";
 
 
 const StepThree = ({ formData, handleChange }) => {

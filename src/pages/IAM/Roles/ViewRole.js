@@ -4,17 +4,18 @@ import {
   FormGroup,
   FormLabel,
   H6,
-} from "../styles/MultiStepFormStyling";
+} from "../../../styles/MultiStepFormStyling";
 
-import EmployeeInfo from "../../components/EmployeeInfo";
-import { createGetRequest } from "../../global/requests";
+import EmployeeInfo from "../../../components/EmployeeInfo";
+import { createGetRequest } from "../../../global/requests";
 
-const ViewTeam = ({ team}) => {
+const ViewRole = ({ role}) => {
+
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     const params = {
-      teams: team._id,
+      roles: role._id,
     };
 
     const fetchData = async () => {
@@ -39,15 +40,15 @@ const ViewTeam = ({ team}) => {
     <FormStep active>
       <FormGroup>
         <FormLabel>Name</FormLabel>
-        <H6 style={{ width: "300px" }}>{team.name}</H6>
+        <H6 style={{ width: "300px" }}>{role.name}</H6>
       </FormGroup>
      
        
-      {team.description && team.description !== "" && (
+      {role.description && role.description !== "" && (
         <FormGroup>
           <FormLabel>Description</FormLabel>
           <div style={{ maxWidth: "320px" }}>
-            <H6>{team.description}</H6>
+            <H6>{role.description}</H6>
           </div>
         </FormGroup>
       )}
@@ -56,7 +57,7 @@ const ViewTeam = ({ team}) => {
         employees.length > 0 &&
         (
           <FormGroup>
-            <FormLabel>Employees with this team</FormLabel>
+            <FormLabel>Employees with this role</FormLabel>
             {employees.map((employee)=> <EmployeeInfo employee={employee}/>)}
           </FormGroup>
         )
@@ -66,4 +67,4 @@ const ViewTeam = ({ team}) => {
   );
 };
 
-export default ViewTeam;
+export default ViewRole;

@@ -12,10 +12,11 @@ import {
   HeaderContainer,
   Heading,
   FormCenteringContainer,
-} from "../styles/MultiStepFormStyling";
+} from "../../../styles/MultiStepFormStyling";
 import StepOne from "./StepOne";
-import ViewTeam from "./ViewTeam";
-import { changeHandler, saveHandler } from "../../global/helper";
+import ViewRole from "./ViewRole";
+import { changeHandler, saveHandler } from "../../../global/helper";
+
 
 
 const MultiStepForm = ({
@@ -27,8 +28,6 @@ const MultiStepForm = ({
   setReload,
   isEditMode,
   isViewMode,
-  id,
-  pageName
 }) => {
   const [step, setStep] = useState(1);
 
@@ -43,7 +42,7 @@ const MultiStepForm = ({
     setError = false,
     data = { ...formData }
   ) => {
-    changeHandler(setFormData, setErrors, errors, data, field, value,setError);
+    changeHandler(setFormData,  setErrors, errors, data, field, value,setError);
   };
   const closeForm = (message) => {
     setFormData({});
@@ -55,13 +54,7 @@ const MultiStepForm = ({
   const isLastStep = step === 1;
 
   const handleSave = async (nextStep = null) => {
-    const copyFormData = { ...formData };
-    copyFormData.profileImg = /\/([^/?]+)\?/.test(formData.profileImg)
-      ? formData.profileImg.match(/\/([^/?]+)\?/)[1]
-      : formData.profileImg;
-    copyFormData.type = id;
-    
-    saveHandler(nextStep, ["name"] ,"/api/department", `/api/department/${formData._id}/`, pageName[id-1].name + " saved Succesfully!", "department", errors, copyFormData, setErrors, handleChange, setReload, reload, closeForm);
+    saveHandler(nextStep, ["name"],"/api/role", `/api/role/${formData._id}/`, "Role saved Successfully!", "role", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
   };
   const renderStep = () => {
     switch (step) {
@@ -71,8 +64,6 @@ const MultiStepForm = ({
             formData={formData}
             errors={errors}
             handleChange={handleChange}
-            id={id}
-            pageName={pageName}
           />
         );
       default:
@@ -86,9 +77,9 @@ const MultiStepForm = ({
         <FormCenteringContainer >
           <ModalContainer>
             <HeaderContainer>
-              <Heading style={{width:'300px'}}>
+              <Heading>
               {
-                  isViewMode ? `View ${pageName[id-1].name}` : (isEditMode ? `Update ${pageName[id-1].name}` : `Create ${pageName[id-1].name}`)
+                  isViewMode ? "View Role" : (isEditMode ? "Update Role" : "Create Role")
               }
               </Heading>
               <CloseButtonContainer>
@@ -100,7 +91,7 @@ const MultiStepForm = ({
             <InnermodalContainer>             
             {
               isViewMode ? (
-                <ViewTeam team={formData}/>
+                <ViewRole role={formData}/>
               ) : (
                 <>
                   {renderStep()}

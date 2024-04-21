@@ -5,10 +5,10 @@ import {
   FormLabel,
   FormInput,
   H6,
-} from "../styles/MultiStepFormStyling";
-import { StyledErrorH6 } from "../Login";
+} from "../../../styles/MultiStepFormStyling";
+import { StyledErrorH6 } from "../../Login";
 
-import { validateAlphanumericWithSpace } from "../../global/validators";
+import { validateAlphanumericWithSpace } from "../../../global/validators";
 
 const StepOne = ({ formData, errors, handleChange }) => {
   return (

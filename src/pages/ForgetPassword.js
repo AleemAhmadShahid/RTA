@@ -1,6 +1,6 @@
 import React , { useState } from "react";
 import styled from "styled-components";
-import { FormLabel } from "./styles/MultiStepFormStyling";
+import { FormLabel } from "../styles/MultiStepFormStyling";
 import { useNavigate  } from "react-router-dom";
 import { createPostRequest } from "../global/requests";
 import { useDispatch } from 'react-redux';

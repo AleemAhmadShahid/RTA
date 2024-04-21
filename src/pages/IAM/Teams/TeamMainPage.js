@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
-import LoaderComponent from "../../components/Loader";
+import LoaderComponent from "../../../components/Loader";
 import {
   createGetRequest,
   createDeleteRequest,
   createPutRequest,
-} from "../../global/requests";
-import { handleCheckChange } from "../../global/helper";
-
+} from "../../../global/requests";
+import { handleCheckChange } from "../../../global/helper";
 import { useNavigate } from "react-router-dom";
-import InfoBox from "../../components/Cards";
-import PageBar from "../../components/PageBar";
-import FilterBox from "../../components/FilterBox";
+import InfoBox from "../../../components/Cards";
+import PageBar from "../../../components/PageBar";
+import FilterBox from "../../../components/FilterBox";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
-import EmployeeInfo from "../../components/EmployeeInfo";
+import EmployeeInfo from "../../../components/EmployeeInfo";
 
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
 import { FaPrint} from "react-icons/fa";
+import toast  from 'react-hot-toast';
 
 import {
   Td,
@@ -39,17 +39,28 @@ import {
   EntriesDropdown,
   StyledSearchBar,
   dropDownStyle,
-} from "../styles/TableStyling";
-
-import { entriesOptions, exportOptions } from "../../global/constants"
-import toast  from 'react-hot-toast';
+} from "../../../styles/TableStyling";
+import { entriesOptions, exportOptions } from "../../../global/constants"
 import { useDispatch } from 'react-redux';
-import {  setErrorModal } from '../../redux/modalSlice';
+import {  setErrorModal } from '../../../redux/modalSlice';
 
 
-const Role_list = () => {
-  const dispatch = useDispatch();
+
+
+const Team_list = ({id}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const pageName = [
+    {
+      name: "Department",
+      columnName: "Department Head"
+    },
+    {
+      name: "Team",
+      columnName: "Team Lead"
+    },
+  ];
 
   const bulkOptions = [
     { value: {}, label: "Select" },
@@ -57,11 +68,12 @@ const Role_list = () => {
   ];
 
 
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedRole, setCheckedRole] = useState([]);
-  const [roles, setRole] = useState([]);
+  const [checkedTeam, setcheckedTeam] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -72,6 +84,7 @@ const Role_list = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
 
   const [loading, setLoading] = useState(true);
@@ -80,22 +93,23 @@ const Role_list = () => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
+      type: id,
       name: searchTerm,
     };
-    if (typeof roles.value !== "object") params.roles = roles.value;
-
+    if (typeof status.value !== "object") params.status = status.value;
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/role", params);
+        const data = await createGetRequest("/api/department", params);
         if (data.status === 404) {
-          setRole([]);
+          setTeams([]);
+          setLoading(false);
           return;
         }
-        setRole(data.roles);
+        setTeams(data.departments);
         setInfoBoxData(data.analytics);
-        setTotalPages(data.totalPages);
+        setTotalPages(data.totalPages);    
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -103,10 +117,11 @@ const Role_list = () => {
 
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
+  }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
 
-  const handleEditClick = (role) => {
-    setFormData(role);
+  const handleEditClick = (team) => {
+    const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
+    setFormData(updatedteam);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -116,15 +131,18 @@ const Role_list = () => {
     setIsEditMode(false);
   };
 
+
   const [selectedCheck, setSelectedCheck] = useState([
     "Name",
-    "Description",
+    pageName[id-1].columnName,
+    "Supervising Department",
     "Created By",
     "Actions",
   ]);
   const CheckOptions = [
     "Name",
-    "Description",
+    pageName[id-1].columnName,
+    "Supervising Department",
     "Created By",
     "Actions",
   ];
@@ -134,30 +152,32 @@ const Role_list = () => {
     icon: <FaPrint />,
   });
 
-  const deleteRole = async (id) => {
-    const response = await createDeleteRequest(`/api/role/${id}/`);
+  const deleteDepartment = async (departmentId) => {
+    const response = await createDeleteRequest(`/api/department/${departmentId}/`);
     if (response.status === 200) {
+      toast.success(pageName[id-1].name + " deleted successfully!");
       setReload(!reload);
-      toast.success("Role deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {roles: checkedRole};
-    if (checkedRole.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/role/bulkDelete/";
+    const data = {teams: checkedTeam};
+    if (checkedTeam.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/department/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success(`${bulkOption.label}d Successfully`);
+      toast.success(pageName[id-1].name + `${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
 
+
+
   return (
     <>
-      {" "}
+     {" "}
       <CenteredContainer>
         <div>
           {<CardsContainer>
@@ -172,22 +192,22 @@ const Role_list = () => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalRoles || 0}
-              text="Total Roles"
+              data={infoBoxData?.totalDepartments || 0}
+              text={`Total ${pageName[id - 1].name}s`}
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantRoles || 0}
-              text="Vacant Roles"
+              data={infoBoxData?.vacantDepartments || 0}
+              text={`Vacant ${pageName[id - 1].name}s`}
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedRoles || 0}
-              text="Closed Roles"
+              data={infoBoxData?.closedDepartments || 0}
+              text={`Closed ${pageName[id - 1].name}s`}
             />
            
           </CardsContainer> }
@@ -289,7 +309,7 @@ const Role_list = () => {
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Role</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add {pageName[id-1].name}</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -302,18 +322,21 @@ const Role_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedRole(
-                              roles.map((role) => role._id)
+                            setcheckedTeam(
+                              teams.map((team) => team._id)
                             );
-                          else setCheckedRole([]);
+                          else setcheckedTeam([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("Description") && (
-                      <Th>DESCRIPTION</Th>
-                    )}
 
                     {selectedCheck.includes("Name") && <Th>NAME</Th>}
+
+                    {selectedCheck.includes(pageName[id-1].columnName) && (
+                      <Th>{pageName[id-1].columnName}</Th>
+                    )}
+
+                    {selectedCheck.includes("Supervising Department") && <Th>Supervising Department</Th>}
 
                    
                     {selectedCheck.includes("Created By") && (
@@ -330,44 +353,53 @@ const Role_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    roles &&
-                    roles.map((role) => (
-                      <Tr key={role._id}>
+                    teams &&
+                    teams.map((team) => (
+                      <Tr key={team._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedRole.includes(role._id)}
+                            checked={checkedTeam.includes(team._id)}
                             onChange={() => {
-                              if (!checkedRole.includes(role._id))
-                                setCheckedRole([
-                                  ...checkedRole,
-                                  role._id,
+                              if (!checkedTeam.includes(team._id))
+                                setcheckedTeam([
+                                  ...checkedTeam,
+                                  team._id,
                                 ]);
                               else
-                                setCheckedRole(
-                                  checkedRole.filter(
-                                    (checkedRole) =>
-                                      checkedRole !== role._id
+                                setcheckedTeam(
+                                  checkedTeam.filter(
+                                    (checkedTeam) =>
+                                      checkedTeam !== team._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-                  
-                        {selectedCheck.includes("Description") && (
-                          <Td style={{ whiteSpace: 'pre-line' }}>{role.description}</Td>
-                        )}
 
                         {selectedCheck.includes("Name") && (
-                          <Td>{role.name}</Td>
+                          <Td>{team.name}</Td>
+                        )}
+
+                        {selectedCheck.includes(pageName[id-1].columnName) && (
+                          <Td>
+                          { team?.lead 
+                            &&
+                            <EmployeeInfo isSpaceRequired={true} employee={team?.lead} />
+                          }
+                        </Td>
+                        )}
+
+                        {selectedCheck.includes("Supervising Department") && (
+                          <Td>{team?.superDepartment?.name}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { role?.createdBy 
+                            { team?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={role?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={team?.createdBy} />
                             }
                           </Td>
                         )}
@@ -380,9 +412,10 @@ const Role_list = () => {
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
                                   setIsViewMode(false);
-                                  setFormData(role);
+                                  const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
+                                  setFormData(updatedteam);
                                   setShowForm(true);
-                                  setIsEditMode(!!role);
+                                  setIsEditMode(!!team);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -390,7 +423,7 @@ const Role_list = () => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(role);
+                              setFormData(team);
                               setIsViewMode(true);
                               toggleForm();
                             }}
@@ -400,8 +433,8 @@ const Role_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this role?", handleYes: () => {
-                                  deleteRole(role._id);
+                                dispatch(setErrorModal({message:  `Do you want to delete this ${pageName[id-1].name.toLowerCase()}?`, handleYes: () => {
+                                  deleteDepartment(team._id);
                                 }}));
                               }}
                             />
@@ -410,7 +443,7 @@ const Role_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!roles || roles.length === 0) && (
+                  {!loading && (!teams || teams.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -419,7 +452,7 @@ const Role_list = () => {
               </Table>
             </TableContainer>
 
-            {roles.length !== 0 && totalPages >= 1 && (
+            {teams.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -440,10 +473,12 @@ const Role_list = () => {
           isEditMode={isEditMode}
           isViewMode={isViewMode}
           onEditClick={handleEditClick}
+          id = {id}
+          pageName = {pageName}
         />
       )}
     </>
   );
 };
 
-export default Role_list;
+export default Team_list;

@@ -11,7 +11,7 @@ import {
   Td,
   SuccessBadge,
   DangerBadge,
-} from "./styles/TableStyling";
+} from "../styles/TableStyling";
 import {
   Heading,
   FormButton,
@@ -25,7 +25,7 @@ import {
   FormInput,
   FormHalfInput,
   FormGroup,
-} from "./styles/MultiStepFormStyling";
+} from "../styles/MultiStepFormStyling";
 
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";

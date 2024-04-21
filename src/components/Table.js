@@ -6,7 +6,7 @@ import {
   Th,
   TableContainer,
   Table,
-} from "../pages/styles/TableStyling";
+} from "../styles/TableStyling";
 import LoaderComponent from "./Loader";
 
 const EmployeeTable = ({

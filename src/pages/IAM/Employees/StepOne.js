@@ -12,11 +12,11 @@ import {
   UploadContainer,
   TextContainer,
   P,
-} from "../styles/MultiStepFormStyling";
-import { StyledErrorH6 } from "../Login";
+} from "../../../styles/MultiStepFormStyling";
+import { StyledErrorH6 } from "../../Login";
 
-import {  createfileUploadRequest } from "../../global/requests";
-import {  validateAlphabeticWithSpace, validateEmail, validateNumeric } from "../../global/validators";
+import {  createfileUploadRequest } from "../../../global/requests";
+import {  validateAlphabeticWithSpace, validateEmail, validateNumeric } from "../../../global/validators";
 
 const StepOne = ({ formData, errors, handleChange }) => {
   return (
