@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import InfoBox from "../../components/Cards";
 import PageBar from "../../components/PageBar";
 import FilterBox from "../../components/FilterBox";
-import ErrorDialog from "../../components/ErrorDialog";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 import EmployeeInfo from "../../components/EmployeeInfo";
 
@@ -44,16 +43,19 @@ import {
 
 import { entriesOptions, exportOptions } from "../../global/constants"
 import toast  from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import {  setErrorModal } from '../../redux/modalSlice';
 
 
 const Role_list = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const bulkOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Delete" },
   ];
 
-  const navigate = useNavigate();
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
@@ -69,7 +71,6 @@ const Role_list = () => {
   const [entriesToShow, setEntriesToShow] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [message, setMessage] = useState();
 
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
 
@@ -133,11 +134,9 @@ const Role_list = () => {
     icon: <FaPrint />,
   });
 
-  const [deleteRoleId, setDeleteRoleId] = useState("");
   const deleteRole = async (id) => {
     const response = await createDeleteRequest(`/api/role/${id}/`);
     if (response.status === 200) {
-      setIsConfirmDialogOpen(false);
       setReload(!reload);
       toast.success("Role deleted Successfully!");
     }
@@ -156,29 +155,9 @@ const Role_list = () => {
     }
   };
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
-
   return (
     <>
-      <ErrorDialog
-        message={message}
-        show={isDialogOpen}
-        handleClose={handleCloseDialog}
-      />
-      <ErrorDialog
-        title={"Are you sure?"}
-        message={message}
-        show={isConfirmDialogOpen}
-        handleClose={() => setIsConfirmDialogOpen(false)}
-        handleYes={() => {
-          deleteRole(deleteRoleId);
-        }}
-      />{" "}
+      {" "}
       <CenteredContainer>
         <div>
           {<CardsContainer>
@@ -421,11 +400,9 @@ const Role_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                setMessage(
-                                  "Do you want to delete this role?"
-                                );
-                                setDeleteRoleId(role._id);
-                                setIsConfirmDialogOpen(true);
+                                dispatch(setErrorModal({message: "Do you want to delete this role?", handleYes: () => {
+                                  deleteRole(role._id);
+                                }}));
                               }}
                             />
                           </Td>
@@ -458,8 +435,6 @@ const Role_list = () => {
           setShowForm={setShowForm}
           formData={formData}
           setFormData={setFormData}
-          setMessage={setMessage}
-          setIsDialogOpen={setIsDialogOpen}
           reload={reload}
           setReload={setReload}
           isEditMode={isEditMode}

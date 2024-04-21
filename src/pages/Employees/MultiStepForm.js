@@ -23,18 +23,21 @@ import StepThree from "./StepThree";
 import StepFour from "./StepFour";
 import { createPostRequest, createPutRequest } from "../../global/requests";
 import toast  from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import {  setErrorModal } from '../../redux/modalSlice';
+
+
 
 const MultiStepForm = ({
   showForm,
   setShowForm,
   formData,
   setFormData,
-  setMessage,
-  setIsDialogOpen,
   reload,
   setReload,
   isEditMode,
 }) => {
+  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
 
   const [errors, setErrors] = useState({});
@@ -103,8 +106,7 @@ const MultiStepForm = ({
         setReload(!reload);
         toast.success("Employee added Succesfully!");
       } else {
-        setMessage(response.error);
-        setIsDialogOpen(true);
+        dispatch(setErrorModal({message: response.error}));
         return;
       }
     } else {

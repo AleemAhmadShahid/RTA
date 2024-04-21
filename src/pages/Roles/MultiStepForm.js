@@ -18,19 +18,21 @@ import ViewRole from "./ViewRole";
 import { createPostRequest, createPutRequest } from "../../global/requests";
 
 import toast  from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import {  setErrorModal } from '../../redux/modalSlice';
+
 
 const MultiStepForm = ({
   showForm,
   setShowForm,
   formData,
   setFormData,
-  setMessage,
-  setIsDialogOpen,
   reload,
   setReload,
   isEditMode,
   isViewMode,
 }) => {
+  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
 
   const [errors, setErrors] = useState({});
@@ -99,8 +101,7 @@ const MultiStepForm = ({
         setReload(!reload);
         toast.success("Role added Successfully!");
       } else {
-        setMessage(response.error || response.message);
-        setIsDialogOpen(true);
+        dispatch(setErrorModal({message: response.error || response.message}));
         return;
       }
     } else {

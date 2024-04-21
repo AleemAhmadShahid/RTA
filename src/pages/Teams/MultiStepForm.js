@@ -17,14 +17,16 @@ import StepOne from "./StepOne";
 import ViewTeam from "./ViewTeam";
 import { createPostRequest, createPutRequest } from "../../global/requests";
 import toast  from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import {  setErrorModal } from '../../redux/modalSlice';
+
+
 
 const MultiStepForm = ({
   showForm,
   setShowForm,
   formData,
   setFormData,
-  setMessage,
-  setIsDialogOpen,
   reload,
   setReload,
   isEditMode,
@@ -32,6 +34,7 @@ const MultiStepForm = ({
   id,
   pageName
 }) => {
+  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
 
   const [errors, setErrors] = useState({});
@@ -101,8 +104,7 @@ const MultiStepForm = ({
         setReload(!reload);
         toast.success(pageName[id-1].name + " added Succesfully!");
       } else {
-        setMessage(response.error || response.message);
-        setIsDialogOpen(true);
+        dispatch(setErrorModal({message: response.error || response.message}));
         return;
       }
     } else {
