@@ -13,16 +13,17 @@ import resourcePlugin from "@fullcalendar/resource";
 import resourceDayGridPlugin from "@fullcalendar/resource-daygrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
-import { CenteredContainer } from "../styles/TableStyling";
-import CardsPopup from "../pages/CardsPopup";
-import "./Calendar.css";
-import FilterBox from "./FilterBox";
-import GenericPopup from "../pages/GenericPopup";
+import { CenteredContainer } from "../../styles/TableStyling";
+import CardsPopup from "../CardsPopup";
 
-// import { SuccessBadge } from "../pages/styles/TableStyling";
+import '../../styles/Calendar.css'; 
+import FilterBox from "../../components/FilterBox";
+import GenericPopup from "../../components/GenericPopup";
+
+
 import FullCalendar from "@fullcalendar/react";
-import { EmployeeContainer } from "./EmployeeInfo";
-import { AddButton } from "../pages/CardsPopup";
+import { EmployeeContainer } from "../../components/EmployeeInfo";
+import { AddButton } from "../CardsPopup";
 const TopBar = styled.div`
   display: flex;
    justify-content: space-between;

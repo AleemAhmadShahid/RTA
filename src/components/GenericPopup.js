@@ -2,13 +2,13 @@ import React, { useState, useRef } from "react";
 import { CloseButton, P } from "../styles/MultiStepFormStyling";
 import styled from "styled-components";
 // import { AddButton } from "../components/AddTask";
-import { AddButton } from "./CardsPopup";
+import { AddButton } from "../pages/CardsPopup";
 import Calendar from "react-calendar";
 // import 'react-calendar/dist/Calendar.css';
-import "../styles/Calender.css";
-import FilterBox from "../components/FilterBox";
-import EntriesDropdown from "../components/CheckBoxMenu";
-import EmployeeInfo from "../components/EmployeeInfo";
+import "../styles/Calendar.css";
+import FilterBox from "./FilterBox";
+import EntriesDropdown from "./CheckBoxMenu";
+import EmployeeInfo from "./EmployeeInfo";
 
 const Box = styled.div`
   z-index: 20;

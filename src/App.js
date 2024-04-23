@@ -17,8 +17,8 @@ import { createGetRequest } from "./global/requests";
 import { clearUser, setUser } from "./redux/userSlice";
 import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";
-import Board from "./components/Board";
-import Calendar from "./components/Calendar";
+import Board from "./pages/PM/Board";
+import Calendar from "./pages/PM/Calendar";
 
 function App() {
   const dispatch = useDispatch();

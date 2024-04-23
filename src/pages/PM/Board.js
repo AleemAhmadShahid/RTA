@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import Column from "./Column";
-import AddColumn from "./AddColumn";
-import { CenteredContainer } from "../styles/TableStyling";
+import Column from "../../components/Column";
+import AddColumn from "../../components/AddColumn";
+import { CenteredContainer } from "../../styles/TableStyling";
 
 
 const Container = styled.div`

@@ -22,7 +22,7 @@ import { GrAttachment } from "react-icons/gr";
 import { MdContentCopy } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { H6 } from "./ForgetPassword";
-import GenericPopup from "./GenericPopup";
+import GenericPopup from "../components/GenericPopup";
 import Progressbar from "../components/ProgressBar";
 import { TbCheckbox } from "react-icons/tb";
 const PopupOverlay = styled.div`
