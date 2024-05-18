@@ -3,19 +3,14 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
 import CardsPopup from "../pages/CardsPopup";
-// import GenericPopup from "../pages/GenericPopup";
+
 import {
-  AiOutlineBell,
-  AiOutlineMail,
-  AiOutlineDashboard,
-  AiOutlinePieChart,
-  AiOutlineAppstore,
-  AiOutlinePlus,
+ 
   AiOutlineEye,
-  AiOutlineArrowRight,
+ 
 } from "react-icons/ai";
 import { RxPencil1 } from "react-icons/rx";
-import GenericPopup from "./GenericPopup";
+
 const Container = styled.div`
   box-shadow: 5px;
   border-radius: 10px;

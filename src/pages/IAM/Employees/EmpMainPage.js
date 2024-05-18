@@ -18,7 +18,7 @@ import EmployeeInfo from "../../../components/EmployeeInfo";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import { FaPrint} from "react-icons/fa";
+import { FaPrint } from "react-icons/fa";
 
 import {
   Td,
@@ -44,22 +44,21 @@ import {
 } from "../../../styles/TableStyling";
 
 import EmployeeTable from "../../../components/Table";
-import { entriesOptions, exportOptions } from "../../../global/constants"
-import toast  from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import {  setErrorModal } from '../../../redux/modalSlice';
+import { entriesOptions, exportOptions } from "../../../global/constants";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setErrorModal } from "../../../redux/modalSlice";
 
 const Emp_list = () => {
   const dispatch = useDispatch();
 
-  
   const bulkOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Active" },
     { value: 2, label: "Deactive" },
     { value: 3, label: "Delete" },
   ];
-  
+
   const statusOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Active" },
@@ -106,7 +105,7 @@ const Emp_list = () => {
     const fetchData = async () => {
       try {
         const data = await createGetRequest("/api/user", params);
-      
+
         if (data.status === 404) {
           setEmployees([]);
           return;
@@ -144,7 +143,6 @@ const Emp_list = () => {
     setShowForm(!showForm);
     setIsEditMode(false);
   };
-
 
   const [selectedCheck, setSelectedCheck] = useState([
     "User",
@@ -194,7 +192,7 @@ const Emp_list = () => {
 
   return (
     <>
-     {" "}
+      {" "}
       <CenteredContainer>
         <div>
           <CardsContainer>
@@ -293,7 +291,13 @@ const Emp_list = () => {
                     value: option,
                     label: (
                       <div
-                        onClick={() => handleCheckChange(option, selectedCheck, setSelectedCheck)}
+                        onClick={() =>
+                          handleCheckChange(
+                            option,
+                            selectedCheck,
+                            setSelectedCheck
+                          )
+                        }
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <input
@@ -343,91 +347,102 @@ const Emp_list = () => {
             </HeadingAndSearchContainer>
 
             <EmployeeTable
-            checkedEmployees={checkedEmployees}
-            setCheckedEmployees={setCheckedEmployees}
-  loading={loading}
-  data={employees}
-  columns={[    
-    { label: 'User', field: 'EmployeeInfo' },
-    { label: 'Employee Code', field: '_id' },
-    { label: 'Last Login', field: 'lastLogin' },
-    { label: 'Status', field: 'status' },
-    { label: 'Actions', field: 'actions' },
-  ]}
-
-   setCheckedItems={setCheckedEmployees}
-  renderRow={(employee, columns) => (
-    <React.Fragment key={employee._id}>
-      
-      {columns.map((column) => (
-        <Td key={column.field}>
-          {selectedCheck.includes(column.label) && (
-            <>
-              {column.field === 'EmployeeInfo' ? (
-                <EmployeeInfo employee={employee} />
-              ) : column.field === '_id' ? (
-                employee._id
-              ) : column.field === 'lastLogin' ? (
-                (employee.lastLogin &&
-                  new Date(employee.lastLogin).toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })) ||
-                'Resend Invite'
-              ) : column.field === 'status' ? (
-                employee.status === 1 ? (
-                  <SuccessBadge>Active</SuccessBadge>
-                ) : employee.status === 2 ? (
-                  <DangerBadge>Inactive</DangerBadge>
-                ) : (
-                  <DangerBadge>Deleted</DangerBadge>
-                )
-              ) : (
-                column.field === 'actions' && (
-                  <IconWrapper>
-                    <MdIcons.MdOutlineModeEditOutline
-                      onClick={() => {
-                        setFormData(employee);
-                        setShowForm(true);
-                        setIsEditMode(!!employee);
-                      }}
-                      style={{ fontSize: '18px' }}
-                    />
-                    <GrIcons.GrFormView
-                      style={{
-                        fontSize: '18px',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        dispatch(setErrorModal({message: "Employee View is disabled by Admin"}));
-                      }}
-                    />
-                    <MdIcons.MdDeleteOutline
-                      style={{
-                        fontSize: '18px',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
-                          deleteEmployee(employee._id);
-                        }}));
-                      }}
-                    />
-                  </IconWrapper>
-                )
+              checkedEmployees={checkedEmployees}
+              setCheckedEmployees={setCheckedEmployees}
+              loading={loading}
+              data={employees}
+              columns={[
+                { label: "User", field: "EmployeeInfo" },
+                { label: "Employee Code", field: "_id" },
+                { label: "Last Login", field: "lastLogin" },
+                { label: "Status", field: "status" },
+                { label: "Actions", field: "actions" },
+              ]}
+              setCheckedItems={setCheckedEmployees}
+              renderRow={(employee, columns) => (
+                <React.Fragment key={employee._id}>
+                  {columns.map((column) => (
+                    <Td key={column.field}>
+                      {selectedCheck.includes(column.label) && (
+                        <>
+                          {column.field === "EmployeeInfo" ? (
+                            <EmployeeInfo employee={employee} />
+                          ) : column.field === "_id" ? (
+                            employee._id
+                          ) : column.field === "lastLogin" ? (
+                            (employee.lastLogin &&
+                              new Date(employee.lastLogin).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )) ||
+                            "Resend Invite"
+                          ) : column.field === "status" ? (
+                            employee.status === 1 ? (
+                              <SuccessBadge>Active</SuccessBadge>
+                            ) : employee.status === 2 ? (
+                              <DangerBadge>Inactive</DangerBadge>
+                            ) : (
+                              <DangerBadge>Deleted</DangerBadge>
+                            )
+                          ) : (
+                            column.field === "actions" && (
+                              <IconWrapper>
+                                <MdIcons.MdOutlineModeEditOutline
+                                  onClick={() => {
+                                    setFormData(employee);
+                                    setShowForm(true);
+                                    setIsEditMode(!!employee);
+                                  }}
+                                  style={{ fontSize: "18px" }}
+                                />
+                                <GrIcons.GrFormView
+                                  style={{
+                                    fontSize: "18px",
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={() => {
+                                    dispatch(
+                                      setErrorModal({
+                                        message:
+                                          "Employee View is disabled by Admin",
+                                      })
+                                    );
+                                  }}
+                                />
+                                <MdIcons.MdDeleteOutline
+                                  style={{
+                                    fontSize: "18px",
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={() => {
+                                    dispatch(
+                                      setErrorModal({
+                                        message:
+                                          "Do you want to delete this employee?",
+                                        handleYes: () => {
+                                          deleteEmployee(employee._id);
+                                        },
+                                      })
+                                    );
+                                  }}
+                                />
+                              </IconWrapper>
+                            )
+                          )}
+                        </>
+                      )}
+                    </Td>
+                  ))}
+                </React.Fragment>
               )}
-            </>
-          )}
-        </Td>
-      ))}
-    </React.Fragment>
-  )}
-  keyField="_id"
-/>
-
+              keyField="_id"
+            />
 
             {/*<TableContainer>
                <Table>

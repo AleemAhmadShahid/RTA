@@ -117,6 +117,7 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
+        path: "/portal/iam/surveys",
         // path: "/Survrys/List",
         icon: <BiIcons.BiRadioCircle />,
       },

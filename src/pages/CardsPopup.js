@@ -85,7 +85,7 @@ export const AddButton = styled.button`
     background-color: grey;
   }
 `;
-const TextArea = styled.textarea`
+export const TextArea = styled.textarea`
   border-radius: 5px;
   width: 92%;
   padding: 4px;
@@ -96,7 +96,7 @@ const TextArea = styled.textarea`
   margin-bottom: 5px;
 `;
 
-const Icon = styled.span`
+export const Icon = styled.span`
   margin-right: 10px;
   margin-left: 5px;
   font-size: 14px;

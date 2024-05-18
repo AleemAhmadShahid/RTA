@@ -19,7 +19,7 @@ import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";
 import Board from "./pages/PM/Board";
 import Calendar from "./pages/PM/Calendar";
-
+import Surveys from"./pages/IAM/Surveys/SurveysMainPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -75,7 +75,8 @@ function App() {
                 <Route path="role" element={<Role_list />} />
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />
-                <Route path="settings" element={<EmpSetting />} />           
+                <Route path="settings" element={<EmpSetting />} /> 
+                <Route path="surveys" element={<Surveys/>} />          
               </Route>
 
               <Route path="projectmanagement" element={<Sidebar />}>
