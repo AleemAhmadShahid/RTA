@@ -1,12 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import SurveysCom from "../../../components/SurveysCom";
+import { CenteredContainer } from "../../../styles/TableStyling";
 
 const Surveys = () => {
-  
+  const [isRead, setRead] = useState(true);
+
+  // Function to toggle the read state
+  const toggleReadState = () => {
+    setRead((prevIsRead) => !prevIsRead);
+  };
 
   return (
     <div>
-    <SurveysCom/>
+      <CenteredContainer>
+        <button onClick={toggleReadState}>Toggle Read</button>
+      </CenteredContainer>
+      <SurveysCom isRead={isRead} />
     </div>
   );
 };
