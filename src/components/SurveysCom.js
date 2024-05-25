@@ -56,11 +56,25 @@ const AddButton = styled.button`
     background-color: #ffd580;
   }
 `;
+const CircleNumber = styled.div`
+  display: flex;
+  background-color: white;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  
+  margin-left:10px;
+`;
 
 const SurveysCom = ({ isRead }) => {
   const [Options] = useState([
     { label: "Text Area" },
     { label: "Check box area" },
+    { label: "Rating Scale" },
+   
   ]);
   const [OptionValue, setOptionValue] = useState(null);
 
@@ -76,7 +90,7 @@ const SurveysCom = ({ isRead }) => {
     { id: 2, label: "Item 2", value: 2 },
     { id: 3, label: "Item 3", value: 3 },
   ]);
-  const [checkedItems, setCheckedItems] = useState({});
+  const [checkedItems, setCheckedItems] = useState(false);
 
   const handleCheckboxChange = (event) => {
     setCheckedItems({
@@ -84,6 +98,14 @@ const SurveysCom = ({ isRead }) => {
       [event.target.name]: event.target.checked,
     });
   };
+  const handleItemLabelChange = (id, newLabel) => {
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, label: newLabel } : item
+      )
+    );
+  };
+
   const handleAddClick = () => {
     const newItemId = items.length + 1;
     const newItem = {
@@ -139,6 +161,19 @@ const SurveysCom = ({ isRead }) => {
     ]);
   };
 
+  const [ratings, setRatings] = useState([1]);
+
+  const addRating = () => {
+    setRatings([...ratings, ratings.length + 1]);
+  };
+  const removeRating = () => {
+    if (ratings.length > 1) {
+      setRatings(ratings.slice(0, -1));
+    }
+  };
+  
+
+
   const handleDeleteComponent = (id) => {
     setComponentsData(
       componentsData.filter((component) => component.id !== id)
@@ -157,7 +192,7 @@ const SurveysCom = ({ isRead }) => {
     <BoxContainer key={index}>
       <Box>
         <div>
-          {OptionValue && OptionValue.label === "Text Area" ? (
+        {OptionValue && OptionValue.label === "Text Area" ? (
             <div>
               <textarea
                 value={component.text}
@@ -174,16 +209,65 @@ const SurveysCom = ({ isRead }) => {
                   resize: "none",
                   border: "none",
                 }}
-                placeholder={isEditable ? "" : "Enter  here..."}
+                placeholder={isEditable ? "" : "Enter here..."}
                 readOnly={isRead}
               />
               <TextArea
                 rows={4}
                 placeholder="Enter description"
                 style={{ width: "100%" }}
-                readOnly={!isRead}
+                readOnly={isRead}
               />
             </div>
+          ) : OptionValue && OptionValue.label === "Rating Scale" ? (
+            <div>
+      <textarea
+        type="text"
+        value={component.text}
+        onFocus={() => handleFocus(component.id)}
+        onBlur={() => handleBlur(component.id)}
+        onChange={(e) =>
+          handleComponentChange(component.id, e.target.value)
+        }
+        style={{
+          color: isEditable ? "black" : "grey",
+          width: "100%",
+          fontSize: "16px",
+          border: "none",
+        }}
+        placeholder={isEditable ? "" : "Enter Question here..."}
+        readOnly={isRead}
+      />
+      <div style={{ display: "flex", alignItems: "center" }}>
+      {!isRead && (
+  <>
+    <IoMdRemoveCircleOutline
+      onClick={removeRating}
+      style={{
+        marginLeft: "8px",
+        cursor: "pointer",
+        color: "red",
+      }}
+    />
+    <IoMdAddCircleOutline
+      onClick={addRating}
+      style={{
+        fontSize: "16px",
+        cursor: "pointer",
+        color: "green",
+        marginLeft: "8px",
+      }}
+    />
+  </>
+)}
+
+        {ratings.map((rating) => (
+          <CircleNumber key={rating}>{rating}</CircleNumber>
+        ))}
+        
+        {/* {!isRead && <AddCircleButton onClick={addRating}>+</AddCircleButton>} */}
+      </div>
+    </div>
           ) : (
             <>
               <textarea
@@ -229,11 +313,25 @@ const SurveysCom = ({ isRead }) => {
                     checked={checkedItems[`checkbox-${item.value}`] || false}
                     onChange={handleCheckboxChange}
                     style={{ marginRight: "8px" }}
-                    disabled={!isRead}
+                    disabled={isRead}
                   />
-                  {item.label}
+                  <input
+                    type="text"
+                    value={item.label}
+                    onChange={(e) =>
+                      handleItemLabelChange(item.id, e.target.value)
+                    }
+                    readOnly={isRead}
+                    style={{
+                      border: "none",
+                      background: "transparent",
+                      fontSize: "16px",
+                      color: isRead ? "grey" : "black",
+                    }}
+                  />
                 </div>
               ))}
+                  
               {!isRead && (
                 <div
                   style={{

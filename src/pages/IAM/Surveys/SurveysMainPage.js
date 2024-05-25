@@ -5,7 +5,7 @@ import { CenteredContainer } from "../../../styles/TableStyling";
 const Surveys = () => {
   const [isRead, setRead] = useState(true);
 
-  // Function to toggle the read state
+ 
   const toggleReadState = () => {
     setRead((prevIsRead) => !prevIsRead);
   };
