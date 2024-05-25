@@ -9,7 +9,9 @@ import { HiOutlineDuplicate } from "react-icons/hi";
 import { Icon } from "../pages/CardsPopup";
 
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io";
-
+import { BsCardText } from "react-icons/bs";
+import { RiCheckboxMultipleLine } from "react-icons/ri";
+import { MdOutlineStarRate } from "react-icons/md";
 const BoxContainer = styled.div`
   padding: 10px;
   background-color: white;
@@ -65,17 +67,16 @@ const CircleNumber = styled.div`
   width: 30px;
   height: 30px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
-  
-  margin-left:10px;
+
+  margin-left: 10px;
   cursor: pointer;
 `;
 
 const SurveysCom = ({ isRead }) => {
   const [Options] = useState([
-    { label: "Text Area",icon:"" },
-    { label: "Check box area" },
-    { label: "Rating Scale" },
-   
+    { label: "Text Area", icon: BsCardText },
+    { label: "Check box ", icon: RiCheckboxMultipleLine },
+    { label: "Rating Scale", icon: MdOutlineStarRate },
   ]);
   const [OptionValue, setOptionValue] = useState(null);
 
@@ -172,8 +173,6 @@ const SurveysCom = ({ isRead }) => {
       setRatings(ratings.slice(0, -1));
     }
   };
-  
-
 
   const handleDeleteComponent = (id) => {
     setComponentsData(
@@ -193,7 +192,7 @@ const SurveysCom = ({ isRead }) => {
     <BoxContainer key={index}>
       <Box>
         <div>
-        {OptionValue && OptionValue.label === "Text Area" ? (
+          {OptionValue && OptionValue.label === "Text Area" ? (
             <div>
               <textarea
                 value={component.text}
@@ -209,8 +208,8 @@ const SurveysCom = ({ isRead }) => {
                   fontSize: "16px",
                   resize: "none",
                   border: "none",
-                  pointerEvents: isRead ? "none" : "auto",  
-                  userSelect: isRead ? "none" : "auto",    
+                  pointerEvents: isRead ? "none" : "auto",
+                  userSelect: isRead ? "none" : "auto",
                   background: isRead ? "transparent" : "transparent",
                 }}
                 placeholder={isEditable ? "" : "Enter here..."}
@@ -225,60 +224,61 @@ const SurveysCom = ({ isRead }) => {
             </div>
           ) : OptionValue && OptionValue.label === "Rating Scale" ? (
             <div>
-      <textarea
-        type="text"
-        value={component.text}
-        onFocus={() => handleFocus(component.id)}
-        onBlur={() => handleBlur(component.id)}
-        onChange={(e) =>
-          handleComponentChange(component.id, e.target.value)
-        }
-        style={{
-          color: isEditable ? "black" : "grey",
-          width: "100%",
-          fontSize: "16px",
-          border: "none",
-          pointerEvents: isRead ? "none" : "auto",  
-          userSelect: isRead ? "none" : "auto",    
-          background: isRead ? "transparent" : "transparent",
-        }}
-        placeholder={isEditable ? "" : "Enter Question here..."}
-        readOnly={isRead}
-      />
-      <div style={{ display: "flex", alignItems: "center" }}>
-      {!isRead && (
-  <>
-    <IoMdRemoveCircleOutline
-      onClick={removeRating}
-      style={{
-        marginLeft: "8px",
-        cursor: "pointer",
-        color: "red",
-      }}
-    />
-    <IoMdAddCircleOutline
-      onClick={addRating}
-      style={{
-        fontSize: "16px",
-        cursor: "pointer",
-        color: "green",
-        marginLeft: "8px",
-      }}
-    />
-  </>
-)}
+              <textarea
+                type="text"
+                value={component.text}
+                onFocus={() => handleFocus(component.id)}
+                onBlur={() => handleBlur(component.id)}
+                onChange={(e) =>
+                  handleComponentChange(component.id, e.target.value)
+                }
+                style={{
+                  color: isEditable ? "black" : "grey",
+                  width: "100%",
+                  fontSize: "16px",
+                  border: "none",
+                  pointerEvents: isRead ? "none" : "auto",
+                  userSelect: isRead ? "none" : "auto",
+                  background: isRead ? "transparent" : "transparent",
+                }}
+                placeholder={isEditable ? "" : "Enter Question here..."}
+                readOnly={isRead}
+              />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {!isRead && (
+                  <>
+                    <IoMdRemoveCircleOutline
+                      onClick={removeRating}
+                      style={{
+                        marginLeft: "8px",
+                        cursor: "pointer",
+                        color: "red",
+                      }}
+                    />
+                    <IoMdAddCircleOutline
+                      onClick={addRating}
+                      style={{
+                        fontSize: "16px",
+                        cursor: "pointer",
+                        color: "green",
+                        marginLeft: "8px",
+                      }}
+                    />
+                  </>
+                )}
 
-{ratings.map((rating) => (
-  <CircleNumber key={rating} onClick={() => (isRead ? alert('Button clicked') : null)}>
-    {rating}
-  </CircleNumber>
-))}
+                {ratings.map((rating) => (
+                  <CircleNumber
+                    key={rating}
+                    onClick={() => (isRead ? alert("Button clicked") : null)}
+                  >
+                    {rating}
+                  </CircleNumber>
+                ))}
 
-
-        
-        {/* {!isRead && <AddCircleButton onClick={addRating}>+</AddCircleButton>} */}
-      </div>
-    </div>
+                {/* {!isRead && <AddCircleButton onClick={addRating}>+</AddCircleButton>} */}
+              </div>
+            </div>
           ) : (
             <>
               <textarea
@@ -295,8 +295,8 @@ const SurveysCom = ({ isRead }) => {
                   fontSize: "16px",
                   resize: "none",
                   border: "none",
-                  pointerEvents: isRead ? "none" : "auto",  
-                  userSelect: isRead ? "none" : "auto",    
+                  pointerEvents: isRead ? "none" : "auto",
+                  userSelect: isRead ? "none" : "auto",
                   background: isRead ? "transparent" : "transparent",
                 }}
                 placeholder={isEditable ? "" : "Enter Question here..."}
@@ -323,14 +323,14 @@ const SurveysCom = ({ isRead }) => {
                     />
                   )}
                   {isRead && (
-  <input
-    type="checkbox"
-    name={`checkbox-${item.value}`}
-    checked={checkedItems[`checkbox-${item.value}`] || false}
-    onChange={handleCheckboxChange}
-    style={{ marginRight: "8px" }}
-  />
-)}
+                    <input
+                      type="checkbox"
+                      name={`checkbox-${item.value}`}
+                      checked={checkedItems[`checkbox-${item.value}`] || false}
+                      onChange={handleCheckboxChange}
+                      style={{ marginRight: "8px" }}
+                    />
+                  )}
 
                   <input
                     type="text"
@@ -344,14 +344,14 @@ const SurveysCom = ({ isRead }) => {
                       background: "transparent",
                       fontSize: "16px",
                       color: isRead ? "grey" : "black",
-                      pointerEvents: isRead ? "none" : "auto",  
-                      userSelect: isRead ? "none" : "auto",    
+                      pointerEvents: isRead ? "none" : "auto",
+                      userSelect: isRead ? "none" : "auto",
                       background: isRead ? "transparent" : "transparent",
                     }}
                   />
                 </div>
               ))}
-                  
+
               {!isRead && (
                 <div
                   style={{
@@ -395,17 +395,17 @@ const SurveysCom = ({ isRead }) => {
             <EntriesDropdown
               value={OptionValue}
               onChange={handleOptionChange}
-              options={Options.map((option) => ({
+              options={Options.map((option,index) => ({
                 value: option.label,
                 label: (
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    {option.icon}
+                   {option.icon && <option.icon />}
                     <span style={{ marginLeft: "8px" }}>{option.label}</span>
                   </div>
                 ),
                 icon: option.icon,
               }))}
-              styles={{ width: "200px", marginBottom: "16px" }}
+              styles={{ width: "250px", marginBottom: "16px" }}
             />
 
             <div style={{ display: "flex" }}>
