@@ -67,11 +67,12 @@ const CircleNumber = styled.div`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   
   margin-left:10px;
+  cursor: pointer;
 `;
 
 const SurveysCom = ({ isRead }) => {
   const [Options] = useState([
-    { label: "Text Area" },
+    { label: "Text Area",icon:"" },
     { label: "Check box area" },
     { label: "Rating Scale" },
    
@@ -208,6 +209,9 @@ const SurveysCom = ({ isRead }) => {
                   fontSize: "16px",
                   resize: "none",
                   border: "none",
+                  pointerEvents: isRead ? "none" : "auto",  
+                  userSelect: isRead ? "none" : "auto",    
+                  background: isRead ? "transparent" : "transparent",
                 }}
                 placeholder={isEditable ? "" : "Enter here..."}
                 readOnly={isRead}
@@ -216,7 +220,7 @@ const SurveysCom = ({ isRead }) => {
                 rows={4}
                 placeholder="Enter description"
                 style={{ width: "100%" }}
-                readOnly={isRead}
+                readOnly={!isRead}
               />
             </div>
           ) : OptionValue && OptionValue.label === "Rating Scale" ? (
@@ -234,6 +238,9 @@ const SurveysCom = ({ isRead }) => {
           width: "100%",
           fontSize: "16px",
           border: "none",
+          pointerEvents: isRead ? "none" : "auto",  
+          userSelect: isRead ? "none" : "auto",    
+          background: isRead ? "transparent" : "transparent",
         }}
         placeholder={isEditable ? "" : "Enter Question here..."}
         readOnly={isRead}
@@ -261,9 +268,13 @@ const SurveysCom = ({ isRead }) => {
   </>
 )}
 
-        {ratings.map((rating) => (
-          <CircleNumber key={rating}>{rating}</CircleNumber>
-        ))}
+{ratings.map((rating) => (
+  <CircleNumber key={rating} onClick={() => (isRead ? alert('Button clicked') : null)}>
+    {rating}
+  </CircleNumber>
+))}
+
+
         
         {/* {!isRead && <AddCircleButton onClick={addRating}>+</AddCircleButton>} */}
       </div>
@@ -284,6 +295,9 @@ const SurveysCom = ({ isRead }) => {
                   fontSize: "16px",
                   resize: "none",
                   border: "none",
+                  pointerEvents: isRead ? "none" : "auto",  
+                  userSelect: isRead ? "none" : "auto",    
+                  background: isRead ? "transparent" : "transparent",
                 }}
                 placeholder={isEditable ? "" : "Enter Question here..."}
                 readOnly={isRead}
@@ -304,17 +318,20 @@ const SurveysCom = ({ isRead }) => {
                         marginLeft: "8px",
                         cursor: "pointer",
                         color: "red",
+                        marginRight: "8px",
                       }}
                     />
                   )}
-                  <input
-                    type="checkbox"
-                    name={`checkbox-${item.value}`}
-                    checked={checkedItems[`checkbox-${item.value}`] || false}
-                    onChange={handleCheckboxChange}
-                    style={{ marginRight: "8px" }}
-                    disabled={isRead}
-                  />
+                  {isRead && (
+  <input
+    type="checkbox"
+    name={`checkbox-${item.value}`}
+    checked={checkedItems[`checkbox-${item.value}`] || false}
+    onChange={handleCheckboxChange}
+    style={{ marginRight: "8px" }}
+  />
+)}
+
                   <input
                     type="text"
                     value={item.label}
@@ -327,6 +344,9 @@ const SurveysCom = ({ isRead }) => {
                       background: "transparent",
                       fontSize: "16px",
                       color: isRead ? "grey" : "black",
+                      pointerEvents: isRead ? "none" : "auto",  
+                      userSelect: isRead ? "none" : "auto",    
+                      background: isRead ? "transparent" : "transparent",
                     }}
                   />
                 </div>
@@ -347,6 +367,7 @@ const SurveysCom = ({ isRead }) => {
                       cursor: "pointer",
                       color: "green",
                       marginLeft: "8px",
+                      marginRight: "8px",
                     }}
                   />
                   <span
