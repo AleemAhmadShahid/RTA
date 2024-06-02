@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
 import {
   createGetRequest,
-  createDeleteRequest,
+  createPostRequest,
   createPutRequest,
 } from "../../../global/requests";
 import { handleCheckChange } from "../../../global/helper";
@@ -15,9 +15,11 @@ import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 
 import EmployeeInfo from "../../../components/EmployeeInfo";
 
+import LoaderComponent from "../../../components/Loader";
+
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
-
+import { useParams } from 'react-router-dom';
 import { FaPrint} from "react-icons/fa";
 
 import {
@@ -44,13 +46,13 @@ import {
 } from "../../../styles/TableStyling";
 
 import EmployeeTable from "../../../components/Table";
-import LoaderComponent from "../../../components/Loader";
 import { entriesOptions, exportOptions } from "../../../global/constants"
 import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
-const Emp_list = () => {
+const TeamView = ({id}) => {
+  const { teamId } = useParams();
   const dispatch = useDispatch();
 
   
@@ -106,15 +108,16 @@ const Emp_list = () => {
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/user", params);
+        const data = await createGetRequest(`/api/department/${teamId}/`, params);
       
         if (data.status === 404) {
           setEmployees([]);
           return;
         }
         setEmployees(data.users);
+        setFormData({id: data._id})
         setTotalPages(data.totalPages);
-        setInfoBoxData(data.analytics);
+        //setInfoBoxData(data.analytics);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -169,9 +172,9 @@ const Emp_list = () => {
   });
 
   const deleteEmployee = async (id) => {
-    const response = await createDeleteRequest(`/api/user/${id}/`);
+    const response = await createPostRequest({users: [id]}, `/api/department/${teamId}/removeUser/`);
     if (response.status === 200) {
-      toast.success("Employee Deleted Successfully");
+      toast.success("Employee Removed Successfully");
       setReload(!reload);
     }
   };
@@ -203,20 +206,20 @@ const Emp_list = () => {
               icon={BiUser}
               iconColor="#512da8"
               data={infoBoxData.totalUsers}
-              text="Total Users"
+              text="Total Members"
             />
             <InfoBox
               icon={FiUserCheck}
               iconColor="#2ac779"
               data={infoBoxData.activeUsers}
-              text="Active Users"
+              text="Active Members"
             />
 
             <InfoBox
               icon={FiUserPlus}
               iconColor="#d32f2f"
               data={infoBoxData.InActiveUsers}
-              text="Inactive Users"
+              text="Inactive Members"
             />
             <InfoBox
               icon={FiUserX}
@@ -338,7 +341,7 @@ const Emp_list = () => {
                   onClick={toggleForm}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Member</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -389,14 +392,6 @@ const Emp_list = () => {
               ) : (
                 column.field === 'actions' && (
                   <IconWrapper>
-                    <MdIcons.MdOutlineModeEditOutline
-                      onClick={() => {
-                        setFormData(employee);
-                        setShowForm(true);
-                        setIsEditMode(!!employee);
-                      }}
-                      style={{ fontSize: '18px' }}
-                    />
                     <GrIcons.GrFormView
                       style={{
                         fontSize: '18px',
@@ -412,7 +407,7 @@ const Emp_list = () => {
                         cursor: 'pointer',
                       }}
                       onClick={() => {
-                        dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
+                        dispatch(setErrorModal({message: "Do you want to remove this employee?", handleYes: () => {
                           deleteEmployee(employee._id);
                         }}));
                       }}
@@ -598,6 +593,7 @@ const Emp_list = () => {
       </CenteredContainer>
       {showForm && (
         <MultiStepForm
+          employees={employees}
           showForm={showForm}
           setShowForm={setShowForm}
           formData={formData}
@@ -612,4 +608,4 @@ const Emp_list = () => {
   );
 };
 
-export default Emp_list;
+export default TeamView;

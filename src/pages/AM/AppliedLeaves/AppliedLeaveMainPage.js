@@ -7,6 +7,7 @@ import {
   createPutRequest,
 } from "../../../global/requests";
 import { handleCheckChange } from "../../../global/helper";
+
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../../components/Cards";
 import PageBar from "../../../components/PageBar";
@@ -18,7 +19,6 @@ import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
 import { FaPrint} from "react-icons/fa";
-import toast  from 'react-hot-toast';
 
 import {
   Td,
@@ -40,27 +40,16 @@ import {
   StyledSearchBar,
   dropDownStyle,
 } from "../../../styles/TableStyling";
+
 import { entriesOptions, exportOptions } from "../../../global/constants"
+import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
 
-
-
-const Team_list = ({id}) => {
-  const navigate = useNavigate();
+const AppliedLeaves_list = () => {
   const dispatch = useDispatch();
-
-  const pageName = [
-    {
-      name: "Department",
-      columnName: "Department Head"
-    },
-    {
-      name: "Team",
-      columnName: "Team Lead"
-    },
-  ];
+  const navigate = useNavigate();
 
   const bulkOptions = [
     { value: {}, label: "Select" },
@@ -68,12 +57,11 @@ const Team_list = ({id}) => {
   ];
 
 
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedTeam, setcheckedTeam] = useState([]);
-  const [teams, setTeams] = useState([]);
+  const [checkedAppliedLeaves, setCheckedAppliedLeaves] = useState([]);
+  const [appliedLeaves, setAppliedLeaves] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -84,7 +72,6 @@ const Team_list = ({id}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
 
   const [loading, setLoading] = useState(true);
@@ -93,23 +80,24 @@ const Team_list = ({id}) => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
-      type: id,
       name: searchTerm,
     };
-    if (typeof status.value !== "object") params.status = status.value;
+    if (typeof appliedLeaves.value !== "object") params.appliedLeaves = appliedLeaves.value;
+
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/department", params);
-        if (data.status === 404) {
-          setTeams([]);
+        const data = await createGetRequest("/api/leave/applyLeave/1/", params);
+        console.log(data);
+        if (data.status === 404 || data.status === 400) {
+          setAppliedLeaves([]);
           setLoading(false);
           return;
         }
-        setTeams(data.departments);
+        setAppliedLeaves(data.leaves);
         setInfoBoxData(data.analytics);
-        setTotalPages(data.totalPages);    
+        setTotalPages(data.totalPages);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -117,11 +105,10 @@ const Team_list = ({id}) => {
 
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
+  }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (team) => {
-    const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-    setFormData(updatedteam);
+  const handleEditClick = (appliedLeaves) => {
+    setFormData(appliedLeaves);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -131,20 +118,21 @@ const Team_list = ({id}) => {
     setIsEditMode(false);
   };
 
-
   const [selectedCheck, setSelectedCheck] = useState([
-    "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
-    "Created By",
-    "Actions",
+    "User",
+    "Start Date",
+    "End Date",
+    "Leave Type",
+    "Status",
+    "Actions"
   ]);
   const CheckOptions = [
-    "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
-    "Created By",
-    "Actions",
+    "User",
+    "Start Date",
+    "End Date",
+    "Leave Type",
+    "Status",
+    "Actions"
   ];
 
   const [Export, setExport] = useState({
@@ -152,32 +140,30 @@ const Team_list = ({id}) => {
     icon: <FaPrint />,
   });
 
-  const deleteDepartment = async (departmentId) => {
-    const response = await createDeleteRequest(`/api/department/${departmentId}/`);
+  const deleteAppliedLeaves = async (id) => {
+    const response = await createDeleteRequest(`/api/appliedLeaves/${id}/`);
     if (response.status === 200) {
-      toast.success(pageName[id-1].name + " deleted successfully!");
       setReload(!reload);
+      toast.success("AppliedLeaves deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {teams: checkedTeam};
-    if (checkedTeam.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/department/bulkDelete/";
+    const data = {appliedLeaves: checkedAppliedLeaves};
+    if (checkedAppliedLeaves.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/appliedLeaves/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success(pageName[id-1].name + `${bulkOption.label}d Successfully`);
+      toast.success(`${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
 
-
-
   return (
     <>
-     {" "}
+      {" "}
       <CenteredContainer>
         <div>
           {<CardsContainer>
@@ -192,22 +178,22 @@ const Team_list = ({id}) => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalDepartments || 0}
-              text={`Total ${pageName[id - 1].name}s`}
+              data={infoBoxData?.totalAppliedLeaves || 0}
+              text="Total Applied Leaves"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantDepartments || 0}
-              text={`Vacant ${pageName[id - 1].name}s`}
+              data={infoBoxData?.vacantAppliedLeaves || 0}
+              text="Vacant Applied Leaves"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedDepartments || 0}
-              text={`Closed ${pageName[id - 1].name}s`}
+              data={infoBoxData?.closedAppliedLeaves || 0}
+              text="Closed Applied Leaves"
             />
            
           </CardsContainer> }
@@ -226,13 +212,6 @@ const Team_list = ({id}) => {
                 selectedValue={bulkOption}
                 title=""
               />
-              <AddEmployeeButton
-                style={{ marginBottom: "0px" }}
-                className="btn btn-primary mb-2"
-                onClick={takeBulkAction}
-              >
-                <span style={{ whiteSpace: "nowrap" }}>Apply</span>
-              </AddEmployeeButton>
             </FilterOuterBox>
           </FilterContainer>
 
@@ -309,7 +288,7 @@ const Team_list = ({id}) => {
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add {pageName[id-1].name}</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Assign Leaves</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -322,26 +301,33 @@ const Team_list = ({id}) => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setcheckedTeam(
-                              teams.map((team) => team._id)
+                            setCheckedAppliedLeaves(
+                              appliedLeaves.map((appliedLeaves) => appliedLeaves._id)
                             );
-                          else setcheckedTeam([]);
+                          else setCheckedAppliedLeaves([]);
                         }}
                       />
                     </Th>
 
-                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
+                    {selectedCheck.includes("User") && <Th>USER</Th>}
 
-                    {selectedCheck.includes(pageName[id-1].columnName) && (
-                      <Th>{pageName[id-1].columnName}</Th>
+                    {selectedCheck.includes("Start Date") && (
+                      <Th>START DATE</Th>
                     )}
-
-                    {selectedCheck.includes("Supervising Department") && <Th>Supervising Department</Th>}
 
                    
-                    {selectedCheck.includes("Created By") && (
-                      <Th>ADDED BY</Th>
+                    {selectedCheck.includes("End Date") && (
+                      <Th>END DATE</Th>
                     )}
+
+                    {selectedCheck.includes("Leave Type") && (
+                      <Th>LEAVE TYPE</Th>
+                    )}
+
+                    {selectedCheck.includes("Status") && (
+                      <Th>Status</Th>
+                    )}
+
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -353,53 +339,76 @@ const Team_list = ({id}) => {
                       </td>
                     </tr>
                   ) : (
-                    teams &&
-                    teams.map((team) => (
-                      <Tr key={team._id}>
+                    appliedLeaves &&
+                    appliedLeaves.map((appliedLeaves) => (
+                      <Tr key={appliedLeaves._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedTeam.includes(team._id)}
+                            checked={checkedAppliedLeaves.includes(appliedLeaves._id)}
                             onChange={() => {
-                              if (!checkedTeam.includes(team._id))
-                                setcheckedTeam([
-                                  ...checkedTeam,
-                                  team._id,
+                              if (!checkedAppliedLeaves.includes(appliedLeaves._id))
+                                setCheckedAppliedLeaves([
+                                  ...checkedAppliedLeaves,
+                                  appliedLeaves._id,
                                 ]);
                               else
-                                setcheckedTeam(
-                                  checkedTeam.filter(
-                                    (checkedTeam) =>
-                                      checkedTeam !== team._id
+                                setCheckedAppliedLeaves(
+                                  checkedAppliedLeaves.filter(
+                                    (checkedAppliedLeaves) =>
+                                      checkedAppliedLeaves !== appliedLeaves._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-
-                        {selectedCheck.includes("Name") && (
-                          <Td>{team.name}</Td>
+                  
+              
+                        {selectedCheck.includes("User") && (
+                          <Td>{appliedLeaves.employee}</Td>
                         )}
 
-                        {selectedCheck.includes(pageName[id-1].columnName) && (
+                        {selectedCheck.includes("Start Date") && (
                           <Td>
-                          { team?.lead 
-                            &&
-                            <EmployeeInfo isSpaceRequired={true} employee={team?.lead} />
-                          }
-                        </Td>
+                            {(appliedLeaves?.startDate  &&
+                              new Date(appliedLeaves?.startDate ).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "2-digit"
+                                }
+                              )) ||
+                              "-"
+                            }
+                          </Td>
                         )}
 
-                        {selectedCheck.includes("Supervising Department") && (
-                          <Td>{team?.superDepartment?.name}</Td>
+                        {selectedCheck.includes("End Date") && (
+                          <Td>
+                            {(appliedLeaves?.endDate  &&
+                              new Date(appliedLeaves?.endDate ).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "2-digit"
+                                }
+                              )) ||
+                              "-"
+                            }
+                          </Td>
+                        )}
+
+                        {selectedCheck.includes("Leave Type") && (
+                          <Td>{appliedLeaves.leaveType}</Td>
                         )}
                        
-                        {selectedCheck.includes("Created By") && (
+                        {selectedCheck.includes("Status") && (
                           <Td>
-                            { team?.createdBy 
-                              &&
-                              <EmployeeInfo isSpaceRequired={true} employee={team?.createdBy} />
+                            { appliedLeaves?.status 
+  
                             }
                           </Td>
                         )}
@@ -408,40 +417,24 @@ const Team_list = ({id}) => {
                        
                         {selectedCheck.includes("Actions") && (
                           <Td>
-                            <IconWrapper>
-                              <MdIcons.MdOutlineModeEditOutline
-                                onClick={() => {
-                                  setIsViewMode(false);
-                                  const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-                                  setFormData(updatedteam);
-                                  setShowForm(true);
-                                  setIsEditMode(!!team);
-                                }}
-                                style={{ fontSize: "18px" }}
-                              />
-                            </IconWrapper>
+                            
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              navigate(`/portal/iam/${pageName[id-1].name.toLowerCase()}/${team._id}/`);
+                              setFormData(appliedLeaves);
+                              setIsViewMode(true);
+                              toggleForm();
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
 
-                            <MdIcons.MdDeleteOutline
-                              style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message:  `Do you want to delete this ${pageName[id-1].name.toLowerCase()}?`, handleYes: () => {
-                                  deleteDepartment(team._id);
-                                }}));
-                              }}
-                            />
+                           
                           </Td>
                         )}
                       </Tr>
                     ))
                   )}
-                  {!loading && (!teams || teams.length === 0) && (
+                  {!loading && (!appliedLeaves || appliedLeaves.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -450,7 +443,7 @@ const Team_list = ({id}) => {
               </Table>
             </TableContainer>
 
-            {teams.length !== 0 && totalPages >= 1 && (
+            {appliedLeaves.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -471,12 +464,10 @@ const Team_list = ({id}) => {
           isEditMode={isEditMode}
           isViewMode={isViewMode}
           onEditClick={handleEditClick}
-          id = {id}
-          pageName = {pageName}
         />
       )}
     </>
   );
 };
 
-export default Team_list;
+export default AppliedLeaves_list;

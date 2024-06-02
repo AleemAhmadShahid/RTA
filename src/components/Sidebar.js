@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
 import { CgMenuRight } from "react-icons/cg";
@@ -57,7 +56,7 @@ export const MobileIcon = styled.div`
   }
 `;
 
-const Sidebar = () => {
+const Sidebar = ({heading,SidebarData}) => {
   const [sidebar, setSidebar] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState(null);
 
@@ -83,7 +82,7 @@ const Sidebar = () => {
               <MobileIcon sidebar={sidebar} onClick={toggleSidebar}>
                 <CgMenuRight />
               </MobileIcon>
-              Employee Management
+              {heading}
             </Heading>
             {SidebarData.map((item, index) => {
               return (

@@ -7,7 +7,7 @@ import * as BsIcons from "react-icons/bs";
 import * as BiIcons from "react-icons/bi";
 import * as CgIcons from "react-icons/cg";
 
-export const SidebarData = [
+export const IAMSidebarData = [
   {
     title: "Dashboard",
     //path: "/",
@@ -138,14 +138,9 @@ export const SidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Announcements/List",
+        path: "/portal/iam/announcement",
         icon: <BiIcons.BiRadioCircle />,
-      },
-      {
-        title: "Add",
-        // path: "/Announcements/Add",
-        icon: <BiIcons.BiSolidAddToQueue />,
-      },
+      }
     ],
   },
 ];

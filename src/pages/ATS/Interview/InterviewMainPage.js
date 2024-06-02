@@ -50,7 +50,7 @@ import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
-const Emp_list = () => {
+const Interview_list = () => {
   const dispatch = useDispatch();
 
   
@@ -63,16 +63,21 @@ const Emp_list = () => {
   
   const statusOptions = [
     { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
+    { label: 'In-progress', value: 'In-progress' },
+    { label: 'Waiting for approval', value: 'Waiting for approval' },
+    { label: 'On-Hold', value: 'On-Hold' },
+    { label: 'Filled', value: 'Filled' },
+    { label: 'Cancelled', value: 'Cancelled' },
+    { label: 'Declined', value: 'Declined' },
+    { label: 'Inactive', value: 'Inactive' }
   ];
 
   const navigate = useNavigate();
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const [checkedEmployees, setCheckedEmployees] = useState([]);
-  const [employees, setEmployees] = useState([]);
+  const [checkedInterviews, setCheckedInterviews] = useState([]);
+  const [interviews, setInterviews] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -100,21 +105,21 @@ const Emp_list = () => {
       name: searchTerm,
     };
     if (typeof status.value !== "object") params.status = status.value;
-    if (typeof role.value !== "object") params.roles = role.value;
+    if (typeof role.value !== "object") params.role = role.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/user", params);
+        const data = await createGetRequest("/api/interview", params);
       
-        if (data.status === 404) {
-          setEmployees([]);
+        if (data.status === 400) {
+          setInterviews([]);
           return;
         }
-        setEmployees(data.users);
+        setInterviews(data.interviews);
         setTotalPages(data.totalPages);
-        setInfoBoxData(data.analytics);
+        //setInfoBoxData(data.analytics);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -135,8 +140,8 @@ const Emp_list = () => {
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, status, role, reload, navigate]);
 
-  const handleEditClick = (employee) => {
-    setFormData(employee);
+  const handleEditClick = (interview) => {
+    setFormData(interview);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -148,18 +153,17 @@ const Emp_list = () => {
 
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "User",
-    "Employee Code",
-    "Last Login",
-    "Status",
+    "Candidate",
+    "Interview Name",
+    "From",
+    "To",
     "Actions",
   ]);
   const CheckOptions = [
-    "User",
-    "Employee Code",
-    "Last Login",
-    "Member Since",
-    "Status",
+    "Candidate",
+    "Interview Name",
+    "From",
+    "To",
     "Actions",
   ];
 
@@ -168,27 +172,27 @@ const Emp_list = () => {
     icon: <FaPrint />,
   });
 
-  const deleteEmployee = async (id) => {
-    const response = await createDeleteRequest(`/api/user/${id}/`);
+  const deleteInterview = async (id) => {
+    const response = await createDeleteRequest(`/api/interview/${id}/`);
     if (response.status === 200) {
-      toast.success("Employee Deleted Successfully");
+      toast.success("Interview Deleted Successfully");
       setReload(!reload);
     }
   };
 
   const takeBulkAction = async () => {
-    if (checkedEmployees.length === 0 || bulkOption === "Select") return;
+    if (checkedInterviews.length === 0 || bulkOption === "Select") return;
     let path = "";
-    const data = { users: checkedEmployees, status: 1 };
+    const data = { interviews: checkedInterviews, status: 1 };
     if (bulkOption.label === "Deactive" || bulkOption.label === "Active")
-      path = "/api/user/bulkStatusUpdate/";
+      path = "/api/interview/bulkStatusUpdate/";
     if (bulkOption.label === "Active") data.status = 1;
     if (bulkOption.label === "Deactive") data.status = 2;
-    else if (bulkOption.label === "Delete") path = "/api/user/bulkDelete/";
+    else if (bulkOption.label === "Delete") path = "/api/interview/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Employee " + `${bulkOption.label}d Successfully`);
+      toast.success("Interview " + `${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
@@ -202,21 +206,21 @@ const Emp_list = () => {
             <InfoBox
               icon={BiUser}
               iconColor="#512da8"
-              data={infoBoxData.totalUsers}
-              text="Total Users"
+              data={infoBoxData.totalPosts}
+              text="Total Posts"
             />
             <InfoBox
               icon={FiUserCheck}
               iconColor="#2ac779"
-              data={infoBoxData.activeUsers}
-              text="Active Users"
+              data={infoBoxData.activePosts}
+              text="Active Posts"
             />
 
             <InfoBox
               icon={FiUserPlus}
               iconColor="#d32f2f"
-              data={infoBoxData.InActiveUsers}
-              text="Inactive Users"
+              data={infoBoxData.InActivePosts}
+              text="Inactive Posts"
             />
             <InfoBox
               icon={FiUserX}
@@ -338,16 +342,16 @@ const Emp_list = () => {
                   onClick={toggleForm}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Schedule</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
 
             {/* <EmployeeTable
-            checkedEmployees={checkedEmployees}
-            setCheckedEmployees={setCheckedEmployees}
+            checkedInterviews={checkedInterviews}
+            setCheckedInterviews={setCheckedInterviews}
   loading={loading}
-  data={employees}
+  data={interviews}
   columns={[    
     { label: 'User', field: 'EmployeeInfo' },
     { label: 'Employee Code', field: '_id' },
@@ -356,21 +360,21 @@ const Emp_list = () => {
     { label: 'Actions', field: 'actions' },
   ]}
 
-   setCheckedItems={setCheckedEmployees}
-  renderRow={(employee, columns) => (
-    <React.Fragment key={employee._id}>
+   setCheckedItems={setCheckedInterviews}
+  renderRow={(interview, columns) => (
+    <React.Fragment key={interview._id}>
       
       {columns.map((column) => (
         <Td key={column.field}>
           {selectedCheck.includes(column.label) && (
             <>
               {column.field === 'EmployeeInfo' ? (
-                <EmployeeInfo employee={employee} />
+                <EmployeeInfo interview={interview} />
               ) : column.field === '_id' ? (
-                employee._id
+                interview._id
               ) : column.field === 'lastLogin' ? (
-                (employee.lastLogin &&
-                  new Date(employee.lastLogin).toLocaleString('en-GB', {
+                (interview.lastLogin &&
+                  new Date(interview.lastLogin).toLocaleString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: '2-digit',
@@ -379,9 +383,9 @@ const Emp_list = () => {
                   })) ||
                 'Resend Invite'
               ) : column.field === 'status' ? (
-                employee.status === 1 ? (
+                interview.status === 1 ? (
                   <SuccessBadge>Active</SuccessBadge>
-                ) : employee.status === 2 ? (
+                ) : interview.status === 2 ? (
                   <DangerBadge>Inactive</DangerBadge>
                 ) : (
                   <DangerBadge>Deleted</DangerBadge>
@@ -391,9 +395,9 @@ const Emp_list = () => {
                   <IconWrapper>
                     <MdIcons.MdOutlineModeEditOutline
                       onClick={() => {
-                        setFormData(employee);
+                        setFormData(interview);
                         setShowForm(true);
-                        setIsEditMode(!!employee);
+                        setIsEditMode(!!interview);
                       }}
                       style={{ fontSize: '18px' }}
                     />
@@ -412,8 +416,8 @@ const Emp_list = () => {
                         cursor: 'pointer',
                       }}
                       onClick={() => {
-                        dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
-                          deleteEmployee(employee._id);
+                        dispatch(setErrorModal({message: "Do you want to delete this interview?", handleYes: () => {
+                          deleteInterview(interview._id);
                         }}));
                       }}
                     />
@@ -439,25 +443,26 @@ const Emp_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedEmployees(
-                              employees.map((employee) => employee._id)
+                            setCheckedInterviews(
+                              interviews.map((interview) => interview._id)
                             );
-                          else setCheckedEmployees([]);
+                          else setCheckedInterviews([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("User") && <Th>USER</Th>}
+                    {selectedCheck.includes("Candidate") && <Th>CANDIDATE</Th>}
                     
-                    {selectedCheck.includes("Employee Code") && (
-                      <Th>EMPLOYEE CODE</Th>
+                    {selectedCheck.includes("Interview Name") && (
+                      <Th>INTERVIEW NAME</Th>
                     )}
-                    {selectedCheck.includes("Last Login") && (
-                      <Th>LAST LOGIN</Th>
+
+                    {selectedCheck.includes("From") && (
+                      <Th>FROM</Th>
                     )}
-                    {selectedCheck.includes("Member Since") && (
-                      <Th>MEMBER SINCE</Th>
+                    {selectedCheck.includes("To") && (
+                      <Th>To</Th>
                     )}
-                    {selectedCheck.includes("Status") && <Th>STATUS</Th>}
+
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -469,59 +474,43 @@ const Emp_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    employees &&
-                    employees.map((employee) => (
-                      <Tr key={employee._id}>
+                    interviews &&
+                    interviews.map((interview) => (
+                      <Tr key={interview._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedEmployees.includes(employee._id)}
+                            checked={checkedInterviews.includes(interview._id)}
                             onChange={() => {
-                              if (!checkedEmployees.includes(employee._id))
-                                setCheckedEmployees([
-                                  ...checkedEmployees,
-                                  employee._id,
+                              if (!checkedInterviews.includes(interview._id))
+                                setCheckedInterviews([
+                                  ...checkedInterviews,
+                                  interview._id,
                                 ]);
                               else
-                                setCheckedEmployees(
-                                  checkedEmployees.filter(
-                                    (checkedEmployee) =>
-                                      checkedEmployee !== employee._id
+                                setCheckedInterviews(
+                                  checkedInterviews.filter(
+                                    (checkedInterviews) =>
+                                      checkedInterviews !== interview._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-                        {selectedCheck.includes("User") && (
-                          <Td>
-                            <EmployeeInfo employee={employee} />
-                          </Td>
-                        )}
+                        
 
-                        {selectedCheck.includes("Employee Code") && (
-                          <Td>{employee._id}</Td>
+                        {selectedCheck.includes("Candidate") && (
+                          <Td>{interview.candidate}</Td>
                         )}
-                        {selectedCheck.includes("Last Login") && (
-                          <Td>
-                            {(employee.lastLogin &&
-                              new Date(employee.lastLogin).toLocaleString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "2-digit",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                }
-                              )) ||
-                              "Resend Invite"}
-                          </Td>
+                        {selectedCheck.includes("Interview Name") && (
+                          <Td>{interview.interviewName}</Td>
                         )}
-                        {selectedCheck.includes("Member Since") && (
+      
+                        {selectedCheck.includes("From") && (
                           <Td>
-                            {(employee.dateOfJoining &&
-                              new Date(employee.dateOfJoining).toLocaleString(
+                            {(interview.from &&
+                              new Date(interview.from).toLocaleString(
                                 "en-GB",
                                 {
                                   day: "2-digit",
@@ -529,28 +518,32 @@ const Emp_list = () => {
                                   year: "numeric",
                                 }
                               )) ||
-                              ""}
+                              "-"}
                           </Td>
                         )}
-                        {selectedCheck.includes("Status") && (
+                        {selectedCheck.includes("To") && (
                           <Td>
-                            {employee.status === 1 ? (
-                              <SuccessBadge>Active</SuccessBadge>
-                            ) : employee.status === 2 ? (
-                              <DangerBadge>Inactive</DangerBadge>
-                            ) : (
-                              <DangerBadge>Deleted</DangerBadge>
-                            )}
+                            {(interview.to &&
+                              new Date(interview.to).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                }
+                              )) ||
+                              "Resend Invite"}
                           </Td>
                         )}
+                       
                         {selectedCheck.includes("Actions") && (
                           <Td>
                             <IconWrapper>
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
-                                  setFormData(employee);
+                                  setFormData(interview);
                                   setShowForm(true);
-                                  setIsEditMode(!!employee);
+                                  setIsEditMode(!!interview);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -559,15 +552,15 @@ const Emp_list = () => {
                             <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Employee View is disabled by Admin"}));
+                                dispatch(setErrorModal({message: "Interview View is disabled by Admin"}));
                               }}
                             />
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
-                                  deleteEmployee(employee._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this interview?", handleYes: () => {
+                                  deleteInterview(interview._id);
                                 }}));
                               }}
                             />
@@ -576,7 +569,7 @@ const Emp_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!employees || employees.length === 0) && (
+                  {!loading && (!interviews || interviews.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -585,7 +578,7 @@ const Emp_list = () => {
               </Table> 
             </TableContainer>
 
-            {employees.length !== 0 && totalPages >= 1 && (
+            {interviews.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -612,4 +605,4 @@ const Emp_list = () => {
   );
 };
 
-export default Emp_list;
+export default Interview_list;

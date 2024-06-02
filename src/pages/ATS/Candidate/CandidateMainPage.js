@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
-import LoaderComponent from "../../../components/Loader";
 import {
   createGetRequest,
   createDeleteRequest,
@@ -11,14 +10,15 @@ import { useNavigate } from "react-router-dom";
 import InfoBox from "../../../components/Cards";
 import PageBar from "../../../components/PageBar";
 import FilterBox from "../../../components/FilterBox";
+import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
+
 import EmployeeInfo from "../../../components/EmployeeInfo";
 
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
 import { FaPrint} from "react-icons/fa";
-import toast  from 'react-hot-toast';
 
 import {
   Td,
@@ -26,6 +26,8 @@ import {
   Th,
   AddEmployeeContainer,
   Table,
+  SuccessBadge,
+  DangerBadge,
   CreateEmployeeHeading,
   BoxContainer,
   AddEmployeeButton,
@@ -40,40 +42,37 @@ import {
   StyledSearchBar,
   dropDownStyle,
 } from "../../../styles/TableStyling";
+
+import EmployeeTable from "../../../components/Table";
+import LoaderComponent from "../../../components/Loader";
 import { entriesOptions, exportOptions } from "../../../global/constants"
+import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
-
-
-
-const Team_list = ({id}) => {
-  const navigate = useNavigate();
+const Candidate_list = () => {
   const dispatch = useDispatch();
 
-  const pageName = [
-    {
-      name: "Department",
-      columnName: "Department Head"
-    },
-    {
-      name: "Team",
-      columnName: "Team Lead"
-    },
-  ];
-
+  
   const bulkOptions = [
     { value: {}, label: "Select" },
-    { value: 1, label: "Delete" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Deactive" },
+    { value: 3, label: "Delete" },
+  ];
+  
+  const statusOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Inactive" },
   ];
 
-
+  const navigate = useNavigate();
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedTeam, setcheckedTeam] = useState([]);
-  const [teams, setTeams] = useState([]);
+  const [checkedCandidates, setCheckedCandidate] = useState([]);
+  const [candidates, setCandidates] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -86,6 +85,11 @@ const Team_list = ({id}) => {
 
   const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
+  const [jobPost, setJobPost] = useState({ value: {}, label: "Select" });
+  const [jobPostOptions, setJobPostOptions] = useState({
+    value: {},
+    label: "Select",
+  });
 
   const [loading, setLoading] = useState(true);
 
@@ -93,35 +97,47 @@ const Team_list = ({id}) => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
-      type: id,
       name: searchTerm,
     };
     if (typeof status.value !== "object") params.status = status.value;
+    if (typeof jobPost.value !== "object") params.jobPost = jobPost.value;
+
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/department", params);
+        const data = await createGetRequest("/api/candidate", params);
+        console.log(data);
         if (data.status === 404) {
-          setTeams([]);
+          setCandidates([]);
           setLoading(false);
           return;
         }
-        setTeams(data.departments);
+        setCandidates(data.candidates);
+        setTotalPages(data.totalPages);
         setInfoBoxData(data.analytics);
-        setTotalPages(data.totalPages);    
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-
+      try {
+        const data = await createGetRequest("/api/jobPost");
+        if (data.status === 200) {
+          const jobPosts = data.jobPosts.map((jobPost) => ({
+            label: jobPost.postingTitle,
+            value: jobPost._id,
+          }));
+          setJobPostOptions([{ value: {}, label: "Select" }, ...jobPosts]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
+  }, [currentPage, entriesToShow, searchTerm, status, jobPost, reload, navigate]);
 
-  const handleEditClick = (team) => {
-    const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-    setFormData(updatedteam);
+  const handleEditClick = (candidate) => {
+    setFormData(candidate);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -133,17 +149,17 @@ const Team_list = ({id}) => {
 
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
-    "Created By",
+    "Candidate",
+    "Job Post",
+    "Experience",
+    "Status",
     "Actions",
   ]);
   const CheckOptions = [
-    "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
-    "Created By",
+    "Candidate",
+    "Job Post",
+    "Experience",
+    "Status",
     "Actions",
   ];
 
@@ -152,68 +168,81 @@ const Team_list = ({id}) => {
     icon: <FaPrint />,
   });
 
-  const deleteDepartment = async (departmentId) => {
-    const response = await createDeleteRequest(`/api/department/${departmentId}/`);
+  const deleteCandidate = async (id) => {
+    const response = await createDeleteRequest(`/api/candidate/${id}/`);
     if (response.status === 200) {
-      toast.success(pageName[id-1].name + " deleted successfully!");
+      toast.success("Candidate Deleted Successfully");
       setReload(!reload);
     }
   };
 
   const takeBulkAction = async () => {
+    if (checkedCandidates.length === 0 || bulkOption === "Select") return;
     let path = "";
-    const data = {teams: checkedTeam};
-    if (checkedTeam.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/department/bulkDelete/";
+    const data = { candidates: checkedCandidates, status: 1 };
+    if (bulkOption.label === "Deactive" || bulkOption.label === "Active")
+      path = "/api/candidate/bulkStatusUpdate/";
+    if (bulkOption.label === "Active") data.status = 1;
+    if (bulkOption.label === "Deactive") data.status = 2;
+    else if (bulkOption.label === "Delete") path = "/api/candidate/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success(pageName[id-1].name + `${bulkOption.label}d Successfully`);
+      toast.success("Candidate " + `${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
-
-
 
   return (
     <>
      {" "}
       <CenteredContainer>
         <div>
-          {<CardsContainer>
-            {/* <InfoBox
+          <CardsContainer>
+            <InfoBox
               icon={BiUser}
-              // iconColor="blue"
               iconColor="#512da8"
               data={infoBoxData.totalUsers}
               text="Total Users"
-            /> */}
+            />
+            <InfoBox
+              icon={FiUserCheck}
+              iconColor="#2ac779"
+              data={infoBoxData.activeUsers}
+              text="Active Users"
+            />
 
             <InfoBox
               icon={FiUserPlus}
-              iconColor="#512da8"
-              data={infoBoxData?.totalDepartments || 0}
-              text={`Total ${pageName[id - 1].name}s`}
+              iconColor="#d32f2f"
+              data={infoBoxData.InActiveUsers}
+              text="Inactive Users"
             />
-             
-             <InfoBox
+            <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantDepartments || 0}
-              text={`Vacant ${pageName[id - 1].name}s`}
+              data={infoBoxData.pendingInvites}
+              text="Pending Invites"
             />
-
-            <InfoBox
-              icon={FiUserCheck}
-              iconColor="#d32f2f"
-              data={infoBoxData?.closedDepartments || 0}
-              text={`Closed ${pageName[id - 1].name}s`}
-            />
-           
-          </CardsContainer> }
+          </CardsContainer>
 
           <FilterContainer>
+            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
+            <FilterOuterBox>
+              <FilterBox
+                options={statusOptions}
+                onValueChange={(selectedOption) => setStatus(selectedOption)}
+                selectedValue={status}
+                title="Status"
+              />
 
+              <FilterBox
+                options={jobPostOptions}
+                onValueChange={(selectedOption) => setJobPost(selectedOption)}
+                selectedValue={jobPost}
+                title="JobPost"
+              />
+            </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
               Bulk Actions
             </h6>
@@ -306,15 +335,103 @@ const Team_list = ({id}) => {
                   styles={dropDownStyle}
                 />
                 <AddEmployeeButton
-                  onClick={() => { setIsViewMode(false); toggleForm();}}
+                  onClick={toggleForm}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add {pageName[id-1].name}</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Candidate</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
+
+            {/* <EmployeeTable
+            checkedCandidates={checkedCandidates}
+            setCheckedCandidate={setCheckedCandidate}
+  loading={loading}
+  data={candidates}
+  columns={[    
+    { label: 'User', field: 'EmployeeInfo' },
+    { label: 'Employee Code', field: '_id' },
+    { label: 'Last Login', field: 'lastLogin' },
+    { label: 'Status', field: 'status' },
+    { label: 'Actions', field: 'actions' },
+  ]}
+
+   setCheckedItems={setCheckedCandidate}
+  renderRow={(candidate, columns) => (
+    <React.Fragment key={candidate._id}>
+      
+      {columns.map((column) => (
+        <Td key={column.field}>
+          {selectedCheck.includes(column.label) && (
+            <>
+              {column.field === 'EmployeeInfo' ? (
+                <EmployeeInfo candidate={candidate} />
+              ) : column.field === '_id' ? (
+                candidate._id
+              ) : column.field === 'lastLogin' ? (
+                (candidate.lastLogin &&
+                  new Date(candidate.lastLogin).toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })) ||
+                'Resend Invite'
+              ) : column.field === 'status' ? (
+                candidate.status === 1 ? (
+                  <SuccessBadge>Active</SuccessBadge>
+                ) : candidate.status === 2 ? (
+                  <DangerBadge>Inactive</DangerBadge>
+                ) : (
+                  <DangerBadge>Deleted</DangerBadge>
+                )
+              ) : (
+                column.field === 'actions' && (
+                  <IconWrapper>
+                    <MdIcons.MdOutlineModeEditOutline
+                      onClick={() => {
+                        setFormData(candidate);
+                        setShowForm(true);
+                        setIsEditMode(!!candidate);
+                      }}
+                      style={{ fontSize: '18px' }}
+                    />
+                    <GrIcons.GrFormView
+                      style={{
+                        fontSize: '18px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        dispatch(setErrorModal({message: "Employee View is disabled by Admin"}));
+                      }}
+                    />
+                    <MdIcons.MdDeleteOutline
+                      style={{
+                        fontSize: '18px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        dispatch(setErrorModal({message: "Do you want to delete this candidate?", handleYes: () => {
+                          deleteCandidate(candidate._id);
+                        }}));
+                      }}
+                    />
+                  </IconWrapper>
+                )
+              )}
+            </>
+          )}
+        </Td>
+      ))}
+    </React.Fragment>
+  )}
+  keyField="_id"
+/> */}
+
+
             <TableContainer>
-              <Table>
+               <Table>
                 <thead>
                   <Tr>
                     <Th>
@@ -322,26 +439,19 @@ const Team_list = ({id}) => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setcheckedTeam(
-                              teams.map((team) => team._id)
+                            setCheckedCandidate(
+                              candidates.map((candidate) => candidate._id)
                             );
-                          else setcheckedTeam([]);
+                          else setCheckedCandidate([]);
                         }}
                       />
                     </Th>
+                    {selectedCheck.includes("Candidate") && <Th>CANDIDATE</Th>}
 
-                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
-
-                    {selectedCheck.includes(pageName[id-1].columnName) && (
-                      <Th>{pageName[id-1].columnName}</Th>
-                    )}
-
-                    {selectedCheck.includes("Supervising Department") && <Th>Supervising Department</Th>}
-
+                    {selectedCheck.includes("Job Post") && <Th>JOB POST</Th>}
+                    {selectedCheck.includes("Experience") && <Th>EXPERIENCE (IN YEARS)</Th>}
                    
-                    {selectedCheck.includes("Created By") && (
-                      <Th>ADDED BY</Th>
-                    )}
+                    {selectedCheck.includes("Status") && <Th>STATUS</Th>}
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -353,86 +463,93 @@ const Team_list = ({id}) => {
                       </td>
                     </tr>
                   ) : (
-                    teams &&
-                    teams.map((team) => (
-                      <Tr key={team._id}>
+                    candidates &&
+                    candidates.map((candidate) => (
+                      <Tr key={candidate._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedTeam.includes(team._id)}
+                            checked={checkedCandidates.includes(candidate._id)}
                             onChange={() => {
-                              if (!checkedTeam.includes(team._id))
-                                setcheckedTeam([
-                                  ...checkedTeam,
-                                  team._id,
+                              if (!checkedCandidates.includes(candidate._id))
+                                setCheckedCandidate([
+                                  ...checkedCandidates,
+                                  candidate._id,
                                 ]);
                               else
-                                setcheckedTeam(
-                                  checkedTeam.filter(
-                                    (checkedTeam) =>
-                                      checkedTeam !== team._id
+                                setCheckedCandidate(
+                                  checkedCandidates.filter(
+                                    (checkedCandidate) =>
+                                      checkedCandidate !== candidate._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-
-                        {selectedCheck.includes("Name") && (
-                          <Td>{team.name}</Td>
-                        )}
-
-                        {selectedCheck.includes(pageName[id-1].columnName) && (
+                        {selectedCheck.includes("Candidate") && (
                           <Td>
-                          { team?.lead 
-                            &&
-                            <EmployeeInfo isSpaceRequired={true} employee={team?.lead} />
-                          }
-                        </Td>
-                        )}
-
-                        {selectedCheck.includes("Supervising Department") && (
-                          <Td>{team?.superDepartment?.name}</Td>
-                        )}
-                       
-                        {selectedCheck.includes("Created By") && (
-                          <Td>
-                            { team?.createdBy 
-                              &&
-                              <EmployeeInfo isSpaceRequired={true} employee={team?.createdBy} />
-                            }
+                            <EmployeeInfo employee={candidate} />
                           </Td>
                         )}
-                       
                         
-                       
+                        {selectedCheck.includes("Job Post") && (
+                          <Td>
+                            {candidate.jobPost}
+                          </Td>
+                        )}
+
+                        {selectedCheck.includes("Experience") && (
+                          <Td>
+                            {candidate.experience.reduce((totalExperience, job) => {
+                              const startDate = new Date(job.startDate);
+                              const endDate = job.current ? new Date() : new Date(job.endDate);
+                              const experienceInMilliseconds = endDate - startDate;
+                              const experienceInYears = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365); // milliseconds in a year
+                              return totalExperience + experienceInYears;
+                            }, 0).toFixed(2)} years
+                          </Td>
+                        )}
+
+
+
+                        
+                        {selectedCheck.includes("Status") && (
+                          <Td>
+                            {candidate.status === 1 ? (
+                              <SuccessBadge>Active</SuccessBadge>
+                            ) : candidate.status === 2 ? (
+                              <DangerBadge>Inactive</DangerBadge>
+                            ) : (
+                              <DangerBadge>Deleted</DangerBadge>
+                            )}
+                          </Td>
+                        )}
                         {selectedCheck.includes("Actions") && (
                           <Td>
                             <IconWrapper>
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
-                                  setIsViewMode(false);
-                                  const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-                                  setFormData(updatedteam);
+                                  setFormData(candidate);
                                   setShowForm(true);
-                                  setIsEditMode(!!team);
+                                  setIsEditMode(!!candidate);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
                             </IconWrapper>
 
                             <GrIcons.GrFormView
-                             onClick={() => {
-                              navigate(`/portal/iam/${pageName[id-1].name.toLowerCase()}/${team._id}/`);
-                            }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
+                              onClick={() => {
+                                dispatch(setErrorModal({message: "Candidate View is disabled by Admin"}));
+                              }}
                             />
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message:  `Do you want to delete this ${pageName[id-1].name.toLowerCase()}?`, handleYes: () => {
-                                  deleteDepartment(team._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this candidate?", handleYes: () => {
+                                  deleteCandidate(candidate._id);
                                 }}));
                               }}
                             />
@@ -441,16 +558,16 @@ const Team_list = ({id}) => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!teams || teams.length === 0) && (
+                  {!loading && (!candidates || candidates.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
                   )}
                 </tbody>
-              </Table>
+              </Table> 
             </TableContainer>
 
-            {teams.length !== 0 && totalPages >= 1 && (
+            {candidates.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -459,6 +576,7 @@ const Team_list = ({id}) => {
             )}
           </BoxContainer>
         </div>
+        <hr />
       </CenteredContainer>
       {showForm && (
         <MultiStepForm
@@ -469,14 +587,11 @@ const Team_list = ({id}) => {
           reload={reload}
           setReload={setReload}
           isEditMode={isEditMode}
-          isViewMode={isViewMode}
           onEditClick={handleEditClick}
-          id = {id}
-          pageName = {pageName}
         />
       )}
     </>
   );
 };
 
-export default Team_list;
+export default Candidate_list;

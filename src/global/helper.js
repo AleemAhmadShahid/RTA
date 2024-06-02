@@ -74,8 +74,9 @@ export const saveHandler = (nextStep,fields, postEndPoint, putEndpoint, message,
       : formData.profileImg;
     if (copyFormData._id === undefined) {
       const response = await createPostRequest(copyFormData,postEndPoint);
-      if (response.status === 201) {
-        handleChange("_id", response[entity]._id);
+      if (response.status === 201 || response.status === 200) {
+        if (entity)
+          handleChange("_id", response[entity]._id);
         setReload(!reload);
         toast.success(message);
       } else {
