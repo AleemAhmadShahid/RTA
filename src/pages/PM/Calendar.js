@@ -16,22 +16,19 @@ import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import { CenteredContainer } from "../../styles/TableStyling";
 import CardsPopup from "../CardsPopup";
 
-import '../../styles/Calendar.css'; 
+import "../../styles/Calendar.css";
 import FilterBox from "../../components/FilterBox";
 import GenericPopup from "../../components/GenericPopup";
-
 
 import FullCalendar from "@fullcalendar/react";
 import { EmployeeContainer } from "../../components/EmployeeInfo";
 import { AddButton } from "../CardsPopup";
 const TopBar = styled.div`
   display: flex;
-   justify-content: space-between;
-  // align-items: center;
-  // position: absolute;
+  justify-content: space-between;
+  
   top: 0;
-  // left: 50%;
-  // transform: translateX(-50%);
+  
   background-color: white;
   padding: 10px 20px;
   border-bottom: 1px solid #ddd;
@@ -64,102 +61,8 @@ const UserImage = styled.img`
 const HeadingContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px; /* Adjust the gap between headings */
+  gap: 10px;
 `;
-
-// const Calendar = () => {
-//   const calendarRef = useRef(null);
-//   const [selectedTask, setSelectedTask] = useState(null);
-//   const [isPopupOpen, setIsPopupOpen] = useState(false);
-//   useEffect(() => {
-//     const calendarEl = calendarRef.current;
-//     const calendar = new FullCalendar(calendarEl, {
-//       headerToolbar: { center: 'dayGridMonth,timeGridWeek,dayGridDay' }, 
-//       plugins: [
-//         interactionPlugin,
-//         dayGridPlugin,
-//         timeGridPlugin,
-//         listPlugin,
-//         multiMonthPlugin,
-//         adaptivePlugin,
-//         scrollGridPlugin,
-//         timelinePlugin,
-//         resourcePlugin,
-//         resourceDayGridPlugin,
-//         resourceTimeGridPlugin,
-//         resourceTimelinePlugin,
-//       ],
-//       // initialView: "resourceTimeline",
-//       initialView: 'dayGridMonth',
-//       editable: true,
-//       eventBackgroundColor: "lightgrey",
-//       eventBorderColor: "lightgrey",
-//       eventTextColor:"black",
-//       eventClick: handleEventClick,
-//       eventContent: (arg) => console.log(arg.event.extendedProps),
-//         // eventContent: renderEventContent,
-
-//       // events: [
-//       //   { title: "Event 1", start: "2024-03-01", image: "/RTA.png" },
-//       //   { title: "Event 2", start: "2024-03-05", end: "2024-03-07" },
-//       //   { title: "My name is aleem and am going to be a pilot aaaaaaaaaaaaaaaaaa aaaa a a a", start: "2024-03-01" },
-//       //   { title: "Event 4", start: "2024-03-05", end: "2024-03-07" },
-//       // ],
-//       // resources: [
-//       //   { id: 'a', title: 'Resource A' },
-//       //   { id: 'b', title: 'Resource B' },
-//       //   { id: 'c', title: 'Resource C' },
-//       //   // Add more resources as needed
-//       // ],
-//       eventColor:"Green",
-//       resources: 'https://fullcalendar.io/api/demo-feeds/resources.json?with-nesting&with-colors',
-//     events: 'https://fullcalendar.io/api/demo-feeds/events.json?single-day&for-resource-timeline'
-//     });
-//     calendar.render();
-//     return () => {
-//       calendar.destroy();
-//     };
-//   }, []);
-
-//   const handleEventClick = (info) => {
-//     setSelectedTask(info.event);
-//     setIsPopupOpen(true);
-//   };
-
-//   const closePopup = () => {
-//     setIsPopupOpen(false);
-//   };
-
-//   const renderEventContent = (eventInfo) => {
-//     return (
-//       <div className="event-content">
-//         <SuccessBadge /> 
-//         <span>{eventInfo.timeText}</span>
-//         <p className="event-title">{eventInfo.event.title}</p>
-//       </div>
-//     );
-//   };
-  
-  
-//   return (
-//     <OuterBox>
-//     <CenteredContainer style={{ backgroundColor: "white" }}>
-//       <Box>
-//         <div ref={calendarRef} className="custom-calendar" />
-//       </Box>
-//       {isPopupOpen && (
-//         <CardsPopup
-//           task={selectedTask}
-//           closeCardPopup={closePopup}
-//           // Pass other necessary props here
-//         />
-//       )}
-//     </CenteredContainer>
-//     </OuterBox>
-//   );
-// };
- 
-
 
 const Calendar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -179,19 +82,26 @@ const Calendar = () => {
     { value: "listWeek,listMonth", label: "List" },
     { value: "timeGridWeek,timeGridDay", label: "Timeline" },
   ];
+  // const selectedOptionValue = "resourceTimeline"; // This can be dynamically set based on user selection
+  // const initialView = CheckListOptions.find(option => option.value.includes(selectedOptionValue)).value;
+  // const [checkListOption, setCheckListOption] = useState({
+  //   value: {},
+  //   label: "Board",
+  // });
 
-  const [checkListOption, setCheckListOption] = useState({
-    value: {},
-    label: "Board",
-  });
+  const [checkListOption, setCheckListOption] = useState(CheckListOptions[0]);
 
   const handleCheckListOptionChange = (selectedOption) => {
     setCheckListOption(selectedOption);
   };
-
-
-
-
+  const handleOptionChange = (event) => {
+    const selectedValue = event.target.value;
+    // Find the selected option and update state
+    const selectedOption = CheckListOptions.find(
+      (option) => option.value === selectedValue
+    );
+    setCheckListOption(selectedOption);
+  };
 
   const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
   const [isFiltersPopupOpen, setIsFiltersPopupOpen] = useState(false);
@@ -210,80 +120,68 @@ const Calendar = () => {
     setIsFiltersPopupOpen(false);
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <OuterBox>
-      <CenteredContainer style={{ backgroundColor: "white" }} >
-       <TopBar>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <HeadingContainer>
-      <h4>Comming</h4>
-      <h6 style={{ margin: 0 }}> Workspace </h6>
-      <FilterBox
-        width={"100%"}
-        options={CheckListOptions}
-        onValueChange={(selectedOption) =>
-          setCheckListOption(selectedOption)
-        }
-        selectedValue={checkListOption}
-        title=""
-        style={{ backgroundColor: "transparent" }}
-      />
-    </HeadingContainer>
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-  <AddButton
-      style={{
-        width: "100%",
-        height: "40px",
-        marginRight: "10px",
-        marginTop: "3px",
-        backgroundColor: " #f5f5f5",
-        textAlign: "center",
-        justifyContent: "center",
-        display: "flex",
-        alignItems: "center",
-        padding:"20px",
-      }}
-    >
-      Automations
-    </AddButton>
-    <AddButton
-      style={{
-        width: "100%",
-        height: "40px",
-        marginRight: "10px",
-        marginTop: "3px",
-        backgroundColor: " #f5f5f5",
-        textAlign: "center",
-        justifyContent: "center",
-        display: "flex",
-        alignItems: "center",
-        padding:"20px",
-      }}
-      onClick={openFiltersPopup}
-    >
-      Filters
-    </AddButton>
-    
-  </div>
-</TopBar>
+      <CenteredContainer style={{ backgroundColor: "white" }}>
+        <TopBar>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <HeadingContainer>
+              <h4>Comming</h4>
+              <h6 style={{ margin: 0 }}> Workspace </h6>
+              <FilterBox
+                width={"100%"}
+                options={CheckListOptions}
+                onValueChange={(selectedOption) =>
+                  handleCheckListOptionChange(selectedOption)
+                }
+                selectedValue={checkListOption}
+                title=""
+                style={{ backgroundColor: "transparent" }}
+              />
+            </HeadingContainer>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <AddButton
+              style={{
+                width: "100%",
+                height: "40px",
+                marginRight: "10px",
+                marginTop: "3px",
+                backgroundColor: " #f5f5f5",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                padding: "20px",
+              }}
+            >
+              Automations
+            </AddButton>
+            <AddButton
+              style={{
+                width: "100%",
+                height: "40px",
+                marginRight: "10px",
+                marginTop: "3px",
+                backgroundColor: " #f5f5f5",
+                textAlign: "center",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                padding: "20px",
+              }}
+              onClick={openFiltersPopup}
+            >
+              Filters
+            </AddButton>
+          </div>
+        </TopBar>
 
         <Box>
           <FullCalendar
             ref={calendarRef}
             plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+            initialView={checkListOption.value.split(',')[0]}
             editable={true}
             events={[
               { title: "Event 1", start: "2024-04-01", image: "/RTA.png" },
@@ -313,8 +211,8 @@ const Calendar = () => {
       </CenteredContainer>
       {isFiltersPopupOpen && (
         <GenericPopup
-          left={boxPosition.left-120}
-          top={boxPosition.top+10}
+          left={boxPosition.left - 120}
+          top={boxPosition.top + 10}
           // heading={}
           fields={[
             {
@@ -322,7 +220,6 @@ const Calendar = () => {
               type: "text",
               placeholder: "Dates",
             },
-            // Add other fields as needed
           ]}
           onClose={closeFiltersPopup}
           // onSubmit={(formValues) => {

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { CenteredContainer, EntriesDropdown } from "../styles/TableStyling";
 
 import styled from "styled-components";
-
+import { SaveAndNextButton } from "../styles/MultiStepFormStyling";
 import { FaStarOfLife } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { HiOutlineDuplicate } from "react-icons/hi";
 import { Icon } from "../pages/CardsPopup";
-
+// import { SaveButton } from "../styles/MultiStepFormStyling";
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io";
 import { BsCardText } from "react-icons/bs";
 import { RiCheckboxMultipleLine } from "react-icons/ri";
@@ -431,14 +431,12 @@ const SurveysCom = ({ isRead }) => {
           </div>
         )}
         {isRead && (
-          <div>
-            <AddButton>
-              <Icon style={{ color: "orange", fontSize: "18px" }}>
-                <RiDeleteBinLine />
-              </Icon>
-              Submit
-            </AddButton>
-          </div>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          < SaveAndNextButton>
+            Submit
+          </SaveAndNextButton>
+        </div>
+        
         )}
       </Box>
     </BoxContainer>
