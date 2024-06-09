@@ -96,7 +96,7 @@ const Calendar = () => {
   };
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
-    // Find the selected option and update state
+    
     const selectedOption = CheckListOptions.find(
       (option) => option.value === selectedValue
     );

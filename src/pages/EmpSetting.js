@@ -79,7 +79,7 @@ const Box = styled.div`
   margin-left: 20px;
   margin-right: 20px;
 `;
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   background-color: #f5f5f5;
   color: #000;
   border: none;
@@ -130,7 +130,7 @@ const ResetButton = styled.button`
   }
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   gap: 5px;
 

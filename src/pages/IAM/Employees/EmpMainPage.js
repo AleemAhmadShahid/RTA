@@ -48,6 +48,7 @@ import { entriesOptions, exportOptions } from "../../../global/constants";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setErrorModal } from "../../../redux/modalSlice";
+import SelfService from "../../../components/EmpProfileMainPage";
 
 const Emp_list = () => {
   const dispatch = useDispatch();
@@ -413,6 +414,7 @@ const Emp_list = () => {
                                           "Employee View is disabled by Admin",
                                       })
                                     );
+                                    
                                   }}
                                 />
                                 <MdIcons.MdDeleteOutline
@@ -627,6 +629,7 @@ const Emp_list = () => {
           onEditClick={handleEditClick}
         />
       )}
+      
     </>
   );
 };

@@ -20,6 +20,7 @@ import CardsPopup from "./pages/CardsPopup";
 import Board from "./pages/PM/Board";
 import Calendar from "./pages/PM/Calendar";
 import Surveys from"./pages/IAM/Surveys/SurveysMainPage";
+import SelfService from "./components/EmpProfileMainPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -82,6 +83,10 @@ function App() {
               <Route path="projectmanagement" element={<Sidebar />}>
                 {/* <Route path="board" element={<Board />} />  */}
                 <Route path="board" element={<Calendar />} />
+              </Route>
+
+              <Route path="selfservice" element={<Sidebar />}>
+                <Route path="Mainpage" element={<SelfService />} />
               </Route>
             </>
           ) : (

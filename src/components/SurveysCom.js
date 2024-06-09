@@ -151,14 +151,33 @@ const SurveysCom = ({ isRead }) => {
 
   const [componentsData, setComponentsData] = useState([]);
 
-  const handleAddQuestionComponent = () => {
+  // const handleAddQuestionComponent = () => {
+  //   setComponentsData([
+  //     ...componentsData,
+  //     {
+  //       id: Date.now(),
+  //       text: "Enter your text here...",
+  //       isEditable: false,
+  //       OptionValue: Options[0],
+  //       ratings: [1],
+  //     },
+  //   ]);
+  // };
+  const handleAddQuestionComponent = (id) => {
     setComponentsData([
       ...componentsData,
       {
-        id: Date.now(),
+        id: id || Date.now(),
         text: "Enter your text here...",
         isEditable: false,
         OptionValue: Options[0],
+        ratings: [1],
+        items: [
+          { id: 1, label: "Item 1", value: 1 },
+          { id: 2, label: "Item 2", value: 2 },
+          { id: 3, label: "Item 3", value: 3 },
+        ],
+        checkedItems: {},
       },
     ]);
   };
@@ -173,7 +192,6 @@ const SurveysCom = ({ isRead }) => {
       setRatings(ratings.slice(0, -1));
     }
   };
-
   const handleDeleteComponent = (id) => {
     setComponentsData(
       componentsData.filter((component) => component.id !== id)
@@ -188,264 +206,273 @@ const SurveysCom = ({ isRead }) => {
     );
   };
 
-  const QuestionBoxComponent = (component, index) => (
-    <BoxContainer key={index}>
-      <Box>
-        <div>
-          {OptionValue && OptionValue.label === "Text Area" ? (
-            <div>
-              <textarea
-                value={component.text}
-                onFocus={() => handleFocus(component.id)}
-                onBlur={() => handleBlur(component.id)}
-                onChange={(e) =>
-                  handleComponentChange(component.id, e.target.value)
-                }
-                style={{
-                  color: isEditable ? "black" : "grey",
-                  width: "100%",
-                  height: "24px",
-                  fontSize: "16px",
-                  resize: "none",
-                  border: "none",
-                  pointerEvents: isRead ? "none" : "auto",
-                  userSelect: isRead ? "none" : "auto",
-                  background: isRead ? "transparent" : "transparent",
-                }}
-                placeholder={isEditable ? "" : "Enter here..."}
-                readOnly={isRead}
-              />
-              <TextArea
-                rows={4}
-                placeholder="Enter description"
-                style={{ width: "100%" }}
-                readOnly={!isRead}
-              />
-            </div>
-          ) : OptionValue && OptionValue.label === "Rating Scale" ? (
-            <div>
-              <textarea
-                type="text"
-                value={component.text}
-                onFocus={() => handleFocus(component.id)}
-                onBlur={() => handleBlur(component.id)}
-                onChange={(e) =>
-                  handleComponentChange(component.id, e.target.value)
-                }
-                style={{
-                  color: isEditable ? "black" : "grey",
-                  width: "100%",
-                  fontSize: "16px",
-                  border: "none",
-                  pointerEvents: isRead ? "none" : "auto",
-                  userSelect: isRead ? "none" : "auto",
-                  background: isRead ? "transparent" : "transparent",
-                }}
-                placeholder={isEditable ? "" : "Enter Question here..."}
-                readOnly={isRead}
-              />
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {!isRead && (
-                  <>
-                    <IoMdRemoveCircleOutline
-                      onClick={removeRating}
+  const QuestionBoxComponent = (component, id) => (
+    <>
+      <BoxContainer key={id}>
+        <Box>
+          <div>
+            {OptionValue && OptionValue.label === "Text Area" ? (
+              <div>
+                <textarea
+                  value={component.text}
+                  onFocus={() => handleFocus(component.id)}
+                  onBlur={() => handleBlur(component.id)}
+                  onChange={(e) =>
+                    handleComponentChange(component.id, e.target.value)
+                  }
+                  style={{
+                    color: isEditable ? "black" : "grey",
+                    width: "100%",
+                    height: "24px",
+                    fontSize: "16px",
+                    resize: "none",
+                    border: "none",
+                    pointerEvents: isRead ? "none" : "auto",
+                    userSelect: isRead ? "none" : "auto",
+                    background: isRead ? "transparent" : "transparent",
+                  }}
+                  placeholder={isEditable ? "" : "Enter here..."}
+                  readOnly={isRead}
+                />
+                <TextArea
+                  rows={4}
+                  placeholder="Enter description"
+                  style={{ width: "100%" }}
+                  readOnly={!isRead}
+                />
+              </div>
+            ) : OptionValue && OptionValue.label === "Rating Scale" ? (
+              <div>
+                <textarea
+                  type="text"
+                  value={component.text}
+                  onFocus={() => handleFocus(component.id)}
+                  onBlur={() => handleBlur(component.id)}
+                  onChange={(e) =>
+                    handleComponentChange(component.id, e.target.value)
+                  }
+                  style={{
+                    color: isEditable ? "black" : "grey",
+                    width: "100%",
+                    fontSize: "16px",
+                    border: "none",
+                    pointerEvents: isRead ? "none" : "auto",
+                    userSelect: isRead ? "none" : "auto",
+                    background: isRead ? "transparent" : "transparent",
+                  }}
+                  placeholder={isEditable ? "" : "Enter Question here..."}
+                  readOnly={isRead}
+                />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {!isRead && (
+                    <>
+                      <IoMdRemoveCircleOutline
+                        onClick={removeRating}
+                        style={{
+                          marginLeft: "8px",
+                          cursor: "pointer",
+                          color: "red",
+                        }}
+                      />
+                      <IoMdAddCircleOutline
+                        onClick={addRating}
+                        style={{
+                          fontSize: "16px",
+                          cursor: "pointer",
+                          color: "green",
+                          marginLeft: "8px",
+                        }}
+                      />
+                    </>
+                  )}
+
+                  {ratings.map((rating) => (
+                    <CircleNumber
+                      key={rating}
+                      onClick={() => (isRead ? alert("Button clicked") : null)}
+                    >
+                      {rating}
+                    </CircleNumber>
+                  ))}
+
+                  {/* {!isRead && <AddCircleButton onClick={addRating}>+</AddCircleButton>} */}
+                </div>
+              </div>
+            ) : (
+              <>
+                <textarea
+                  value={component.text}
+                  onFocus={() => handleFocus(component.id)}
+                  onBlur={() => handleBlur(component.id)}
+                  onChange={(e) =>
+                    handleComponentChange(component.id, e.target.value)
+                  }
+                  style={{
+                    color: isEditable ? "black" : "grey",
+                    width: "100%",
+                    height: "24px",
+                    fontSize: "16px",
+                    resize: "none",
+                    border: "none",
+                    pointerEvents: isRead ? "none" : "auto",
+                    userSelect: isRead ? "none" : "auto",
+                    background: isRead ? "transparent" : "transparent",
+                  }}
+                  placeholder={isEditable ? "" : "Enter Question here..."}
+                  readOnly={isRead}
+                />
+                {items.map((item) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {!isRead && (
+                      <IoMdRemoveCircleOutline
+                        onClick={() => handleRemoveClick(item.id)}
+                        style={{
+                          marginLeft: "8px",
+                          cursor: "pointer",
+                          color: "red",
+                          marginRight: "8px",
+                        }}
+                      />
+                    )}
+                    {isRead && (
+                      
+                      <input
+                        type="checkbox"
+                        name={`checkbox-${item.value}`}
+                        checked={
+                          checkedItems[`checkbox-${item.value}`] || false
+                        }
+                        onChange={handleCheckboxChange}
+                        style={{ marginRight: "8px" }}
+                      />
+                      
+                    )}
+
+                    <input
+                      type="text"
+                      value={item.label}
+                      onChange={(e) =>
+                        handleItemLabelChange(item.id, e.target.value)
+                      }
+                      readOnly={isRead}
                       style={{
-                        marginLeft: "8px",
-                        cursor: "pointer",
-                        color: "red",
+                        border: "none",
+                        background: "transparent",
+                        fontSize: "16px",
+                        color: isRead ? "grey" : "black",
+                        pointerEvents: isRead ? "none" : "auto",
+                        userSelect: isRead ? "none" : "auto",
+                        background: isRead ? "transparent" : "transparent",
                       }}
                     />
+                  </div>
+                ))}
+
+                {!isRead && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "8px",
+                    }}
+                  >
                     <IoMdAddCircleOutline
-                      onClick={addRating}
+                      onClick={handleAddClick}
                       style={{
                         fontSize: "16px",
                         cursor: "pointer",
                         color: "green",
                         marginLeft: "8px",
-                      }}
-                    />
-                  </>
-                )}
-
-                {ratings.map((rating) => (
-                  <CircleNumber
-                    key={rating}
-                    onClick={() => (isRead ? alert("Button clicked") : null)}
-                  >
-                    {rating}
-                  </CircleNumber>
-                ))}
-
-                {/* {!isRead && <AddCircleButton onClick={addRating}>+</AddCircleButton>} */}
-              </div>
-            </div>
-          ) : (
-            <>
-              <textarea
-                value={component.text}
-                onFocus={() => handleFocus(component.id)}
-                onBlur={() => handleBlur(component.id)}
-                onChange={(e) =>
-                  handleComponentChange(component.id, e.target.value)
-                }
-                style={{
-                  color: isEditable ? "black" : "grey",
-                  width: "100%",
-                  height: "24px",
-                  fontSize: "16px",
-                  resize: "none",
-                  border: "none",
-                  pointerEvents: isRead ? "none" : "auto",
-                  userSelect: isRead ? "none" : "auto",
-                  background: isRead ? "transparent" : "transparent",
-                }}
-                placeholder={isEditable ? "" : "Enter Question here..."}
-                readOnly={isRead}
-              />
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {!isRead && (
-                    <IoMdRemoveCircleOutline
-                      onClick={() => handleRemoveClick(item.id)}
-                      style={{
-                        marginLeft: "8px",
-                        cursor: "pointer",
-                        color: "red",
                         marginRight: "8px",
                       }}
                     />
-                  )}
-                  {isRead && (
-                    <input
-                      type="checkbox"
-                      name={`checkbox-${item.value}`}
-                      checked={checkedItems[`checkbox-${item.value}`] || false}
-                      onChange={handleCheckboxChange}
-                      style={{ marginRight: "8px" }}
-                    />
-                  )}
-
-                  <input
-                    type="text"
-                    value={item.label}
-                    onChange={(e) =>
-                      handleItemLabelChange(item.id, e.target.value)
-                    }
-                    readOnly={isRead}
-                    style={{
-                      border: "none",
-                      background: "transparent",
-                      fontSize: "16px",
-                      color: isRead ? "grey" : "black",
-                      pointerEvents: isRead ? "none" : "auto",
-                      userSelect: isRead ? "none" : "auto",
-                      background: isRead ? "transparent" : "transparent",
-                    }}
-                  />
-                </div>
-              ))}
-
-              {!isRead && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "8px",
-                  }}
-                >
-                  <IoMdAddCircleOutline
-                    onClick={handleAddClick}
-                    style={{
-                      fontSize: "16px",
-                      cursor: "pointer",
-                      color: "green",
-                      marginLeft: "8px",
-                      marginRight: "8px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      marginLeft: "8px",
-                      color: "grey",
-                      opacity: 0.5,
-                    }}
-                  >
-                    Add Item
-                  </span>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-        {!isRead && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "10px",
-            }}
-          >
-            <EntriesDropdown
-              value={OptionValue}
-              onChange={handleOptionChange}
-              options={Options.map((option,index) => ({
-                value: option.label,
-                label: (
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                   {option.icon && <option.icon />}
-                    <span style={{ marginLeft: "8px" }}>{option.label}</span>
+                    <span
+                      style={{
+                        marginLeft: "8px",
+                        color: "grey",
+                        opacity: 0.5,
+                      }}
+                    >
+                      Add Item
+                    </span>
                   </div>
-                ),
-                icon: option.icon,
-              }))}
-              styles={{ width: "250px", marginBottom: "16px" }}
-            />
-
-            <div style={{ display: "flex" }}>
-              <AddButton>
-                <Icon style={{ color: "orange", fontSize: "18px" }}>
-                  <FaStarOfLife />
-                </Icon>
-                Required
-              </AddButton>
-              <AddButton>
-                <Icon style={{ color: "orange", fontSize: "18px" }}>
-                  <HiOutlineDuplicate />
-                </Icon>
-                Duplicate
-              </AddButton>
-              <AddButton onClick={() => handleDeleteComponent(component.id)}>
-                <Icon style={{ color: "orange", fontSize: "18px" }}>
-                  <RiDeleteBinLine />
-                </Icon>
-                Delete
-              </AddButton>
-            </div>
+                )}
+              </>
+            )}
           </div>
-        )}
-        {isRead && (
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          < SaveAndNextButton>
-            Submit
-          </SaveAndNextButton>
-        </div>
-        
-        )}
-      </Box>
-    </BoxContainer>
+          {!isRead && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "10px",
+              }}
+            >
+              <EntriesDropdown
+                value={component.OptionValue}
+                onChange={handleOptionChange}
+                options={Options.map((option) => ({
+                  value: option.label,
+                  label: (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {option.icon && <option.icon />}
+                      <span style={{ marginLeft: "8px" }}>{option.label}</span>
+                    </div>
+                  ),
+                  icon: option.icon,
+                }))}
+                styles={{ width: "250px", marginBottom: "16px" }}
+              />
+
+              <div style={{ display: "flex" }}>
+                <AddButton>
+                  <Icon style={{ color: "orange", fontSize: "18px" }}>
+                    <FaStarOfLife />
+                  </Icon>
+                  Required
+                </AddButton>
+                <AddButton>
+                  <Icon style={{ color: "orange", fontSize: "18px" }}>
+                    <HiOutlineDuplicate />
+                  </Icon>
+                  Duplicate
+                </AddButton>
+                <AddButton onClick={() => handleDeleteComponent(component.id)}>
+                  <Icon style={{ color: "orange", fontSize: "18px" }}>
+                    <RiDeleteBinLine />
+                  </Icon>
+                  Delete
+                </AddButton>
+              </div>
+            </div>
+          )}
+        </Box>
+      </BoxContainer>
+    </>
   );
 
   return (
     <CenteredContainer>
       {componentsData.map((component, index) =>
         QuestionBoxComponent(component, index)
+      )}
+      {isRead && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "20px",
+          }}
+        >
+          <SaveAndNextButton>Submit</SaveAndNextButton>
+        </div>
       )}
       <BoxContainer style={{ border: "none" }}>
         <Box
