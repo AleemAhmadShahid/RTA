@@ -7,6 +7,7 @@ import {
   createPutRequest,
 } from "../../../global/requests";
 import { handleCheckChange } from "../../../global/helper";
+
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../../components/Cards";
 import PageBar from "../../../components/PageBar";
@@ -18,7 +19,6 @@ import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
 import { FaPrint} from "react-icons/fa";
-import toast  from 'react-hot-toast';
 
 import {
   Td,
@@ -40,27 +40,21 @@ import {
   StyledSearchBar,
   dropDownStyle,
 } from "../../../styles/TableStyling";
+
 import { entriesOptions, exportOptions } from "../../../global/constants"
+import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
+import {
+  FormGroup, FormInput, FormLabel
+} from "../../../styles/MultiStepFormStyling";
 
 
 
-const Team_list = ({id}) => {
-  const navigate = useNavigate();
+const Attendance_list = () => {
   const dispatch = useDispatch();
-
-  const pageName = [
-    {
-      name: "Department",
-      columnName: "Department Head"
-    },
-    {
-      name: "Team",
-      columnName: "Team Lead"
-    },
-  ];
+  const navigate = useNavigate();
 
   const bulkOptions = [
     { value: {}, label: "Select" },
@@ -68,12 +62,11 @@ const Team_list = ({id}) => {
   ];
 
 
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedTeam, setcheckedTeam] = useState([]);
-  const [teams, setTeams] = useState([]);
+  const [checkedAttendance, setCheckedAttendance] = useState([]);
+  const [attendances, setAttendance] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -84,44 +77,69 @@ const Team_list = ({id}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
 
   const [loading, setLoading] = useState(true);
+
+  const [status, setStatus] = useState({ value: {}, label: "Select" });
+  const [employeeOptions, setEmployeeOptions] = useState({
+    value: {},
+    label: "Select",
+  });
+  const statusOptions = [
+    { value: {}, label: "Select" },
+    { value: 1, label: "Active" },
+    { value: 2, label: "Inactive" },
+  ];
+  
+  const [employee, setEmployee] = useState({ value: {}, label: "Select" });
+
 
   useEffect(() => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
-      type: id,
       name: searchTerm,
     };
-    if (typeof status.value !== "object") params.status = status.value;
+    //if (typeof attendances.value !== "object") params.attendances = attendances.value;
+    if (typeof employee.value !== "object") params.employee = employee.value;
+
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/department", params);
-        if (data.status === 404) {
-          setTeams([]);
+        const data = await createGetRequest("/api/attendance", params);
+        if (data.status === 404 || data.status === 400) {
+          setAttendance([]);
           setLoading(false);
           return;
         }
-        setTeams(data.departments);
+        setAttendance(data.attendances);
         setInfoBoxData(data.analytics);
-        setTotalPages(data.totalPages);    
+        setTotalPages(data.totalPages);
         setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+
+
+      try {
+        const data = await createGetRequest("/api/user");
+        if (data.status === 404 || data.status === 400) {
+          setEmployeeOptions([]);
+          return;
+        }
+        setEmployeeOptions(data.users.map((user) => ({ label: user.name, value: user._id })));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
 
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
+  }, [currentPage, entriesToShow, searchTerm, reload, navigate, employee]);
 
-  const handleEditClick = (team) => {
-    const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-    setFormData(updatedteam);
+  const handleEditClick = (attendance) => {
+    setFormData(attendance);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -131,19 +149,16 @@ const Team_list = ({id}) => {
     setIsEditMode(false);
   };
 
-
   const [selectedCheck, setSelectedCheck] = useState([
-    "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
-    "Created By",
+    "User",
+    "Clock In",
+    "Clock Out",
     "Actions",
   ]);
   const CheckOptions = [
-    "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
-    "Created By",
+    "User",
+    "Clock In",
+    "Clock Out",
     "Actions",
   ];
 
@@ -152,32 +167,22 @@ const Team_list = ({id}) => {
     icon: <FaPrint />,
   });
 
-  const deleteDepartment = async (departmentId) => {
-    const response = await createDeleteRequest(`/api/department/${departmentId}/`);
-    if (response.status === 200) {
-      toast.success(pageName[id-1].name + " deleted successfully!");
-      setReload(!reload);
-    }
-  };
-
   const takeBulkAction = async () => {
     let path = "";
-    const data = {teams: checkedTeam};
-    if (checkedTeam.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/department/bulkDelete/";
+    const data = {attendances: checkedAttendance};
+    if (checkedAttendance.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/attendance/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success(pageName[id-1].name + `${bulkOption.label}d Successfully`);
+      toast.success(`${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
 
-
-
   return (
     <>
-     {" "}
+      {" "}
       <CenteredContainer>
         <div>
           {<CardsContainer>
@@ -192,32 +197,43 @@ const Team_list = ({id}) => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalDepartments || 0}
-              text={`Total ${pageName[id - 1].name}s`}
+              data={infoBoxData?.totalAttendances || 0}
+              text="Total Attendances"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantDepartments || 0}
-              text={`Vacant ${pageName[id - 1].name}s`}
+              data={infoBoxData?.vacantAttendances || 0}
+              text="Vacant Attendances"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedDepartments || 0}
-              text={`Closed ${pageName[id - 1].name}s`}
+              data={infoBoxData?.closedAttendances || 0}
+              text="Closed Attendances"
             />
            
           </CardsContainer> }
 
           <FilterContainer>
 
+          
+            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
+            <FilterOuterBox>
+              <FilterBox
+                options={employeeOptions}
+                onValueChange={(selectedOption) => setEmployee(selectedOption)}
+                selectedValue={employee}
+                title="Employee"
+              />
+            </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
               Bulk Actions
             </h6>
             <FilterOuterBox>
+
               <FilterBox
                 options={bulkOptions}
                 onValueChange={(selectedOption) =>
@@ -305,12 +321,6 @@ const Team_list = ({id}) => {
                   }))}
                   styles={dropDownStyle}
                 />
-                <AddEmployeeButton
-                  onClick={() => { setIsViewMode(false); toggleForm();}}
-                  className="btn btn-primary mb-2"
-                >
-                  <span style={{ whiteSpace: "nowrap" }}>Add {pageName[id-1].name}</span>
-                </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             <TableContainer>
@@ -322,25 +332,22 @@ const Team_list = ({id}) => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setcheckedTeam(
-                              teams.map((team) => team._id)
+                            setCheckedAttendance(
+                              attendances.map((attendance) => attendance._id)
                             );
-                          else setcheckedTeam([]);
+                          else setCheckedAttendance([]);
                         }}
                       />
                     </Th>
-
-                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
-
-                    {selectedCheck.includes(pageName[id-1].columnName) && (
-                      <Th>{pageName[id-1].columnName}</Th>
+                    {selectedCheck.includes("User") && (
+                      <Th>USER</Th>
                     )}
 
-                    {selectedCheck.includes("Supervising Department") && <Th>Supervising Department</Th>}
+                    {selectedCheck.includes("Clock In") && <Th>CLOCK IN</Th>}
 
                    
-                    {selectedCheck.includes("Created By") && (
-                      <Th>ADDED BY</Th>
+                    {selectedCheck.includes("Clock Out") && (
+                      <Th>Clock Out</Th>
                     )}
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
@@ -353,54 +360,70 @@ const Team_list = ({id}) => {
                       </td>
                     </tr>
                   ) : (
-                    teams &&
-                    teams.map((team) => (
-                      <Tr key={team._id}>
+                    attendances &&
+                    attendances.map((attendance) => (
+                      <Tr key={attendance._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedTeam.includes(team._id)}
+                            checked={checkedAttendance.includes(attendance._id)}
                             onChange={() => {
-                              if (!checkedTeam.includes(team._id))
-                                setcheckedTeam([
-                                  ...checkedTeam,
-                                  team._id,
+                              if (!checkedAttendance.includes(attendance._id))
+                                setCheckedAttendance([
+                                  ...checkedAttendance,
+                                  attendance._id,
                                 ]);
                               else
-                                setcheckedTeam(
-                                  checkedTeam.filter(
-                                    (checkedTeam) =>
-                                      checkedTeam !== team._id
+                                setCheckedAttendance(
+                                  checkedAttendance.filter(
+                                    (checkedAttendance) =>
+                                      checkedAttendance !== attendance._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-
-                        {selectedCheck.includes("Name") && (
-                          <Td>{team.name}</Td>
+                  
+                        {selectedCheck.includes("User") && (
+                          <EmployeeInfo isSpaceRequired={true} employee={attendance?.employee }/>
                         )}
 
-                        {selectedCheck.includes(pageName[id-1].columnName) && (
+                        {selectedCheck.includes("Clock In") && (
+                          
                           <Td>
-                          { team?.lead 
-                            &&
-                            <EmployeeInfo isSpaceRequired={true} employee={team?.lead} />
-                          }
+                          {(attendance?.clockIn?.date  &&
+                              new Date(attendance?.clockIn?.date).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit"
+                                  
+                                }
+                              )) ||
+                            ""}
                         </Td>
                         )}
-
-                        {selectedCheck.includes("Supervising Department") && (
-                          <Td>{team?.superDepartment?.name}</Td>
-                        )}
                        
-                        {selectedCheck.includes("Created By") && (
+                        {selectedCheck.includes("Clock Out") && (
                           <Td>
-                            { team?.createdBy 
-                              &&
-                              <EmployeeInfo isSpaceRequired={true} employee={team?.createdBy} />
-                            }
+                            {(attendance?.clockOut?.date  &&
+                              new Date(attendance?.clockOut?.date).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit"
+                                }
+                              )) ||
+                            "-"}
                           </Td>
                         )}
                        
@@ -408,40 +431,22 @@ const Team_list = ({id}) => {
                        
                         {selectedCheck.includes("Actions") && (
                           <Td>
-                            <IconWrapper>
-                              <MdIcons.MdOutlineModeEditOutline
-                                onClick={() => {
-                                  setIsViewMode(false);
-                                  const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-                                  setFormData(updatedteam);
-                                  setShowForm(true);
-                                  setIsEditMode(!!team);
-                                }}
-                                style={{ fontSize: "18px" }}
-                              />
-                            </IconWrapper>
-
+                            
                             <GrIcons.GrFormView
                              onClick={() => {
-                              navigate(`/portal/iam/${pageName[id-1].name.toLowerCase()}/${team._id}/`);
+                              setFormData(attendance);
+                              setIsViewMode(true);
+                              toggleForm();
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
 
-                            <MdIcons.MdDeleteOutline
-                              style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message:  `Do you want to delete this ${pageName[id-1].name.toLowerCase()}?`, handleYes: () => {
-                                  deleteDepartment(team._id);
-                                }}));
-                              }}
-                            />
                           </Td>
                         )}
                       </Tr>
                     ))
                   )}
-                  {!loading && (!teams || teams.length === 0) && (
+                  {!loading && (!attendances || attendances.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -450,7 +455,7 @@ const Team_list = ({id}) => {
               </Table>
             </TableContainer>
 
-            {teams.length !== 0 && totalPages >= 1 && (
+            {attendances.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -471,12 +476,10 @@ const Team_list = ({id}) => {
           isEditMode={isEditMode}
           isViewMode={isViewMode}
           onEditClick={handleEditClick}
-          id = {id}
-          pageName = {pageName}
         />
       )}
     </>
   );
 };
 
-export default Team_list;
+export default Attendance_list;

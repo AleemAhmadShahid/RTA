@@ -18,7 +18,7 @@ import EmployeeInfo from "../../../components/EmployeeInfo";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import { FaPrint } from "react-icons/fa";
+import { FaPrint} from "react-icons/fa";
 
 import {
   Td,
@@ -50,28 +50,34 @@ import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
-const Emp_list = () => {
+const Offer_list = () => {
   const dispatch = useDispatch();
 
+  
   const bulkOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Active" },
     { value: 2, label: "Deactive" },
     { value: 3, label: "Delete" },
   ];
-
+  
   const statusOptions = [
     { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
+    { label: 'In-progress', value: 'In-progress' },
+    { label: 'Waiting for approval', value: 'Waiting for approval' },
+    { label: 'On-Hold', value: 'On-Hold' },
+    { label: 'Filled', value: 'Filled' },
+    { label: 'Cancelled', value: 'Cancelled' },
+    { label: 'Declined', value: 'Declined' },
+    { label: 'Inactive', value: 'Inactive' }
   ];
 
   const navigate = useNavigate();
 
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const [checkedEmployees, setCheckedEmployees] = useState([]);
-  const [employees, setEmployees] = useState([]);
+  const [checkedOffers, setCheckedOffers] = useState([]);
+  const [offers, setOffers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -99,21 +105,21 @@ const Emp_list = () => {
       name: searchTerm,
     };
     if (typeof status.value !== "object") params.status = status.value;
-    if (typeof role.value !== "object") params.roles = role.value;
+    if (typeof role.value !== "object") params.role = role.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/user", params);
-
-        if (data.status === 404) {
-          setEmployees([]);
+        const data = await createGetRequest("/api/offer", params);
+      
+        if (data.status === 400) {
+          setOffers([]);
           return;
         }
-        setEmployees(data.users);
+        setOffers(data.offers);
         setTotalPages(data.totalPages);
-        setInfoBoxData(data.analytics);
+        //setInfoBoxData(data.analytics);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -134,8 +140,8 @@ const Emp_list = () => {
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, status, role, reload, navigate]);
 
-  const handleEditClick = (employee) => {
-    setFormData(employee);
+  const handleEditClick = (offer) => {
+    setFormData(offer);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -145,19 +151,21 @@ const Emp_list = () => {
     setIsEditMode(false);
   };
 
+
   const [selectedCheck, setSelectedCheck] = useState([
-    "User",
-    "Employee Code",
-    "Last Login",
-    "Status",
+    "Candidate",
+    "Job Post",
+    "Department",
+    "Expected Joining Date",
+    "Compensation Amount",
     "Actions",
   ]);
   const CheckOptions = [
-    "User",
-    "Employee Code",
-    "Last Login",
-    "Member Since",
-    "Status",
+    "Candidate",
+    "Job Post",
+    "Department",
+    "Expected Joining Date",
+    "Compensation Amount",
     "Actions",
   ];
 
@@ -166,55 +174,55 @@ const Emp_list = () => {
     icon: <FaPrint />,
   });
 
-  const deleteEmployee = async (id) => {
-    const response = await createDeleteRequest(`/api/user/${id}/`);
+  const deleteOffer = async (id) => {
+    const response = await createDeleteRequest(`/api/offer/${id}/`);
     if (response.status === 200) {
-      toast.success("Employee Deleted Successfully");
+      toast.success("Offer Deleted Successfully");
       setReload(!reload);
     }
   };
 
   const takeBulkAction = async () => {
-    if (checkedEmployees.length === 0 || bulkOption === "Select") return;
+    if (checkedOffers.length === 0 || bulkOption === "Select") return;
     let path = "";
-    const data = { users: checkedEmployees, status: 1 };
+    const data = { offers: checkedOffers, status: 1 };
     if (bulkOption.label === "Deactive" || bulkOption.label === "Active")
-      path = "/api/user/bulkStatusUpdate/";
+      path = "/api/offer/bulkStatusUpdate/";
     if (bulkOption.label === "Active") data.status = 1;
     if (bulkOption.label === "Deactive") data.status = 2;
-    else if (bulkOption.label === "Delete") path = "/api/user/bulkDelete/";
+    else if (bulkOption.label === "Delete") path = "/api/offer/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Employee " + `${bulkOption.label}d Successfully`);
+      toast.success("Offer " + `${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
 
   return (
     <>
-      {" "}
+     {" "}
       <CenteredContainer>
         <div>
           <CardsContainer>
             <InfoBox
               icon={BiUser}
               iconColor="#512da8"
-              data={infoBoxData.totalUsers}
-              text="Total Users"
+              data={infoBoxData.totalPosts}
+              text="Total Posts"
             />
             <InfoBox
               icon={FiUserCheck}
               iconColor="#2ac779"
-              data={infoBoxData.activeUsers}
-              text="Active Users"
+              data={infoBoxData.activePosts}
+              text="Active Posts"
             />
 
             <InfoBox
               icon={FiUserPlus}
               iconColor="#d32f2f"
-              data={infoBoxData.InActiveUsers}
-              text="Inactive Users"
+              data={infoBoxData.InActivePosts}
+              text="Inactive Posts"
             />
             <InfoBox
               icon={FiUserX}
@@ -292,13 +300,7 @@ const Emp_list = () => {
                     value: option,
                     label: (
                       <div
-                        onClick={() =>
-                          handleCheckChange(
-                            option,
-                            selectedCheck,
-                            setSelectedCheck
-                          )
-                        }
+                        onClick={() => handleCheckChange(option, selectedCheck, setSelectedCheck)}
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <input
@@ -342,16 +344,16 @@ const Emp_list = () => {
                   onClick={toggleForm}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Make Offer</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
 
             {/* <EmployeeTable
-            checkedEmployees={checkedEmployees}
-            setCheckedEmployees={setCheckedEmployees}
+            checkedOffers={checkedOffers}
+            setCheckedOffers={setCheckedOffers}
   loading={loading}
-  data={employees}
+  data={offers}
   columns={[    
     { label: 'User', field: 'EmployeeInfo' },
     { label: 'Employee Code', field: '_id' },
@@ -360,21 +362,21 @@ const Emp_list = () => {
     { label: 'Actions', field: 'actions' },
   ]}
 
-   setCheckedItems={setCheckedEmployees}
-  renderRow={(employee, columns) => (
-    <React.Fragment key={employee._id}>
+   setCheckedItems={setCheckedOffers}
+  renderRow={(offer, columns) => (
+    <React.Fragment key={offer._id}>
       
       {columns.map((column) => (
         <Td key={column.field}>
           {selectedCheck.includes(column.label) && (
             <>
               {column.field === 'EmployeeInfo' ? (
-                <EmployeeInfo employee={employee} />
+                <EmployeeInfo offer={offer} />
               ) : column.field === '_id' ? (
-                employee._id
+                offer._id
               ) : column.field === 'lastLogin' ? (
-                (employee.lastLogin &&
-                  new Date(employee.lastLogin).toLocaleString('en-GB', {
+                (offer.lastLogin &&
+                  new Date(offer.lastLogin).toLocaleString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: '2-digit',
@@ -383,9 +385,9 @@ const Emp_list = () => {
                   })) ||
                 'Resend Invite'
               ) : column.field === 'status' ? (
-                employee.status === 1 ? (
+                offer.status === 1 ? (
                   <SuccessBadge>Active</SuccessBadge>
-                ) : employee.status === 2 ? (
+                ) : offer.status === 2 ? (
                   <DangerBadge>Inactive</DangerBadge>
                 ) : (
                   <DangerBadge>Deleted</DangerBadge>
@@ -395,9 +397,9 @@ const Emp_list = () => {
                   <IconWrapper>
                     <MdIcons.MdOutlineModeEditOutline
                       onClick={() => {
-                        setFormData(employee);
+                        setFormData(offer);
                         setShowForm(true);
-                        setIsEditMode(!!employee);
+                        setIsEditMode(!!offer);
                       }}
                       style={{ fontSize: '18px' }}
                     />
@@ -416,8 +418,8 @@ const Emp_list = () => {
                         cursor: 'pointer',
                       }}
                       onClick={() => {
-                        dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
-                          deleteEmployee(employee._id);
+                        dispatch(setErrorModal({message: "Do you want to delete this offer?", handleYes: () => {
+                          deleteOffer(offer._id);
                         }}));
                       }}
                     />
@@ -443,25 +445,30 @@ const Emp_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedEmployees(
-                              employees.map((employee) => employee._id)
+                            setCheckedOffers(
+                              offers.map((offer) => offer._id)
                             );
-                          else setCheckedEmployees([]);
+                          else setCheckedOffers([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("User") && <Th>USER</Th>}
+                    {selectedCheck.includes("Candidate") && <Th>CANDIDATE</Th>}
                     
-                    {selectedCheck.includes("Employee Code") && (
-                      <Th>EMPLOYEE CODE</Th>
+                    {selectedCheck.includes("Job Post") && (
+                      <Th>JOB POST</Th>
                     )}
-                    {selectedCheck.includes("Last Login") && (
-                      <Th>LAST LOGIN</Th>
+
+                    {selectedCheck.includes("Department") && (
+                      <Th>DEPARTMENT</Th>
                     )}
-                    {selectedCheck.includes("Member Since") && (
-                      <Th>MEMBER SINCE</Th>
+                    {selectedCheck.includes("Expected Joining Date") && (
+                      <Th>EXPECTED JOINING DATE</Th>
                     )}
-                    {selectedCheck.includes("Status") && <Th>STATUS</Th>}
+
+                    {selectedCheck.includes("Compensation Amount") && (
+                      <Th>COMPENSATION AMOUNT</Th>
+                    )}
+
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -473,59 +480,48 @@ const Emp_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    employees &&
-                    employees.map((employee) => (
-                      <Tr key={employee._id}>
+                    offers &&
+                    offers.map((offer) => (
+                      <Tr key={offer._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedEmployees.includes(employee._id)}
+                            checked={checkedOffers.includes(offer._id)}
                             onChange={() => {
-                              if (!checkedEmployees.includes(employee._id))
-                                setCheckedEmployees([
-                                  ...checkedEmployees,
-                                  employee._id,
+                              if (!checkedOffers.includes(offer._id))
+                                setCheckedOffers([
+                                  ...checkedOffers,
+                                  offer._id,
                                 ]);
                               else
-                                setCheckedEmployees(
-                                  checkedEmployees.filter(
-                                    (checkedEmployee) =>
-                                      checkedEmployee !== employee._id
+                                setCheckedOffers(
+                                  checkedOffers.filter(
+                                    (checkedOffers) =>
+                                      checkedOffers !== offer._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-                        {selectedCheck.includes("User") && (
-                          <Td>
-                            <EmployeeInfo employee={employee} />
-                          </Td>
+                        
+
+                        {selectedCheck.includes("Candidate") && (
+                          <Td>{offer.candidate}</Td>
                         )}
 
-                        {selectedCheck.includes("Employee Code") && (
-                          <Td>{employee._id}</Td>
+                        {selectedCheck.includes("Job Post") && (
+                          <Td>{offer.jobPost}</Td>
                         )}
-                        {selectedCheck.includes("Last Login") && (
-                          <Td>
-                            {(employee.lastLogin &&
-                              new Date(employee.lastLogin).toLocaleString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "2-digit",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                }
-                              )) ||
-                              "Resend Invite"}
-                          </Td>
+
+                        {selectedCheck.includes("Department") && (
+                          <Td>{offer.department}</Td>
                         )}
-                        {selectedCheck.includes("Member Since") && (
+      
+                        {selectedCheck.includes("Expected Joining Date") && (
                           <Td>
-                            {(employee.dateOfJoining &&
-                              new Date(employee.dateOfJoining).toLocaleString(
+                            {(offer.expectedJoiningDate &&
+                              new Date(offer.expectedJoiningDate).toLocaleString(
                                 "en-GB",
                                 {
                                   day: "2-digit",
@@ -533,28 +529,23 @@ const Emp_list = () => {
                                   year: "numeric",
                                 }
                               )) ||
-                              ""}
+                              "-"}
                           </Td>
                         )}
-                        {selectedCheck.includes("Status") && (
-                          <Td>
-                            {employee.status === 1 ? (
-                              <SuccessBadge>Active</SuccessBadge>
-                            ) : employee.status === 2 ? (
-                              <DangerBadge>Inactive</DangerBadge>
-                            ) : (
-                              <DangerBadge>Deleted</DangerBadge>
-                            )}
-                          </Td>
+
+                        {selectedCheck.includes("Compensation Amount") && (
+                          <Td>{offer.compensationAmount}</Td>
                         )}
+                        
+                       
                         {selectedCheck.includes("Actions") && (
                           <Td>
                             <IconWrapper>
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
-                                  setFormData(employee);
+                                  setFormData(offer);
                                   setShowForm(true);
-                                  setIsEditMode(!!employee);
+                                  setIsEditMode(!!offer);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -563,15 +554,15 @@ const Emp_list = () => {
                             <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Employee View is disabled by Admin"}));
+                                dispatch(setErrorModal({message: "Offer View is disabled by Admin"}));
                               }}
                             />
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
-                                  deleteEmployee(employee._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this offer?", handleYes: () => {
+                                  deleteOffer(offer._id);
                                 }}));
                               }}
                             />
@@ -580,7 +571,7 @@ const Emp_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!employees || employees.length === 0) && (
+                  {!loading && (!offers || offers.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -589,7 +580,7 @@ const Emp_list = () => {
               </Table> 
             </TableContainer>
 
-            {employees.length !== 0 && totalPages >= 1 && (
+            {offers.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -612,9 +603,8 @@ const Emp_list = () => {
           onEditClick={handleEditClick}
         />
       )}
-      
     </>
   );
 };
 
-export default Emp_list;
+export default Offer_list;

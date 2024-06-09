@@ -336,13 +336,13 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>Payroll Management</DropdownLabel>
               </div>
-              <div>
+              <div  onClick={() => {setIsDropdownOpen(false);  navigate('/portal/attedancemanagement/attendance');}}>
                 <DropdownButton>
                   <AiOutlineMail />
                 </DropdownButton>
                 <DropdownLabel>Attendance Management</DropdownLabel>
               </div>
-              <div>
+              <div  onClick={() => {setIsDropdownOpen(false);  navigate('/portal/applicationtrackingsystem/jobPosting');}}>
                 <DropdownButton>
                   <AiOutlineFileText />
                 </DropdownButton>

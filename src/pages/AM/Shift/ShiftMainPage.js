@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import MultiStepForm from "./MultiStepForm";
+import LoaderComponent from "../../../components/Loader";
 import {
   createGetRequest,
   createDeleteRequest,
   createPutRequest,
 } from "../../../global/requests";
 import { handleCheckChange } from "../../../global/helper";
+
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../../components/Cards";
 import PageBar from "../../../components/PageBar";
 import FilterBox from "../../../components/FilterBox";
-import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
-
 import EmployeeInfo from "../../../components/EmployeeInfo";
 
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import { FaPrint } from "react-icons/fa";
+import { FaPrint} from "react-icons/fa";
 
 import {
   Td,
@@ -26,8 +26,6 @@ import {
   Th,
   AddEmployeeContainer,
   Table,
-  SuccessBadge,
-  DangerBadge,
   CreateEmployeeHeading,
   BoxContainer,
   AddEmployeeButton,
@@ -43,35 +41,27 @@ import {
   dropDownStyle,
 } from "../../../styles/TableStyling";
 
-import EmployeeTable from "../../../components/Table";
-import LoaderComponent from "../../../components/Loader";
 import { entriesOptions, exportOptions } from "../../../global/constants"
 import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
-const Emp_list = () => {
+
+const Shift_list = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const bulkOptions = [
     { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Deactive" },
-    { value: 3, label: "Delete" },
+    { value: 1, label: "Delete" },
   ];
 
-  const statusOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
-
-  const navigate = useNavigate();
 
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedEmployees, setCheckedEmployees] = useState([]);
-  const [employees, setEmployees] = useState([]);
+  const [checkedShift, setCheckedShift] = useState([]);
+  const [shifts, setShift] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -82,13 +72,7 @@ const Emp_list = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
-  const [role, setRole] = useState({ value: {}, label: "Select" });
-  const [roleOptions, setRoleOptions] = useState({
-    value: {},
-    label: "Select",
-  });
 
   const [loading, setLoading] = useState(true);
 
@@ -98,44 +82,31 @@ const Emp_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof status.value !== "object") params.status = status.value;
-    if (typeof role.value !== "object") params.roles = role.value;
+    if (typeof shifts.value !== "object") params.shifts = shifts.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/user", params);
-
+        const data = await createGetRequest("/api/shift", params);
         if (data.status === 404) {
-          setEmployees([]);
+          setShift([]);
           return;
         }
-        setEmployees(data.users);
-        setTotalPages(data.totalPages);
+        setShift(data.shifts);
         setInfoBoxData(data.analytics);
+        setTotalPages(data.totalPages);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-      try {
-        const data = await createGetRequest("/api/role");
-        if (data.status === 200) {
-          const roles = data.roles.map((role) => ({
-            label: role.name,
-            value: role._id,
-          }));
-          setRoleOptions([{ value: {}, label: "Select" }, ...roles]);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status, role, reload, navigate]);
+  }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (employee) => {
-    setFormData(employee);
+  const handleEditClick = (shift) => {
+    setFormData(shift);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -146,18 +117,18 @@ const Emp_list = () => {
   };
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "User",
-    "Employee Code",
-    "Last Login",
-    "Status",
+    "Name",
+    "Start Time",
+    "End Time",
+    "Break Duration",
     "Actions",
   ]);
   const CheckOptions = [
-    "User",
-    "Employee Code",
-    "Last Login",
-    "Member Since",
-    "Status",
+    "Name",
+    "Start Time",
+    "End Time",
+    "Break Duration",
+    "Created By",
     "Actions",
   ];
 
@@ -166,27 +137,23 @@ const Emp_list = () => {
     icon: <FaPrint />,
   });
 
-  const deleteEmployee = async (id) => {
-    const response = await createDeleteRequest(`/api/user/${id}/`);
+  const deleteShift = async (id) => {
+    const response = await createDeleteRequest(`/api/shift/${id}/`);
     if (response.status === 200) {
-      toast.success("Employee Deleted Successfully");
       setReload(!reload);
+      toast.success("Shift deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
-    if (checkedEmployees.length === 0 || bulkOption === "Select") return;
     let path = "";
-    const data = { users: checkedEmployees, status: 1 };
-    if (bulkOption.label === "Deactive" || bulkOption.label === "Active")
-      path = "/api/user/bulkStatusUpdate/";
-    if (bulkOption.label === "Active") data.status = 1;
-    if (bulkOption.label === "Deactive") data.status = 2;
-    else if (bulkOption.label === "Delete") path = "/api/user/bulkDelete/";
+    const data = {shifts: checkedShift};
+    if (checkedShift.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/shift/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Employee " + `${bulkOption.label}d Successfully`);
+      toast.success(`${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
@@ -196,51 +163,40 @@ const Emp_list = () => {
       {" "}
       <CenteredContainer>
         <div>
-          <CardsContainer>
-            <InfoBox
+          {<CardsContainer>
+            {/* <InfoBox
               icon={BiUser}
+              // iconColor="blue"
               iconColor="#512da8"
               data={infoBoxData.totalUsers}
               text="Total Users"
-            />
-            <InfoBox
-              icon={FiUserCheck}
-              iconColor="#2ac779"
-              data={infoBoxData.activeUsers}
-              text="Active Users"
-            />
+            /> */}
 
             <InfoBox
               icon={FiUserPlus}
-              iconColor="#d32f2f"
-              data={infoBoxData.InActiveUsers}
-              text="Inactive Users"
+              iconColor="#512da8"
+              data={infoBoxData?.totalShifts || 0}
+              text="Total Shifts"
             />
-            <InfoBox
+             
+             <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData.pendingInvites}
-              text="Pending Invites"
+              data={infoBoxData?.vacantShifts || 0}
+              text="Vacant Shifts"
             />
-          </CardsContainer>
+
+            <InfoBox
+              icon={FiUserCheck}
+              iconColor="#d32f2f"
+              data={infoBoxData?.closedShifts || 0}
+              text="Closed Shifts"
+            />
+           
+          </CardsContainer> }
 
           <FilterContainer>
-            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
-            <FilterOuterBox>
-              <FilterBox
-                options={statusOptions}
-                onValueChange={(selectedOption) => setStatus(selectedOption)}
-                selectedValue={status}
-                title="Status"
-              />
 
-              <FilterBox
-                options={roleOptions}
-                onValueChange={(selectedOption) => setRole(selectedOption)}
-                selectedValue={role}
-                title="Role"
-              />
-            </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
               Bulk Actions
             </h6>
@@ -292,13 +248,7 @@ const Emp_list = () => {
                     value: option,
                     label: (
                       <div
-                        onClick={() =>
-                          handleCheckChange(
-                            option,
-                            selectedCheck,
-                            setSelectedCheck
-                          )
-                        }
+                        onClick={() => handleCheckChange(option, selectedCheck, setSelectedCheck)}
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <input
@@ -339,103 +289,15 @@ const Emp_list = () => {
                   styles={dropDownStyle}
                 />
                 <AddEmployeeButton
-                  onClick={toggleForm}
+                  onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Employee</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Shift</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
-
-            {/* <EmployeeTable
-            checkedEmployees={checkedEmployees}
-            setCheckedEmployees={setCheckedEmployees}
-  loading={loading}
-  data={employees}
-  columns={[    
-    { label: 'User', field: 'EmployeeInfo' },
-    { label: 'Employee Code', field: '_id' },
-    { label: 'Last Login', field: 'lastLogin' },
-    { label: 'Status', field: 'status' },
-    { label: 'Actions', field: 'actions' },
-  ]}
-
-   setCheckedItems={setCheckedEmployees}
-  renderRow={(employee, columns) => (
-    <React.Fragment key={employee._id}>
-      
-      {columns.map((column) => (
-        <Td key={column.field}>
-          {selectedCheck.includes(column.label) && (
-            <>
-              {column.field === 'EmployeeInfo' ? (
-                <EmployeeInfo employee={employee} />
-              ) : column.field === '_id' ? (
-                employee._id
-              ) : column.field === 'lastLogin' ? (
-                (employee.lastLogin &&
-                  new Date(employee.lastLogin).toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })) ||
-                'Resend Invite'
-              ) : column.field === 'status' ? (
-                employee.status === 1 ? (
-                  <SuccessBadge>Active</SuccessBadge>
-                ) : employee.status === 2 ? (
-                  <DangerBadge>Inactive</DangerBadge>
-                ) : (
-                  <DangerBadge>Deleted</DangerBadge>
-                )
-              ) : (
-                column.field === 'actions' && (
-                  <IconWrapper>
-                    <MdIcons.MdOutlineModeEditOutline
-                      onClick={() => {
-                        setFormData(employee);
-                        setShowForm(true);
-                        setIsEditMode(!!employee);
-                      }}
-                      style={{ fontSize: '18px' }}
-                    />
-                    <GrIcons.GrFormView
-                      style={{
-                        fontSize: '18px',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        dispatch(setErrorModal({message: "Employee View is disabled by Admin"}));
-                      }}
-                    />
-                    <MdIcons.MdDeleteOutline
-                      style={{
-                        fontSize: '18px',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
-                          deleteEmployee(employee._id);
-                        }}));
-                      }}
-                    />
-                  </IconWrapper>
-                )
-              )}
-            </>
-          )}
-        </Td>
-      ))}
-    </React.Fragment>
-  )}
-  keyField="_id"
-/> */}
-
-
             <TableContainer>
-               <Table>
+              <Table>
                 <thead>
                   <Tr>
                     <Th>
@@ -443,25 +305,33 @@ const Emp_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedEmployees(
-                              employees.map((employee) => employee._id)
+                            setCheckedShift(
+                              shifts.map((shift) => shift._id)
                             );
-                          else setCheckedEmployees([]);
+                          else setCheckedShift([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("User") && <Th>USER</Th>}
-                    
-                    {selectedCheck.includes("Employee Code") && (
-                      <Th>EMPLOYEE CODE</Th>
+
+                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
+
+                    {selectedCheck.includes("Start Time") && (
+                      <Th>START TIME</Th>
                     )}
-                    {selectedCheck.includes("Last Login") && (
-                      <Th>LAST LOGIN</Th>
+
+                   
+                    {selectedCheck.includes("End Time") && (
+                      <Th>END TIME</Th>
                     )}
-                    {selectedCheck.includes("Member Since") && (
-                      <Th>MEMBER SINCE</Th>
+
+                    {selectedCheck.includes("Break Duration") && (
+                      <Th>BREAK DURATION</Th>
                     )}
-                    {selectedCheck.includes("Status") && <Th>STATUS</Th>}
+
+                    {selectedCheck.includes("Created By") && (
+                      <Th>Added By</Th>
+                    )}
+
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -473,105 +343,111 @@ const Emp_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    employees &&
-                    employees.map((employee) => (
-                      <Tr key={employee._id}>
+                    shifts &&
+                    shifts.map((shift) => (
+                      <Tr key={shift._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedEmployees.includes(employee._id)}
+                            checked={checkedShift.includes(shift._id)}
                             onChange={() => {
-                              if (!checkedEmployees.includes(employee._id))
-                                setCheckedEmployees([
-                                  ...checkedEmployees,
-                                  employee._id,
+                              if (!checkedShift.includes(shift._id))
+                                setCheckedShift([
+                                  ...checkedShift,
+                                  shift._id,
                                 ]);
                               else
-                                setCheckedEmployees(
-                                  checkedEmployees.filter(
-                                    (checkedEmployee) =>
-                                      checkedEmployee !== employee._id
+                                setCheckedShift(
+                                  checkedShift.filter(
+                                    (checkedShift) =>
+                                      checkedShift !== shift._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-                        {selectedCheck.includes("User") && (
+                  
+              
+                        {selectedCheck.includes("Name") && (
+                          <Td>{shift.name}</Td>
+                        )}
+
+                        {selectedCheck.includes("Start Time") && (
                           <Td>
-                            <EmployeeInfo employee={employee} />
+                            {(shift?.startTime  &&
+                              new Date(shift?.startTime ).toLocaleString(
+                                "en-GB",
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit"
+                                }
+                              )) ||
+                              "-"
+                            }
                           </Td>
                         )}
 
-                        {selectedCheck.includes("Employee Code") && (
-                          <Td>{employee._id}</Td>
-                        )}
-                        {selectedCheck.includes("Last Login") && (
+                        {selectedCheck.includes("End Time") && (
                           <Td>
-                            {(employee.lastLogin &&
-                              new Date(employee.lastLogin).toLocaleString(
+                            {(shift?.endTime  &&
+                              new Date(shift?.endTime ).toLocaleString(
                                 "en-GB",
                                 {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "2-digit",
                                   hour: "2-digit",
                                   minute: "2-digit",
+                                  second: "2-digit"
                                 }
                               )) ||
-                              "Resend Invite"}
+                              "-"
+                            }
                           </Td>
                         )}
-                        {selectedCheck.includes("Member Since") && (
+
+                        {selectedCheck.includes("Break Duration") && (
+                          <Td>{shift.breakDuration} minute(s)</Td>
+                        )}
+                       
+                        {selectedCheck.includes("Created By") && (
                           <Td>
-                            {(employee.dateOfJoining &&
-                              new Date(employee.dateOfJoining).toLocaleString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                }
-                              )) ||
-                              ""}
+                            { shift?.createdBy 
+                              &&
+                              <EmployeeInfo isSpaceRequired={true} employee={shift?.createdBy} />
+                            }
                           </Td>
                         )}
-                        {selectedCheck.includes("Status") && (
-                          <Td>
-                            {employee.status === 1 ? (
-                              <SuccessBadge>Active</SuccessBadge>
-                            ) : employee.status === 2 ? (
-                              <DangerBadge>Inactive</DangerBadge>
-                            ) : (
-                              <DangerBadge>Deleted</DangerBadge>
-                            )}
-                          </Td>
-                        )}
+                       
+                        
+                       
                         {selectedCheck.includes("Actions") && (
                           <Td>
                             <IconWrapper>
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
-                                  setFormData(employee);
+                                  setIsViewMode(false);
+                                  setFormData(shift);
                                   setShowForm(true);
-                                  setIsEditMode(!!employee);
+                                  setIsEditMode(!!shift);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
                             </IconWrapper>
 
                             <GrIcons.GrFormView
+                             onClick={() => {
+                              setFormData(shift);
+                              setIsViewMode(true);
+                              toggleForm();
+                            }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message: "Employee View is disabled by Admin"}));
-                              }}
                             />
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this employee?", handleYes: () => {
-                                  deleteEmployee(employee._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this shift?", handleYes: () => {
+                                  deleteShift(shift._id);
                                 }}));
                               }}
                             />
@@ -580,16 +456,16 @@ const Emp_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!employees || employees.length === 0) && (
+                  {!loading && (!shifts || shifts.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
                   )}
                 </tbody>
-              </Table> 
+              </Table>
             </TableContainer>
 
-            {employees.length !== 0 && totalPages >= 1 && (
+            {shifts.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -598,7 +474,6 @@ const Emp_list = () => {
             )}
           </BoxContainer>
         </div>
-        <hr />
       </CenteredContainer>
       {showForm && (
         <MultiStepForm
@@ -609,12 +484,12 @@ const Emp_list = () => {
           reload={reload}
           setReload={setReload}
           isEditMode={isEditMode}
+          isViewMode={isViewMode}
           onEditClick={handleEditClick}
         />
       )}
-      
     </>
   );
 };
 
-export default Emp_list;
+export default Shift_list;

@@ -7,6 +7,7 @@ import {
   createPutRequest,
 } from "../../../global/requests";
 import { handleCheckChange } from "../../../global/helper";
+
 import { useNavigate } from "react-router-dom";
 import InfoBox from "../../../components/Cards";
 import PageBar from "../../../components/PageBar";
@@ -18,7 +19,6 @@ import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
 import { FaPrint} from "react-icons/fa";
-import toast  from 'react-hot-toast';
 
 import {
   Td,
@@ -40,27 +40,16 @@ import {
   StyledSearchBar,
   dropDownStyle,
 } from "../../../styles/TableStyling";
+
 import { entriesOptions, exportOptions } from "../../../global/constants"
+import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
 
-
-
-const Team_list = ({id}) => {
-  const navigate = useNavigate();
+const AllotedLeaves_list = () => {
   const dispatch = useDispatch();
-
-  const pageName = [
-    {
-      name: "Department",
-      columnName: "Department Head"
-    },
-    {
-      name: "Team",
-      columnName: "Team Lead"
-    },
-  ];
+  const navigate = useNavigate();
 
   const bulkOptions = [
     { value: {}, label: "Select" },
@@ -68,12 +57,11 @@ const Team_list = ({id}) => {
   ];
 
 
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedTeam, setcheckedTeam] = useState([]);
-  const [teams, setTeams] = useState([]);
+  const [checkedAllotedLeaves, setCheckedAllotedLeaves] = useState([]);
+  const [allotedLeaves, setAllotedLeaves] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -84,7 +72,6 @@ const Team_list = ({id}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" });
   const [bulkOption, setBulkOption] = useState({ value: {}, label: "Select" });
 
   const [loading, setLoading] = useState(true);
@@ -93,23 +80,24 @@ const Team_list = ({id}) => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
-      type: id,
       name: searchTerm,
     };
-    if (typeof status.value !== "object") params.status = status.value;
+    if (typeof allotedLeaves.value !== "object") params.allotedLeaves = allotedLeaves.value;
+
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/department", params);
-        if (data.status === 404) {
-          setTeams([]);
+        const data = await createGetRequest("/api/leave/assignLeave/", params);
+        console.log(data);
+        if (data.status === 404 || data.status === 400) {
+          setAllotedLeaves([]);
           setLoading(false);
           return;
         }
-        setTeams(data.departments);
+        setAllotedLeaves(data.allotedLeaves);
         setInfoBoxData(data.analytics);
-        setTotalPages(data.totalPages);    
+        setTotalPages(data.totalPages);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -117,11 +105,10 @@ const Team_list = ({id}) => {
 
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, status, reload, navigate]);
+  }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (team) => {
-    const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-    setFormData(updatedteam);
+  const handleEditClick = (allotedLeaves) => {
+    setFormData(allotedLeaves);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -131,18 +118,18 @@ const Team_list = ({id}) => {
     setIsEditMode(false);
   };
 
-
   const [selectedCheck, setSelectedCheck] = useState([
     "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
-    "Created By",
+    "Start Time",
+    "End Time",
+    "Break Duration",
     "Actions",
   ]);
   const CheckOptions = [
     "Name",
-    pageName[id-1].columnName,
-    "Supervising Department",
+    "Start Time",
+    "End Time",
+    "Break Duration",
     "Created By",
     "Actions",
   ];
@@ -152,32 +139,30 @@ const Team_list = ({id}) => {
     icon: <FaPrint />,
   });
 
-  const deleteDepartment = async (departmentId) => {
-    const response = await createDeleteRequest(`/api/department/${departmentId}/`);
+  const deleteAllotedLeaves = async (id) => {
+    const response = await createDeleteRequest(`/api/allotedLeaves/${id}/`);
     if (response.status === 200) {
-      toast.success(pageName[id-1].name + " deleted successfully!");
       setReload(!reload);
+      toast.success("AllotedLeaves deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {teams: checkedTeam};
-    if (checkedTeam.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/department/bulkDelete/";
+    const data = {allotedLeaves: checkedAllotedLeaves};
+    if (checkedAllotedLeaves.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/allotedLeaves/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success(pageName[id-1].name + `${bulkOption.label}d Successfully`);
+      toast.success(`${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
   };
 
-
-
   return (
     <>
-     {" "}
+      {" "}
       <CenteredContainer>
         <div>
           {<CardsContainer>
@@ -192,22 +177,22 @@ const Team_list = ({id}) => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalDepartments || 0}
-              text={`Total ${pageName[id - 1].name}s`}
+              data={infoBoxData?.totalAllotedLeaves || 0}
+              text="Total Alloted Leaves"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantDepartments || 0}
-              text={`Vacant ${pageName[id - 1].name}s`}
+              data={infoBoxData?.vacantAllotedLeaves || 0}
+              text="Vacant Alloted Leaves"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedDepartments || 0}
-              text={`Closed ${pageName[id - 1].name}s`}
+              data={infoBoxData?.closedAllotedLeaves || 0}
+              text="Closed Alloted Leaves"
             />
            
           </CardsContainer> }
@@ -309,7 +294,7 @@ const Team_list = ({id}) => {
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add {pageName[id-1].name}</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Assign Leaves</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -322,26 +307,33 @@ const Team_list = ({id}) => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setcheckedTeam(
-                              teams.map((team) => team._id)
+                            setCheckedAllotedLeaves(
+                              allotedLeaves.map((allotedLeaves) => allotedLeaves._id)
                             );
-                          else setcheckedTeam([]);
+                          else setCheckedAllotedLeaves([]);
                         }}
                       />
                     </Th>
 
                     {selectedCheck.includes("Name") && <Th>NAME</Th>}
 
-                    {selectedCheck.includes(pageName[id-1].columnName) && (
-                      <Th>{pageName[id-1].columnName}</Th>
+                    {selectedCheck.includes("Start Time") && (
+                      <Th>START TIME</Th>
                     )}
-
-                    {selectedCheck.includes("Supervising Department") && <Th>Supervising Department</Th>}
 
                    
-                    {selectedCheck.includes("Created By") && (
-                      <Th>ADDED BY</Th>
+                    {selectedCheck.includes("End Time") && (
+                      <Th>END TIME</Th>
                     )}
+
+                    {selectedCheck.includes("Break Duration") && (
+                      <Th>BREAK DURATION</Th>
+                    )}
+
+                    {selectedCheck.includes("Created By") && (
+                      <Th>Added By</Th>
+                    )}
+
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -353,53 +345,77 @@ const Team_list = ({id}) => {
                       </td>
                     </tr>
                   ) : (
-                    teams &&
-                    teams.map((team) => (
-                      <Tr key={team._id}>
+                    allotedLeaves &&
+                    allotedLeaves.map((allotedLeaves) => (
+                      <Tr key={allotedLeaves._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedTeam.includes(team._id)}
+                            checked={checkedAllotedLeaves.includes(allotedLeaves._id)}
                             onChange={() => {
-                              if (!checkedTeam.includes(team._id))
-                                setcheckedTeam([
-                                  ...checkedTeam,
-                                  team._id,
+                              if (!checkedAllotedLeaves.includes(allotedLeaves._id))
+                                setCheckedAllotedLeaves([
+                                  ...checkedAllotedLeaves,
+                                  allotedLeaves._id,
                                 ]);
                               else
-                                setcheckedTeam(
-                                  checkedTeam.filter(
-                                    (checkedTeam) =>
-                                      checkedTeam !== team._id
+                                setCheckedAllotedLeaves(
+                                  checkedAllotedLeaves.filter(
+                                    (checkedAllotedLeaves) =>
+                                      checkedAllotedLeaves !== allotedLeaves._id
                                   )
                                 );
                             }}
                           />
                         </Td>
-
+                  
+              
                         {selectedCheck.includes("Name") && (
-                          <Td>{team.name}</Td>
+                          <Td>{allotedLeaves.name}</Td>
                         )}
 
-                        {selectedCheck.includes(pageName[id-1].columnName) && (
+                        {selectedCheck.includes("Start Time") && (
                           <Td>
-                          { team?.lead 
-                            &&
-                            <EmployeeInfo isSpaceRequired={true} employee={team?.lead} />
-                          }
-                        </Td>
+                            {(allotedLeaves?.startTime  &&
+                              new Date(allotedLeaves?.startTime ).toLocaleString(
+                                "en-GB",
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit"
+                                }
+                              )) ||
+                              "-"
+                            }
+                          </Td>
                         )}
 
-                        {selectedCheck.includes("Supervising Department") && (
-                          <Td>{team?.superDepartment?.name}</Td>
+                        {selectedCheck.includes("End Time") && (
+                          <Td>
+                            {(allotedLeaves?.endTime  &&
+                              new Date(allotedLeaves?.endTime ).toLocaleString(
+                                "en-GB",
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit"
+                                }
+                              )) ||
+                              "-"
+                            }
+                          </Td>
+                        )}
+
+                        {selectedCheck.includes("Break Duration") && (
+                          <Td>{allotedLeaves.breakDuration} minute(s)</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { team?.createdBy 
+                            { allotedLeaves?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={team?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={allotedLeaves?.createdBy} />
                             }
                           </Td>
                         )}
@@ -412,10 +428,9 @@ const Team_list = ({id}) => {
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
                                   setIsViewMode(false);
-                                  const updatedteam = {...team, lead: team?.lead?._id, superDepartment: team?.superDepartment?._id};
-                                  setFormData(updatedteam);
+                                  setFormData(allotedLeaves);
                                   setShowForm(true);
-                                  setIsEditMode(!!team);
+                                  setIsEditMode(!!allotedLeaves);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -423,7 +438,9 @@ const Team_list = ({id}) => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              navigate(`/portal/iam/${pageName[id-1].name.toLowerCase()}/${team._id}/`);
+                              setFormData(allotedLeaves);
+                              setIsViewMode(true);
+                              toggleForm();
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
@@ -431,8 +448,8 @@ const Team_list = ({id}) => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message:  `Do you want to delete this ${pageName[id-1].name.toLowerCase()}?`, handleYes: () => {
-                                  deleteDepartment(team._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this allotedLeaves?", handleYes: () => {
+                                  deleteAllotedLeaves(allotedLeaves._id);
                                 }}));
                               }}
                             />
@@ -441,7 +458,7 @@ const Team_list = ({id}) => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!teams || teams.length === 0) && (
+                  {!loading && (!allotedLeaves || allotedLeaves.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -450,7 +467,7 @@ const Team_list = ({id}) => {
               </Table>
             </TableContainer>
 
-            {teams.length !== 0 && totalPages >= 1 && (
+            {allotedLeaves.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -471,12 +488,10 @@ const Team_list = ({id}) => {
           isEditMode={isEditMode}
           isViewMode={isViewMode}
           onEditClick={handleEditClick}
-          id = {id}
-          pageName = {pageName}
         />
       )}
     </>
   );
 };
 
-export default Team_list;
+export default AllotedLeaves_list;
