@@ -49,6 +49,8 @@ import { entriesOptions, exportOptions } from "../../../global/constants"
 import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
+import EmpDashBoard from "../EmpDashBoard/EmpDashBoard";
+
 
 const Emp_list = () => {
   const dispatch = useDispatch();
@@ -133,7 +135,7 @@ const Emp_list = () => {
     };
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, status, role, reload, navigate]);
-
+  
   const handleEditClick = (employee) => {
     setFormData(employee);
     setShowForm(true);
@@ -196,6 +198,7 @@ const Emp_list = () => {
       {" "}
       <CenteredContainer>
         <div>
+        
           <CardsContainer>
             <InfoBox
               icon={BiUser}
@@ -612,6 +615,10 @@ const Emp_list = () => {
           onEditClick={handleEditClick}
         />
       )}
+      {
+        <EmpDashBoard employee={employees}/>
+
+      }
       
     </>
   );

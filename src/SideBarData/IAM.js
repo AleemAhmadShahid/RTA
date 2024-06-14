@@ -10,7 +10,7 @@ import * as CgIcons from "react-icons/cg";
 export const IAMSidebarData = [
   {
     title: "Dashboard",
-    //path: "/",
+    path: "/portal/iam/dashboard",
     icon: <BsIcons.BsShieldCheck />,
   },
   {

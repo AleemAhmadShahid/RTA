@@ -36,6 +36,7 @@ import Board from "./pages/PM/Board";
 import Calendar from "./pages/PM/Calendar";
 import Surveys from"./pages/IAM/Surveys/SurveysMainPage";
 import SelfService from "./components/EmpProfileMainPage";
+import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -87,6 +88,7 @@ function App() {
           {user.isAuthenticated ? (
             <>
               <Route path="iam" element={<Sidebar  SidebarData={IAMSidebarData} heading={"Employee Management"}/>}>
+                <Route path="dashboard" element={<EmpDashBoard />} /> 
                 <Route path="employee" element={<Emp_list />} />
                 <Route path="role" element={<Role_list />} />
                 <Route path="team" element={<Team_list id={2} />} />
@@ -100,7 +102,7 @@ function App() {
               </Route>
 
               <Route path="projectmanagement" element={<Sidebar SidebarData={IAMSidebarData} heading={"Project Management"} />}>
-                {/* <Route path="board" element={<Board />} />  */}
+               <Route path="board" element={<Board />} />  
                 {/* <Route path="board" element={<Calendar />} /> */}
               </Route>
 

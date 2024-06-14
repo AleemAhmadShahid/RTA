@@ -16,8 +16,8 @@
     color: black;
     text-decoration: none;
     border-bottom: none;
-    text-align: center; /* Center the text horizontally */
-    line-height: 2em; /* Adjust line height for vertical centering */
+    text-align: center; 
+    line-height: 2em; 
   }
   
   .fc-day-today {
@@ -26,10 +26,10 @@
   
   .fc-sat,
 .fc-sun {
-  background-color: #e0e0e0 !important; /* Adjust the color as needed */
+  background-color: #e0e0e0 !important; 
 }
   
-  //background .css
+  
   .fc {
 
     & .fc-bg-event,
