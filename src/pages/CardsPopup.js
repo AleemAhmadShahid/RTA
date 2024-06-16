@@ -362,7 +362,7 @@ const CardsPopup = ({
               <LeftIcon>
                 <AiOutlineAppstore />
               </LeftIcon>
-              {task.content}
+              {task.description}
               <div>{/* {task.column.title} */}</div>
             </Heading>
 

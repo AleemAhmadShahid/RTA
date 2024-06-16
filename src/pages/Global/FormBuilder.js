@@ -1,9 +1,16 @@
-import React, { useState } from "react";
-import SurveysCom from "../../../components/SurveysCom";
-import { CenteredContainer } from "../../../styles/TableStyling";
+import React, { useEffect, useState } from "react";
+import SurveysCom from "../../components/FormBuilderHelper";
+import { CenteredContainer } from "../../styles/TableStyling";
 import styled from "styled-components";
-import { TextArea } from "../../CardsPopup";
-const SurvyTopBar = styled.div`
+import { changeHandler } from "../../global/helper";
+import { TextArea } from "../CardsPopup";
+import { useParams } from "react-router-dom";
+import {
+  createGetRequest,
+  createDeleteRequest,
+  createPutRequest,
+} from "../../global/requests";
+export const SurvyTopBar = styled.div`
   width: 100%;
   border: none;
   display: flex;
@@ -33,11 +40,21 @@ const handleSingleLineInput = (event, maxLength) => {
 };
 
 
-const Surveys = () => {
-  const [isRead, setRead] = useState(true);
+const FormBuilder = ({isRead}) => {
+  const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({});
+  const {type,id} = useParams();
+
+  const handleChange = (
+    field,
+    value,
+    setError = false,
+    data = { ...formData }
+  ) => {
+    changeHandler(setFormData, setErrors, errors, data, field, value,setError);
+  };
 
   const toggleReadState = () => {
-    setRead((prevIsRead) => !prevIsRead);
   };
   const [text, setText] = useState("RTA Survey Questions");
   const [isEditable, setIsEditable] = useState(false);
@@ -53,17 +70,25 @@ const Surveys = () => {
     setIsEditable(false);
   };
 
-  const [surveyTitle, setSurveyTitle] = useState("");
-  const [surveyDescription, setSurveyDescription] = useState("");
 
-  const handleSurveyTitleChange = (event) => {
-    setSurveyTitle(event.target.value, 50);
-  };
-
-  const handleSurveyDescriptionChange = (event) => {
-    setSurveyDescription(event.target.value, 100);
-  };
- 
+  useEffect(() => {
+    if(id)
+    {
+      const fetchData = async () => {
+        try {
+          const data = await createGetRequest(`/api/form/${id}`);
+          if (data.status==200)
+            setFormData(data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+  
+      };
+      fetchData();
+    }
+    else
+      setFormData({...formData, type: type})
+  },[])
   return (
     <div>
       <CenteredContainer>
@@ -72,8 +97,8 @@ const Surveys = () => {
             style={{ display: "flex", flexDirection: "column", width: "100%" }}
           >
             <textarea
-              value={surveyTitle}
-              onChange={handleSurveyTitleChange}
+              value={formData.name}
+              onChange={(e) => handleChange("name", e.target.value)}
               onFocus={handleFocus}
               onBlur={handleBlur}
               onInput={(e) => handleSingleLineInput(e, 50)}
@@ -92,13 +117,13 @@ const Surveys = () => {
                 overflow: "hidden",
                 whiteSpace: "nowrap",
               }}
-              placeholder={isRead ? "" : "Enter Survey title..."}
+              placeholder={isRead ? "" : "Enter Title..."}
               readOnly={isRead}
             />
 
             <textarea
-              value={surveyDescription}
-              onChange={handleSurveyDescriptionChange}
+              value={formData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
               onFocus={handleFocus}
               onBlur={handleBlur}
               onInput={(e) => handleSingleLineInput(e, 140)}
@@ -121,9 +146,9 @@ const Surveys = () => {
         </SurvyTopBar>
         <button onClick={toggleReadState}>Toggle Read</button>
       </CenteredContainer>
-      <SurveysCom isRead={isRead} />
+      <SurveysCom isRead={isRead} handleChange={handleChange} formData={formData}/>
     </div>
   );
 };
 
-export default Surveys;
+export default FormBuilder;

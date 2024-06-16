@@ -11,6 +11,7 @@ import Role_list from "./pages/IAM/Roles/RoleMainPage";
 import Team_list from "./pages/IAM/Teams/TeamMainPage";
 import TeamView from "./pages/IAM/TeamView/TeamViewMainPage";
 import Announcement_list from "./pages/IAM/Announcement/AnnouncementMainPage";
+import Survey_list from"./pages/IAM/Surveys/SurveyMainPage";
 import Attendance_list from "./pages/AM/Attedance/AttendanceMainPage";
 import Shift_list from "./pages/AM/Shift/ShiftMainPage";
 import Holiday_list from "./pages/AM/Holiday/HolidayMainPage";
@@ -20,6 +21,7 @@ import JobPost_list from "./pages/ATS/JobPost/JobPostMainPage";
 import Candidate_list from "./pages/ATS/Candidate/CandidateMainPage";
 import Interview_list from "./pages/ATS/Interview/InterviewMainPage";
 import Offer_list from "./pages/ATS/Offer/OfferMainPage";
+import FormBuilder from "./pages/Global/FormBuilder"
 import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom"; 
 import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";
@@ -34,7 +36,6 @@ import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";
 import Board from "./pages/PM/Board";
 import Calendar from "./pages/PM/Calendar";
-import Surveys from"./pages/IAM/Surveys/SurveysMainPage";
 import SelfService from "./components/EmpProfileMainPage";
 import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
 function App() {
@@ -94,15 +95,16 @@ function App() {
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />
                 <Route path="settings" element={<EmpSetting />} /> 
-                <Route path="surveys" element={<Surveys/>} />          
+                <Route path="surveys" element={<Survey_list/>} />          
                 <Route path="team/:teamId" element={<TeamView id={2} />} />
                 <Route path="department/:teamId" element={<TeamView id={1} />} />
                 <Route path="announcement" element={<Announcement_list />} />
+                <Route path="form/:type/:id?" element={<FormBuilder isRead={false} />} />
                 <Route path="settings" element={<EmpSetting />} />           
               </Route>
 
               <Route path="projectmanagement" element={<Sidebar SidebarData={IAMSidebarData} heading={"Project Management"} />}>
-               <Route path="board" element={<Board />} />  
+                <Route path="board" element={<Board />} />  
                 {/* <Route path="board" element={<Calendar />} /> */}
               </Route>
 
@@ -125,6 +127,8 @@ function App() {
                 <Route path="offer" element={<Offer_list />} />
               
               </Route>
+
+              
             </>
           ) : (
             <Route path="*" element={<NavigateToLogin />} />
