@@ -616,7 +616,7 @@ const Emp_list = () => {
         />
       )}
       {
-        <EmpDashBoard employee={employees}/>
+        // <EmpDashBoard employee={employees}/>
 
       }
       

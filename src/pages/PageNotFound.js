@@ -39,7 +39,7 @@ const Button = styled.button`
 
 const Image = styled.img`
   margin-top: 20px;
-  width: 700px; /* Adjust the width as per your requirement */
+  width: 600px; /* Adjust the width as per your requirement */
   height: auto; /* Maintain the aspect ratio */
 `;
 
@@ -58,7 +58,7 @@ const NotFoundPage = ({message, description}) => {
         <SubText>{description}</SubText>
         <ContentWrapper>
           <Button>Back to home</Button>
-          <Image src="/Notfound.png" alt="Image" />
+          <Image src="/PageNotFound.png" alt="Image" />
         </ContentWrapper>
       </CenterContent>
     </Container>

@@ -43,8 +43,8 @@ export const LeftPanel = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 450px !important;
-  height: 450px !important;
+  width: 500px !important;
+  height: 500px !important;
   object-fit: contain;
   display: block;
   margin: auto; 
@@ -133,7 +133,7 @@ const ForgotPassword = () => {
     <Container>
       <RTAHeader>RTA</RTAHeader>
       <LeftPanel>
-        <Image src="/Forgetpass.jpg" alt="Forget Password" />
+        <Image src="/ForgetPassword.png" alt="Forget Password" />
       </LeftPanel>
       <RightPanel>
         <Box>

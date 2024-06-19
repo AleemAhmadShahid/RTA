@@ -100,7 +100,7 @@ const DropdownButton = styled.button`
   border-radius: 5px;
   padding: 13px 16px;
   cursor: pointer;
-  border-radius: 90%;
+  border-radius: 30%;
   transition: background-color 0.3s ease;
   svg {
     font-size: 20px;

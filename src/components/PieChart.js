@@ -5,21 +5,22 @@ import { PieChart, Pie, Cell, Tooltip, Label } from "recharts";
 import { validateNumeric } from "../global/validators";
 
 const CardContainer = styled.div`
+
   background-color: var(--secondary-color);
   display: flex;
   align-items: center;
   border-radius: 5px;
   padding: 20px;
-  justify-content: space-between;
-  
-  // margin-top: 10px;
+  justify-content: space-between; /* This will space the items apart */
   margin-bottom: 10px;
+
   @media (max-width: 768px) {
     padding: 12px;
   }
 `;
 
 const CardInfo = styled.div`
+// background:black;
 //  flex:2;
 //  padding-right: 20px; 
   .info-title {
@@ -44,9 +45,10 @@ const CardInfo = styled.div`
 `;
 
 const CardChart = styled.div`
-
+// background:black;
   width: 100px;
   height: 100px;
+  
   
 `;
 
@@ -74,11 +76,11 @@ const AreaCard = ({ colors, percentFillValue, cardInfo }) => {
       </CardInfo>
      
       <CardChart >
-        <PieChart width={200} height={120}>
+        <PieChart width={120} height={120}>
           <Pie
             data={data}
-            cx={70}
-            cy={50}
+            cx={45}
+            cy={45}
             innerRadius={37}
             fill="black"
             paddingAngle={0}
