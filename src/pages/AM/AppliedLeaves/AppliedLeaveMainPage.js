@@ -88,8 +88,7 @@ const AppliedLeaves_list = () => {
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/leave/applyLeave/1/", params);
-        console.log(data);
+        const data = await createGetRequest("/api/leave/applyLeave/", params);
         if (data.status === 404 || data.status === 400) {
           setAppliedLeaves([]);
           setLoading(false);
@@ -288,7 +287,7 @@ const AppliedLeaves_list = () => {
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Assign Leaves</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Apply Leaves</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -366,7 +365,7 @@ const AppliedLeaves_list = () => {
                   
               
                         {selectedCheck.includes("User") && (
-                          <Td>{appliedLeaves.employee}</Td>
+                          <EmployeeInfo isSpaceRequired={true} employee={appliedLeaves?.employeeDetail }/>
                         )}
 
                         {selectedCheck.includes("Start Date") && (
@@ -402,7 +401,7 @@ const AppliedLeaves_list = () => {
                         )}
 
                         {selectedCheck.includes("Leave Type") && (
-                          <Td>{appliedLeaves.leaveType}</Td>
+                          <Td>{appliedLeaves?.leaveTypeDetail?.name}</Td>
                         )}
                        
                         {selectedCheck.includes("Status") && (

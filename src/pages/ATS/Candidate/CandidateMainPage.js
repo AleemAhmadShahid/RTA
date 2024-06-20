@@ -199,7 +199,7 @@ const Candidate_list = () => {
       <CenteredContainer>
         <div>
           <CardsContainer>
-            <InfoBox
+            {/* <InfoBox
               icon={BiUser}
               iconColor="#512da8"
               data={infoBoxData.totalUsers}
@@ -223,7 +223,7 @@ const Candidate_list = () => {
               iconColor="#ffa500"
               data={infoBoxData.pendingInvites}
               text="Pending Invites"
-            />
+            /> */}
           </CardsContainer>
 
           <FilterContainer>
@@ -240,7 +240,7 @@ const Candidate_list = () => {
                 options={jobPostOptions}
                 onValueChange={(selectedOption) => setJobPost(selectedOption)}
                 selectedValue={jobPost}
-                title="JobPost"
+                title="Job Post"
               />
             </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
@@ -495,7 +495,7 @@ const Candidate_list = () => {
                         
                         {selectedCheck.includes("Job Post") && (
                           <Td>
-                            {candidate.jobPost}
+                            {candidate?.jobPostDetail?.postingTitle}
                           </Td>
                         )}
 

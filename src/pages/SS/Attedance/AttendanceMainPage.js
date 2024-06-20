@@ -386,7 +386,7 @@ const Attendance_list = () => {
                         </Td>
                   
                         {selectedCheck.includes("User") && (
-                          <EmployeeInfo isSpaceRequired={true} employee={attendance?.employeeDetail }/>
+                          <EmployeeInfo isSpaceRequired={true} employee={attendance?.employee }/>
                         )}
 
                         {selectedCheck.includes("Clock In") && (

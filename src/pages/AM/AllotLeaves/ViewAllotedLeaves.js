@@ -11,50 +11,33 @@ const ViewAllotedLeaves = ({ allotedLeaves}) => {
   return (
     <FormStep active>
       <FormGroup>
-        <FormLabel>Name</FormLabel>
-        <H6 style={{ width: "300px" }}>{allotedLeaves.name}</H6>
+        <FormLabel>Employee</FormLabel>
+        <H6 style={{ width: "300px" }}>{allotedLeaves.employee}</H6>
       </FormGroup>
      
        
-      {allotedLeaves.startTime && (
+      {allotedLeaves.duration && (
         <FormGroup>
-          <FormLabel>Start Time</FormLabel>
+          <FormLabel>Duration</FormLabel>
           <div style={{ maxWidth: "320px" }}>
             <H6 style={{ width: "300px" }}>
-              {new Date(allotedLeaves?.startTime).toLocaleString("en-GB", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit"
-              })}
+              {allotedLeaves.duration}
             </H6>
           </div>
         </FormGroup>
       )}
 
-      {allotedLeaves.endTime && (
+      {allotedLeaves.renewAt && (
         <FormGroup>
-          <FormLabel>End Time</FormLabel>
+          <FormLabel>Renew At</FormLabel>
           <div style={{ maxWidth: "320px" }}>
             <H6 style={{ width: "300px" }}>
-              {new Date(allotedLeaves?.endTime).toLocaleString("en-GB", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit"
-              })}
+              {allotedLeaves.renewAt }
             </H6>
           </div>
         </FormGroup>
       )}
 
-      {(
-        <FormGroup>
-          <FormLabel>Break Duration</FormLabel>
-          <div style={{ maxWidth: "320px" }}>
-            <H6>{allotedLeaves.breakDuration} minute(s)</H6>
-          </div>
-        </FormGroup>
-      )}
-      
     </FormStep>
   );
 };

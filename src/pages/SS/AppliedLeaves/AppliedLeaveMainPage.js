@@ -46,13 +46,8 @@ import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
-import {
-  FormGroup, FormInput, FormLabel
-} from "../../../styles/MultiStepFormStyling";
 
-
-
-const Attendance_list = () => {
+const AppliedLeaves_list = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -65,8 +60,8 @@ const Attendance_list = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedAttendance, setCheckedAttendance] = useState([]);
-  const [attendances, setAttendance] = useState([]);
+  const [checkedAppliedLeaves, setCheckedAppliedLeaves] = useState([]);
+  const [appliedLeaves, setAppliedLeaves] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -81,40 +76,25 @@ const Attendance_list = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" });
-  const [employeeOptions, setEmployeeOptions] = useState({
-    value: {},
-    label: "Select",
-  });
-  const statusOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
-  
-  const [employee, setEmployee] = useState({ value: {}, label: "Select" });
-
-
   useEffect(() => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    //if (typeof attendances.value !== "object") params.attendances = attendances.value;
-    if (typeof employee.value !== "object") params.employee = employee.value;
+    if (typeof appliedLeaves.value !== "object") params.appliedLeaves = appliedLeaves.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/attendance", params);
+        const data = await createGetRequest("/api/leave/ess/getMyLeaves/", params);
         if (data.status === 404 || data.status === 400) {
-          setAttendance([]);
+          setAppliedLeaves([]);
           setLoading(false);
           return;
         }
-        setAttendance(data.attendances);
+        setAppliedLeaves(data.leaves);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -122,24 +102,12 @@ const Attendance_list = () => {
         console.error("Error fetching data:", error);
       }
 
-
-      try {
-        const data = await createGetRequest("/api/user");
-        if (data.status === 404 || data.status === 400) {
-          setEmployeeOptions([]);
-          return;
-        }
-        setEmployeeOptions(data.users.map((user) => ({ label: user.name, value: user._id })));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, reload, navigate, employee]);
+  }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (attendance) => {
-    setFormData(attendance);
+  const handleEditClick = (appliedLeaves) => {
+    setFormData(appliedLeaves);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -151,15 +119,19 @@ const Attendance_list = () => {
 
   const [selectedCheck, setSelectedCheck] = useState([
     "User",
-    "Clock In",
-    "Clock Out",
-    "Actions",
+    "Start Date",
+    "End Date",
+    "Leave Type",
+    "Status",
+    "Actions"
   ]);
   const CheckOptions = [
     "User",
-    "Clock In",
-    "Clock Out",
-    "Actions",
+    "Start Date",
+    "End Date",
+    "Leave Type",
+    "Status",
+    "Actions"
   ];
 
   const [Export, setExport] = useState({
@@ -167,11 +139,19 @@ const Attendance_list = () => {
     icon: <FaPrint />,
   });
 
+  const deleteAppliedLeaves = async (id) => {
+    const response = await createDeleteRequest(`/api/appliedLeaves/${id}/`);
+    if (response.status === 200) {
+      setReload(!reload);
+      toast.success("AppliedLeaves deleted Successfully!");
+    }
+  };
+
   const takeBulkAction = async () => {
     let path = "";
-    const data = {attendances: checkedAttendance};
-    if (checkedAttendance.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/attendance/bulkDelete/";
+    const data = {appliedLeaves: checkedAppliedLeaves};
+    if (checkedAppliedLeaves.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/appliedLeaves/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
@@ -197,43 +177,32 @@ const Attendance_list = () => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalAttendances || 0}
-              text="Total Attendances"
+              data={infoBoxData?.totalAppliedLeaves || 0}
+              text="Total Applied Leaves"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantAttendances || 0}
-              text="Vacant Attendances"
+              data={infoBoxData?.vacantAppliedLeaves || 0}
+              text="Vacant Applied Leaves"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedAttendances || 0}
-              text="Closed Attendances"
+              data={infoBoxData?.closedAppliedLeaves || 0}
+              text="Closed Applied Leaves"
             />
            
           </CardsContainer> }
 
           <FilterContainer>
 
-          
-            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
-            <FilterOuterBox>
-              <FilterBox
-                options={employeeOptions}
-                onValueChange={(selectedOption) => setEmployee(selectedOption)}
-                selectedValue={employee}
-                title="Employee"
-              />
-            </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
               Bulk Actions
             </h6>
             <FilterOuterBox>
-
               <FilterBox
                 options={bulkOptions}
                 onValueChange={(selectedOption) =>
@@ -242,13 +211,6 @@ const Attendance_list = () => {
                 selectedValue={bulkOption}
                 title=""
               />
-              <AddEmployeeButton
-                style={{ marginBottom: "0px" }}
-                className="btn btn-primary mb-2"
-                onClick={takeBulkAction}
-              >
-                <span style={{ whiteSpace: "nowrap" }}>Apply</span>
-              </AddEmployeeButton>
             </FilterOuterBox>
           </FilterContainer>
 
@@ -321,6 +283,12 @@ const Attendance_list = () => {
                   }))}
                   styles={dropDownStyle}
                 />
+                {/* <AddEmployeeButton
+                  onClick={() => { setIsViewMode(false); toggleForm();}}
+                  className="btn btn-primary mb-2"
+                >
+                  <span style={{ whiteSpace: "nowrap" }}>Assign Leaves</span>
+                </AddEmployeeButton> */}
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             <TableContainer>
@@ -332,23 +300,33 @@ const Attendance_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedAttendance(
-                              attendances.map((attendance) => attendance._id)
+                            setCheckedAppliedLeaves(
+                              appliedLeaves.map((appliedLeaves) => appliedLeaves._id)
                             );
-                          else setCheckedAttendance([]);
+                          else setCheckedAppliedLeaves([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("User") && (
-                      <Th>USER</Th>
-                    )}
 
-                    {selectedCheck.includes("Clock In") && <Th>CLOCK IN</Th>}
+                    {selectedCheck.includes("User") && <Th>USER</Th>}
+
+                    {selectedCheck.includes("Start Date") && (
+                      <Th>START DATE</Th>
+                    )}
 
                    
-                    {selectedCheck.includes("Clock Out") && (
-                      <Th>Clock Out</Th>
+                    {selectedCheck.includes("End Date") && (
+                      <Th>END DATE</Th>
                     )}
+
+                    {selectedCheck.includes("Leave Type") && (
+                      <Th>LEAVE TYPE</Th>
+                    )}
+
+                    {selectedCheck.includes("Status") && (
+                      <Th>Status</Th>
+                    )}
+
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
                 </thead>
@@ -360,70 +338,77 @@ const Attendance_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    attendances &&
-                    attendances.map((attendance) => (
-                      <Tr key={attendance._id}>
+                    appliedLeaves &&
+                    appliedLeaves.map((appliedLeaves) => (
+                      <Tr key={appliedLeaves._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedAttendance.includes(attendance._id)}
+                            checked={checkedAppliedLeaves.includes(appliedLeaves._id)}
                             onChange={() => {
-                              if (!checkedAttendance.includes(attendance._id))
-                                setCheckedAttendance([
-                                  ...checkedAttendance,
-                                  attendance._id,
+                              if (!checkedAppliedLeaves.includes(appliedLeaves._id))
+                                setCheckedAppliedLeaves([
+                                  ...checkedAppliedLeaves,
+                                  appliedLeaves._id,
                                 ]);
                               else
-                                setCheckedAttendance(
-                                  checkedAttendance.filter(
-                                    (checkedAttendance) =>
-                                      checkedAttendance !== attendance._id
+                                setCheckedAppliedLeaves(
+                                  checkedAppliedLeaves.filter(
+                                    (checkedAppliedLeaves) =>
+                                      checkedAppliedLeaves !== appliedLeaves._id
                                   )
                                 );
                             }}
                           />
                         </Td>
                   
+              
                         {selectedCheck.includes("User") && (
-                          <EmployeeInfo isSpaceRequired={true} employee={attendance?.employeeDetail }/>
+                          <EmployeeInfo isSpaceRequired={true} employee={appliedLeaves?.employeeDetail }/>
                         )}
 
-                        {selectedCheck.includes("Clock In") && (
-                          
+                        {selectedCheck.includes("Start Date") && (
                           <Td>
-                          {(attendance?.clockIn?.date  &&
-                              new Date(attendance?.clockIn?.date).toLocaleString(
+                            {(appliedLeaves?.startDate  &&
+                              new Date(appliedLeaves?.startDate ).toLocaleString(
                                 "en-GB",
                                 {
                                   day: "2-digit",
                                   month: "short",
-                                  year: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit"
-                                  
+                                  year: "2-digit"
                                 }
                               )) ||
-                            ""}
-                        </Td>
+                              "-"
+                            }
+                          </Td>
+                        )}
+
+                        {selectedCheck.includes("End Date") && (
+                          <Td>
+                            {(appliedLeaves?.endDate  &&
+                              new Date(appliedLeaves?.endDate ).toLocaleString(
+                                "en-GB",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "2-digit"
+                                }
+                              )) ||
+                              "-"
+                            }
+                          </Td>
+                        )}
+
+                        {selectedCheck.includes("Leave Type") && (
+                          <Td>{appliedLeaves?.leaveTypeDetail?.name}</Td>
                         )}
                        
-                        {selectedCheck.includes("Clock Out") && (
+                        {selectedCheck.includes("Status") && (
                           <Td>
-                            {(attendance?.clockOut?.date  &&
-                              new Date(attendance?.clockOut?.date).toLocaleString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit"
-                                }
-                              )) ||
-                            "-"}
+                            { appliedLeaves?.status 
+  
+                            }
                           </Td>
                         )}
                        
@@ -432,21 +417,23 @@ const Attendance_list = () => {
                         {selectedCheck.includes("Actions") && (
                           <Td>
                             
+
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(attendance);
+                              setFormData(appliedLeaves);
                               setIsViewMode(true);
                               toggleForm();
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
 
+                           
                           </Td>
                         )}
                       </Tr>
                     ))
                   )}
-                  {!loading && (!attendances || attendances.length === 0) && (
+                  {!loading && (!appliedLeaves || appliedLeaves.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -455,7 +442,7 @@ const Attendance_list = () => {
               </Table>
             </TableContainer>
 
-            {attendances.length !== 0 && totalPages >= 1 && (
+            {appliedLeaves.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -482,4 +469,4 @@ const Attendance_list = () => {
   );
 };
 
-export default Attendance_list;
+export default AppliedLeaves_list;

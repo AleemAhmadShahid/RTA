@@ -14,7 +14,7 @@ import {
   FormCenteringContainer,
 } from "../../../styles/MultiStepFormStyling";
 import StepOne from "./StepOne";
-import ViewAllotedLeaves from "./ViewAllotedLeaves";
+import ViewAppliedLeaves from "./ViewAppliedLeaves";
 import { changeHandler, saveHandler } from "../../../global/helper";
 
 
@@ -54,7 +54,7 @@ const MultiStepForm = ({
   const isLastStep = step === 1;
 
   const handleSave = async (nextStep = null) => {
-    saveHandler(nextStep, ["employee"],"/api/leave/assignLeave", `/api/leave/assignLeave/${formData._id}/`, "Leaves Assigned Successfully!", "assignedLeave", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
+    saveHandler(nextStep, ["name", "startTime", "endTime"],"/api/assignLeave", `/api/assignLeave/${formData._id}/`, "Leaves Assigned Successfully!", "allotedLeaves", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
   };
   const renderStep = () => {
     switch (step) {
@@ -79,7 +79,7 @@ const MultiStepForm = ({
             <HeaderContainer>
               <Heading>
               {
-                  isViewMode ? "View Assigned Leaves" : (isEditMode ? "Update Assigned Leaves" : "Assign Leaves")
+                  isViewMode ? "View Leave" : (isEditMode ? "Update Assigned Leaves" : "Assign Leaves")
               }
               </Heading>
               <CloseButtonContainer>
@@ -91,7 +91,7 @@ const MultiStepForm = ({
             <InnermodalContainer>             
             {
               isViewMode ? (
-                <ViewAllotedLeaves allotedLeaves={formData}/>
+                <ViewAppliedLeaves appliedLeave={formData}/>
               ) : (
                 <>
                   {renderStep()}

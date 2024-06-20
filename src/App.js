@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import { IAMSidebarData } from "./SideBarData/IAM";
 import { AMSidebarData } from "./SideBarData/AM";
 import { ATSSidebarData } from "./SideBarData/ATS";
+import { SelfServiceSidebarData } from "./SideBarData/SS";
 
 import Topbar from "./components/Topbar";
 import Emp_list from "./pages/IAM/Employees/EmpMainPage";
@@ -17,6 +18,9 @@ import Shift_list from "./pages/AM/Shift/ShiftMainPage";
 import Holiday_list from "./pages/AM/Holiday/HolidayMainPage";
 import AllotedLeaves_list from "./pages/AM/AllotLeaves/AllotLeaveMainPage";
 import AppliedLeaves_list from "./pages/AM/AppliedLeaves/AppliedLeaveMainPage";
+import  SelfServiceAttendance_list from "./pages/SS/Attedance/AttendanceMainPage";
+import SelfServiceAppliedLeaves_list from "./pages/SS/AppliedLeaves/AppliedLeaveMainPage";
+
 import JobPost_list from "./pages/ATS/JobPost/JobPostMainPage";
 import Candidate_list from "./pages/ATS/Candidate/CandidateMainPage";
 import Interview_list from "./pages/ATS/Interview/InterviewMainPage";
@@ -108,8 +112,10 @@ function App() {
                 {/* <Route path="board" element={<Calendar />} /> */}
               </Route>
 
-              <Route path="selfservice" element={<Sidebar SidebarData={IAMSidebarData} heading={"Project Management"} /> }>
-                <Route path="Mainpage" element={<SelfService />} />
+              <Route path="selfservice" element={<Sidebar SidebarData={SelfServiceSidebarData} heading={"Self Service"} /> }>
+                {/* <Route path="Mainpage" element={<SelfService />} /> */}
+                <Route path="attendance" element={<SelfServiceAttendance_list />} />
+                <Route path="leaves" element={<SelfServiceAppliedLeaves_list />} />
               </Route>
               
               <Route path="attedancemanagement" element={<Sidebar   SidebarData={AMSidebarData}  heading={"Attendance Management"}/>}>
