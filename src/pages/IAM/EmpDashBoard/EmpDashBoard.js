@@ -14,6 +14,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { H6 } from "../../../styles/MultiStepFormStyling";
 import EmployeeCard from "../../../components/EmployeeCard";
 import SurveyBarChart from "../../../components/SurveyBarChart";
+import StarRating from "../../../components/StarRating";
 const Chardata = [
   {
     name: "Page A",
@@ -59,36 +60,11 @@ const Chardata = [
   },
 ];
 const Surveydata = [
-  {
-    name: "1 star",
-
-    pv: 24,
-    amt: 2400,
-  },
-  {
-    name: "2 star",
-
-    pv: 13,
-    amt: 2210,
-  },
-  {
-    name: "3 star",
-
-    pv: 98,
-    amt: 2290,
-  },
-  {
-    name: "4 star",
-
-    pv: 39,
-    amt: 2000,
-  },
-  {
-    name: "5 star",
-
-    pv: 48,
-    amt: 2181,
-  },
+  { name: '1 star', pv: 24, amt: 2400, color: '#8884d8' },
+  { name: '2 star', pv: 13, amt: 2210, color: '#82ca9d' },
+  { name: '3 star', pv: 98, amt: 2290, color: '#ffc658' },
+  { name: '4 star', pv: 39, amt: 2000, color: '#ff7300' },
+  { name: '5 star', pv: 48, amt: 2181, color: '#387908' },
 ];
 
 const MiddleColumn = styled.div`
@@ -254,8 +230,22 @@ const EmpDashBoard = (employees) => {
       <DashBoardCompBox style={{ width: "50%" }}>
         <BarChartCom data={Chardata} />
       </DashBoardCompBox>
-      <DashBoardCompBox style={{ width: "50%" }}>
-        <SurveyBarChart data={Surveydata} />
+      <DashBoardCompBox style={{ width: "100%",padding:"20px" }}>
+        <ColumnContainer>
+          <LeftColumn>
+            <h6>1.How would you rate the overall quality of the porduct</h6>
+            <StarRating readOnly />
+          </LeftColumn>
+          <RightColumn>
+            <SurveyBarChart data={Surveydata}  />
+          </RightColumn>
+        </ColumnContainer>
+      </DashBoardCompBox>
+      <DashBoardCompBox style={{}}>
+        {/* <StarRating /> */}
+
+        {/* <h2>Disabled Rating main</h2>
+      <StarRating disabled /> */}
       </DashBoardCompBox>
     </CenteredContainer>
   );
