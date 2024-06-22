@@ -507,15 +507,15 @@ const Offer_list = () => {
                         
 
                         {selectedCheck.includes("Candidate") && (
-                          <Td>{offer.candidate}</Td>
+                          <Td>{offer.candidateDetail.name}</Td>
                         )}
 
                         {selectedCheck.includes("Job Post") && (
-                          <Td>{offer.jobPost}</Td>
+                          <Td>{offer?.jobPostDetail?.postingTitle}</Td>
                         )}
 
                         {selectedCheck.includes("Department") && (
-                          <Td>{offer.department}</Td>
+                          <Td>{offer?.departmentDetail.name}</Td>
                         )}
       
                         {selectedCheck.includes("Expected Joining Date") && (

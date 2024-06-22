@@ -95,7 +95,7 @@ const AllotedLeaves_list = () => {
           setLoading(false);
           return;
         }
-        setAllotedLeaves(data.allotedLeaves);
+        setAllotedLeaves(data.assignedLeaves);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -119,17 +119,15 @@ const AllotedLeaves_list = () => {
   };
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "Name",
-    "Start Time",
-    "End Time",
-    "Break Duration",
+    "User",
+    "Duration",
+    "Renew At",
     "Actions",
   ]);
   const CheckOptions = [
-    "Name",
-    "Start Time",
-    "End Time",
-    "Break Duration",
+    "User",
+    "Duration",
+    "Renew At",
     "Created By",
     "Actions",
   ];
@@ -315,19 +313,15 @@ const AllotedLeaves_list = () => {
                       />
                     </Th>
 
-                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
+                    {selectedCheck.includes("User") && <Th>USER</Th>}
 
-                    {selectedCheck.includes("Start Time") && (
-                      <Th>START TIME</Th>
+                    {selectedCheck.includes("Duration") && (
+                      <Th>DURATION</Th>
                     )}
 
                    
-                    {selectedCheck.includes("End Time") && (
-                      <Th>END TIME</Th>
-                    )}
-
-                    {selectedCheck.includes("Break Duration") && (
-                      <Th>BREAK DURATION</Th>
+                    {selectedCheck.includes("Renew At") && (
+                      <Th>RENEW AT</Th>
                     )}
 
                     {selectedCheck.includes("Created By") && (
@@ -371,45 +365,22 @@ const AllotedLeaves_list = () => {
                         </Td>
                   
               
-                        {selectedCheck.includes("Name") && (
-                          <Td>{allotedLeaves.name}</Td>
+                        {selectedCheck.includes("User") && (
+                          <EmployeeInfo isSpaceRequired={true} employee={allotedLeaves?.employeeDetail }/>
                         )}
 
-                        {selectedCheck.includes("Start Time") && (
+                        {selectedCheck.includes("Duration") && (
                           <Td>
-                            {(allotedLeaves?.startTime  &&
-                              new Date(allotedLeaves?.startTime ).toLocaleString(
-                                "en-GB",
-                                {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit"
-                                }
-                              )) ||
-                              "-"
-                            }
+                            {allotedLeaves.duration}
                           </Td>
                         )}
 
-                        {selectedCheck.includes("End Time") && (
+                        {selectedCheck.includes("Renew At") && (
                           <Td>
-                            {(allotedLeaves?.endTime  &&
-                              new Date(allotedLeaves?.endTime ).toLocaleString(
-                                "en-GB",
-                                {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit"
-                                }
-                              )) ||
-                              "-"
-                            }
+                             {allotedLeaves.renewAt}
                           </Td>
                         )}
 
-                        {selectedCheck.includes("Break Duration") && (
-                          <Td>{allotedLeaves.breakDuration} minute(s)</Td>
-                        )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>

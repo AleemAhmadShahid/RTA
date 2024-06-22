@@ -10,7 +10,7 @@ import * as CgIcons from "react-icons/cg";
 export const IAMSidebarData = [
   {
     title: "Dashboard",
-    path: "/portal/iam/dashboard",
+    //path: "/",
     icon: <BsIcons.BsShieldCheck />,
   },
   {
@@ -123,7 +123,7 @@ export const IAMSidebarData = [
       },
       {
         title: "Add",
-        path: "/portal/iam/form/survey",
+        // path: "/Survrys/Add",
         icon: <BiIcons.BiSolidAddToQueue />,
       },
     ],

@@ -113,8 +113,9 @@ const Interview_list = () => {
       try {
         const data = await createGetRequest("/api/interview", params);
       
-        if (data.status === 400) {
+        if (data.status === 400 || data.status === 404) {
           setInterviews([]);
+          setLoading(false);
           return;
         }
         setInterviews(data.interviews);

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { CenteredContainer, EntriesDropdown } from "../styles/TableStyling";
-
 import styled from "styled-components";
 import { SaveAndNextButton } from "../styles/MultiStepFormStyling";
 import { FaStarOfLife } from "react-icons/fa";
@@ -12,8 +11,11 @@ import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from "react-icons/io";
 import { BsCardText } from "react-icons/bs";
 import { RiCheckboxMultipleLine } from "react-icons/ri";
 import { MdOutlineStarRate } from "react-icons/md";
+import {SurvyTopBar} from "../pages/Global/FormBuilder"
 const BoxContainer = styled.div`
   padding: 10px;
+  margin-left: 20%;
+  margin-right: 20%;
   background-color: white;
   border: 1px solid orange;
   border-radius: 5px;
@@ -72,11 +74,13 @@ const CircleNumber = styled.div`
   cursor: pointer;
 `;
 
-const SurveysCom = ({ isRead }) => {
+const SurveysCom = ({ isRead, formData, handleChange }) => {
   const [Options] = useState([
-    { label: "Text Area", icon: BsCardText },
-    { label: "Check box ", icon: RiCheckboxMultipleLine },
-    { label: "Rating Scale", icon: MdOutlineStarRate },
+    { label: "Single Line", icon: BsCardText, value:  "Single Line" },
+    { label: "Multi Line", icon: BsCardText, value:  "Multi Line" },
+    { label: "Checkboxes", icon: RiCheckboxMultipleLine , value:  "Checkboxes"},
+    { label: "Radio Button Group", icon: RiCheckboxMultipleLine , value:  "Radio Button Group"},
+    { label: "Rating Scale", icon: MdOutlineStarRate, value:  "Rating Scale"},
   ]);
   const [OptionValue, setOptionValue] = useState(null);
 
@@ -127,6 +131,43 @@ const SurveysCom = ({ isRead }) => {
   const [text, setText] = useState("");
   const [isEditable, setIsEditable] = useState(false);
 
+  // const handleChange = (e) => {
+  //   setText(e.target.value);
+  // };
+
+
+  // const handleAddQuestionComponent = () => {
+  //   setComponentsData([
+  //     ...componentsData,
+  //     {
+  //       id: Date.now(),
+  //       text: "Enter your text here...",
+  //       isEditable: false,
+  //       OptionValue: Options[0],
+  //       ratings: [1],
+  //     },
+  //   ]);
+  // };
+
+  
+
+
+  const [ratings, setRatings] = useState([1]);
+
+  const addRating = () => {
+    setRatings([...ratings, ratings.length + 1]);
+  };
+  const removeRating = () => {
+    if (ratings.length > 1) {
+      setRatings(ratings.slice(0, -1));
+    }
+  };
+
+
+
+  const QuestionSet = ({questionSet, index}) => {
+  const [componentsData, setComponentsData] = useState([]);
+  
   const handleFocus = (id) => {
     setComponentsData(
       componentsData.map((component) =>
@@ -145,24 +186,7 @@ const SurveysCom = ({ isRead }) => {
     );
   };
 
-  const handleChange = (e) => {
-    setText(e.target.value);
-  };
-
-  const [componentsData, setComponentsData] = useState([]);
-
-  // const handleAddQuestionComponent = () => {
-  //   setComponentsData([
-  //     ...componentsData,
-  //     {
-  //       id: Date.now(),
-  //       text: "Enter your text here...",
-  //       isEditable: false,
-  //       OptionValue: Options[0],
-  //       ratings: [1],
-  //     },
-  //   ]);
-  // };
+  
   const handleAddQuestionComponent = (id) => {
     setComponentsData([
       ...componentsData,
@@ -181,17 +205,7 @@ const SurveysCom = ({ isRead }) => {
       },
     ]);
   };
-
-  const [ratings, setRatings] = useState([1]);
-
-  const addRating = () => {
-    setRatings([...ratings, ratings.length + 1]);
-  };
-  const removeRating = () => {
-    if (ratings.length > 1) {
-      setRatings(ratings.slice(0, -1));
-    }
-  };
+  
   const handleDeleteComponent = (id) => {
     setComponentsData(
       componentsData.filter((component) => component.id !== id)
@@ -205,23 +219,21 @@ const SurveysCom = ({ isRead }) => {
       )
     );
   };
-
-  const QuestionBoxComponent = (component, id) => (
+  
+  const QuestionBoxComponent = (question, index, questionSetIndex) => (
     <>
-      <BoxContainer key={id}>
+      <BoxContainer key={index}>
         <Box>
           <div>
-            {OptionValue && OptionValue.label === "Text Area" ? (
-              <div>
                 <textarea
-                  value={component.text}
-                  onFocus={() => handleFocus(component.id)}
-                  onBlur={() => handleBlur(component.id)}
+                  value={question.question}
+                  // onFocus={() => handleFocus(component.id)}
+                  // onBlur={() => handleBlur(component.id)}
                   onChange={(e) =>
-                    handleComponentChange(component.id, e.target.value)
+                    handleChange(`questionSets.${questionSetIndex}.questions.${index}.question`, e.target.value)
                   }
                   style={{
-                    color: isEditable ? "black" : "grey",
+                    color: isRead ? "black" : "grey",
                     width: "100%",
                     height: "24px",
                     fontSize: "16px",
@@ -231,9 +243,21 @@ const SurveysCom = ({ isRead }) => {
                     userSelect: isRead ? "none" : "auto",
                     background: isRead ? "transparent" : "transparent",
                   }}
-                  placeholder={isEditable ? "" : "Enter here..."}
+                  placeholder={isRead ? "" : "Enter here..."}
                   readOnly={isRead}
                 />
+            {question.type && question.type === "Single Line" ? (
+              <div>
+                <TextArea
+                  rows={1}
+                  placeholder="Enter description"
+                  style={{ width: "100%" , resize: "none",overflow: "hidden", whiteSpace: "nowrap" }}
+                  readOnly={!isRead}
+                  wrap="off"
+                />
+              </div>
+            ): question.type === "Multi Line" ? (
+              <div>
                 <TextArea
                   rows={4}
                   placeholder="Enter description"
@@ -241,28 +265,8 @@ const SurveysCom = ({ isRead }) => {
                   readOnly={!isRead}
                 />
               </div>
-            ) : OptionValue && OptionValue.label === "Rating Scale" ? (
+            ) : question.type === "Rating Scale" ? (
               <div>
-                <textarea
-                  type="text"
-                  value={component.text}
-                  onFocus={() => handleFocus(component.id)}
-                  onBlur={() => handleBlur(component.id)}
-                  onChange={(e) =>
-                    handleComponentChange(component.id, e.target.value)
-                  }
-                  style={{
-                    color: isEditable ? "black" : "grey",
-                    width: "100%",
-                    fontSize: "16px",
-                    border: "none",
-                    pointerEvents: isRead ? "none" : "auto",
-                    userSelect: isRead ? "none" : "auto",
-                    background: isRead ? "transparent" : "transparent",
-                  }}
-                  placeholder={isEditable ? "" : "Enter Question here..."}
-                  readOnly={isRead}
-                />
                 <div style={{ display: "flex", alignItems: "center" }}>
                   {!isRead && (
                     <>
@@ -286,7 +290,7 @@ const SurveysCom = ({ isRead }) => {
                     </>
                   )}
 
-                  {ratings.map((rating) => (
+                  {question.ratings.map((rating) => (
                     <CircleNumber
                       key={rating}
                       onClick={() => (isRead ? alert("Button clicked") : null)}
@@ -300,30 +304,8 @@ const SurveysCom = ({ isRead }) => {
               </div>
             ) : (
               <>
-                <textarea
-                  value={component.text}
-                  onFocus={() => handleFocus(component.id)}
-                  onBlur={() => handleBlur(component.id)}
-                  onChange={(e) =>
-                    handleComponentChange(component.id, e.target.value)
-                  }
-                  style={{
-                    color: isEditable ? "black" : "grey",
-                    width: "100%",
-                    height: "24px",
-                    fontSize: "16px",
-                    resize: "none",
-                    border: "none",
-                    pointerEvents: isRead ? "none" : "auto",
-                    userSelect: isRead ? "none" : "auto",
-                    background: isRead ? "transparent" : "transparent",
-                  }}
-                  placeholder={isEditable ? "" : "Enter Question here..."}
-                  readOnly={isRead}
-                />
-                {items.map((item) => (
+                {question.options.map((item, itemIndex) => (
                   <div
-                    key={item.id}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -332,7 +314,7 @@ const SurveysCom = ({ isRead }) => {
                   >
                     {!isRead && (
                       <IoMdRemoveCircleOutline
-                        onClick={() => handleRemoveClick(item.id)}
+                        onClick={() => handleChange(`questionSets.${questionSetIndex}.questions.${index}.options`, question.options.filter((item,i) => i!=index ))}
                         style={{
                           marginLeft: "8px",
                           cursor: "pointer",
@@ -345,11 +327,10 @@ const SurveysCom = ({ isRead }) => {
                       
                       <input
                         type="checkbox"
-                        name={`checkbox-${item.value}`}
+                        name={`${item}`}
                         checked={
-                          checkedItems[`checkbox-${item.value}`] || false
+                          question.selectedOptions[`${item}`] || false
                         }
-                        onChange={handleCheckboxChange}
                         style={{ marginRight: "8px" }}
                       />
                       
@@ -357,9 +338,9 @@ const SurveysCom = ({ isRead }) => {
 
                     <input
                       type="text"
-                      value={item.label}
+                      value={item}
                       onChange={(e) =>
-                        handleItemLabelChange(item.id, e.target.value)
+                        handleChange(`questionSets.${questionSetIndex}.questions.${index}.options.${itemIndex}`, e.target.value)
                       }
                       readOnly={isRead}
                       style={{
@@ -384,7 +365,7 @@ const SurveysCom = ({ isRead }) => {
                     }}
                   >
                     <IoMdAddCircleOutline
-                      onClick={handleAddClick}
+                      onClick={() => handleChange(`questionSets.${questionSetIndex}.questions.${index}.options.${question.options.length}`, `Item ${question.options.length+1}`)}
                       style={{
                         fontSize: "16px",
                         cursor: "pointer",
@@ -416,10 +397,22 @@ const SurveysCom = ({ isRead }) => {
               }}
             >
               <EntriesDropdown
-                value={component.OptionValue}
-                onChange={handleOptionChange}
+                value={Options.filter((option) => option.value == question.type).map((option) => ({
+                  value: option.value,
+                  label: (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {option.icon && <option.icon />}
+                      <span style={{ marginLeft: "8px" }}>{option.label}</span>
+                    </div>
+                  ),
+                  icon: option.icon,
+                }))[0] }
+
+                onChange={(option) =>
+                  handleChange(`questionSets.${questionSetIndex}.questions.${index}.type`, option.value)
+                }
                 options={Options.map((option) => ({
-                  value: option.label,
+                  value: option.value,
                   label: (
                     <div style={{ display: "flex", alignItems: "center" }}>
                       {option.icon && <option.icon />}
@@ -432,19 +425,19 @@ const SurveysCom = ({ isRead }) => {
               />
 
               <div style={{ display: "flex" }}>
-                <AddButton>
+                <AddButton onClick={() => handleChange(`questionSets.${questionSetIndex}.questions.${index}.required`,!question.required)}>
                   <Icon style={{ color: "orange", fontSize: "18px" }}>
                     <FaStarOfLife />
                   </Icon>
                   Required
                 </AddButton>
-                <AddButton>
+                <AddButton onClick={() => handleChange(`questionSets.${questionSetIndex}.questions`, [...questionSet.questions, {...question}])}>
                   <Icon style={{ color: "orange", fontSize: "18px" }}>
                     <HiOutlineDuplicate />
                   </Icon>
                   Duplicate
                 </AddButton>
-                <AddButton onClick={() => handleDeleteComponent(component.id)}>
+                <AddButton onClick={() => handleChange(`questionSets.${questionSetIndex}.questions`, questionSet.questions.filter((question, i) => (i != index)))}>
                   <Icon style={{ color: "orange", fontSize: "18px" }}>
                     <RiDeleteBinLine />
                   </Icon>
@@ -459,22 +452,63 @@ const SurveysCom = ({ isRead }) => {
   );
 
   return (
-    <CenteredContainer>
-      {componentsData.map((component, index) =>
-        QuestionBoxComponent(component, index)
-      )}
-      {isRead && (
+    <>
+    <BoxContainer>   
+      <SurvyTopBar>
         <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "20px",
-          }}
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          <SaveAndNextButton>Submit</SaveAndNextButton>
-        </div>
+        <textarea
+          value={questionSet.text}
+          onChange={(e) =>
+            handleChange(`questionSets.${index}.text`, e.target.value)
+          }
+          style={{
+            height: "40px",
+            fontSize: "26px",
+            color: "#50C878",
+            fontWeight: "bold",
+            resize: "none",
+            border: "none",
+            pointerEvents: isRead ? "auto" : "auto",
+            userSelect: isRead ? "auto" : "none",
+            background: "transparent",
+            outline: "none",
+            marginTop: "20px",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+          placeholder={isRead ? "" : "Enter Survey title..."}
+          readOnly={isRead}
+        />
+
+        <textarea
+          value={questionSet.description}
+          onChange={(e) =>
+            handleChange(`questionSets.${index}.description`, e.target.value)
+          }
+          style={{
+            fontSize: "16px",
+            resize: "none",
+            border: "none",
+            pointerEvents: isRead ? "auto" : "auto",
+            userSelect: isRead ? "auto" : "none",
+            background: "transparent",
+            outline: "none",
+            marginTop: "0px",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+          placeholder={isRead ? "" : "Enter Description..."}
+          readOnly={isRead}
+        />
+      </div>
+    </SurvyTopBar>
+   </BoxContainer>
+      {questionSet?.questions.map((question, questionIndex) =>
+        QuestionBoxComponent(question, questionIndex, index )
       )}
-      <BoxContainer style={{ border: "none" }}>
+     {!isRead && (<BoxContainer style={{ border: "none" }}>
         <Box
           style={{
             display: "flex",
@@ -482,14 +516,68 @@ const SurveysCom = ({ isRead }) => {
             alignItems: "center",
           }}
         >
-          <h4
+         <h4
             style={{ color: "#50C878", fontWeight: "bold", cursor: "pointer" }}
-            onClick={handleAddQuestionComponent}
+            onClick={() => handleChange(`questionSets.${index}.questions.${questionSet.questions.length}`,
+              {
+                id: Date.now(),
+                name: "Enter your text here...",
+                required: false,
+                isEditable: false,
+                type: Options[0].value,
+                ratings: [1],
+                options: [
+                  "Item 1", "Item 2", "Item 3"
+                ]
+              },
+            )}
+          
           >
             Add Question
           </h4>
         </Box>
-      </BoxContainer>
+    </BoxContainer>
+    )
+    }
+    </>
+  );
+  }
+  return (
+    <CenteredContainer>
+
+      {
+        formData?.questionSets?.map((questionSet, index) =>   <QuestionSet questionSet={questionSet} index={index} key={"QuestionSet"+index}/>)
+      }
+
+      {
+        !isRead &&
+        <BoxContainer style={{ border: "none" }}>
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <h4
+              style={{ color: "#50C878", fontWeight: "bold", cursor: "pointer" }}
+              onClick={() => handleChange(`questionSets.${formData?.questionSets?.length || "0"}`, {questions: []})}
+            >
+              Add Question Set
+            </h4>
+          </Box>
+        </BoxContainer>
+      }
+    
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginBottom: "20px",
+        }}
+      >
+        <SaveAndNextButton>{isRead ? "Save": "Submit"}</SaveAndNextButton>
+      </div>     
     </CenteredContainer>
   );
 };

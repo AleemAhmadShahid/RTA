@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Column from "../../components/Column";
 import AddColumn from "../../components/AddColumn";
 import { CenteredContainer } from "../../styles/TableStyling";
+import {
+  createGetRequest,
+} from "../../global/requests";
 
 
 const Container = styled.div`
@@ -19,6 +22,66 @@ function Board(props) {
   
   const initialData = {tasks: {}, columns: {}, columnOrder: []};
   const [state, setState] = useState(initialData);
+
+//   {
+//     "tasks": {
+//         "task-8349": {
+//             "id": "task-8349",
+//             "content": "sw"
+//         }
+//     },
+//     "columns": {
+//         "column-79100": {
+//             "id": "column-79100",
+//             "title": "ws",
+//             "taskIds": [
+//                 "task-8349"
+//             ]
+//         }
+//     },
+//     "columnOrder": [
+//         "column-79100"
+//     ]
+// }
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const data = await createGetRequest("/api/list/663079555e45b8f05e243876/all");
+
+        let allCards = {};
+        let listsObject = {};
+
+        data.lists.forEach(list => {
+            listsObject[list._id] = {
+                id: list._id,
+                title: list.name,
+                taskIds: list.cards.map(card => card._id)
+            };
+        });
+
+        data.lists.forEach(list => {
+            list.cards.forEach(card => {
+                allCards[card._id] = { id: card._id, content: card.title, ...card };
+            });
+        });
+
+        const columnOrder = data.lists.map((list) => list._id);
+
+        setState({
+          columns: listsObject,
+          tasks: allCards,
+          columnOrder,
+        })
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+   
+    };
+    fetchData();
+  }, []);
+
 
   // useEffect(() => {
   //     fetchBoard().then(board => setState(board));
@@ -115,6 +178,7 @@ function Board(props) {
       });
   }
 
+  console.log(state);
   return (
    
    

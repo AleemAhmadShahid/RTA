@@ -340,7 +340,7 @@ const Topbar = () => {
           <MenuIcon onClick={toggleDropdown} />
           <DropdownContainer isOpen={isDropdownOpen}  ref={dropdownRef}>
             <DropdownGrid>
-              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/selfservice/Mainpage');}}>
+              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/selfservice/attendance');}}>
                 <DropdownButton>
                   <AiOutlineHome />
                 </DropdownButton>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MultiStepForm from "./MultiStepForm";
 import LoaderComponent from "../../../components/Loader";
 import {
   createGetRequest,
@@ -46,13 +45,8 @@ import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
-import {
-  FormGroup, FormInput, FormLabel
-} from "../../../styles/MultiStepFormStyling";
 
-
-
-const Attendance_list = () => {
+const Survey_list = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -65,8 +59,8 @@ const Attendance_list = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedAttendance, setCheckedAttendance] = useState([]);
-  const [attendances, setAttendance] = useState([]);
+  const [checkedSurvey, setCheckedSurvey] = useState([]);
+  const [surveys, setSurvey] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -81,40 +75,25 @@ const Attendance_list = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [status, setStatus] = useState({ value: {}, label: "Select" });
-  const [employeeOptions, setEmployeeOptions] = useState({
-    value: {},
-    label: "Select",
-  });
-  const statusOptions = [
-    { value: {}, label: "Select" },
-    { value: 1, label: "Active" },
-    { value: 2, label: "Inactive" },
-  ];
-  
-  const [employee, setEmployee] = useState({ value: {}, label: "Select" });
-
-
   useEffect(() => {
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    //if (typeof attendances.value !== "object") params.attendances = attendances.value;
-    if (typeof employee.value !== "object") params.employee = employee.value;
+    if (typeof surveys.value !== "object") params.surveys = surveys.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/attendance", params);
-        if (data.status === 404 || data.status === 400) {
-          setAttendance([]);
+        const data = await createGetRequest("/api/form", params);
+        if (data.status === 404 || data.status == 400) {
+          setSurvey([]);
           setLoading(false);
           return;
         }
-        setAttendance(data.attendances);
+        setSurvey(data.forms);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -122,24 +101,12 @@ const Attendance_list = () => {
         console.error("Error fetching data:", error);
       }
 
-
-      try {
-        const data = await createGetRequest("/api/user");
-        if (data.status === 404 || data.status === 400) {
-          setEmployeeOptions([]);
-          return;
-        }
-        setEmployeeOptions(data.users.map((user) => ({ label: user.name, value: user._id })));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-
     };
     fetchData();
-  }, [currentPage, entriesToShow, searchTerm, reload, navigate, employee]);
+  }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (attendance) => {
-    setFormData(attendance);
+  const handleEditClick = (survey) => {
+    setFormData(survey);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -150,15 +117,14 @@ const Attendance_list = () => {
   };
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "User",
-    "Clock In",
-    "Clock Out",
+    "Name",
+    "Question Sets",
     "Actions",
   ]);
   const CheckOptions = [
-    "User",
-    "Clock In",
-    "Clock Out",
+    "Name",
+    "Question Sets",
+    "Created By",
     "Actions",
   ];
 
@@ -167,11 +133,19 @@ const Attendance_list = () => {
     icon: <FaPrint />,
   });
 
+  const deleteSurvey = async (id) => {
+    const response = await createDeleteRequest(`/api/form/${id}/`);
+    if (response.status === 200) {
+      setReload(!reload);
+      toast.success("Survey deleted Successfully!");
+    }
+  };
+
   const takeBulkAction = async () => {
     let path = "";
-    const data = {attendances: checkedAttendance};
-    if (checkedAttendance.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/attendance/bulkDelete/";
+    const data = {surveys: checkedSurvey};
+    if (checkedSurvey.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/form/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
@@ -194,46 +168,35 @@ const Attendance_list = () => {
               text="Total Users"
             /> */}
 
-            <InfoBox
+            {/* <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalAttendances || 0}
-              text="Total Attendances"
+              data={infoBoxData?.totalSurveys || 0}
+              text="Total Surveys"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantAttendances || 0}
-              text="Vacant Attendances"
+              data={infoBoxData?.vacantSurveys || 0}
+              text="Vacant Surveys"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedAttendances || 0}
-              text="Closed Attendances"
-            />
+              data={infoBoxData?.closedSurveys || 0}
+              text="Closed Surveys"
+            /> */}
            
           </CardsContainer> }
 
           <FilterContainer>
 
-          
-            <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
-            <FilterOuterBox>
-              <FilterBox
-                options={employeeOptions}
-                onValueChange={(selectedOption) => setEmployee(selectedOption)}
-                selectedValue={employee}
-                title="Employee"
-              />
-            </FilterOuterBox>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
               Bulk Actions
             </h6>
             <FilterOuterBox>
-
               <FilterBox
                 options={bulkOptions}
                 onValueChange={(selectedOption) =>
@@ -321,6 +284,13 @@ const Attendance_list = () => {
                   }))}
                   styles={dropDownStyle}
                 />
+                <AddEmployeeButton
+                  to="#"
+                  onClick={(event) => { event.preventDefault(); navigate('/portal/iam/form/survey')}}
+                  className="btn btn-primary mb-2"
+                >
+                  <span style={{ whiteSpace: "nowrap" }}>Create Survey</span>
+                </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             <TableContainer>
@@ -332,22 +302,24 @@ const Attendance_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedAttendance(
-                              attendances.map((attendance) => attendance._id)
+                            setCheckedSurvey(
+                              surveys.map((survey) => survey._id)
                             );
-                          else setCheckedAttendance([]);
+                          else setCheckedSurvey([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("User") && (
-                      <Th>USER</Th>
+                   
+
+                    {selectedCheck.includes("Name") && <Th>NAME</Th>}
+
+                    {selectedCheck.includes("Question Sets") && (
+                      <Th>QUESTION SETS</Th>
                     )}
 
-                    {selectedCheck.includes("Clock In") && <Th>CLOCK IN</Th>}
-
                    
-                    {selectedCheck.includes("Clock Out") && (
-                      <Th>Clock Out</Th>
+                    {selectedCheck.includes("Created By") && (
+                      <Th>ADDED BY</Th>
                     )}
                     {selectedCheck.includes("Actions") && <Th>ACTION</Th>}
                   </Tr>
@@ -360,70 +332,47 @@ const Attendance_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    attendances &&
-                    attendances.map((attendance) => (
-                      <Tr key={attendance._id}>
+                    surveys &&
+                    surveys.map((survey) => (
+                      <Tr key={survey._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedAttendance.includes(attendance._id)}
+                            checked={checkedSurvey.includes(survey._id)}
                             onChange={() => {
-                              if (!checkedAttendance.includes(attendance._id))
-                                setCheckedAttendance([
-                                  ...checkedAttendance,
-                                  attendance._id,
+                              if (!checkedSurvey.includes(survey._id))
+                                setCheckedSurvey([
+                                  ...checkedSurvey,
+                                  survey._id,
                                 ]);
                               else
-                                setCheckedAttendance(
-                                  checkedAttendance.filter(
-                                    (checkedAttendance) =>
-                                      checkedAttendance !== attendance._id
+                                setCheckedSurvey(
+                                  checkedSurvey.filter(
+                                    (checkedSurvey) =>
+                                      checkedSurvey !== survey._id
                                   )
                                 );
                             }}
                           />
                         </Td>
                   
-                        {selectedCheck.includes("User") && (
-                          <EmployeeInfo isSpaceRequired={true} employee={attendance?.employeeDetail }/>
+                        
+
+                        {selectedCheck.includes("Name") && (
+                          <Td>{survey.name}</Td>
                         )}
 
-                        {selectedCheck.includes("Clock In") && (
-                          
-                          <Td>
-                          {(attendance?.clockIn?.date  &&
-                              new Date(attendance?.clockIn?.date).toLocaleString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit"
-                                  
-                                }
-                              )) ||
-                            ""}
-                        </Td>
+                        {selectedCheck.includes("Question Sets") && (
+                          <Td >{survey.questionSets.length}</Td>
                         )}
                        
-                        {selectedCheck.includes("Clock Out") && (
+                        {selectedCheck.includes("Created By") && (
                           <Td>
-                            {(attendance?.clockOut?.date  &&
-                              new Date(attendance?.clockOut?.date).toLocaleString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  second: "2-digit"
-                                }
-                              )) ||
-                            "-"}
+                            { survey?.createdBy 
+                              &&
+                              <EmployeeInfo isSpaceRequired={true} employee={survey?.createdBy} />
+                            }
                           </Td>
                         )}
                        
@@ -431,22 +380,38 @@ const Attendance_list = () => {
                        
                         {selectedCheck.includes("Actions") && (
                           <Td>
-                            
+                            <IconWrapper>
+                              <MdIcons.MdOutlineModeEditOutline
+                                onClick={() => {
+                                  navigate(`/portal/iam/form/survey/${survey._id}`)
+                                }}
+                                style={{ fontSize: "18px" }}
+                              />
+                            </IconWrapper>
+
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(attendance);
+                              setFormData(survey);
                               setIsViewMode(true);
                               toggleForm();
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
 
+                            <MdIcons.MdDeleteOutline
+                              style={{ fontSize: "18px", cursor: "pointer" }}
+                              onClick={() => {
+                                dispatch(setErrorModal({message: "Do you want to delete this survey?", handleYes: () => {
+                                  deleteSurvey(survey._id);
+                                }}));
+                              }}
+                            />
                           </Td>
                         )}
                       </Tr>
                     ))
                   )}
-                  {!loading && (!attendances || attendances.length === 0) && (
+                  {!loading && (!surveys || surveys.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -455,7 +420,7 @@ const Attendance_list = () => {
               </Table>
             </TableContainer>
 
-            {attendances.length !== 0 && totalPages >= 1 && (
+            {surveys.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -465,21 +430,9 @@ const Attendance_list = () => {
           </BoxContainer>
         </div>
       </CenteredContainer>
-      {showForm && (
-        <MultiStepForm
-          showForm={showForm}
-          setShowForm={setShowForm}
-          formData={formData}
-          setFormData={setFormData}
-          reload={reload}
-          setReload={setReload}
-          isEditMode={isEditMode}
-          isViewMode={isViewMode}
-          onEditClick={handleEditClick}
-        />
-      )}
+    
     </>
   );
 };
 
-export default Attendance_list;
+export default Survey_list;

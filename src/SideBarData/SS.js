@@ -7,28 +7,28 @@ import * as BsIcons from "react-icons/bs";
 import * as BiIcons from "react-icons/bi";
 import * as CgIcons from "react-icons/cg";
 
-export const IAMSidebarData = [
+export const SelfServiceSidebarData = [
   {
     title: "Dashboard",
-    path: "/portal/iam/dashboard",
+    //path: "/",
     icon: <BsIcons.BsShieldCheck />,
   },
   {
-    title: "Employees",
+    title: "Attendance",
     icon: <AiIcons.AiOutlineUser />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
     subNav: [
       {
         title: "List",
-        path: "/portal/iam/employee",
+        path: "/portal/selfservice/attendance",
         icon: <BiIcons.BiRadioCircle />,
       }
     ],
 
   },
   {
-    title: "Roles",
+    title: "Leave",
     // path: "/Roles",
     icon: <IoIcons.IoIosPaper />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
@@ -37,13 +37,44 @@ export const IAMSidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/portal/iam/role",
+        path: "/portal/selfservice/leaves",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
   },
   {
-    title: "Teams",
+    title: "Pay Slips",
+    // path: "/Roles",
+    icon: <IoIcons.IoIosPaper />,
+    iconClosed: <RiIcons.RiArrowDropDownLine />,
+    iconOpened: <RiIcons.RiArrowDropUpLine />,
+
+    subNav: [
+      {
+        title: "List",
+        ///path: "/portal/selfservice/reim",
+        icon: <BiIcons.BiRadioCircle />,
+      },
+    ],
+  },
+  {
+    title: "My Evaluation",
+    // path: "/Roles",
+    icon: <IoIcons.IoIosPaper />,
+    iconClosed: <RiIcons.RiArrowDropDownLine />,
+    iconOpened: <RiIcons.RiArrowDropUpLine />,
+
+    subNav: [
+      {
+        title: "List",
+        ///path: "/portal/selfservice/reim",
+        icon: <BiIcons.BiRadioCircle />,
+      },
+    ],
+  },
+  
+  {
+    title: "My Team",
     // path: "/Teams",
     icon: <IoIcons.IoMdPeople />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
@@ -52,96 +83,48 @@ export const IAMSidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/portal/iam/team",
+      //  path: "/portal/attedancemanagement/holiday",
         icon: <BiIcons.BiRadioCircle />,
         cName: "sub-nav",
       },
     ],
   },
   {
-    title: "Departments",
-    // path: "/Departments",
-    icon: <FaIcons.FaEnvelopeOpenText />,
-
+    title: "Approvals",
+    // path: "/Teams",
+    icon: <IoIcons.IoMdPeople />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
     subNav: [
       {
-        title: "List",
-        path: "/portal/iam/department",
+        title: "Leave",
+      //  path: "/portal/attedancemanagement/holiday",
         icon: <BiIcons.BiRadioCircle />,
+        cName: "sub-nav",
+      },
+      {
+        title: "Expense Reimbursement",
+      //  path: "/portal/attedancemanagement/holiday",
+        icon: <BiIcons.BiRadioCircle />,
+        cName: "sub-nav",
       },
     ],
-  },
+  }  ,
   {
-    title: "Job Descriptions",
-    // path: "/Job Descriptions",
-    icon: <CgIcons.CgFileDocument />,
-
+    title: "Performance Evaluation",
+    // path: "/Teams",
+    icon: <IoIcons.IoMdPeople />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
     subNav: [
       {
         title: "List",
-        // path: "/Job Descriptions/List",
+      //  path: "/portal/attedancemanagement/holiday",
         icon: <BiIcons.BiRadioCircle />,
-      },
-    ],
-  },
-  {
-    title: "Performance Evaluations",
-    // path: "/Performance Evaluations",
-    icon: <CgIcons.CgFileDocument />,
-
-    iconClosed: <RiIcons.RiArrowDropDownLine />,
-    iconOpened: <RiIcons.RiArrowDropUpLine />,
-
-    subNav: [
-      {
-        title: "List",
-        // path: "/Performance Evaluations/List",
-        icon: <BiIcons.BiRadioCircle />,
-      },
-    ],
-  },
-  {
-    title: "Surveys",
-    // path: "/Surveys",
-    icon: <RiIcons.RiSurveyLine />,
-
-    iconClosed: <RiIcons.RiArrowDropDownLine />,
-    iconOpened: <RiIcons.RiArrowDropUpLine />,
-
-    subNav: [
-      {
-        title: "List",
-        path: "/portal/iam/surveys",
-        // path: "/Survrys/List",
-        icon: <BiIcons.BiRadioCircle />,
-      },
-      {
-        title: "Add",
-        path: "/portal/iam/form/survey",
-        icon: <BiIcons.BiSolidAddToQueue />,
-      },
-    ],
-  },
-  {
-    title: "Announcements",
-    // path: "/Announcements",
-    icon: <FaIcons.FaEnvelopeOpenText />,
-
-    iconClosed: <RiIcons.RiArrowDropDownLine />,
-    iconOpened: <RiIcons.RiArrowDropUpLine />,
-
-    subNav: [
-      {
-        title: "List",
-        path: "/portal/iam/announcement",
-        icon: <BiIcons.BiRadioCircle />,
+        cName: "sub-nav",
       }
     ],
-  },
+  }  
 ];

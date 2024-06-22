@@ -126,7 +126,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>From</FormLabel>
         <FormInput
           type="datetime-local"
-          value={ new Date(formData.from).toISOString().slice(0, 16) || ""}
+          value={formData.from && new Date(formData.from).toISOString().slice(0, 16) || ""}
           placeholder={" From"}
           onBlur={(e) => handleChange("from", new Date(e.target.value).toISOString())}
           onChange={(e) => handleChange("from", new Date(e.target.value).toISOString())}
@@ -138,7 +138,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>To</FormLabel>
         <FormInput
           type="datetime-local"
-          value={ new Date(formData.to).toISOString().slice(0, 16) || ""}
+          value={formData.to &&  new Date(formData.to).toISOString().slice(0, 16) || ""}
           placeholder={" To"}
           onBlur={(e) => handleChange("to",new Date(e.target.value).toISOString())}
           onChange={(e) => handleChange("to",new Date(e.target.value).toISOString())}

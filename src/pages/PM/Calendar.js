@@ -78,10 +78,45 @@ const Calendar = () => {
   };
 
   const CheckListOptions = [
-    { value: "dayGridMonth,timeGridWeek", label: "Calendar" },
-    { value: "listWeek,listMonth", label: "List" },
-    { value: "timeGridWeek,timeGridDay", label: "Timeline" },
+    { value: "calendar", label: "Calendar" },
+    { value: "list", label: "List" },
+    //{ value: "timeline", label: "Timeline" },
   ];
+
+  const config = {
+    "calendar": {
+      intialView: 'dayGridMonth',
+      views: [
+        "dayGridMonth",
+        "timeGridWeek",
+        "timeGridDay",
+     
+      ],
+      center: "dayGridMonth, timeGridWeek, timeGridDay",
+
+    },
+    "list": {
+      intialView: 'listMonth',
+      views: [
+        "listWeek",
+        "listMonth", 
+        "listDay"
+     
+      ],
+      center: "listWeek,listMonth,listDay",
+
+    },
+    // "timeline": {
+    //   intialView: 'resourceTimeline',
+    //   views: [
+    //     "resourceTimeline",
+        
+     
+    //   ],
+    //   center: "resourceTimeline",
+
+    // }
+  };
   // const selectedOptionValue = "resourceTimeline"; // This can be dynamically set based on user selection
   // const initialView = CheckListOptions.find(option => option.value.includes(selectedOptionValue)).value;
   // const [checkListOption, setCheckListOption] = useState({
@@ -119,6 +154,7 @@ const Calendar = () => {
   const closeFiltersPopup = () => {
     setIsFiltersPopupOpen(false);
   };
+
 
   return (
     <OuterBox>
@@ -180,28 +216,37 @@ const Calendar = () => {
         <Box>
           <FullCalendar
             ref={calendarRef}
-            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-            initialView={checkListOption.value.split(',')[0]}
+            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin , resourceTimelinePlugin ]}
+            initialView={config[checkListOption.value].initialView}
             editable={true}
+            resources= {[
+              {"id": "1", "name": "A"}
+            ]}
             events={[
-              { title: "Event 1", start: "2024-04-01", image: "/RTA.png" },
+              { title: "Event 1", start: "2024-06-01", image: "/RTA.png" },
               {
                 title: "Event 2",
-                start: "2024-04-05",
-                end: "2024-03-07",
+                start: "2024-06-05",
+                end: "2024-06-07",
                 image: "/RTA.png",
               },
-              { title: "Event 3 ", start: "2024-03-01", image: "/RTA.png" },
+              { title: "Event 3 ", start: "2024-06-01", image: "/RTA.png" },
               {
                 title: "Event 4",
-                start: "2024-04-05",
-                end: "2024-03-07",
+                start: "2024-06-05",
+                end: "2024-06-07",
                 image: "/RTA.png",
               },
             ]}
             eventClick={handleEventClick}
             eventContent={renderEventContent}
-            headerToolbar={{ center: "dayGridMonth,timeGridWeek" }}
+            views={config[checkListOption.value].views}
+            buttonText= {{
+              listWeek: 'List Week',
+              listMonth: 'List Month',
+              listDay: 'List Day'
+            }}
+            headerToolbar={{ center: config[checkListOption.value].center }}
             eventClassNames="custom-calendar"
           />
         </Box>
