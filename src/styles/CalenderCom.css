@@ -82,7 +82,7 @@
   }
   
   .react-calendar__month-view__days__day--weekend {
-    color: #d10000;
+    /* color: #d10000; */
   }
   
   .react-calendar__month-view__days__day--neighboringMonth,
@@ -122,7 +122,10 @@
   .react-calendar__tile:enabled:focus {
     background-color: #e6e6e6;
   }
-  
+  .react-calendar__month-view__weekdays__weekday abbr {
+    text-decoration: none;
+    color:grey;
+  }
   .react-calendar__tile--now {
     background: #ffff76;
   }
@@ -142,9 +145,10 @@
   }
   
   .react-calendar__tile--active {
-    background: #ffa500;
+    background: linear-gradient(to right, #ffa500, #ffd000);
     color: white;
   }
+  
   
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {

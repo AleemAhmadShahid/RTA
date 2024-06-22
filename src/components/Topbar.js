@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -85,12 +85,31 @@ const DropdownContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: ${(props) => (props.isOpen ? "block" : "none")};
-  width: 30%;
+  width: 30%;  
   padding: 10px;
   @media screen and (max-width: 845px) {
     position: absolute;
     right: auto;
     width: 90%;
+  }
+`;
+const slide = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(20px);
+  }
+`;
+const bounce = keyframes`
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
   }
 `;
 const DropdownButton = styled.button`
@@ -106,8 +125,11 @@ const DropdownButton = styled.button`
     font-size: 20px;
   }
   &:hover {
-    background-color: #ffa500;
+     background-color: #ffa500;
     color:white;
+  //  animation: ${slide} 0.7s forwards;
+   animation: ${bounce} 2s infinite;
+
   }
 `;
 const DropdownGrid = styled.div`

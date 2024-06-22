@@ -15,6 +15,7 @@ import { H6 } from "../../../styles/MultiStepFormStyling";
 import EmployeeCard from "../../../components/EmployeeCard";
 import SurveyBarChart from "../../../components/SurveyBarChart";
 import StarRating from "../../../components/StarRating";
+import UpcomingEvent from "../../../components/UpcomingEvent";
 const Chardata = [
   {
     name: "Page A",
@@ -60,11 +61,11 @@ const Chardata = [
   },
 ];
 const Surveydata = [
-  { name: '1 star', pv: 24, amt: 2400, color: '#8884d8' },
-  { name: '2 star', pv: 13, amt: 2210, color: '#82ca9d' },
-  { name: '3 star', pv: 98, amt: 2290, color: '#ffc658' },
-  { name: '4 star', pv: 39, amt: 2000, color: '#ff7300' },
-  { name: '5 star', pv: 48, amt: 2181, color: '#387908' },
+  { name: "1 star", pv: 24, amt: 2400, color: "#8884d8" },
+  { name: "2 star", pv: 13, amt: 2210, color: "#82ca9d" },
+  { name: "3 star", pv: 98, amt: 2290, color: "#ffc658" },
+  { name: "4 star", pv: 39, amt: 2000, color: "#ff7300" },
+  { name: "5 star", pv: 48, amt: 2181, color: "#387908" },
 ];
 
 const MiddleColumn = styled.div`
@@ -111,11 +112,28 @@ const Icon = styled.div`
 const EmpDashBoard = (employees) => {
   const currentDate = new Date();
   const [data, setData] = useState(null);
+  const [date, setDate] = useState(currentDate);
 
-  const tileDisabled = ({ date }) => {
+  const tileDisabled = ({ date, view }) => {
     return (
-      date.getMonth() !== currentDate.getMonth() ||
-      date.getFullYear() !== currentDate.getFullYear()
+      view === "month" &&
+      (date.getMonth() !== currentDate.getMonth() ||
+        date.getFullYear() !== currentDate.getFullYear())
+    );
+  };
+
+  const renderNavigationLabel = ({ date, view }) => {
+    const isCurrentMonth =
+      date.getMonth() === currentDate.getMonth() &&
+      date.getFullYear() === currentDate.getFullYear();
+    return isCurrentMonth ? (
+      <span>
+        {date.toLocaleString("default", { month: "long" })} {date.getFullYear()}
+      </span>
+    ) : (
+      <button disabled>
+        {date.toLocaleString("default", { month: "long" })} {date.getFullYear()}
+      </button>
     );
   };
 
@@ -146,7 +164,7 @@ const EmpDashBoard = (employees) => {
         <LeftColumn style={{ paddingRight: "0" }}>
           <div
             style={{
-              height: "500px",
+              // height: "500px",
               background: "white",
 
               padding: "20px",
@@ -156,11 +174,23 @@ const EmpDashBoard = (employees) => {
               boxShadow: "0 4px 24px 0 rgba(34, 41, 47, 0.1)",
             }}
           >
-            <Calendar tileDisabled={tileDisabled} value={currentDate} />
-            <hr />
-            <h5>Upcoming Events</h5>
+            <h6>Calender</h6>
+            <Calendar
+              value={date}
+              onChange={setDate}
+              tileDisabled={tileDisabled}
+              view="month"
+              navigationLabel={renderNavigationLabel}
+              prev2Label={null}
+              next2Label={null}
+              showNeighboringMonth={false}
+            />
+            <div style={{ marginBottom: "30px" }}></div>
+            <h6>Upcoming Events</h6>
 
-            <EmployeeInfo />
+            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
+            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
+            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
           </div>
         </LeftColumn>
         <MiddleColumn>
@@ -222,6 +252,54 @@ const EmpDashBoard = (employees) => {
             />
           </ContentAreaCards>
 
+          <DashBoardCompBox style={{ padding: "20px" }}>
+            <h5 style={{ fontWeight: "bold" }}>Offer acceptance</h5>
+            <ContentAreaCards
+              style={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                boxShadow: "none",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <PieChartCom
+                  colors={["#e4e8ef", "green"]}
+                  percentFillValue={76}
+                  cardInfo={{
+                    title: "",
+                    value: "",
+                    text: "",
+                  }}
+                />
+                <h6>Accepted</h6>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <PieChartCom
+                  colors={["#e4e8ef", "orange"]}
+                  percentFillValue={23}
+                  cardInfo={{
+                    title: "",
+                    value: "",
+                    text: "",
+                  }}
+                />
+                <h6>Rejected</h6>
+              </div>
+            </ContentAreaCards>
+          </DashBoardCompBox>
           <DashBoardCompBox style={{ height: "300px" }}>
             <SurveyPieChart />
           </DashBoardCompBox>
@@ -230,14 +308,14 @@ const EmpDashBoard = (employees) => {
       <DashBoardCompBox style={{ width: "50%" }}>
         <BarChartCom data={Chardata} />
       </DashBoardCompBox>
-      <DashBoardCompBox style={{ width: "100%",padding:"20px" }}>
+      <DashBoardCompBox style={{ width: "100%", padding: "20px" }}>
         <ColumnContainer>
           <LeftColumn>
             <h6>1.How would you rate the overall quality of the porduct</h6>
             <StarRating readOnly />
           </LeftColumn>
           <RightColumn>
-            <SurveyBarChart data={Surveydata}  />
+            <SurveyBarChart data={Surveydata} />
           </RightColumn>
         </ColumnContainer>
       </DashBoardCompBox>
