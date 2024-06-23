@@ -45,6 +45,7 @@ const Nav = styled.div`
   }
 
   border-radius: 5px;
+  z-index:1000;
 `;
 
 const SimpleText = styled.span`

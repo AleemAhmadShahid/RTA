@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { CenteredContainer } from "../styles/TableStyling";
 import { Box } from "../pages/ForgetPassword";
-
+import { useNavigate } from "react-router-dom";
 import { SaveAndNextButton } from "../styles/MultiStepFormStyling";
 import { ColumnContainer, LeftColumn, RightColumn } from "../pages/EmpSetting";
 import { FaBriefcase } from "react-icons/fa";
@@ -15,7 +15,7 @@ import { IoLanguageOutline } from "react-icons/io5";
 import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { StyledButton } from "../pages/EmpSetting";
 import { ButtonContainer } from "../pages/EmpSetting";
-
+import { IoMdArrowBack } from "react-icons/io";
 import Timeline from "@mui/lab/Timeline";
 
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -25,12 +25,9 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from "@mui/lab/TimelineOppositeContent";
-import Typography from '@mui/material/Typography';
-import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
-import {
-  createGetRequest,
-} from "../global/requests";
-
+import Typography from "@mui/material/Typography";
+import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
+import { createGetRequest } from "../global/requests";
 
 import InfoBox from "./Cards";
 import { FiUserX } from "react-icons/fi";
@@ -57,7 +54,7 @@ const UploadBox = styled.div`
   padding: 5px;
   border: 1px solid #ededed;
   border-radius: 5px;
-  background-image: url("/RTA.png");
+  background-image: url("/Shaheer.jpeg");
   background-size: cover;
   background-position: center;
   width: 100px;
@@ -106,28 +103,42 @@ const DetailContainer = styled.div`
   margin-bottom: 15px;
 `;
 
-const Profile = () => {
+const slide = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(20px);
+  }
+`;
+const BackIcon = styled.div`
+  position: absolute;
+  background-color: white;
+  padding: 10px;
+  width: 40px;
+  border-radius: 50%;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  left: 10px;
+  top: 10px; 
 
-  const {employeeId}  =  useParams();
-  const [employee, setEmployee] = useState();  
+  &:hover {
+    color: white;
+    background-color: #ffa500;
+    animation: ${slide} 0.3s forwards;
+  }
+`;
+
+
+
+
+const Profile = (employee) => {
+  
   const customTextStyle = {
-      color: 'grey',
-    };
+    color: "grey",
+  };
 
-  useEffect(()=> {
-
-    const fetchData = async () => {
-      try {
-        const data = await createGetRequest(`/api/user/${employeeId}`);
-        if (data.status == 200)
-          setEmployee(data);
-      
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  },[]);
   return (
     <>
       <ColumnContainer>
@@ -138,15 +149,15 @@ const Profile = () => {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <DetailContainer>
                   <AiOutlineUser />
-                  <Details>Full Name: Shaheer</Details>
+                  <Details>Full Name: {employee ? employee.name : "Loading..."}</Details>
                 </DetailContainer>
                 <DetailContainer>
                   <MdDone />
-                  <Details>Status: Not-active</Details>
+                  <Details>Status:a</Details>
                 </DetailContainer>
                 <DetailContainer>
                   <PiCrownSimple />
-                  <Details>Role: nitpicker</Details>
+                  <Details>Role: a</Details>
                 </DetailContainer>
                 <DetailContainer>
                   <CiFlag1 />
@@ -176,33 +187,32 @@ const Profile = () => {
             <Box>
               <h5>Activity TimeLine</h5>
               <Timeline
-      sx={{
-        [`& .${timelineItemClasses.root}:before`]: {
-          flex: 0,
-          padding: 0,
-        },
-      }}
-    >
-      <TimelineItem>
-        
-        <TimelineSeparator>
-          <TimelineDot color="secondary" />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent >12 invoices have been paid
-        
-          <Typography style={customTextStyle}>Invoces have been paid to the company</Typography>
-        </TimelineContent>
-
-      </TimelineItem>
-      <TimelineItem>
-        
-        <TimelineSeparator>
-          <TimelineDot color="success"/>
-        </TimelineSeparator>
-        <TimelineContent>Client meeting</TimelineContent>
-      </TimelineItem>
-    </Timeline>
+                sx={{
+                  [`& .${timelineItemClasses.root}:before`]: {
+                    flex: 0,
+                    padding: 0,
+                  },
+                }}
+              >
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot color="secondary" />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    12 invoices have been paid
+                    <Typography style={customTextStyle}>
+                      Invoces have been paid to the company
+                    </Typography>
+                  </TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot color="success" />
+                  </TimelineSeparator>
+                  <TimelineContent>Client meeting</TimelineContent>
+                </TimelineItem>
+              </Timeline>
             </Box>
           </BoxContainer>
         </RightColumn>
@@ -213,12 +223,29 @@ const Profile = () => {
 
 const EmpProfile = ({}) => {
   const [currentPage, setCurrentPage] = useState("Profile");
+  const { employeeId } = useParams();
+  const [employee, setEmployee] = useState();
+  const navigate = useNavigate();
+  const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await createGetRequest(`/api/user/${employeeId}`);
+        if (data.status == 200) setEmployee(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
 
   const renderContent = () => {
     if (currentPage === "Profile") {
       return (
         <>
-          <Profile />
+          <Profile  employee= {employee}/>
         </>
       );
     } else if (currentPage === "Team") {
@@ -232,7 +259,14 @@ const EmpProfile = ({}) => {
   return (
     <CenteredContainer>
       <BoxContainer>
-        <BackgroundWallpaper></BackgroundWallpaper>
+        <BackgroundWallpaper>
+          <BackIcon
+            onClick={() => navigate(`/portal/iam/employee`)}           
+          >
+            {" "}
+            <IoMdArrowBack />
+          </BackIcon>
+        </BackgroundWallpaper>
 
         <Box style={{ height: "120px", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -246,7 +280,7 @@ const EmpProfile = ({}) => {
                 marginTop: "-40px",
               }}
             >
-              <h5 style={{ margin: 0 }}>John Doe</h5>
+              <h5 style={{ margin: 0 }}>{employee ? employee.name : "Loading..."}</h5>
               <div
                 style={{
                   display: "flex",

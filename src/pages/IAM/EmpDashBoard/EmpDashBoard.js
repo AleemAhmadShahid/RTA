@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import BarChart from "../../../components/BarChart";
-import { CenteredContainer } from "../../../styles/TableStyling";
+import { CardsContainer, CenteredContainer } from "../../../styles/TableStyling";
 import Calendar from "react-calendar";
 import "../../../styles/CalenderCom.css";
 
@@ -139,6 +139,51 @@ const EmpDashBoard = (employees) => {
 
   return (
     <CenteredContainer>
+      <CardsContainer>
+      <ContentAreaCards>
+            <PieChartCom
+              colors={["#e4e8ef", "blue"]}
+              percentFillValue={40}
+              cardInfo={{
+                title: "Active Employees",
+                value: "40",
+                
+              }}
+            />
+          </ContentAreaCards>
+          <ContentAreaCards>
+            <PieChartCom
+              colors={["#e4e8ef", "#ffa500"]}
+              percentFillValue={5}
+              cardInfo={{
+                title: "Absent Employees",
+                 value: "5",
+                text:"Absent Employee are 5",
+                
+              }}
+            />
+          </ContentAreaCards><ContentAreaCards>
+            <PieChartCom
+              colors={["#e4e8ef", "green"]}
+              percentFillValue={65}
+              cardInfo={{
+                title: "On Time Today",
+                value: "25",
+                
+              }}
+            />
+          </ContentAreaCards><ContentAreaCards>
+            <PieChartCom
+              colors={["#e4e8ef", "red"]}
+              percentFillValue={0}
+              cardInfo={{
+                title: "Late Today",
+                value: "0",
+                // text: "We have sold 123 items.",
+              }}
+            />
+          </ContentAreaCards>
+          </CardsContainer>
       <ScrollContainer>
         <DashBoardCompBox style={{ marginRight: "10px" }}>
           <EmployeeCard name="Shaheer Imran" role="Banana Eater" />

@@ -42,6 +42,7 @@ import Board from "./pages/PM/Board";
 import Calendar from "./pages/PM/Calendar";
 import EmpProfile from "./components/EmpProfileMainPage";
 import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
+import PMMainPage from "./pages/PM/PMMainPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -109,8 +110,8 @@ function App() {
               </Route>
 
               <Route path="projectmanagement" element={<Sidebar SidebarData={IAMSidebarData} heading={"Project Management"} />}>
-                <Route path="board" element={<Board />} />  
-                {/* <Route path="board" element={<Calendar />} /> */}
+                 <Route path="board" element={<PMMainPage />} />   
+                {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 
               <Route path="selfservice" element={<Sidebar SidebarData={SelfServiceSidebarData} heading={"Self Service"} /> }>

@@ -38,8 +38,9 @@ const Box = styled.div`
   background: #f5f5f5;
 `;
 const OuterBox = styled.div`
-  padding: 25px;
-  margin-right: 5px;
+  padding: 20px;
+  margin-right: 8px;
+  
 `;
 const SuccessBadge = styled.span`
   background-color: yellow;
@@ -158,8 +159,8 @@ const Calendar = () => {
 
   return (
     <OuterBox>
-      <CenteredContainer style={{ backgroundColor: "white" }}>
-        <TopBar>
+      <CenteredContainer style={{ backgroundColor: "#f5f5f5" }}>
+        {/* <TopBar>
           <div style={{ display: "flex", alignItems: "center" }}>
             <HeadingContainer>
               <h4>Comming</h4>
@@ -211,7 +212,7 @@ const Calendar = () => {
               Filters
             </AddButton>
           </div>
-        </TopBar>
+        </TopBar> */}
 
         <Box>
           <FullCalendar
