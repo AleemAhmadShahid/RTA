@@ -32,6 +32,7 @@ import LoginPage from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import EmpSetting from "./pages/EmpSetting";
+import CompanyPolicy from "./pages/CompanyPolicy";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import { createGetRequest } from "./global/requests";
@@ -106,7 +107,8 @@ function App() {
                 <Route path="department/:teamId" element={<TeamView id={1} />} />
                 <Route path="announcement" element={<Announcement_list />} />
                 <Route path="form/:type/:id?" element={<FormBuilder isRead={false} />} />
-                <Route path="settings" element={<EmpSetting />} />           
+                <Route path="settings" element={<EmpSetting />} /> 
+                <Route path="companyPolicy" element={<CompanyPolicy />} />           
               </Route>
 
               <Route path="projectmanagement" element={<Sidebar SidebarData={IAMSidebarData} heading={"Project Management"} />}>
