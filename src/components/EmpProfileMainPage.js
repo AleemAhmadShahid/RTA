@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { CenteredContainer } from "../styles/TableStyling";
 import { Box } from "../pages/ForgetPassword";
@@ -27,11 +27,14 @@ import TimelineOppositeContent, {
 } from "@mui/lab/TimelineOppositeContent";
 import Typography from '@mui/material/Typography';
 import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
-
+import {
+  createGetRequest,
+} from "../global/requests";
 
 
 import InfoBox from "./Cards";
 import { FiUserX } from "react-icons/fi";
+import { useParams } from "react-router-dom";
 const BackgroundWallpaper = styled.div`
   height: 180px;
   margin-top: 0px;
@@ -104,9 +107,27 @@ const DetailContainer = styled.div`
 `;
 
 const Profile = () => {
-    const customTextStyle = {
-        color: 'grey',
-      };
+
+  const {employeeId}  =  useParams();
+  const [employee, setEmployee] = useState();  
+  const customTextStyle = {
+      color: 'grey',
+    };
+
+  useEffect(()=> {
+
+    const fetchData = async () => {
+      try {
+        const data = await createGetRequest(`/api/user/${employeeId}`);
+        if (data.status == 200)
+          setEmployee(data);
+      
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  },[]);
   return (
     <>
       <ColumnContainer>
@@ -190,7 +211,7 @@ const Profile = () => {
   );
 };
 
-const SelfService = ({}) => {
+const EmpProfile = ({}) => {
   const [currentPage, setCurrentPage] = useState("Profile");
 
   const renderContent = () => {
@@ -283,4 +304,4 @@ const SelfService = ({}) => {
     </CenteredContainer>
   );
 };
-export default SelfService;
+export default EmpProfile;

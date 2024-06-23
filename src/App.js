@@ -40,7 +40,7 @@ import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";
 import Board from "./pages/PM/Board";
 import Calendar from "./pages/PM/Calendar";
-import SelfService from "./components/EmpProfileMainPage";
+import EmpProfile from "./components/EmpProfileMainPage";
 import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
 function App() {
   const dispatch = useDispatch();
@@ -95,6 +95,7 @@ function App() {
               <Route path="iam" element={<Sidebar  SidebarData={IAMSidebarData} heading={"Employee Management"}/>}>
                 <Route path="dashboard" element={<EmpDashBoard />} /> 
                 <Route path="employee" element={<Emp_list />} />
+                <Route path="employee/:employeeId" element={<EmpProfile />} />
                 <Route path="role" element={<Role_list />} />
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />
@@ -113,7 +114,6 @@ function App() {
               </Route>
 
               <Route path="selfservice" element={<Sidebar SidebarData={SelfServiceSidebarData} heading={"Self Service"} /> }>
-                {/* <Route path="Mainpage" element={<SelfService />} /> */}
                 <Route path="attendance" element={<SelfServiceAttendance_list />} />
                 <Route path="leaves" element={<SelfServiceAppliedLeaves_list />} />
               </Route>

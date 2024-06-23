@@ -565,9 +565,7 @@ const Emp_list = () => {
 
                             <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message: "Employee View is disabled by Admin"}));
-                              }}
+                              onClick={() => navigate(`/portal/iam/employee/${employee._id}`)}
                             />
 
                             <MdIcons.MdDeleteOutline
