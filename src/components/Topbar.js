@@ -405,6 +405,14 @@ const Topbar = () => {
                   <span>Settings</span>
                 </SettingDropdownButton>
               </SettingDropdownItem>
+              <SettingDropdownItem>
+                <SettingDropdownButton
+                  onClick={() => {setIssettingDropdownOpen(false);  navigate("/portal/iam/companyPolicy");}}
+                >
+                  <AiOutlineSetting />
+                  <span>Company Policy</span>
+                </SettingDropdownButton>
+              </SettingDropdownItem>
               <SettingDropdownItem
                 onClick={() => {
                   dispatch(clearUser());

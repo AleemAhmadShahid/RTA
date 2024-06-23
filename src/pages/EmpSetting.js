@@ -75,7 +75,7 @@ export const ColumnContainer1 = styled.div`
   }
 `;
 
-const Box = styled.div`
+export const Box = styled.div`
   margin-left: 20px;
   margin-right: 20px;
 `;
@@ -109,7 +109,7 @@ export const StyledButton = styled.button`
   }
 `;
 
-const ResetButton = styled.button`
+export const ResetButton = styled.button`
   background-color: #0000;
   color: #00000;
   border: 1px solid #000000;
@@ -140,11 +140,11 @@ export const ButtonContainer = styled.div`
   }
 `;
 
-const H6 = styled.h6`
+export const H6 = styled.h6`
   margin-top: 15px;
   margin-bottom: 15px;
 `;
-const DeactivateButton = styled.button`
+export const DeactivateButton = styled.button`
   background-color: red;
   color: #fff;
   border: none;
@@ -161,14 +161,14 @@ const DeactivateButton = styled.button`
     background-color: red;
   }
 `;
-const Warningbox = styled.div`
+export const Warningbox = styled.div`
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   background: #fdf1dc;
   color: #ffa500;
   
 `;
-const Image = styled.img`
+export const Image = styled.img`
   width: 330px !important;
   height: 247px !important;
   object-fit: contain;
@@ -176,7 +176,7 @@ const Image = styled.img`
   margin: auto;
   background-color: #ededed;
 `;
-const APIbox = styled.div`
+export const APIbox = styled.div`
   position: relative;
   background-color: #ededed;
   margin-left: 20px;
@@ -186,7 +186,7 @@ const APIbox = styled.div`
   padding: 10px;
   border-radius: 5px;
 `;
-const APIOptionsButton = styled.button`
+export const APIOptionsButton = styled.button`
   position: absolute;
   top: 10px; 
   right: 10px;
@@ -195,35 +195,35 @@ const APIOptionsButton = styled.button`
   cursor: pointer;
 `;
 
-const CheckboxLabel = styled.label`
+export const CheckboxLabel = styled.label`
   display: block;
   margin-top: 10px; 
 `;
 
-const SwitchContainer = styled.div`
+export const SwitchContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 `;
-const TimeInputContainer = styled.div`
+export const TimeInputContainer = styled.div`
   display: flex;
 
   margin-top: 0px;
 `;
 
-const TimeInput = styled.input`
+export const TimeInput = styled.input`
   border: none;
   border-bottom: 1px solid #ccc;
   margin: 0 20px;
   padding: 5px;
-  width: 100%;
+  width: ${(props) => props.width || "100%"};
   outline: none;
 `;
-const Colon = styled.span`
+export const Colon = styled.span`
   font-size: 20px; 
   margin: 0 5px; 
 `;
-const InvisibleElement = styled.div`
+export const InvisibleElement = styled.div`
   visibility: hidden;
   height: 75px;
   width: 100px;
