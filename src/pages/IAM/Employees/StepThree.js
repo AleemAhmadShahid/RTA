@@ -94,9 +94,9 @@ const StepThree = ({ formData, handleChange }) => {
                   styles={dropDownStyle}
                 />
                 
-                </FormGroup>
+              </FormGroup>
 
-                <FormGroup>
+              <FormGroup>
                 <FormLabel>Degree</FormLabel>
                 <FormInput
                   type="text"
