@@ -225,7 +225,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if(user.isAuthenticated)
-      navigate("/portal/iam/employee");
+      navigate("/portal/iam/dashboard");
     
   }, [useNavigate,user.isAuthenticated]);
 

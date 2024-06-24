@@ -103,9 +103,10 @@ const WatchIcon = styled.div`
   font-size: 14px;
 `;
 const LabelLine=styled.div`
-// background-color: ${(props) => props.color || "black"};
-background:black;
+// background-color: ${(props) => props.color || "blue"};
+background: #e79f31;
 height:8px;
+margin-bottom:1px;
 width:40px;
 border-radius:5px;
 

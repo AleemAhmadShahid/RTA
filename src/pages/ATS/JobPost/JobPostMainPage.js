@@ -517,10 +517,10 @@ const JobPost_list = () => {
                           <Td>{jobPost.postingTitle}</Td>
                         )}
                         {selectedCheck.includes("Department") && (
-                          <Td>{jobPost.departmentName}</Td>
+                          <Td>{jobPost?.departmentNameDetail?.name || "-"}</Td>
                         )}
                         {selectedCheck.includes("Role") && (
-                          <Td>{jobPost.role}</Td>
+                          <Td>{jobPost?.roleDetail?.name || "-"}</Td>
                         )}
                         {selectedCheck.includes("Date Opened") && (
                           <Td>
@@ -556,7 +556,7 @@ const JobPost_list = () => {
                        
                         {selectedCheck.includes("Hiring Manager") && (
                           <Td>
-                            <EmployeeInfo employee={jobPost.hiringManager} />
+                            <EmployeeInfo employee={jobPost.hiringManagerDetail} />
                           </Td>
                         )}
                         {selectedCheck.includes("Status") && (
