@@ -383,7 +383,7 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>Remote Tracking</DropdownLabel>
               </div>
-              <div>
+              <div  onClick={() => {setIsDropdownOpen(false); navigate('/portal/meetingmanagemnetsystem/Meeting')}}>
                 <DropdownButton>
                   <AiOutlineAppstore />
                 </DropdownButton>

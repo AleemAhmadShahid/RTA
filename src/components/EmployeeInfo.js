@@ -43,7 +43,7 @@ const EmployeeEmail = styled.span`
   text-align: left;
 `;
 
-const EmployeeInfo = ({ employee, isSpaceRequired }) => {
+const EmployeeInfo = ({ employee, isSpaceRequired,margin,style }) => {
   
   const defaultImageUrl = "https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
 
@@ -54,11 +54,16 @@ const EmployeeInfo = ({ employee, isSpaceRequired }) => {
            <UserImage
               src={employee?.profileImg || defaultImageUrl}
             alt="Profile Image"
-            style={{ ...(isSpaceRequired === true ? { marginLeft: '40px' } : {}) }}
+            style={{ ...(isSpaceRequired === true ? { marginLeft: '40px' } : {}),
+            ...(margin ? { margin } : {}) ,
+            ...style
+          }}
+
+            
           /> 
           <EmployeeContainer>
-            <EmployeeName>{employee?.name}</EmployeeName> {/* Using optional chaining */}
-            <EmployeeEmail>{employee?.email}</EmployeeEmail> {/* Using optional chaining */}
+            <EmployeeName>{employee?.name}</EmployeeName>
+            <EmployeeEmail>{employee?.email}</EmployeeEmail> 
           </EmployeeContainer>
         </div>
       </Td>

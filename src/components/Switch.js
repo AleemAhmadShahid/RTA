@@ -4,8 +4,8 @@ import styled from "styled-components";
 export const SwitchContainer = styled.label`
   position: relative;
   display: inline-block;
-  width: 30px;
-  height: 16px;
+  width: 35px;
+  height: 20px;
   margin-right: 10px;
 `;
 
@@ -23,8 +23,8 @@ const Slider = styled.span`
   &:before {
     position: absolute;
     content: "";
-    height: 8px;
-    width: 8px;
+    height: 12px;
+    width: 12px;
     left: 4px;
     bottom: 4.5px;
     background-color: grey;
