@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SurveysCom from "../../components/FormBuilderHelper";
 import { CenteredContainer } from "../../styles/TableStyling";
 import styled from "styled-components";
-import { changeHandler } from "../../global/helper";
+import { changeHandler, saveHandler } from "../../global/helper";
 import { TextArea } from "../CardsPopup";
 import { useParams } from "react-router-dom";
 import {
@@ -43,7 +43,9 @@ const handleSingleLineInput = (event, maxLength) => {
 const FormBuilder = ({isRead}) => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
+  const [reload, setReload] = useState(false);
   const {type,id} = useParams();
+
 
   const handleChange = (
     field,
@@ -52,6 +54,16 @@ const FormBuilder = ({isRead}) => {
     data = { ...formData }
   ) => {
     changeHandler(setFormData, setErrors, errors, data, field, value,setError);
+  };
+
+  const handleSave = async (nextStep = null) => {
+    const copyFormData = { ...formData };
+    copyFormData.profileImg = /\/([^/?]+)\?/.test(formData.profileImg)
+      ? formData.profileImg.match(/\/([^/?]+)\?/)[1]
+      : formData.profileImg;
+
+    saveHandler(nextStep, ["name"] ,"/api/form/completeForm", `/api/form/completeForm/${formData._id}/`, "Form updated Successfully!", "form", errors, copyFormData, setErrors, handleChange, setReload, reload, () => {});
+
   };
 
   const toggleReadState = () => {
@@ -89,6 +101,9 @@ const FormBuilder = ({isRead}) => {
     else
       setFormData({...formData, type: type})
   },[])
+
+  console.log(formData);
+
   return (
     <div>
       <CenteredContainer>
@@ -144,9 +159,9 @@ const FormBuilder = ({isRead}) => {
             />
           </div>
         </SurvyTopBar>
-        <button onClick={toggleReadState}>Toggle Read</button>
       </CenteredContainer>
-      <SurveysCom isRead={isRead} handleChange={handleChange} formData={formData}/>
+      <br/><br/>
+      <SurveysCom isRead={isRead} handleChange={handleChange} handleSave={handleSave} formData={formData}/>
     </div>
   );
 };

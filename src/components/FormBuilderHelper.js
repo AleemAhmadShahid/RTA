@@ -74,13 +74,13 @@ const CircleNumber = styled.div`
   cursor: pointer;
 `;
 
-const SurveysCom = ({ isRead, formData, handleChange }) => {
+const SurveysCom = ({ isRead, formData, handleChange, handleSave }) => {
   const [Options] = useState([
     { label: "Single Line", icon: BsCardText, value:  "Single Line" },
     { label: "Multi Line", icon: BsCardText, value:  "Multi Line" },
-    { label: "Checkboxes", icon: RiCheckboxMultipleLine , value:  "Checkboxes"},
-    { label: "Radio Button Group", icon: RiCheckboxMultipleLine , value:  "Radio Button Group"},
-    { label: "Rating Scale", icon: MdOutlineStarRate, value:  "Rating Scale"},
+    { label: "Checkboxes", icon: RiCheckboxMultipleLine , value:  "Checkbox"},
+    { label: "Radio Button Group", icon: RiCheckboxMultipleLine , value:  "Radio"},
+    { label: "Rating Scale", icon: MdOutlineStarRate, value:  "Rating"},
   ]);
   const [OptionValue, setOptionValue] = useState(null);
 
@@ -226,11 +226,11 @@ const SurveysCom = ({ isRead, formData, handleChange }) => {
         <Box>
           <div>
                 <textarea
-                  value={question.question}
+                  value={question.questionText}
                   // onFocus={() => handleFocus(component.id)}
                   // onBlur={() => handleBlur(component.id)}
                   onChange={(e) =>
-                    handleChange(`questionSets.${questionSetIndex}.questions.${index}.question`, e.target.value)
+                    handleChange(`questionSets.${questionSetIndex}.questions.${index}.questionText`, e.target.value)
                   }
                   style={{
                     color: isRead ? "black" : "grey",
@@ -459,9 +459,9 @@ const SurveysCom = ({ isRead, formData, handleChange }) => {
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
         <textarea
-          value={questionSet.text}
+          value={questionSet.name}
           onChange={(e) =>
-            handleChange(`questionSets.${index}.text`, e.target.value)
+            handleChange(`questionSets.${index}.name`, e.target.value)
           }
           style={{
             height: "40px",
@@ -478,7 +478,7 @@ const SurveysCom = ({ isRead, formData, handleChange }) => {
             overflow: "hidden",
             whiteSpace: "nowrap",
           }}
-          placeholder={isRead ? "" : "Enter Survey title..."}
+          placeholder={isRead ? "" : "Enter title..."}
           readOnly={isRead}
         />
 
@@ -576,7 +576,7 @@ const SurveysCom = ({ isRead, formData, handleChange }) => {
           marginBottom: "20px",
         }}
       >
-        <SaveAndNextButton>{isRead ? "Save": "Submit"}</SaveAndNextButton>
+        <SaveAndNextButton onClick={isRead ? null : handleSave}>{isRead ?  "Submit": "Save"}</SaveAndNextButton>
       </div>     
     </CenteredContainer>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import MultiStepForm from "./MultiStepForm";
 import LoaderComponent from "../../../components/Loader";
 import {
   createGetRequest,
@@ -46,7 +47,7 @@ import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
 
-const Survey_list = () => {
+const JobDescription_list = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -59,8 +60,8 @@ const Survey_list = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedSurvey, setCheckedSurvey] = useState([]);
-  const [surveys, setSurvey] = useState([]);
+  const [checkedJobDescription, setCheckedJobDescription] = useState([]);
+  const [jobDescriptions, setJobDescription] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -81,19 +82,19 @@ const Survey_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof surveys.value !== "object") params.surveys = surveys.value;
+    if (typeof jobDescriptions.value !== "object") params.jobDescriptions = jobDescriptions.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/form", params);
-        if (data.status === 404 || data.status == 400) {
-          setSurvey([]);
+        const data = await createGetRequest("/api/jobDescription", params);
+        if (data.status === 404) {
+          setJobDescription([]);
           setLoading(false);
           return;
         }
-        setSurvey(data.forms);
+        setJobDescription(data.jobDescriptions);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -105,8 +106,8 @@ const Survey_list = () => {
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (survey) => {
-    setFormData(survey);
+  const handleEditClick = (jobDescription) => {
+    setFormData(jobDescription);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -118,12 +119,13 @@ const Survey_list = () => {
 
   const [selectedCheck, setSelectedCheck] = useState([
     "Name",
-    "Question Sets",
+    "Description",
+    "Created By",
     "Actions",
   ]);
   const CheckOptions = [
     "Name",
-    "Question Sets",
+    "Description",
     "Created By",
     "Actions",
   ];
@@ -133,19 +135,19 @@ const Survey_list = () => {
     icon: <FaPrint />,
   });
 
-  const deleteSurvey = async (id) => {
-    const response = await createDeleteRequest(`/api/form/${id}/`);
+  const deleteJobDescription = async (id) => {
+    const response = await createDeleteRequest(`/api/jobDescription/${id}/`);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Survey deleted Successfully!");
+      toast.success("JobDescription deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {surveys: checkedSurvey};
-    if (checkedSurvey.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/form/bulkDelete/";
+    const data = {jobDescriptions: checkedJobDescription};
+    if (checkedJobDescription.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/jobDescription/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
@@ -168,26 +170,26 @@ const Survey_list = () => {
               text="Total Users"
             /> */}
 
-            {/* <InfoBox
+            <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalSurveys || 0}
-              text="Total Surveys"
+              data={infoBoxData?.totalJobDescriptions || 0}
+              text="Total Job Descriptions"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantSurveys || 0}
-              text="Vacant Surveys"
+              data={infoBoxData?.vacantJobDescriptions || 0}
+              text="Vacant Job Descriptions"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedSurveys || 0}
-              text="Closed Surveys"
-            /> */}
+              data={infoBoxData?.closedJobDescriptions || 0}
+              text="Closed Job Descriptions"
+            />
            
           </CardsContainer> }
 
@@ -285,11 +287,10 @@ const Survey_list = () => {
                   styles={dropDownStyle}
                 />
                 <AddEmployeeButton
-                  to="#"
-                  onClick={(event) => { event.preventDefault(); navigate('/portal/iam/form/survey')}}
+                  onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Create Survey</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Job Description</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -302,20 +303,18 @@ const Survey_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedSurvey(
-                              surveys.map((survey) => survey._id)
+                            setCheckedJobDescription(
+                              jobDescriptions.map((jobDescription) => jobDescription._id)
                             );
-                          else setCheckedSurvey([]);
+                          else setCheckedJobDescription([]);
                         }}
                       />
                     </Th>
-                   
+                    {selectedCheck.includes("Description") && (
+                      <Th>DESCRIPTION</Th>
+                    )}
 
                     {selectedCheck.includes("Name") && <Th>NAME</Th>}
-
-                    {selectedCheck.includes("Question Sets") && (
-                      <Th>QUESTION SETS</Th>
-                    )}
 
                    
                     {selectedCheck.includes("Created By") && (
@@ -332,46 +331,44 @@ const Survey_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    surveys &&
-                    surveys.map((survey) => (
-                      <Tr key={survey._id}>
+                    jobDescriptions &&
+                    jobDescriptions.map((jobDescription) => (
+                      <Tr key={jobDescription._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedSurvey.includes(survey._id)}
+                            checked={checkedJobDescription.includes(jobDescription._id)}
                             onChange={() => {
-                              if (!checkedSurvey.includes(survey._id))
-                                setCheckedSurvey([
-                                  ...checkedSurvey,
-                                  survey._id,
+                              if (!checkedJobDescription.includes(jobDescription._id))
+                                setCheckedJobDescription([
+                                  ...checkedJobDescription,
+                                  jobDescription._id,
                                 ]);
                               else
-                                setCheckedSurvey(
-                                  checkedSurvey.filter(
-                                    (checkedSurvey) =>
-                                      checkedSurvey !== survey._id
+                                setCheckedJobDescription(
+                                  checkedJobDescription.filter(
+                                    (checkedJobDescription) =>
+                                      checkedJobDescription !== jobDescription._id
                                   )
                                 );
                             }}
                           />
                         </Td>
                   
-                        
-
-                        {selectedCheck.includes("Name") && (
-                          <Td>{survey.name}</Td>
+                        {selectedCheck.includes("Description") && (
+                          <Td style={{ whiteSpace: 'pre-line' }}>{jobDescription.description}</Td>
                         )}
 
-                        {selectedCheck.includes("Question Sets") && (
-                          <Td >{survey.questionSets.length}</Td>
+                        {selectedCheck.includes("Name") && (
+                          <Td>{jobDescription.name}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { survey?.createdBy 
+                            { jobDescription?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={survey?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={jobDescription?.createdBy} />
                             }
                           </Td>
                         )}
@@ -383,7 +380,10 @@ const Survey_list = () => {
                             <IconWrapper>
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
-                                  navigate(`/portal/iam/form/survey/${survey._id}`)
+                                  setIsViewMode(false);
+                                  setFormData(jobDescription);
+                                  setShowForm(true);
+                                  setIsEditMode(!!jobDescription);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -391,7 +391,9 @@ const Survey_list = () => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              navigate(`/portal/iam/form/survey/${survey._id}/response/view`)
+                              setFormData(jobDescription);
+                              setIsViewMode(true);
+                              toggleForm();
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
@@ -399,8 +401,8 @@ const Survey_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this survey?", handleYes: () => {
-                                  deleteSurvey(survey._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this jobDescription?", handleYes: () => {
+                                  deleteJobDescription(jobDescription._id);
                                 }}));
                               }}
                             />
@@ -409,7 +411,7 @@ const Survey_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!surveys || surveys.length === 0) && (
+                  {!loading && (!jobDescriptions || jobDescriptions.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -418,7 +420,7 @@ const Survey_list = () => {
               </Table>
             </TableContainer>
 
-            {surveys.length !== 0 && totalPages >= 1 && (
+            {jobDescriptions.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -428,9 +430,21 @@ const Survey_list = () => {
           </BoxContainer>
         </div>
       </CenteredContainer>
-    
+      {showForm && (
+        <MultiStepForm
+          showForm={showForm}
+          setShowForm={setShowForm}
+          formData={formData}
+          setFormData={setFormData}
+          reload={reload}
+          setReload={setReload}
+          isEditMode={isEditMode}
+          isViewMode={isViewMode}
+          onEditClick={handleEditClick}
+        />
+      )}
     </>
   );
 };
 
-export default Survey_list;
+export default JobDescription_list;

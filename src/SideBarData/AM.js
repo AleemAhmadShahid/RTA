@@ -10,7 +10,7 @@ import * as CgIcons from "react-icons/cg";
 export const AMSidebarData = [
   {
     title: "Dashboard",
-    //path: "/",
+    path: "/portal/attedancemanagement/dashboard",
     icon: <BsIcons.BsShieldCheck />,
   },
   {

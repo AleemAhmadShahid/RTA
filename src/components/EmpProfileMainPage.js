@@ -32,6 +32,10 @@ import { createGetRequest } from "../global/requests";
 import InfoBox from "./Cards";
 import { FiUserX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
+
+import EmployeeCard  from "./EmployeeCard";
+import {ScrollContainer, DashBoardCompBox} from "../pages/IAM/EmpDashBoard/EmpDashBoard";
+
 const BackgroundWallpaper = styled.div`
   height: 180px;
   margin-top: 0px;
@@ -130,7 +134,68 @@ const BackIcon = styled.div`
   }
 `;
 
+const AttedanceManagement = (team) => {
+  
 
+  return (
+    <>
+      <br></br>
+      <ScrollContainer>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Muhammad Shaheer" role="Banana Eater" />{" "}
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer " role="Banana Eater" />
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+      </ScrollContainer>
+  </>
+  );
+};
+
+
+const Team = (team) => {
+  
+
+  return (
+    <>
+      <br></br>
+      <ScrollContainer>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Muhammad Shaheer" role="Banana Eater" />{" "}
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer " role="Banana Eater" />
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+        <DashBoardCompBox style={{ marginRight: "10px" }}>
+          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+        </DashBoardCompBox>
+      </ScrollContainer>
+  </>
+  );
+};
 
 
 const Profile = (employee) => {
@@ -249,10 +314,15 @@ const EmpProfile = ({}) => {
         </>
       );
     } else if (currentPage === "Team") {
-      return <></>;
-    } else if (currentPage === "Project") {
-      return;
-    } else if (currentPage === "Connections") {
+      return (<>
+          <Team/>
+        </>);
+    } else if (currentPage === "AttedanceManagement")  {
+      return (<>
+        <Team/>
+      </>)
+    }
+    else if (currentPage === "Connections") {
       return;
     }
   };
@@ -320,17 +390,23 @@ const EmpProfile = ({}) => {
           <AiOutlineUser />
           Profile
         </StyledButton>
-        <StyledButton page="Team" onClick={() => setCurrentPage("Team")}>
+        <StyledButton  currentPage={currentPage}  page="Team" onClick={() => setCurrentPage("Team")}>
           Team
         </StyledButton>
-        <StyledButton page="Project" onClick={() => setCurrentPage("Project")}>
-          Project
+        <StyledButton  currentPage={currentPage}  page="Schedule" onClick={() => setCurrentPage("Schedule")}>
+          Schedule
         </StyledButton>
-        <StyledButton
-          page="Connection"
-          onClick={() => setCurrentPage("Connection")}
-        >
-          Connection
+        <StyledButton page="AttedanceManagement"  currentPage={currentPage} onClick={() => setCurrentPage("AttedanceManagement")}>
+          Attedance Management
+        </StyledButton>
+        <StyledButton page="ProjectManagement"  currentPage={currentPage} onClick={() => setCurrentPage("ProjectManagement")}>
+          Project Management
+        </StyledButton>
+        <StyledButton page="RemoteTracking"  currentPage={currentPage} onClick={() => setCurrentPage("RemoteTracking")}>
+          RemoteTracking
+        </StyledButton>
+        <StyledButton page="Performance"  currentPage={currentPage} onClick={() => setCurrentPage("Performance")}>
+          Performance
         </StyledButton>
       </ButtonContainer>
 

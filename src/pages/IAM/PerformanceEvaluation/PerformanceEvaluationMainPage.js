@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import MultiStepForm from "./MultiStepForm";
 import LoaderComponent from "../../../components/Loader";
 import {
   createGetRequest,
@@ -46,7 +47,7 @@ import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
 
-const Survey_list = () => {
+const PerformanceEvaluation_list = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -59,8 +60,8 @@ const Survey_list = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedSurvey, setCheckedSurvey] = useState([]);
-  const [surveys, setSurvey] = useState([]);
+  const [checkedPerformanceEvaluation, setCheckedPerformanceEvaluation] = useState([]);
+  const [performanceEvaluations, setPerformanceEvaluation] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -81,19 +82,19 @@ const Survey_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof surveys.value !== "object") params.surveys = surveys.value;
+    if (typeof performanceEvaluations.value !== "object") params.performanceEvaluations = performanceEvaluations.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/form", params);
-        if (data.status === 404 || data.status == 400) {
-          setSurvey([]);
+        const data = await createGetRequest("/api/performanceEvaluation", params);
+        if (data.status === 404) {
+          setPerformanceEvaluation([]);
           setLoading(false);
           return;
         }
-        setSurvey(data.forms);
+        setPerformanceEvaluation(data.performanceEvaluations);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -105,8 +106,8 @@ const Survey_list = () => {
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (survey) => {
-    setFormData(survey);
+  const handleEditClick = (performanceEvaluation) => {
+    setFormData(performanceEvaluation);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -118,12 +119,13 @@ const Survey_list = () => {
 
   const [selectedCheck, setSelectedCheck] = useState([
     "Name",
-    "Question Sets",
+    "Description",
+    "Created By",
     "Actions",
   ]);
   const CheckOptions = [
     "Name",
-    "Question Sets",
+    "Description",
     "Created By",
     "Actions",
   ];
@@ -133,19 +135,19 @@ const Survey_list = () => {
     icon: <FaPrint />,
   });
 
-  const deleteSurvey = async (id) => {
-    const response = await createDeleteRequest(`/api/form/${id}/`);
+  const deletePerformanceEvaluation = async (id) => {
+    const response = await createDeleteRequest(`/api/performanceEvaluation/${id}/`);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Survey deleted Successfully!");
+      toast.success("PerformanceEvaluation deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {surveys: checkedSurvey};
-    if (checkedSurvey.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/form/bulkDelete/";
+    const data = {performanceEvaluations: checkedPerformanceEvaluation};
+    if (checkedPerformanceEvaluation.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/performanceEvaluation/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
@@ -168,26 +170,26 @@ const Survey_list = () => {
               text="Total Users"
             /> */}
 
-            {/* <InfoBox
+            <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalSurveys || 0}
-              text="Total Surveys"
+              data={infoBoxData?.totalPerformanceEvaluations || 0}
+              text="Total Performance Evaluations"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantSurveys || 0}
-              text="Vacant Surveys"
+              data={infoBoxData?.vacantPerformanceEvaluations || 0}
+              text="Vacant Performance Evaluations"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedSurveys || 0}
-              text="Closed Surveys"
-            /> */}
+              data={infoBoxData?.closedPerformanceEvaluations || 0}
+              text="Closed Performance Evaluations"
+            />
            
           </CardsContainer> }
 
@@ -285,11 +287,10 @@ const Survey_list = () => {
                   styles={dropDownStyle}
                 />
                 <AddEmployeeButton
-                  to="#"
-                  onClick={(event) => { event.preventDefault(); navigate('/portal/iam/form/survey')}}
+                  onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Create Survey</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Performance Evaluation</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -302,20 +303,18 @@ const Survey_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedSurvey(
-                              surveys.map((survey) => survey._id)
+                            setCheckedPerformanceEvaluation(
+                              performanceEvaluations.map((performanceEvaluation) => performanceEvaluation._id)
                             );
-                          else setCheckedSurvey([]);
+                          else setCheckedPerformanceEvaluation([]);
                         }}
                       />
                     </Th>
-                   
+                    {selectedCheck.includes("Description") && (
+                      <Th>DESCRIPTION</Th>
+                    )}
 
                     {selectedCheck.includes("Name") && <Th>NAME</Th>}
-
-                    {selectedCheck.includes("Question Sets") && (
-                      <Th>QUESTION SETS</Th>
-                    )}
 
                    
                     {selectedCheck.includes("Created By") && (
@@ -332,46 +331,44 @@ const Survey_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    surveys &&
-                    surveys.map((survey) => (
-                      <Tr key={survey._id}>
+                    performanceEvaluations &&
+                    performanceEvaluations.map((performanceEvaluation) => (
+                      <Tr key={performanceEvaluation._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedSurvey.includes(survey._id)}
+                            checked={checkedPerformanceEvaluation.includes(performanceEvaluation._id)}
                             onChange={() => {
-                              if (!checkedSurvey.includes(survey._id))
-                                setCheckedSurvey([
-                                  ...checkedSurvey,
-                                  survey._id,
+                              if (!checkedPerformanceEvaluation.includes(performanceEvaluation._id))
+                                setCheckedPerformanceEvaluation([
+                                  ...checkedPerformanceEvaluation,
+                                  performanceEvaluation._id,
                                 ]);
                               else
-                                setCheckedSurvey(
-                                  checkedSurvey.filter(
-                                    (checkedSurvey) =>
-                                      checkedSurvey !== survey._id
+                                setCheckedPerformanceEvaluation(
+                                  checkedPerformanceEvaluation.filter(
+                                    (checkedPerformanceEvaluation) =>
+                                      checkedPerformanceEvaluation !== performanceEvaluation._id
                                   )
                                 );
                             }}
                           />
                         </Td>
                   
-                        
-
-                        {selectedCheck.includes("Name") && (
-                          <Td>{survey.name}</Td>
+                        {selectedCheck.includes("Description") && (
+                          <Td style={{ whiteSpace: 'pre-line' }}>{performanceEvaluation.description}</Td>
                         )}
 
-                        {selectedCheck.includes("Question Sets") && (
-                          <Td >{survey.questionSets.length}</Td>
+                        {selectedCheck.includes("Name") && (
+                          <Td>{performanceEvaluation.name}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { survey?.createdBy 
+                            { performanceEvaluation?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={survey?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={performanceEvaluation?.createdBy} />
                             }
                           </Td>
                         )}
@@ -383,7 +380,10 @@ const Survey_list = () => {
                             <IconWrapper>
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
-                                  navigate(`/portal/iam/form/survey/${survey._id}`)
+                                  setIsViewMode(false);
+                                  setFormData(performanceEvaluation);
+                                  setShowForm(true);
+                                  setIsEditMode(!!performanceEvaluation);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -391,7 +391,9 @@ const Survey_list = () => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              navigate(`/portal/iam/form/survey/${survey._id}/response/view`)
+                              setFormData(performanceEvaluation);
+                              setIsViewMode(true);
+                              toggleForm();
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />
@@ -399,8 +401,8 @@ const Survey_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this survey?", handleYes: () => {
-                                  deleteSurvey(survey._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this performanceEvaluation?", handleYes: () => {
+                                  deletePerformanceEvaluation(performanceEvaluation._id);
                                 }}));
                               }}
                             />
@@ -409,7 +411,7 @@ const Survey_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!surveys || surveys.length === 0) && (
+                  {!loading && (!performanceEvaluations || performanceEvaluations.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -418,7 +420,7 @@ const Survey_list = () => {
               </Table>
             </TableContainer>
 
-            {surveys.length !== 0 && totalPages >= 1 && (
+            {performanceEvaluations.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -428,9 +430,21 @@ const Survey_list = () => {
           </BoxContainer>
         </div>
       </CenteredContainer>
-    
+      {showForm && (
+        <MultiStepForm
+          showForm={showForm}
+          setShowForm={setShowForm}
+          formData={formData}
+          setFormData={setFormData}
+          reload={reload}
+          setReload={setReload}
+          isEditMode={isEditMode}
+          isViewMode={isViewMode}
+          onEditClick={handleEditClick}
+        />
+      )}
     </>
   );
 };
 
-export default Survey_list;
+export default PerformanceEvaluation_list;

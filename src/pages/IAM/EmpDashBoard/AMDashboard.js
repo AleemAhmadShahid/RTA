@@ -110,7 +110,7 @@ export const Icon = styled.div`
   color: grey;
 `;
 
-const EmpDashBoard = (employees) => {
+const AMDashBoard = (employees) => {
   const currentDate = new Date();
   const [data, setData] = useState(null);
   const [date, setDate] = useState(currentDate);
@@ -148,6 +148,7 @@ const EmpDashBoard = (employees) => {
               cardInfo={{
                 title: "Active Employees",
                 value: "40",
+                text:"Today",
                 
               }}
             />
@@ -159,7 +160,7 @@ const EmpDashBoard = (employees) => {
               cardInfo={{
                 title: "Absent Employees",
                  value: "5",
-                text:"Absent Employee are 5",
+                text:"Today",
                 
               }}
             />
@@ -168,8 +169,9 @@ const EmpDashBoard = (employees) => {
               colors={["#e4e8ef", "green"]}
               percentFillValue={65}
               cardInfo={{
-                title: "On Time Today",
+                title: "On Time",
                 value: "25",
+                text:"Today",
                 
               }}
             />
@@ -178,70 +180,30 @@ const EmpDashBoard = (employees) => {
               colors={["#e4e8ef", "red"]}
               percentFillValue={0}
               cardInfo={{
-                title: "Late Today",
+                title: "Late",
                 value: "0",
                 // text: "We have sold 123 items.",
               }}
             />
           </ContentAreaCards>
           </CardsContainer>
-      <ScrollContainer>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Muhammad Shaheer" role="Banana Eater" />{" "}
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer " role="Banana Eater" />
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-      </ScrollContainer>
-      <ColumnContainer>
-        <LeftColumn style={{ paddingRight: "0" }}>
-          <div
-            style={{
-              // height: "500px",
-              background: "white",
-
-              padding: "20px",
-              marginRight: "10px",
-              marginBottom: "10px",
-              borderRadius: "10px",
-              boxShadow: "0 4px 24px 0 rgba(34, 41, 47, 0.1)",
-            }}
-          >
-            <h6>Calender</h6>
-            <Calendar
-              value={date}
-              onChange={setDate}
-              tileDisabled={tileDisabled}
-              view="month"
-              navigationLabel={renderNavigationLabel}
-              prev2Label={null}
-              next2Label={null}
-              showNeighboringMonth={false}
-            />
-            <div style={{ marginBottom: "30px" }}></div>
-            <h6>Upcoming Events</h6>
-
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-          </div>
-        </LeftColumn>
-        <MiddleColumn>
+          <MiddleColumn>
+          <DashBoardCompBox style={{ width: "100%", padding: "20px" }}>
+            <ColumnContainer>
+              <LeftColumn>
+                <h6>Leave Summary (Monthly)</h6>
+                <H6 >Approved Leaves</H6>
+                <H6 >Pending Leaves</H6>
+                <H6 >Rejected Leaves</H6>
+                <H6 >Total Leaves</H6>
+              </LeftColumn>
+              <RightColumn>
+                <SurveyPieChart />
+              </RightColumn>
+            </ColumnContainer>
+          </DashBoardCompBox>
           <DashBoardCompBox style={{ padding: "20px" }}>
-            <h4>Summery</h4>
+            <h4>Approved Leaves (Today)</h4>
             <div
               style={{
                 display: "flex",
@@ -254,7 +216,7 @@ const EmpDashBoard = (employees) => {
               </Icon>
               <div>
                 <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
-                <H6 style={{ color: "grey", margin: "0" }}>interview</H6>
+                <H6 style={{ color: "grey", margin: "0" }}>Casual</H6>
               </div>
             </div>
             <div
@@ -269,110 +231,13 @@ const EmpDashBoard = (employees) => {
               </Icon>
               <div>
                 <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
-                <H6 style={{ color: "grey", margin: "0" }}>interview</H6>
+                <H6 style={{ color: "grey", margin: "0" }}>Sick</H6>
               </div>
             </div>
           </DashBoardCompBox>
         </MiddleColumn>
-        <RightColumn>
-          <ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "#475be8"]}
-              percentFillValue={69}
-              cardInfo={{
-                title: "Todays Sales",
-                value: "$20.4K",
-                text: "We have sold 123 items.",
-              }}
-            />
-          </ContentAreaCards>
-          <ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "green"]}
-              percentFillValue={67}
-              cardInfo={{
-                title: "Shaheers BSDK level",
-                value: "$69K",
-                text: "We have sold 123 items.",
-              }}
-            />
-          </ContentAreaCards>
-
-          <DashBoardCompBox style={{ padding: "20px" }}>
-            <h5 style={{ fontWeight: "bold" }}>Offer acceptance</h5>
-            <ContentAreaCards
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                alignItems: "center",
-                boxShadow: "none",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <PieChartCom
-                  colors={["#e4e8ef", "green"]}
-                  percentFillValue={76}
-                  cardInfo={{
-                    title: "",
-                    value: "",
-                    text: "",
-                  }}
-                />
-                <h6>Accepted</h6>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <PieChartCom
-                  colors={["#e4e8ef", "orange"]}
-                  percentFillValue={23}
-                  cardInfo={{
-                    title: "",
-                    value: "",
-                    text: "",
-                  }}
-                />
-                <h6>Rejected</h6>
-              </div>
-            </ContentAreaCards>
-          </DashBoardCompBox>
-          <DashBoardCompBox style={{ height: "300px" }}>
-            <SurveyPieChart />
-          </DashBoardCompBox>
-        </RightColumn>
-      </ColumnContainer>
-      <DashBoardCompBox style={{ width: "50%" }}>
-        <BarChartCom data={Chardata} />
-      </DashBoardCompBox>
-      <DashBoardCompBox style={{ width: "100%", padding: "20px" }}>
-        <ColumnContainer>
-          <LeftColumn>
-            <h6>1.How would you rate the overall quality of the porduct</h6>
-            <StarRating readOnly />
-          </LeftColumn>
-          <RightColumn>
-            <SurveyBarChart data={Surveydata} />
-          </RightColumn>
-        </ColumnContainer>
-      </DashBoardCompBox>
-      <DashBoardCompBox style={{}}>
-        {/* <StarRating /> */}
-
-        {/* <h2>Disabled Rating main</h2>
-      <StarRating disabled /> */}
-      </DashBoardCompBox>
     </CenteredContainer>
   );
 };
 
-export default EmpDashBoard;
+export default AMDashBoard;

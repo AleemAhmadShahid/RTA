@@ -85,7 +85,7 @@ export const IAMSidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Job Descriptions/List",
+        path: "/portal/iam/jobDescription",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
@@ -101,7 +101,7 @@ export const IAMSidebarData = [
     subNav: [
       {
         title: "List",
-        // path: "/Performance Evaluations/List",
+        path: "/portal/iam/performanceEvaluation",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
