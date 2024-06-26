@@ -7,7 +7,7 @@ import { SaveAndNextButton } from "../styles/MultiStepFormStyling";
 import { ColumnContainer, LeftColumn, RightColumn } from "../pages/EmpSetting";
 import { FaBriefcase } from "react-icons/fa";
 // import { UploadBox } from "../../styles/MultiStepFormStyling";
-import { AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser,AiOutlineTeam,AiOutlineProject  } from "react-icons/ai";
 import { PiCrownSimple } from "react-icons/pi";
 import { MdDone } from "react-icons/md";
 import { CiFlag1 } from "react-icons/ci";
@@ -16,6 +16,7 @@ import { MdOutlinePhoneInTalk } from "react-icons/md";
 import { StyledButton } from "../pages/EmpSetting";
 import { ButtonContainer } from "../pages/EmpSetting";
 import { IoMdArrowBack } from "react-icons/io";
+import { FiLink } from "react-icons/fi";
 import Timeline from "@mui/lab/Timeline";
 
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -32,10 +33,14 @@ import { createGetRequest } from "../global/requests";
 import InfoBox from "./Cards";
 import { FiUserX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
+<<<<<<< HEAD
 
 import EmployeeCard  from "./EmployeeCard";
 import {ScrollContainer, DashBoardCompBox} from "../pages/IAM/EmpDashBoard/EmpDashBoard";
 
+=======
+import Switch from "./Switch";
+>>>>>>> 7caa8bfd5084a9f21cfb27f3a4c57775bc4173a5
 const BackgroundWallpaper = styled.div`
   height: 180px;
   margin-top: 0px;
@@ -45,18 +50,16 @@ const BackgroundWallpaper = styled.div`
   background-image: url("/login.jpg");
 `;
 export const BoxContainer = styled.div`
-  //   padding: 3px 0px;
-
   border-radius: 5px;
   background: #ffffff;
   margin-top: 20px;
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
   margin-bottom: 10px;
 `;
-const UploadBox = styled.div`
+export const UploadBox = styled.div`
   background-color: #ededed;
   padding: 5px;
-  border: 1px solid #ededed;
+  border: 5px solid white;
   border-radius: 5px;
   background-image: url("/Shaheer.jpeg");
   background-size: cover;
@@ -69,14 +72,11 @@ const UploadBox = styled.div`
   overflow: hidden;
 
   margin-right: 20px;
-  transform: translateY(-50%);
+  
+  transform: ${({ transform }) => transform || "translateY(-50%)"};
 `;
 
 export const UploadContainer = styled.div`
-  // display: flex;
-  // align-items: center;
-  // justify-content: flex-start;
-  // margin-right: 20px;
   background: blue;
   padding: 5px;
   width: {
@@ -90,18 +90,20 @@ const Icon = styled.div`
 const Subtitle = styled.h6`
   margin: 0;
   margin-right: 20px;
+  font-weight:400;
 `;
-const GreyHeading = styled.h6`
+export const GreyHeading = styled.h6`
   color: grey;
   font-size: 14px;
 `;
-const Details = styled.h6`
+export const Details = styled.h6`
   font-size: 14px;
   justify-content: center;
   align-items: center;
   margin-left: 10px;
+  font-weight:400;
 `;
-const DetailContainer = styled.div`
+export const DetailContainer = styled.div`
   display: flex;
   //   align-items: center;
   margin-bottom: 15px;
@@ -120,7 +122,7 @@ const BackIcon = styled.div`
   background-color: white;
   padding: 10px;
   width: 40px;
-  border-radius: 50%;
+ border-radius: 10px;
   color: black;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -203,7 +205,11 @@ const Profile = (employee) => {
   const customTextStyle = {
     color: "grey",
   };
-
+  
+  useEffect(() => {
+    console.log('Employee state:', employee); 
+  }, [employee]);
+  
   return (
     <>
       <ColumnContainer>
@@ -218,7 +224,7 @@ const Profile = (employee) => {
                 </DetailContainer>
                 <DetailContainer>
                   <MdDone />
-                  <Details>Status:a</Details>
+                  <Details>Status:{employee.status}</Details>
                 </DetailContainer>
                 <DetailContainer>
                   <PiCrownSimple />
@@ -246,7 +252,32 @@ const Profile = (employee) => {
 
         <RightColumn style={{ flex: "2" }}>
           <BoxContainer>
-            <Box></Box>
+            <Box>
+              <GreyHeading style={{marginBottom:"30px"}} >Onboarding </GreyHeading>
+              <div style={{display:"flex",justifyContent:"space-between"}}>
+                <div style={{display:"flex"}}>
+                <Switch />
+                <Details style={{fontSize:"16px",fontWeight:"500"}}> Office Tour</Details>
+              </div>
+              100%
+              
+              </div><hr/>
+              <div style={{display:"flex",justifyContent:"space-between"}}>
+                <div style={{display:"flex"}}>
+                <Switch />
+                <Details style={{fontSize:"16px",fontWeight:"500"}}> Management</Details>
+              </div>
+              100%
+              
+              </div><hr/><div style={{display:"flex",justifyContent:"space-between"}}>
+                <div style={{display:"flex"}}>
+                <Switch />
+                <Details style={{fontSize:"16px",fontWeight:"500"}}> Work Tools</Details>
+              </div>
+              100%
+              
+              </div><hr/>
+            </Box>
           </BoxContainer>
           <BoxContainer>
             <Box>
@@ -291,7 +322,7 @@ const EmpProfile = ({}) => {
   const { employeeId } = useParams();
   const [employee, setEmployee] = useState();
   const navigate = useNavigate();
-  const [hover, setHover] = useState(false);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -310,7 +341,7 @@ const EmpProfile = ({}) => {
     if (currentPage === "Profile") {
       return (
         <>
-          <Profile  employee= {employee}/>
+          <Profile employee={employee} />
         </>
       );
     } else if (currentPage === "Team") {
@@ -350,7 +381,7 @@ const EmpProfile = ({}) => {
                 marginTop: "-40px",
               }}
             >
-              <h5 style={{ margin: 0 }}>{employee ? employee.name : "Loading..."}</h5>
+              <h5 style={{ margin: 0,fontWeight:"400" }}>{employee ? employee.name : "Loading..."}</h5>
               <div
                 style={{
                   display: "flex",
@@ -390,6 +421,7 @@ const EmpProfile = ({}) => {
           <AiOutlineUser />
           Profile
         </StyledButton>
+<<<<<<< HEAD
         <StyledButton  currentPage={currentPage}  page="Team" onClick={() => setCurrentPage("Team")}>
           Team
         </StyledButton>
@@ -407,6 +439,22 @@ const EmpProfile = ({}) => {
         </StyledButton>
         <StyledButton page="Performance"  currentPage={currentPage} onClick={() => setCurrentPage("Performance")}>
           Performance
+=======
+        <StyledButton page="Team" onClick={() => setCurrentPage("Team")}>
+        <AiOutlineTeam />
+          Team
+        </StyledButton>
+        <StyledButton page="Project" onClick={() => setCurrentPage("Project")}>
+          <AiOutlineProject />
+          Project
+        </StyledButton>
+        <StyledButton
+          page="Connection"
+          onClick={() => setCurrentPage("Connection")}
+        >
+          <FiLink />
+          Connection
+>>>>>>> 7caa8bfd5084a9f21cfb27f3a4c57775bc4173a5
         </StyledButton>
       </ButtonContainer>
 

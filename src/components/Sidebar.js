@@ -90,11 +90,16 @@ const Sidebar = ({heading,SidebarData}) => {
               {heading}
             </Heading>
             {SidebarData.map((item, index) => {
+              if (item.type === 'separator') {
+                return <hr key={index} />;
+              }
               return (
                 <div key={index}>
                   <SubMenu
                     item={item}
                     toggleSubMenu={() => toggleSubMenu(index)}
+                    theme={theme}
+                    location={location}
                   />
                   {item.subNavOpen &&
                     item.subNav.map((subItem, subIndex) => {
@@ -102,6 +107,8 @@ const Sidebar = ({heading,SidebarData}) => {
                       <SubMenu
                         item={subItem}
                         key={subIndex}
+                        theme={theme}
+                        location={location}
                       />);
                       })}
                 </div>

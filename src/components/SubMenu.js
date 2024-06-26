@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {  useLocation } from "react-router-dom"; 
-
+import {  useSelector } from "react-redux";
 
 const SidebarLink = styled(Link)`
   display: flex;
@@ -14,11 +14,12 @@ const SidebarLink = styled(Link)`
   height: 45px;
   text-decoration: none;
   font-size: 15px;
-  border-radius: 0 15px 15px 0; /* Rounded corners on the right side */
-
+  border-radius: 0 15px 15px 0; 
   &:hover {
-    color: #ffffff;
-    background: #f5f5f5;
+  
+    color: black;
+    background: ${({ location, theme }) => 
+      location.pathname.includes('projectmanagement') ? theme.projectManagement.hoverBackgroundMain : theme.default.hoverBackgroundMain};
     cursor: pointer;
     border-radius: 5px 5px 5px 5px;
   }
@@ -41,7 +42,9 @@ const DropdownLink = styled(Link)`
 
   &:hover {
     color: #ffffff;
-    background: #f5f5f5;
+     background: ${({ location, theme }) => 
+      location.pathname.includes('projectmanagement') ? theme.projectManagement.hoverBackground : theme.default.hoverBackground};
+    // background: #f5f5f5;
     cursor: pointer;
     border-radius: 5px 5px 5px 5px;
   }
@@ -52,11 +55,12 @@ const SubMenuLink = styled(SidebarLink)`
   box-shadow:  ${({ active }) => (active ? 'rgba(115, 103, 240, 0.48) 0px 2px 6px' : '')};
 `;
 
-const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu }) => {
+const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu,location,theme }) => {
 
-  const location = useLocation();
+  // const location = useLocation();
   const [subnav, setSubnav] = useState(false);
 
+  // const active = location.pathname === item.path;
 
   const showSubnav = () => {
     setSubnav(!subnav);
@@ -67,7 +71,7 @@ const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu }) => {
 
   return (
     <>
-      <SubMenuLink to={item.path} onClick={item.subNav && showSubnav} active={active}>
+      <SubMenuLink to={item.path} onClick={item.subNav && showSubnav} active={active} theme={theme} location={location}>
         <div>
           {item.icon}
           <SidebarLabel>{item.title}</SidebarLabel>
@@ -77,13 +81,15 @@ const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu }) => {
             ? item.iconOpened
             : item.subNav
             ? item.iconClosed
+            
             : null}
         </div>
       </SubMenuLink>
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            <DropdownLink to={item.path} key={index} active={item.path == location.pathname}>
+            <DropdownLink to={item.path} key={index} active={item.path == location.pathname} location={location}
+            theme={theme}>
               {item.icon}
               <SidebarLabel>{item.title}</SidebarLabel>
             </DropdownLink>

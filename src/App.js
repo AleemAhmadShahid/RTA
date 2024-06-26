@@ -5,7 +5,8 @@ import { IAMSidebarData } from "./SideBarData/IAM";
 import { AMSidebarData } from "./SideBarData/AM";
 import { ATSSidebarData } from "./SideBarData/ATS";
 import { SelfServiceSidebarData } from "./SideBarData/SS";
-
+import { PMSidebarData } from "./SideBarData/PM";
+import {MMSidebarData} from "./SideBarData/MM";
 import Topbar from "./components/Topbar";
 import Emp_list from "./pages/IAM/Employees/EmpMainPage";
 import Role_list from "./pages/IAM/Roles/RoleMainPage";
@@ -48,6 +49,9 @@ import EmpProfile from "./components/EmpProfileMainPage";
 import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
 import AMDashBoard from "./pages/IAM/EmpDashBoard/AMDashboard";
 import PMMainPage from "./pages/PM/PMMainPage";
+import MeetingMainaPage from "./pages/MM/MeetingMainPage";
+
+
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -118,8 +122,8 @@ function App() {
                 <Route path="companyPolicy" element={<CompanyPolicy />} />           
               </Route>
 
-              <Route path="projectmanagement" element={<Sidebar SidebarData={IAMSidebarData} heading={"Project Management"} />}>
-                 <Route path="board" element={<PMMainPage />} />   
+              <Route path="projectmanagement" element={<Sidebar SidebarData={PMSidebarData} heading={"Project Management"} />}>
+                 <Route path="Board" element={<PMMainPage />} />   
                 {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 
@@ -143,6 +147,10 @@ function App() {
                 <Route path="interview" element={<Interview_list />} />
                 <Route path="offer" element={<Offer_list />} />
               
+              </Route>
+              <Route path="meetingmanagemnetsystem" element={<Sidebar   SidebarData={MMSidebarData}  heading={"Meeting Management"}/>}>
+                <Route path="Meeting" element={<MeetingMainaPage />} />
+               
               </Route>
 
               

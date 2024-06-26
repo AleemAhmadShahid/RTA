@@ -10,10 +10,10 @@ import { TbWaveSawTool } from "react-icons/tb";
 import { MdGridView } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
-export const PMSidebarData = [
+export const MMSidebarData = [
   
   {
-    title: "Boards",
+    title: "Meeting",
     icon: <AiFillProject />,
    
     //     path: "/Boards",
