@@ -33,14 +33,11 @@ import { createGetRequest } from "../global/requests";
 import InfoBox from "./Cards";
 import { FiUserX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
-<<<<<<< HEAD
 
 import EmployeeCard  from "./EmployeeCard";
 import {ScrollContainer, DashBoardCompBox} from "../pages/IAM/EmpDashBoard/EmpDashBoard";
 
-=======
 import Switch from "./Switch";
->>>>>>> 7caa8bfd5084a9f21cfb27f3a4c57775bc4173a5
 const BackgroundWallpaper = styled.div`
   height: 180px;
   margin-top: 0px;
@@ -421,7 +418,6 @@ const EmpProfile = ({}) => {
           <AiOutlineUser />
           Profile
         </StyledButton>
-<<<<<<< HEAD
         <StyledButton  currentPage={currentPage}  page="Team" onClick={() => setCurrentPage("Team")}>
           Team
         </StyledButton>
@@ -439,7 +435,7 @@ const EmpProfile = ({}) => {
         </StyledButton>
         <StyledButton page="Performance"  currentPage={currentPage} onClick={() => setCurrentPage("Performance")}>
           Performance
-=======
+        </StyledButton>
         <StyledButton page="Team" onClick={() => setCurrentPage("Team")}>
         <AiOutlineTeam />
           Team
@@ -454,7 +450,6 @@ const EmpProfile = ({}) => {
         >
           <FiLink />
           Connection
->>>>>>> 7caa8bfd5084a9f21cfb27f3a4c57775bc4173a5
         </StyledButton>
       </ButtonContainer>
 
