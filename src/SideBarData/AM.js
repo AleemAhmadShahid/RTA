@@ -6,7 +6,11 @@ import * as RiIcons from "react-icons/ri";
 import * as BsIcons from "react-icons/bs";
 import * as BiIcons from "react-icons/bi";
 import * as CgIcons from "react-icons/cg";
-
+import { MdOutlineHolidayVillage } from "react-icons/md";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { LuCalendarCheck } from "react-icons/lu";
+import { IoIosTimer } from "react-icons/io";
+import { IoTime } from "react-icons/io5";
 export const AMSidebarData = [
   {
     title: "Dashboard",
@@ -15,7 +19,7 @@ export const AMSidebarData = [
   },
   {
     title: "Attendance",
-    icon: <AiIcons.AiOutlineUser />,
+    icon: <LuCalendarCheck/>,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
     subNav: [
@@ -30,7 +34,7 @@ export const AMSidebarData = [
   {
     title: "Leave",
     // path: "/Roles",
-    icon: <IoIcons.IoIosPaper />,
+    icon: <FaRegCalendarAlt />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
@@ -50,7 +54,7 @@ export const AMSidebarData = [
   {
     title: "Holiday",
     // path: "/Teams",
-    icon: <IoIcons.IoMdPeople />,
+    icon: <MdOutlineHolidayVillage/>,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
@@ -72,7 +76,7 @@ export const AMSidebarData = [
   {
     title: "Shift",
     // path: "/Departments",
-    icon: <FaIcons.FaEnvelopeOpenText />,
+    icon: <IoTime />,
 
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,

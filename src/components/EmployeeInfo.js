@@ -49,13 +49,13 @@ const EmployeeInfo = ({ employee, isSpaceRequired,margin,style }) => {
 
   return (
     <tr>
-      <Td>
+      <Td  >
         <div style={{ display: "flex", alignItems: "center" }}>
            <UserImage
               src={employee?.profileImg || defaultImageUrl}
             alt="Profile Image"
             style={{ ...(isSpaceRequired === true ? { marginLeft: '40px' } : {}),
-            ...(margin ? { margin } : {}) ,
+            // ...(margin ? { margin } : {}) ,
             ...style
           }}
 

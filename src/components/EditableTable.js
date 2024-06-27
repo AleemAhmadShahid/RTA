@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import {
   Td,
-  Tr,
   Th,
   TableContainer,
   Table,
 } from "../styles/TableStyling";
+import styled from "styled-components";
 import LoaderComponent from "./Loader";
+import * as MdIcons from "react-icons/md";
+import * as GrIcons from "react-icons/gr";
+
+const Tr = styled.tr`
+  margin: 100px;
+  justify-content: left;
+`;
 
 const EditableEmployeeTable = ({
   loading,
@@ -16,9 +23,9 @@ const EditableEmployeeTable = ({
 }) => {
   const [editableData, setEditableData] = useState(initialData);
 
-  const handleInputChange = (keyField, field, value) => {
+  const handleInputChange = (id, field, value) => {
     const updatedData = editableData.map((item) =>
-      item[keyField] === keyField ? { ...item, [field]: value } : item
+      item[keyField] === id ? { ...item, [field]: value } : item
     );
     setEditableData(updatedData);
   };
@@ -27,9 +34,11 @@ const EditableEmployeeTable = ({
     <TableContainer>
       <Table>
         <thead>
-          <Tr>
+          <Tr >
             {columns.map((column) => (
-              <Th key={column.field}>{column.label}</Th>
+              <Th key={column.field} style={{ background: "white", textAlign: "left" }}>
+                {column.label}
+              </Th>
             ))}
           </Tr>
         </thead>
@@ -43,16 +52,32 @@ const EditableEmployeeTable = ({
           ) : (
             editableData &&
             editableData.map((item) => (
-              <Tr key={item[keyField]}>
+              <Tr key={item[keyField]} >
                 {columns.map((column) => (
-                  <Td key={column.field}>
-                    <input
-                      type="text"
-                      value={item[column.field]}
-                      onChange={(e) =>
-                        handleInputChange(item[keyField], column.field, e.target.value)
-                      }
-                    />
+                  <Td key={column.field} style={{ height: "40px", textAlign: "left" }}>
+                    {column.field !== "action" ? (
+                      <input
+                        type="text"
+                        placeholder="Enter..."
+                        value={item[column.field]}
+                        style={{ border: "none", height: "30px", padding: "5px", borderRadius: "5px" }}
+                        onChange={(e) =>
+                          handleInputChange(item[keyField], column.field, e.target.value)
+                        }
+                      />
+                    ) : (
+                      <div style={{ display: "flex", gap: "1px" }}>
+                        <MdIcons.MdOutlineModeEditOutline
+                          style={{ fontSize: "18px", cursor: "pointer" }}
+                          
+                        />
+                       
+                        <MdIcons.MdDeleteOutline
+                          style={{ fontSize: "18px", cursor: "pointer" }}
+                          
+                        />
+                      </div>
+                    )}
                   </Td>
                 ))}
               </Tr>

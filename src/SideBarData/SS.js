@@ -7,6 +7,11 @@ import * as BsIcons from "react-icons/bs";
 import * as BiIcons from "react-icons/bi";
 import * as CgIcons from "react-icons/cg";
 
+import { FaRegAddressCard } from "react-icons/fa";
+import { LuClipboardSignature } from "react-icons/lu";
+import { GrDocumentPerformance } from "react-icons/gr";
+import { TbReportAnalytics } from "react-icons/tb";
+import { FaRegCalendarAlt } from "react-icons/fa";
 export const SelfServiceSidebarData = [
   {
     title: "Dashboard",
@@ -15,7 +20,7 @@ export const SelfServiceSidebarData = [
   },
   {
     title: "Attendance",
-    icon: <AiIcons.AiOutlineUser />,
+    icon: <FaRegCalendarAlt/>,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
     subNav: [
@@ -30,7 +35,7 @@ export const SelfServiceSidebarData = [
   {
     title: "Leave",
     // path: "/Roles",
-    icon: <IoIcons.IoIosPaper />,
+    icon: <FaRegCalendarAlt />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
@@ -60,7 +65,7 @@ export const SelfServiceSidebarData = [
   {
     title: "My Evaluation",
     // path: "/Roles",
-    icon: <IoIcons.IoIosPaper />,
+    icon: <TbReportAnalytics />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
@@ -92,7 +97,7 @@ export const SelfServiceSidebarData = [
   {
     title: "Approvals",
     // path: "/Teams",
-    icon: <IoIcons.IoMdPeople />,
+    icon: <LuClipboardSignature />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
@@ -114,7 +119,7 @@ export const SelfServiceSidebarData = [
   {
     title: "Performance Evaluation",
     // path: "/Teams",
-    icon: <IoIcons.IoMdPeople />,
+    icon: <GrDocumentPerformance />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
