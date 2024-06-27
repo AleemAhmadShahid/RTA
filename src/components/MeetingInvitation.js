@@ -10,9 +10,9 @@ const Line=styled.hr`
 margin:0;
 
 `
-const MeetingInvitation = () => {
+const MeetingInvitation = ({ width = "350px", saveButtonText = "I can't", saveAndNextButtonText = "Accept Event" }) => {
   return (
-    <BoxContainer style={{ width: "350px" }}>
+    <BoxContainer style={{ width }}>
       <Box style={{ padding: "15px",borderRadius:"10px"}}>
         <div style={{ display: "flex" }}>
           <Details
@@ -67,11 +67,29 @@ const MeetingInvitation = () => {
         </div>
         <Line/>
         <div style={{ display: "flex" }}>
-          <SaveButton style={{ width: "100%", marginRight: "10px",border:"2px solid #ffa500",color:"#ffa500",padding:"7px " ,fontSize:"14px",fontWeight:"500"}}>
-            I can't
+        <SaveButton
+            style={{
+              width: "100%",
+              marginRight: "10px",
+              border: "2px solid #ffa500",
+              color: "#ffa500",
+              padding: "7px",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          >
+            {saveButtonText}
           </SaveButton>
-          <SaveAndNextButton style={{ width: "100%", marginLeft: "10px",padding:"7px " ,fontSize:"14px",fontWeight:"500"}}>
-            Accept Event
+          <SaveAndNextButton
+            style={{
+              width: "100%",
+              marginLeft: "10px",
+              padding: "7px",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          >
+            {saveAndNextButtonText}
           </SaveAndNextButton>
         </div>
       </Box>

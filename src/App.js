@@ -46,8 +46,12 @@ import CardsPopup from "./pages/CardsPopup";
 import Board from "./pages/PM/Board";
 import Calendar from "./pages/PM/Calendar";
 import EmpProfile from "./components/EmpProfileMainPage";
+
+import ATSDashBoard from "./pages/ATS/ATSDashBoard/ATSDashBoard";
 import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
-import AMDashBoard from "./pages/IAM/EmpDashBoard/AMDashboard";
+import AMDashBoard from "./pages/AM/AMDashBoard/AMDashboard";
+import SSDashBoard from "./pages/SS/SSDashBoard/SSDashboard";
+
 import PMMainPage from "./pages/PM/PMMainPage";
 import MeetingMainaPage from "./pages/MM/MeetingMainPage";
 
@@ -128,6 +132,7 @@ function App() {
               </Route>
 
               <Route path="selfservice" element={<Sidebar SidebarData={SelfServiceSidebarData} heading={"Self Service"} /> }>
+              <Route path="dashboard" element={<SSDashBoard />} />
                 <Route path="attendance" element={<SelfServiceAttendance_list />} />
                 <Route path="leaves" element={<SelfServiceAppliedLeaves_list />} />
               </Route>
@@ -142,6 +147,7 @@ function App() {
               </Route>
 
               <Route path="applicationtrackingsystem" element={<Sidebar   SidebarData={ATSSidebarData}  heading={"Application Tracking System"}/>}>
+              <Route path="dashboard" element={<ATSDashBoard />} /> 
                 <Route path="jobPosting" element={<JobPost_list />} />
                 <Route path="candidate" element={<Candidate_list />} />
                 <Route path="interview" element={<Interview_list />} />

@@ -10,7 +10,7 @@ import * as CgIcons from "react-icons/cg";
 export const ATSSidebarData = [
   {
     title: "Dashboard",
-    //path: "/",
+    path: "/portal/applicationtrackingsystem/dashboard",
     icon: <BsIcons.BsShieldCheck />,
   },
   {

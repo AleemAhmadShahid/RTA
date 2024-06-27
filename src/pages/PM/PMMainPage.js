@@ -134,7 +134,7 @@ const PMMainPage = () => {
             </AddButton>
           </div>
         </TopBar>
-        <div style={{ background: "white", padding: "20px",marginTop:"20px",borderRadius:"5px", }}>
+        {/* <div style={{ background: "white", padding: "20px",marginTop:"20px",borderRadius:"5px", }}>
           <div
             style={{ padding: "20px", display: "flex", alignItems: "center" }}
           >
@@ -232,19 +232,19 @@ const PMMainPage = () => {
           </DetailContainer>
           {/* <h6>Your Boards</h6> */}
 
-          <TemplateContainer>
+          {/* <TemplateContainer>
           <Template>
               
               Test
             </Template>
             <Template />
             <Template />
-          </TemplateContainer>
-        </div>
+          </TemplateContainer> */}
+        {/* </div>  */}
       </CenteredContainer>
 
-      {/* {checkListOption.value === "calendar" && <Calendar />}
-        {checkListOption.value === "board" && <Board />} */}
+       {checkListOption.value === "calendar" && <Calendar />}
+        {checkListOption.value === "board" && <Board />} 
     </>
   );
 };

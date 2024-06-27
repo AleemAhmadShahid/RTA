@@ -15,7 +15,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 export const SelfServiceSidebarData = [
   {
     title: "Dashboard",
-    //path: "/",
+    path: "/portal/selfservice/dashboard",
     icon: <BsIcons.BsShieldCheck />,
   },
   {

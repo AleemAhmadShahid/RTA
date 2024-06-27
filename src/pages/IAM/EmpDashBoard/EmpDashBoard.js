@@ -16,7 +16,6 @@ import EmployeeCard from "../../../components/EmployeeCard";
 import SurveyBarChart from "../../../components/SurveyBarChart";
 import StarRating from "../../../components/StarRating";
 import UpcomingEvent from "../../../components/UpcomingEvent";
-
 export const Chardata = [
   {
     name: "Page A",
@@ -61,6 +60,7 @@ export const Chardata = [
     amt: 2100,
   },
 ];
+
 export const Surveydata = [
   { name: "1 star", pv: 24, amt: 2400, color: "#8884d8" },
   { name: "2 star", pv: 13, amt: 2210, color: "#82ca9d" },

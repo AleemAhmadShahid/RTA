@@ -6,7 +6,7 @@ export const UserImage = styled.img`
   height: 31px;
   border-radius: 50%;
   object-fit: cover;
-  margin-top: -5px;
+  // margin-top: -5px;
 `;
 
 export const Td = styled.td`

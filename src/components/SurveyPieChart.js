@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer,Tooltip } from 'recharts';
 
 const data = [
   { name: 'Group A', value: 400 },
@@ -27,6 +27,7 @@ const SurveyPieChart=()=>{
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={400} height={400}>
             <Pie
+           
               data={data}
               cx="50%"
               cy="50%"
@@ -40,6 +41,7 @@ const SurveyPieChart=()=>{
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
+            <Tooltip />
           </PieChart>
         </ResponsiveContainer>
       );

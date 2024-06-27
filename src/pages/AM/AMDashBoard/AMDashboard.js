@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 // import BarChart from "../../../components/BarChart";
-import { CardsContainer, CenteredContainer } from "../../../styles/TableStyling";
+import {
+  CardsContainer,
+  CenteredContainer,
+} from "../../../styles/TableStyling";
 import Calendar from "react-calendar";
 import "../../../styles/CalenderCom.css";
 
@@ -16,7 +19,53 @@ import EmployeeCard from "../../../components/EmployeeCard";
 import SurveyBarChart from "../../../components/SurveyBarChart";
 import StarRating from "../../../components/StarRating";
 import UpcomingEvent from "../../../components/UpcomingEvent";
+import { Details } from "../../MM/MeetingMainPage";
+import SimpleLineChart from "../../../components/LineChart";
 
+export const Linedata = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
 export const Chardata = [
   {
     name: "Page A",
@@ -141,74 +190,86 @@ const AMDashBoard = (employees) => {
   return (
     <CenteredContainer>
       <CardsContainer>
-      <ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "blue"]}
-              percentFillValue={40}
-              cardInfo={{
-                title: "Active Employees",
-                value: "40",
-                text:"Today",
-                
-              }}
-            />
-          </ContentAreaCards>
-          <ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "#ffa500"]}
-              percentFillValue={5}
-              cardInfo={{
-                title: "Absent Employees",
-                 value: "5",
-                text:"Today",
-                
-              }}
-            />
-          </ContentAreaCards><ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "green"]}
-              percentFillValue={65}
-              cardInfo={{
-                title: "On Time",
-                value: "25",
-                text:"Today",
-                
-              }}
-            />
-          </ContentAreaCards><ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "red"]}
-              percentFillValue={0}
-              cardInfo={{
-                title: "Late",
-                value: "0",
-                // text: "We have sold 123 items.",
-              }}
-            />
-          </ContentAreaCards>
-          </CardsContainer>
-          <MiddleColumn>
-          <DashBoardCompBox style={{ width: "100%", padding: "20px" }}>
+        <ContentAreaCards>
+          <PieChartCom
+            colors={["#e4e8ef", "blue"]}
+            percentFillValue={40}
+            cardInfo={{
+              title: "Active Employees",
+              value: "40",
+              text: "Today",
+            }}
+          />
+        </ContentAreaCards>
+        <ContentAreaCards>
+          <PieChartCom
+            colors={["#e4e8ef", "#ffa500"]}
+            percentFillValue={5}
+            cardInfo={{
+              title: "Absent Employees",
+              value: "5",
+              text: "Today",
+            }}
+          />
+        </ContentAreaCards>
+        <ContentAreaCards>
+          <PieChartCom
+            colors={["#e4e8ef", "green"]}
+            percentFillValue={65}
+            cardInfo={{
+              title: "On Time",
+              value: "25",
+              text: "Today",
+            }}
+          />
+        </ContentAreaCards>
+        <ContentAreaCards>
+          <PieChartCom
+            colors={["#e4e8ef", "red"]}
+            percentFillValue={0}
+            cardInfo={{
+              title: "Late",
+              value: "0",
+              // text: "We have sold 123 items.",
+            }}
+          />
+        </ContentAreaCards>
+      </CardsContainer>
+      <ColumnContainer>
+      <LeftColumn>
+      <DashBoardCompBox style={{height:"300px"}}><SimpleLineChart data={Linedata}/></DashBoardCompBox></LeftColumn>
+      <RightColumn>
+      <DashBoardCompBox style={{height:"300px"}}><SimpleLineChart data={Linedata}/></DashBoardCompBox></RightColumn>
+      </ColumnContainer>
+      <ColumnContainer>
+        <LeftColumn style={{ flex: "2"}}>
+          <DashBoardCompBox style={{padding:"20px"}}>
             <ColumnContainer>
               <LeftColumn>
-                <h6>Leave Summary (Monthly)</h6>
-                <H6 >Approved Leaves</H6>
-                <H6 >Pending Leaves</H6>
-                <H6 >Rejected Leaves</H6>
-                <H6 >Total Leaves</H6>
+                <h5>Leave Summary (Monthly)</h5>
+                <Details style={{fontWeight:"400"}}>Approved Leaves</Details>
+                <Details style={{fontWeight:"400"}}>Pending Leaves</Details>
+                <Details style={{fontWeight:"400"}}>Rejected Leaves</Details>
+                <Details style={{fontWeight:"400"}}>Total Leaves</Details>
               </LeftColumn>
               <RightColumn>
-                <SurveyPieChart />
+                <DashBoardCompBox
+                  style={{ height: "200px", border: "none", boxShadow: "none" }}
+                >
+                  <SurveyPieChart />
+                </DashBoardCompBox>
               </RightColumn>
             </ColumnContainer>
           </DashBoardCompBox>
-          <DashBoardCompBox style={{ padding: "20px" }}>
-            <h4>Approved Leaves (Today)</h4>
+        </LeftColumn>
+        <RightColumn style={{ flex: "1" }}>
+          <DashBoardCompBox style={{padding:"20px"}}>
+            <h5>Approved Leaves (Today)</h5>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                marginBottom: "20px",
+                marginBottom: "15px",
               }}
             >
               <Icon>
@@ -219,11 +280,27 @@ const AMDashBoard = (employees) => {
                 <H6 style={{ color: "grey", margin: "0" }}>Casual</H6>
               </div>
             </div>
+            
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                marginBottom: "20px",
+                marginBottom: "15px",
+              }}
+            >
+              <Icon>
+                <AiOutlineUser style={{ fontSize: "24px" }} />
+              </Icon>
+              <div>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
+                <H6 style={{ color: "grey", margin: "0" }}>Sick</H6>
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "15px",
               }}
             >
               <Icon>
@@ -235,7 +312,8 @@ const AMDashBoard = (employees) => {
               </div>
             </div>
           </DashBoardCompBox>
-        </MiddleColumn>
+        </RightColumn>
+      </ColumnContainer>
     </CenteredContainer>
   );
 };
