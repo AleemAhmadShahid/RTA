@@ -34,7 +34,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser as setGlobalUser} from '../redux/userSlice';
 import {  validateAlphabeticWithSpace } from "../global/validators";
 import { StyledErrorH6 } from "./Login";
-import {createPutRequest} from '../global/requests'
+import {createGetRequest, createPutRequest} from '../global/requests'
 
 
 export const LeftColumn = styled.div`
