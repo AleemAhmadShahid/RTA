@@ -1,109 +1,99 @@
-const BACKEND_URL = "http://dev-portal.remoteteamworkadministration.us:3000";
 
-const createPostRequest = async (formData , path) =>
-{
-    let response  = await fetch(BACKEND_URL + path, {
-        method: 'POST',
-        headers: setHeaders(),
-        body: JSON.stringify(formData),
-    });
-    const status = response.status;
-    response = await response.json();
-    response.status = status;
-    return response;
-
-}
-
-const createPutRequest = async (formData , path) =>
-{
-    let response  = await fetch(BACKEND_URL + path, {
-        method: 'PUT',
-        headers: setHeaders(),
-        body: JSON.stringify(formData),
-    });
-    const status = response.status;
-    response = await response.json();
-    response.status = status;
-    return response;
-
-}
+import { createPostRequest, createPutRequest } from "./requests";
+import {store} from '../redux/store';
+import { setErrorModal } from '../redux/modalSlice';
+import toast  from 'react-hot-toast';
 
 
-const createGetRequest = async (path,params) => 
-{
-  const baseUrl = BACKEND_URL + path;
-  const url = `${baseUrl}${constructQueryString(params)}`;
-  let response = await fetch(url, {headers:setHeaders()});
-  const status = response.status;
-  response = await response.json();
-  response.status = status;
-  return response;   
-}
-
-const createDeleteRequest = async (path) =>
-{
-    let response  = await fetch(BACKEND_URL + path, {
-        method: 'DELETE',
-        headers: setHeaders()
-    });
-    const status = response.status;
-    response = await response.json();
-    response.status = status;
-    return response;
-
-}
-
-const createfileUploadRequest = async (formData) =>
-{
-    let response  = await fetch(BACKEND_URL + '/api/upload/', {
-        method: 'POST',
-        body: formData,
-    });
-    const status = response.status;
-    response = await response.json();
-    response.status = status;
-    return response;
-
-}
-
-
-const constructQueryString = (paramsObject) =>
-{
-  const queryParams = [];
-
-  for (const param in paramsObject) {
-    if (paramsObject.hasOwnProperty(param)) {
-      queryParams.push(`${encodeURIComponent(param)}=${encodeURIComponent(paramsObject[param])}`);
-    }
-  }
-
-  return queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-}
-
-const parseCookies = () => {
-  return {token: localStorage.getItem('token')};
-}
-
-const setHeaders = () =>
-{
-  const cookies = parseCookies();
-  const token = cookies.token; 
-  let headers =  
-  {
-    'Content-Type': 'application/json',
-  };
-  if (token && token!='') 
-    headers = {
-      ...headers,
-      Authorization: `Bearer ${token}`,
-    };
-  return headers;
-}
-
-export { 
-  createPostRequest, 
-  createGetRequest, 
-  createPutRequest, 
-  createfileUploadRequest, 
-  createDeleteRequest
+export const handleCheckChange = (optionLabel, selectedCheck, setSelectedCheck) => {
+    let selectedCheckCopy = [...selectedCheck];
+    if (!selectedCheckCopy.includes(optionLabel))
+      selectedCheckCopy.push(optionLabel);
+    else
+      selectedCheckCopy = selectedCheckCopy.filter(
+        (check) => check !== optionLabel
+      );
+    setSelectedCheck(selectedCheckCopy);
 };
+
+export const changeHandler = (setFormData, setErrors, errors,formData, field, value, setError) =>
+{
+  const handleChange = (
+    field,
+    value,
+    setError = false,
+    data = { ...formData }
+  ) => {
+    const setField = (obj, keys, val) => {
+      if (keys.length === 1) obj[keys[0]] = val;
+      else {
+        const [head, ...rest] = keys;
+        if (!obj[head]) obj[head] = isNaN(parseInt(rest[0])) ? {} : [];
+        obj[head] = setField(obj[head], rest, val);
+      }
+      return obj;
+    };
+
+    const fieldParts = field.split(".");
+    data = setField(data, fieldParts, value);
+    setFormData(data);
+    if (typeof setError === "function" && value === "")
+      setErrors(setField({ ...errors }, fieldParts, ""));
+    else if (typeof setError == "function")
+      setErrors(setField({ ...errors }, fieldParts, setError(value)));
+  };
+
+  handleChange(field, value, setError);
+  
+}
+
+
+
+
+export const saveHandler = (nextStep,fields, postEndPoint, putEndpoint, message,entity, errors, formData, setErrors, handleChange, setReload, reload, closeForm) =>
+{
+  const handleSave = async (nextStep = null) => {
+    let required = false;
+    let errorFields = { ...errors };
+    for (const field of fields) {
+      if (
+        (!required && formData[field] === undefined) ||
+        formData[field] === ""
+      ) {
+        errorFields = { ...errorFields, [field]: "This field is required" };
+        required = true;
+      }
+    }
+    if (required) {
+      setErrors(errorFields);
+      return;
+    }
+    const copyFormData = { ...formData };
+    copyFormData.profileImg = /\/([^/?]+)\?/.test(formData.profileImg)
+      ? formData.profileImg.match(/\/([^/?]+)\?/)[1]
+      : formData.profileImg;
+    if (copyFormData._id === undefined) {
+      const response = await createPostRequest(copyFormData,postEndPoint);
+      if (response.status === 201 || response.status === 200) {
+        if (entity)
+          handleChange("_id", response[entity]._id);
+        setReload(!reload);
+        toast.success(message);
+      } else {
+        store.dispatch(setErrorModal({message: response.error || response.message}));
+        return;
+      }
+    } else {
+      const response = await createPutRequest(
+        copyFormData,
+        putEndpoint
+      );
+      toast.success(message);
+      setReload(!reload);
+    }
+    if (typeof nextStep != "function") closeForm("anything");
+    else nextStep();
+  };
+
+  handleSave(nextStep);
+}

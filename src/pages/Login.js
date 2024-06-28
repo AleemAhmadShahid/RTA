@@ -1,11 +1,11 @@
 import React,{ useState, useEffect } from "react";
 import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
-import {createPostRequest} from '../global/helper'
-import ErrorDialog from "../components/ErrorDialog";
+import {createPostRequest} from '../global/requests'
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import LoaderComponent from "../components/Loader";
+import { setErrorModal } from '../redux/modalSlice';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -164,12 +164,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [blankEmailError, setBlankEmailError] = useState('');
   const [blankPasswordError, setBlankPasswordError] = useState('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
   const [loading, setLoading] = useState(false);
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
 
   const handleInputKeyDown = (event) => {
     if (event.key === 'Enter')
@@ -212,10 +207,7 @@ const LoginPage = () => {
       setLoading(true);
       const response  = await createPostRequest(formData, path);
       if (response.status === 401) 
-      {
-        setErrorMessage(response.error);
-        setIsDialogOpen(true);
-      }
+        dispatch(setErrorModal({message: response.error}));
       else if (response.status === 200) {
         localStorage.setItem('token', response.token);
         dispatch(setUser(response.user));
@@ -233,7 +225,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if(user.isAuthenticated)
-      navigate("/portal/iam/employee");
+      navigate("/portal/iam/dashboard");
     
   }, [useNavigate,user.isAuthenticated]);
 
@@ -243,8 +235,6 @@ const LoginPage = () => {
     <LoginPageContainer>
       <ImageContainer />
       <LoginFormContainer>
-      <ErrorDialog message={errorMessage} show={isDialogOpen} handleClose={handleCloseDialog} />{" "}
-      
         <LoginForm>
           <StyledH4>RTA</StyledH4>
           <StyledH3>Log in to your Account </StyledH3>

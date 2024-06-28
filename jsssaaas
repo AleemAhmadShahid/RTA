@@ -1,0 +1,582 @@
+[33mcommit 7caa8bfd5084a9f21cfb27f3a4c57775bc4173a5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Jun 26 23:37:14 2024 +0500
+
+    Meeting management
+
+[33mcommit e085cd4004c068cbec1a2281ad209fd1224669f7[m
+Merge: 738a482 f9d1e7e
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Jun 23 15:38:19 2024 +0500
+
+    Merge branch 'CompanyPolicy'
+
+[33mcommit f9d1e7e6cc1dc2b4ed66c81d3ffef06613737be5[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Jun 23 15:37:46 2024 +0500
+
+    company policy
+
+[33mcommit 738a482ae8b0c082b17fcf97932116172a6bae04[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Jun 23 15:12:21 2024 +0500
+
+    PM Top bar chnages
+
+[33mcommit 0260a2ba356a802fe3cd70357ee0685688f189ad[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Jun 23 10:52:30 2024 +0500
+
+    single employee view
+
+[33mcommit f75c4748701750ac62214713b12c840e6ee00ad7[m
+Merge: cd3e23d f225a2a
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Jun 23 00:01:21 2024 +0500
+
+    Merge branch 'Self-Service'
+
+[33mcommit cd3e23d924de414a2523ddf3232163d2a0fe3f7b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Jun 23 00:00:48 2024 +0500
+
+    more changes in dashboard
+
+[33mcommit 017a9dec8539c3d1097dbc4cccc76bfa4fce51dc[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Fri Jun 21 19:08:22 2024 +0500
+
+    bar chart and star rating in survey
+
+[33mcommit f225a2a4ceb5db6f471bb6a2e0cee4550cb48006[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Thu Jun 20 10:28:32 2024 +0500
+
+    Self Service & Fix
+
+[33mcommit 21d633a45379e8a852332982e0225c16156f0638[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Jun 19 22:54:46 2024 +0500
+
+    more changes in the dash board
+
+[33mcommit 2ab7cc0dbe6a7fa5cec83bf3d4209d088d765631[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Jun 16 10:58:06 2024 +0500
+
+    Survey & PM
+
+[33mcommit 56fbd945b32ca994158c9ed1ddb761bd516165eb[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat Jun 15 00:36:04 2024 +0500
+
+    dashboard component addition
+
+[33mcommit d06d2e7f5ce2d2874124dc5cc5eb7ea17e067663[m
+Merge: aa93f3a d24bcb3
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Jun 9 12:38:38 2024 +0500
+
+    merged AM, ATS
+
+[33mcommit aa93f3ad2a4e647c12f17080e35dca31781168e6[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Jun 9 12:05:54 2024 +0500
+
+    Employee View
+
+[33mcommit d24bcb38b6b8be6b4ce51898a18b0ddf459df1c7[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Mon Jun 3 00:02:11 2024 +0500
+
+    Attendance Management & ATS
+
+[33mcommit 4d066ef83daa1594ca3f7404f689b790c79186f9[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Jun 2 22:48:34 2024 +0500
+
+    Surveys issues fixed
+
+[33mcommit 2d4b4b3b52aaaea9e107fcaac3fee5b83d55b29e[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat May 25 15:56:51 2024 +0500
+
+    more changes in survey
+
+[33mcommit 3fa5dc19634394ad63ebdc6911606142462bd74b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat May 25 15:37:48 2024 +0500
+
+    more changes in survey
+
+[33mcommit 624aec563b01f6035975b485bcc2beb8bbd836e2[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat May 25 15:01:29 2024 +0500
+
+    more changes in survey
+
+[33mcommit 01e35113771e18fcce9b30f4a287c58246751494[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed May 22 01:29:22 2024 +0500
+
+    More changes in survey form
+
+[33mcommit 98098ff118e7ae14e059dc939b78dc621882d06f[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun May 19 00:21:08 2024 +0500
+
+    Surveys Form
+
+[33mcommit 4467219f4a82e31693ef3dac5896f33d9a34aa0e[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Apr 24 00:54:07 2024 +0500
+
+    File rearranging
+
+[33mcommit fbfabeac54b72e2ab25fb7fce7b7bfbb58f416ab[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Apr 21 23:39:20 2024 +0500
+
+    Folder restructing
+
+[33mcommit 0769ae11a41a9bc7c5f1dd71fac9da5618972312[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Apr 21 23:05:08 2024 +0500
+
+    Cleaned Code. Common handle save and chnage functions
+
+[33mcommit c7fa5e5cb1fa5042bc6d7fbc48c0b8fe944c07a9[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Apr 21 21:31:03 2024 +0500
+
+    Cleaned Code. Redux State for modal
+
+[33mcommit 108c887dbc912298639dc943f8a03654a73fd844[m
+Merge: 0ae4129 9d72a1b
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Wed Apr 3 20:44:36 2024 +0500
+
+    Merge branch 'PM'
+
+[33mcommit 9d72a1bcdb7be3d446c930e181fe02ff581e21b2[m[33m ([m[1;31morigin/PM[m[33m)[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Tue Apr 2 19:08:44 2024 +0500
+
+    More calender changes
+
+[33mcommit 0ae41299e23801089c507f3de973a1b1b931f16b[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Tue Mar 26 05:16:35 2024 +0500
+
+    fix: Calender
+
+[33mcommit 87ed928e10e75f048b29fdf905cda0b45afc1e1e[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Mon Mar 25 22:34:44 2024 +0500
+
+    Card complete
+
+[33mcommit 72a17a6f07faf7d4c70ca8aa50b15d9a893d3beb[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Mar 24 11:53:28 2024 +0500
+
+    Refactoring
+
+[33mcommit f18b32bf68ee4a7d2a58e9cf3fdeb7a8a57dbc8a[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Fri Mar 22 22:09:57 2024 +0500
+
+    More calender changes
+
+[33mcommit 08c7531c8f54f61af82d6c039819b8ecb0696cb2[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Mar 3 00:05:53 2024 +0500
+
+    Basic calender with dragable event
+
+[33mcommit bac0c113e8807373a19514331fdd0349705860cc[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Fri Feb 16 23:19:29 2024 +0500
+
+    Phase 1 and 2 presentation
+
+[33mcommit 31cb0607d6e34f033c03da3538af8ed05f435df0[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sun Jan 21 01:49:09 2024 +0500
+
+    Color & Themes, Close menu on outisde click, show active menu bar, activated top bar menu
+
+[33mcommit 91e5b98ed1d576460f19acdbcb4369dda858a3b3[m
+Author: Sheikh Shaheer <sheikhshaheerimran@hotmail.com>
+Date:   Sat Jan 20 20:11:25 2024 +0500
+
+    API & Bug fixes
+
+[33mcommit c5b10e31e9d80b15e48947412b9514157dde5648[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Jan 18 13:56:04 2024 +0500
+
+    DND label
+
+[33mcommit ce0fa721a875191cc273778a5212a424845abe0b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Jan 18 10:44:03 2024 +0500
+
+    empsettings complete
+
+[33mcommit c6f9dfaa585ed4b4b005704b0174e7ed4f8dd354[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Jan 18 10:29:05 2024 +0500
+
+    empsettings demo
+
+[33mcommit 93b468d47ad71cb0fcedbbeccf56d792e7c37e10[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Jan 17 23:02:36 2024 +0500
+
+    empsettings demo
+
+[33mcommit bb7971125b085858c274322f340ce05e2f2b6321[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Jan 17 20:50:57 2024 +0500
+
+    empsettings demo
+
+[33mcommit c3b0020136e2214c5539724675a32eee35c70724[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Jan 17 12:48:19 2024 +0500
+
+    More changes in the board
+
+[33mcommit fde7f4ab7f1d5acce8aff681069626bf748e23ce[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Jan 7 22:57:37 2024 +0500
+
+    DND card updated with checklist and label
+
+[33mcommit ba684f0891dd0bdae030c620c2fac3dfefaef2d0[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Jan 4 21:16:43 2024 +0500
+
+    DND card updated
+
+[33mcommit 47a87dd65980c0c437204fac59512629cfd95d22[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Nov 2 20:34:38 2023 +0500
+
+    DND new
+
+[33mcommit fbc368aa2c593576f2c87348d0752b2746b830da[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Nov 2 12:38:38 2023 +0500
+
+    DND
+
+[33mcommit f2aca069c94a106a6e427f2f965e6e3d5de0c31b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Nov 2 12:35:51 2023 +0500
+
+    DND styling
+
+[33mcommit 613dad2f64dc5227f0b30c0158cf566126a5958b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Mon Oct 30 22:59:12 2023 +0500
+
+    DND and table
+
+[33mcommit a4236425859ebeb9155e92b74d2043ae82403767[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Oct 25 22:46:26 2023 +0500
+
+    timer in setting
+
+[33mcommit 9a2bd16505ef4bbdeeffc6373c0ac7f789e44920[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat Oct 21 23:29:18 2023 +0500
+
+    DND almost complete
+
+[33mcommit e6926865a3c1680ff814741489a0befefd617a75[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat Oct 21 23:26:34 2023 +0500
+
+    DND almost complete
+
+[33mcommit 154f0a5b9b8e30e5dd018b19ce81fa76360ce388[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Fri Oct 20 00:13:31 2023 +0500
+
+    DND popup
+
+[33mcommit 9e3b4c960cc8d3e8c2dfa65e11f8d27290d141a6[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Tue Oct 17 22:37:16 2023 +0500
+
+    DND popup
+
+[33mcommit a63ee39c285862400c336ac2e5b40c8fd4041c47[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Oct 15 23:50:27 2023 +0500
+
+    DND
+
+[33mcommit 8b334874f5f5471b8109adb399042ce6ee80b394[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sat Oct 14 16:40:26 2023 +0500
+
+    Settings Changes
+
+[33mcommit 9c797e7660a2774f93ee413a8977a0032bee29e2[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat Oct 14 00:17:21 2023 +0500
+
+    DND
+
+[33mcommit 297d00c3eef223383416a76ae3a47d08d1d981b3[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Oct 11 23:45:12 2023 +0500
+
+    small changes
+
+[33mcommit b5529af90138eccb07241fb203e2bddc5ae53e0c[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Mon Oct 9 01:35:44 2023 +0500
+
+    Minor Changes
+
+[33mcommit e1987d7a3eafcd9089a5aa7e11949ee6fd64e50b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Mon Oct 9 00:33:34 2023 +0500
+
+    Setting done
+
+[33mcommit 74d290284a0a2b877c967fbb810ca7ad3e183777[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sun Oct 8 17:56:29 2023 +0500
+
+    Redux, Auth Handling
+
+[33mcommit 9a2a278b39602718c4e357e675751f42639eaf4e[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sun Oct 8 16:36:52 2023 +0500
+
+    Teams/Department Test
+
+[33mcommit 5bf46ce78c55244c5db58962a3369c9634aa3f2a[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sun Oct 8 11:48:27 2023 +0500
+
+    Teams/Departments
+
+[33mcommit fd515858ae56ef710479688dd70eaf9041767043[m
+Merge: c6ae8ac 1f1b9c9
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sun Oct 8 09:42:22 2023 +0500
+
+    Merge branch 'main' of github-personal:AleemAhmadShahid/RTA
+
+[33mcommit 1f1b9c9acca70b69f4ca0107c25ce5650d34363f[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Oct 8 01:06:18 2023 +0500
+
+    connections
+
+[33mcommit c6ae8ac007e011e782796a479c63725ed33fa42c[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sun Oct 8 00:41:04 2023 +0500
+
+    Roles Completed
+
+[33mcommit 119a087745fd60be179c41f8e5d22a0f752a44b8[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat Oct 7 22:02:28 2023 +0500
+
+    Roles page
+
+[33mcommit 5f9d0a65858d633157e8c2907bc4f3e8d5c02392[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sat Oct 7 16:58:50 2023 +0500
+
+    Loader fix & Roles Page
+
+[33mcommit 89dcb915ee3ae95f43707105e35a767cadcae32b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat Oct 7 15:28:26 2023 +0500
+
+    New Page Account setting
+
+[33mcommit a0eb0ce0d7112176fa97c47a61744a94ff3d20fa[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Fri Oct 6 11:09:04 2023 +0500
+
+    Route
+
+[33mcommit e28739d7e1a8e4d90384ca9e7c2f07ce378982f6[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Fri Oct 6 00:53:53 2023 +0500
+
+    Setting page
+
+[33mcommit 9bea042f5af977c196e5efa5bcc6b27c72bff0e5[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Oct 5 01:59:00 2023 +0500
+
+    new page setting
+
+[33mcommit 34ad5005dda29891f462af7f32f7afa77bab0d7d[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Oct 4 01:04:31 2023 +0500
+
+    New Page Account setting
+
+[33mcommit baa004e420010689b0a8442a989b9e49ee4de865[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Tue Oct 3 00:36:10 2023 +0500
+
+    styling chnges and form heading
+
+[33mcommit d773a183c77cf349f954b439f67456c7b4bd37de[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Mon Oct 2 20:09:48 2023 +0500
+
+    Revert "styling changes"
+    
+    This reverts commit bb9906bfeb589426612c82e27d4bd71107957f2b.
+
+[33mcommit bb9906bfeb589426612c82e27d4bd71107957f2b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Mon Oct 2 00:38:45 2023 +0500
+
+    styling changes
+
+[33mcommit 7d6dfa195f1c80a56cbcb940bf4d8e2b2aab2a4b[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Thu Sep 28 01:03:02 2023 +0500
+
+    Liscense & Certifications, Reset Password Enabled, Form Issue,  Validations
+
+[33mcommit b25eb24570f1b3922f8d8e108cb1c62884daf5bf[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Tue Sep 26 23:45:42 2023 +0500
+
+    Delete API, File Upload, Bulk Actions
+
+[33mcommit 92febab95c8bccce80a6dc6ab0904542eafeff9d[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Tue Sep 26 01:47:34 2023 +0500
+
+    Comment issue
+
+[33mcommit 1e4a11ec5f700e2a2bb59debc57dd03888f9e64c[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Tue Sep 26 01:04:05 2023 +0500
+
+    Forget Password, Reset Password API, Design Changes
+
+[33mcommit 15b160fcf4cf295c1da7c8ec315aa2646481ca54[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Mon Sep 25 19:50:29 2023 +0500
+
+    Mobile View
+
+[33mcommit dafeb8880b8d21ca56d20763b9a006133df86f7b[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Mon Sep 25 11:20:54 2023 +0500
+
+    Table Mobile View
+
+[33mcommit 30334a7c2cf0c9220cd524a4535811fe3bcca8dd[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Mon Sep 25 01:07:41 2023 +0500
+
+    mobile view and restructure
+
+[33mcommit dd8a0244751d136070d9aac7fdfd37c127c065be[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sun Sep 24 19:13:07 2023 +0500
+
+    Info Cards Data from API, Status filter
+
+[33mcommit 798efd7cc8d6c3e2cf4422ca3574db502e0fa68e[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sun Sep 24 16:53:16 2023 +0500
+
+    API calls, Column Visibility
+
+[33mcommit 9c71d43d2bd93ff85c14380de8f595f102b8b74b[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sun Sep 24 10:57:11 2023 +0500
+
+    mobile view
+
+[33mcommit 1c41b75508ecddebf1efc014645a907129cb8273[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sat Sep 23 16:31:59 2023 +0500
+
+    Responsiveness improvement
+
+[33mcommit c8db73d64c19cfa50cc7a5adc5bd9c913b8d5560[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Sat Sep 23 10:21:50 2023 +0500
+
+    Employee form
+
+[33mcommit 0d19f74b9dc2d0e708118e7c9df7daa28994d314[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Sat Sep 23 01:28:38 2023 +0500
+
+    code structuring
+
+[33mcommit 58a9951f9bce7f5c9d963f4e06eaf22dc4bd7242[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Fri Sep 22 16:18:30 2023 +0500
+
+    Form Button & Card
+
+[33mcommit ef31ab2ce787445208fe9360ba418405ba6a4222[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Fri Sep 22 15:24:39 2023 +0500
+
+    box shadow
+
+[33mcommit 8c203f26babc896dccb10fe6197408dbc8bbb976[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Fri Sep 22 01:25:28 2023 +0500
+
+    form step 3 and cards
+
+[33mcommit 4ff2fd2680a56696810ab304bc809496f2c36ef0[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Thu Sep 21 14:26:42 2023 +0500
+
+    Login Page Error Mesaage, 404, Cards
+
+[33mcommit e4f4c74d8ba2cf9c903173873e0c355af891c542[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Thu Sep 21 01:03:49 2023 +0500
+
+    more styling changes
+
+[33mcommit ce4c65bf120c8d3cebcc5dce2b26555440a33f3f[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Wed Sep 20 13:15:36 2023 +0500
+
+    Title & favicon
+
+[33mcommit 1a72463c111b22e422d9134dc63eb910a99c6e18[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Wed Sep 20 10:20:01 2023 +0500
+
+    Minor Changes of color, redirect
+
+[33mcommit b8aaa73f7b2d8109a7a9e61dd561ca6bbce18404[m
+Author: Aleem Ahmad <aashahids@gmail.com>
+Date:   Wed Sep 20 01:25:06 2023 +0500
+
+    employee form styling
+
+[33mcommit 4f19257f37f0bf4c6da0e75188e37ebabfcb16f7[m
+Author: shaheer <shaheer.teczon@gmail.com>
+Date:   Tue Sep 19 11:33:20 2023 +0500
+
+    For Alignment, Color Chanages

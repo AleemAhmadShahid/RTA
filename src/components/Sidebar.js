@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom"; 
+import {  useSelector } from "react-redux";
 import styled from "styled-components";
-import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
 import { CgMenuRight } from "react-icons/cg";
 import { Outlet } from "react-router-dom";
 
 const SidebarNav = styled.nav`
-  background: #ffffff;
+  background: ${({ location, theme }) => (location.pathname.includes('projectmanagement') ? theme.projectManagement.sidebar : theme.default.sidebar)};
   width: ${({ sidebar }) => (sidebar ? "250px" : "80px")};
   height: 100vh;
   display: flex;
@@ -26,7 +27,7 @@ const SidebarNav = styled.nav`
   }
 
   & * {
-    color: #000;
+    color: ${({ location, theme }) => (location.pathname.includes('projectmanagement') ? theme.projectManagement.sidebarText : theme.default.sidebarText)};
   }
 `;
 
@@ -35,7 +36,7 @@ const SidebarWrap = styled.div`
 `;
 
 const Heading = styled.h3`
-  color: #000;
+  color: ${({ location, theme }) => (location.pathname.includes('projectmanagement') ? theme.projectManagement.sidebarText : theme.default.sidebarText)};
   margin-left: 1rem;
   font-size: 1.2rem;
   margin-top: 1rem;
@@ -57,9 +58,12 @@ export const MobileIcon = styled.div`
   }
 `;
 
-const Sidebar = () => {
+const Sidebar = ({heading,SidebarData}) => {
   const [sidebar, setSidebar] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState(null);
+  const location = useLocation();
+  const theme = useSelector((state) => state.theme);
+
 
   const toggleSidebar = () => {
     setSidebar(!sidebar);
@@ -77,27 +81,34 @@ const Sidebar = () => {
     <>
       <Outlet />
       <IconContext.Provider value={{ color: "#000" }}>
-        <SidebarNav sidebar={sidebar}>
+        <SidebarNav sidebar={sidebar} theme={theme} location={location}>
           <SidebarWrap>
-            <Heading>
+            <Heading theme={theme} location={location}>
               <MobileIcon sidebar={sidebar} onClick={toggleSidebar}>
                 <CgMenuRight />
               </MobileIcon>
-              Employee Management
+              {heading}
             </Heading>
             {SidebarData.map((item, index) => {
+              if (item.type === 'separator') {
+                return <hr key={index} />;
+              }
               return (
                 <div key={index}>
                   <SubMenu
                     item={item}
                     toggleSubMenu={() => toggleSubMenu(index)}
+                    theme={theme}
+                    location={location}
                   />
                   {item.subNavOpen &&
-                    item.subNav.map((subItem, subIndex) => {
+                    item?.subNav.map((subItem, subIndex) => {
                       return(
                       <SubMenu
                         item={subItem}
                         key={subIndex}
+                        theme={theme}
+                        location={location}
                       />);
                       })}
                 </div>

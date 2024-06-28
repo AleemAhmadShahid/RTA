@@ -1,9 +1,10 @@
 import React , { useState } from "react";
 import styled from "styled-components";
-import { FormLabel } from "./styles/MultiStepFormStyling";
+import { FormLabel } from "../styles/MultiStepFormStyling";
 import { useNavigate  } from "react-router-dom";
-import { createPostRequest } from "../global/helper";
-import ErrorDialog from "../components/ErrorDialog";
+import { createPostRequest } from "../global/requests";
+import { useDispatch } from 'react-redux';
+import {  setSuccessModal } from '../redux/modalSlice';
 
 export const Container = styled.div`
   display: flex;
@@ -42,8 +43,8 @@ export const LeftPanel = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 450px !important;
-  height: 450px !important;
+  width: 500px !important;
+  height: 500px !important;
   object-fit: contain;
   display: block;
   margin: auto; 
@@ -118,32 +119,23 @@ export const H6 = styled.h6`
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const sendResetRequest = async () =>
   {
     const response = await createPostRequest({email},'/api/user/forgetPassword');
     if (response.status === 200)
-    {
-      setMessage(response.message);
-      setIsDialogOpen(true);
-    }
+      dispatch(setSuccessModal({message: response.message}));
   }
 
   return (
     <Container>
       <RTAHeader>RTA</RTAHeader>
       <LeftPanel>
-        <Image src="/Forgetpass.jpg" alt="Forget Password" />
+        <Image src="/ForgetPassword.png" alt="Forget Password" />
       </LeftPanel>
       <RightPanel>
-      <ErrorDialog
-        title={"Success"}
-        message={message}
-        show={isDialogOpen}
-        handleClose={() => setIsDialogOpen(false)}/>
         <Box>
           <Title>Forgot Password?🔒</Title>
           <H6>

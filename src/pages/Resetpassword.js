@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
-import { FormLabel } from "./styles/MultiStepFormStyling";
+import { FormLabel } from "../styles/MultiStepFormStyling";
 import { FiEye, FiEyeOff } from "react-icons/fi"; 
 import { useParams } from 'react-router-dom';
-import { createPostRequest } from "../global/helper";
-import ErrorDialog from "../components/ErrorDialog";
+import { createPostRequest } from "../global/requests";
 import { Container,RTAHeader,LeftPanel,Image,RightPanel,Title,ButtonContainer,SendButton,CancelButton,Box,H6 } from "./ForgetPassword";
+import { useDispatch } from 'react-redux';
+import { setSuccessModal, setErrorModal } from '../redux/modalSlice';
 
 const InputContainer = styled.div`
   position: relative;
@@ -32,13 +33,12 @@ const PasswordToggle = styled.button`
 `;
 
 const ResetPassword = ({name, description}) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState(false);
-  const [message, setMessage] = useState("");
-  const [title, setTitle] = useState("Success");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -48,9 +48,9 @@ const ResetPassword = ({name, description}) => {
   {
     const response = await createPostRequest({password},`/api/user/${id}/setupPassword`);
     if (response.status !== 200)
-      setTitle("Error");
-    setMessage(response.message || response.error);
-    setIsDialogOpen(true);
+      dispatch(setErrorModal({message: response.error}));
+    else
+      dispatch(setSuccessModal({message: response.message}));
   }
 
 
@@ -61,11 +61,6 @@ const ResetPassword = ({name, description}) => {
         <Image src="/Forgetpass.jpg" alt="Forget Password" />
       </LeftPanel>
       <RightPanel>
-        <ErrorDialog
-          title={title}
-          message={message}
-          show={isDialogOpen}
-          handleClose={() => setIsDialogOpen(false)}/>
         <Box>
           <Title>{name}🔒</Title>
           <H6>{description}</H6>

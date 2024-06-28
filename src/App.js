@@ -1,23 +1,61 @@
 import "./App.css";
 
 import Sidebar from "./components/Sidebar";
+import { IAMSidebarData } from "./SideBarData/IAM";
+import { AMSidebarData } from "./SideBarData/AM";
+import { ATSSidebarData } from "./SideBarData/ATS";
+import { SelfServiceSidebarData } from "./SideBarData/SS";
+import { PMSidebarData } from "./SideBarData/PM";
+import {MMSidebarData} from "./SideBarData/MM";
 import Topbar from "./components/Topbar";
-import Emp_list from "./pages/Employees/EmpMainPage";
-import Role_list from "./pages/Roles/RoleMainPage";
-import Team_list from "./pages/Teams/TeamMainPage";
+import Emp_list from "./pages/IAM/Employees/EmpMainPage";
+import Role_list from "./pages/IAM/Roles/RoleMainPage";
+import ViewRole from "./pages/IAM/Roles/ViewRole";
+import JobDescription_list from "./pages/IAM/JobDescription/JobDescriptionMainPage";
+import PerformanceEvaluation_list from "./pages/IAM/PerformanceEvaluation/PerformanceEvaluationMainPage";
+import Team_list from "./pages/IAM/Teams/TeamMainPage";
+import TeamView from "./pages/IAM/TeamView/TeamViewMainPage";
+import Announcement_list from "./pages/IAM/Announcement/AnnouncementMainPage";
+import Survey_list from"./pages/IAM/Surveys/SurveyMainPage";
+import Attendance_list from "./pages/AM/Attedance/AttendanceMainPage";
+import Shift_list from "./pages/AM/Shift/ShiftMainPage";
+import Holiday_list from "./pages/AM/Holiday/HolidayMainPage";
+import AllotedLeaves_list from "./pages/AM/AllotLeaves/AllotLeaveMainPage";
+import AppliedLeaves_list from "./pages/AM/AppliedLeaves/AppliedLeaveMainPage";
+import  SelfServiceAttendance_list from "./pages/SS/Attedance/AttendanceMainPage";
+import SelfServiceAppliedLeaves_list from "./pages/SS/AppliedLeaves/AppliedLeaveMainPage";
+
+import JobPost_list from "./pages/ATS/JobPost/JobPostMainPage";
+import Candidate_list from "./pages/ATS/Candidate/CandidateMainPage";
+import Interview_list from "./pages/ATS/Interview/InterviewMainPage";
+import Offer_list from "./pages/ATS/Offer/OfferMainPage";
+import FormBuilder from "./pages/Global/FormBuilder"
+import FormResponseView from "./pages/Global/FormResponseView";
 import { Route, Routes, Navigate, useNavigate, useLocation } from "react-router-dom"; 
 import NotFoundPage from "./pages/PageNotFound";
 import LoginPage from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import EmpSetting from "./pages/EmpSetting";
+import CompanyPolicy from "./pages/CompanyPolicy";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import { createGetRequest } from "./global/helper";
+import { createGetRequest } from "./global/requests";
 import { clearUser, setUser } from "./redux/userSlice";
 import LoaderComponent from "./components/Loader";
 import CardsPopup from "./pages/CardsPopup";
-import Board from "./components/Board";
+import Board from "./pages/PM/Board";
+import Calendar from "./pages/PM/Calendar";
+import EmpProfile from "./components/EmpProfileMainPage";
+
+import ATSDashBoard from "./pages/ATS/ATSDashBoard/ATSDashBoard";
+import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
+import AMDashBoard from "./pages/AM/AMDashBoard/AMDashboard";
+import SSDashBoard from "./pages/SS/SSDashBoard/SSDashboard";
+
+import PMMainPage from "./pages/PM/PMMainPage";
+import MeetingMainaPage from "./pages/MM/MeetingMainPage";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -44,7 +82,7 @@ function App() {
           dispatch(setUser(response));
        else 
           clearUser();
-      
+       
       } catch (error) {
       }
       setIsLoading(false);
@@ -69,17 +107,61 @@ function App() {
         <Route path="/portal" element={<Topbar />}>
           {user.isAuthenticated ? (
             <>
-              <Route path="iam" element={<Sidebar />}>
+              <Route path="iam" element={<Sidebar  SidebarData={IAMSidebarData} heading={"Employee Management"}/>}>
+                <Route path="dashboard" element={<EmpDashBoard />} /> 
                 <Route path="employee" element={<Emp_list />} />
+                <Route path="employee/:employeeId" element={<EmpProfile />} />
+                <Route path="role/:id" element={<ViewRole />} />
                 <Route path="role" element={<Role_list />} />
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />
-                <Route path="settings" element={<EmpSetting />} />           
+                <Route path="jobDescription" element={<JobDescription_list />} />
+                <Route path="performanceEvaluation" element={<PerformanceEvaluation_list />} />
+                <Route path="settings" element={<EmpSetting />} /> 
+                <Route path="surveys" element={<Survey_list/>} />          
+                <Route path="team/:teamId" element={<TeamView id={2} />} />
+                <Route path="department/:teamId" element={<TeamView id={1} />} />
+                <Route path="announcement" element={<Announcement_list />} />
+                <Route path="form/:type/:id?" element={<FormBuilder isRead={false} />} />
+                <Route path="form/:type/:id/response/view" element={<FormResponseView/>} />
+                <Route path="settings" element={<EmpSetting />} /> 
+                <Route path="companyPolicy" element={<CompanyPolicy />} />           
               </Route>
 
-              <Route path="projectmanagement" element={<Sidebar />}>
-                <Route path="board" element={<Board />} /> 
+              <Route path="projectmanagement" element={<Sidebar SidebarData={PMSidebarData} heading={"Project Management"} />}>
+                 <Route path="Board" element={<PMMainPage />} />   
+                {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
+
+              <Route path="selfservice" element={<Sidebar SidebarData={SelfServiceSidebarData} heading={"Self Service"} /> }>
+              <Route path="dashboard" element={<SSDashBoard />} />
+                <Route path="attendance" element={<SelfServiceAttendance_list />} />
+                <Route path="leaves" element={<SelfServiceAppliedLeaves_list />} />
+              </Route>
+              
+              <Route path="attedancemanagement" element={<Sidebar   SidebarData={AMSidebarData}  heading={"Attendance Management"}/>}>
+                <Route path="dashboard" element={<AMDashBoard />} /> 
+                <Route path="attendance" element={<Attendance_list />} />
+                <Route path="assignLeaves" element={<AllotedLeaves_list />} />
+                <Route path="appliedLeaves" element={<AppliedLeaves_list />} />
+                <Route path="shift" element={<Shift_list />} />
+                <Route path="holiday" element={<Holiday_list />} />
+              </Route>
+
+              <Route path="applicationtrackingsystem" element={<Sidebar   SidebarData={ATSSidebarData}  heading={"Application Tracking System"}/>}>
+              <Route path="dashboard" element={<ATSDashBoard />} /> 
+                <Route path="jobPosting" element={<JobPost_list />} />
+                <Route path="candidate" element={<Candidate_list />} />
+                <Route path="interview" element={<Interview_list />} />
+                <Route path="offer" element={<Offer_list />} />
+              
+              </Route>
+              <Route path="meetingmanagemnetsystem" element={<Sidebar   SidebarData={MMSidebarData}  heading={"Meeting Management"}/>}>
+                <Route path="Meeting" element={<MeetingMainaPage />} />
+               
+              </Route>
+
+              
             </>
           ) : (
             <Route path="*" element={<NavigateToLogin />} />

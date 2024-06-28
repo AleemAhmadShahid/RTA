@@ -1,0 +1,205 @@
+.event-content {
+     padding: 5px; 
+    border-radius: 10px;
+     background-color: white;  
+    box-shadow: 0 4px 4px rgba(0, 0.5, 0, 0.2);
+    margin-bottom:0px;
+    font-size:15px;
+    height: 50px;
+  }
+  
+  .event-content .event-details {
+    display: flex;
+    justify-content: space-between;
+  }
+  .fc-daygrid-day-number {
+    color: black;
+    text-decoration: none;
+    border-bottom: none;
+    text-align: center; 
+    line-height: 2em; 
+  }
+  
+  .fc-day-today {
+    background-color: lightblue !important;
+  }
+  
+  .fc-sat,
+.fc-sun {
+  background-color: #e0e0e0 !important; 
+}
+  
+  
+  .fc {
+
+    & .fc-bg-event,
+    & .fc-non-business,
+    & .fc-highlight {
+      
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  
+    & .fc-non-business {
+      background: var(--fc-non-business-color);
+    }
+  
+    & .fc-bg-event {
+      background: var(--fc-bg-event-color);
+      opacity: var(--fc-bg-event-opacity);
+  
+      & .fc-event-title {
+        margin: .5em;
+        font-size: var(--fc-small-font-size);
+        font-style: italic;
+      }
+    }
+  
+    & .fc-highlight {
+      background: var(--fc-highlight-color);
+    }
+  
+    & .fc-cell-shaded,
+    & .fc-day-disabled {
+      background: var(--fc-neutral-bg-color);
+    }
+  
+  }
+
+
+  .fc-h-event {
+    display: block;
+     border: 1px solid #f5f5f5; 
+    background-color: #f5f5f5;
+  
+    & .fc-event-main {
+      color: black;
+    }
+  
+    & .fc-event-main-frame {
+      display: flex; 
+    }
+  
+    & .fc-event-time {
+      max-width: 100%; 
+      overflow: hidden;
+    }
+  
+    & .fc-event-title-container { 
+      flex-grow: 1;
+      flex-shrink: 1;
+      min-width: 0; 
+    }
+  
+    & .fc-event-title {
+      display: inline-block; 
+      vertical-align: top; 
+      left: 0;  
+      right: 0; 
+      max-width: 100%; 
+      overflow: hidden;
+    }
+  
+    &.fc-event-selected:before {
+      
+      top: -10px;
+      bottom: -10px;
+    }
+  
+  }
+  
+
+.custom-calendar .fc-event .event-image {
+    width: 30px; /* Adjust the width of the image as needed */
+    height: 30px; /* Adjust the height of the image as needed */
+    margin-right: 10px;
+    border-radius: 50%; /* Rounded border for circular images */
+  }
+  
+
+
+  
+
+.fc {
+
+    & .fc-col-header-cell-cushion {
+      display: inline-block;
+      padding: 2px 4px;
+      color:black;
+      text-decoration: none;
+      border-bottom: none;
+    }
+   
+    
+  
+  }
+  :root {
+    --fc-border-color: grey;
+    --fc-daygrid-event-dot-width: 5px;
+    --fc-neutral-text-color: #808080;
+    --fc-border-color: #ddd;
+
+    --fc-button-text-color: black;
+    --fc-button-bg-color: #f5f5f5;;
+    --fc-button-border-color: #f5f5f5;;
+    --fc-button-hover-bg-color: #1e2b37;
+    --fc-button-hover-border-color: #1a252f;
+    --fc-button-active-bg-color: lightgrey;
+    --fc-button-active-border-color: lightgrey;
+  }
+  .fc-event-title {
+    display: inline-block; 
+    vertical-align: top;
+     
+    left: 0;  
+    right: 0; 
+    max-width: 100%; 
+    white-space: normal; 
+    height: auto; /* allow the height to increase to accommodate more text */
+}
+.fc-event-main-frame {
+    display: flex; 
+  }
+.fc-event-resizer {
+    /* border-radius: calc(var(--fc-event-resizer-dot-total-width) * 2);
+    border-width: var(--fc-event-resizer-dot-border-width); */
+   
+    height: 10px;
+    border-style: solid;
+    border-color: inherit;
+    background: var(--fc-page-bg-color);
+    
+}
+.fc-event-title {
+    
+    
+    white-space: normal; 
+}
+
+
+
+
+
+.fc-icon {
+    
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    user-select: none;
+  
+   
+    font-family: 'fcicons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+}
+ 
+  
+

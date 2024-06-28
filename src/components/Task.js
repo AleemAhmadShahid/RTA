@@ -3,19 +3,14 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
 import CardsPopup from "../pages/CardsPopup";
-// import GenericPopup from "../pages/GenericPopup";
+
 import {
-  AiOutlineBell,
-  AiOutlineMail,
-  AiOutlineDashboard,
-  AiOutlinePieChart,
-  AiOutlineAppstore,
-  AiOutlinePlus,
+ 
   AiOutlineEye,
-  AiOutlineArrowRight,
+ 
 } from "react-icons/ai";
 import { RxPencil1 } from "react-icons/rx";
-import GenericPopup from "../pages/GenericPopup";
+
 const Container = styled.div`
   box-shadow: 5px;
   border-radius: 10px;
@@ -108,9 +103,10 @@ const WatchIcon = styled.div`
   font-size: 14px;
 `;
 const LabelLine=styled.div`
-// background-color: ${(props) => props.color || "black"};
-background:black;
+// background-color: ${(props) => props.color || "blue"};
+background: #e79f31;
 height:8px;
+margin-bottom:1px;
 width:40px;
 border-radius:5px;
 

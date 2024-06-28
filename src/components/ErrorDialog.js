@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import * as MdIcons from "react-icons/md";
 import { AiOutlineCheckCircle } from "react-icons/ai";
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModal } from '../redux/modalSlice';
+
 export const CloseButton = styled.button`
   position: absolute;
   top: 5px;
@@ -77,22 +80,26 @@ export const OKButton = styled.button`
   margin-top: 30px;
 `;
 
-const ErrorDialog = ({ show, handleClose, message, title, handleYes }) => {
+const ErrorDialog = () => {
+  const dispatch = useDispatch();
+  const config = useSelector((state) => state.modal);
+  const handleClose = () => dispatch(closeModal());
+ 
   return (
     <>
-      {show && (
-        <DialogOverlay1 show={show}>
+      {config.show && (
+        <DialogOverlay1 show={config.show}>
           <DialogBoxContainer1>
-            {title == "Success" ? <Checkmark />  : <CrossIcon />} 
+            {config.title == "Success" ? <Checkmark />  : <CrossIcon />} 
             {/* {title ? <CrossIcon />:<Checkmark /> } */}
-            <ErrorText>{title || "Error!"}</ErrorText>
-            <ClickedText>{message}</ClickedText>
-            {handleYes === undefined ? (
+            <ErrorText>{config.title || "Error!"}</ErrorText>
+            <ClickedText>{config.message}</ClickedText>
+            {config.handleYes === undefined ? (
               <OKButton onClick={handleClose}>OK</OKButton>
             ) : (
               <>
                 <OKButton
-                  onClick={handleYes}
+                  onClick={() => { config.handleYes(); handleClose()}}
                   style={{ marginRight: "20px", backgroundColor: "red" }}
                 >
                   Yes

@@ -15,7 +15,7 @@ const FilterBoxContainer = styled.div`
 const Dropdown = styled(Select)`
    width: ${(props) => props.width || "100%"};  
   max-width: 400px; 
-  margin-right: 10px;
+  margin-right: ${(props) => props.marginRight || "10px"};
 
   .select__control {
     border: 1px solid orange;
@@ -53,7 +53,7 @@ const Title = styled.h6`
   margin-left: 3px;
 `;
 
-const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
+const FilterBox = ({ options, title, selectedValue, onValueChange, width,marginRight }) => {
   const handleDropdownChange = (selectedOption) => {
     if (selectedOption.label === selectedValue.label)
       return;
@@ -67,6 +67,7 @@ const FilterBox = ({ options, title, selectedValue, onValueChange, width }) => {
       <FilterBoxContainer>
         <Dropdown
           width={width}
+          marginRight={marginRight}
           value={{
             value: selectedValue.value,
             label: selectedValue.label,

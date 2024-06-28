@@ -5,7 +5,7 @@ import {
   Heading,
   CloseButtonContainer,
   CloseButton,
-} from "./styles/MultiStepFormStyling";
+} from "../styles/MultiStepFormStyling";
 import { LeftColumn, RightColumn, ColumnContainer } from "./EmpSetting";
 import {
   AiOutlineBell,
@@ -22,8 +22,9 @@ import { GrAttachment } from "react-icons/gr";
 import { MdContentCopy } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { H6 } from "./ForgetPassword";
-import GenericPopup from "./GenericPopup";
-
+import GenericPopup from "../components/GenericPopup";
+import Progressbar from "../components/ProgressBar";
+import { TbCheckbox } from "react-icons/tb";
 const PopupOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -84,7 +85,7 @@ export const AddButton = styled.button`
     background-color: grey;
   }
 `;
-const TextArea = styled.textarea`
+export const TextArea = styled.textarea`
   border-radius: 5px;
   width: 92%;
   padding: 4px;
@@ -95,7 +96,7 @@ const TextArea = styled.textarea`
   margin-bottom: 5px;
 `;
 
-const Icon = styled.span`
+export const Icon = styled.span`
   margin-right: 10px;
   margin-left: 5px;
   font-size: 14px;
@@ -146,7 +147,7 @@ const CardsPopup = ({
   task,
   closeCardPopup,
   onImageSelect,
-   title,
+  title,
   onSaveImage,
   onWatchToggle,
   column,
@@ -161,10 +162,11 @@ const CardsPopup = ({
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false);
   const [isAttachmentPopupOpen, setIsAttachmentPopupOpen] = useState(false);
   const [isCoverPopupOpen, setIsCoverPopupOpen] = useState(false);
+  const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
+  const [isCopyPopupOpen, setIsCopyPopupOpen] = useState(false);
   const [memberFormValues, setMemberFormValues] = useState({});
   const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
   const [isEditable, setIsEditable] = useState(false);
-
 
   const openMemberPopup = (event) => {
     const clickedDiv = event.currentTarget;
@@ -201,6 +203,13 @@ const CardsPopup = ({
   const closeLabelPopup = () => {
     setIsLabelPopupOpen(false);
   };
+  //checklist
+
+  
+  const [showDiv, setShowDiv] = useState(false);
+  const handleChecklistButtonClick = (value) => {
+    setShowDiv(value);
+  };
   const openCheckListPopup = (event) => {
     const clickedDiv = event.currentTarget;
     const rect = clickedDiv.getBoundingClientRect();
@@ -212,7 +221,6 @@ const CardsPopup = ({
 
     setIsCheckListPopupOpen(true);
     setIsLabelPopupOpen(false);
-
   };
   const closeCheckListPopup = () => {
     setIsCheckListPopupOpen(false);
@@ -239,7 +247,6 @@ const CardsPopup = ({
     setIsEditable(true);
   };
 
-
   const [selectedColor, setSelectedColor] = useState(null);
 
   const handleColorChange = (color) => {
@@ -247,12 +254,7 @@ const CardsPopup = ({
     setSelectedColor(color);
   };
 
-
-
-
-
-
-//for date
+  //for date
 
   const openDatePopup = (event) => {
     const clickedDiv = event.currentTarget;
@@ -264,7 +266,6 @@ const CardsPopup = ({
     console.log(left, top);
 
     setIsDatePopupOpen(true);
-    
   };
   const closeDatePopup = () => {
     setIsDatePopupOpen(false);
@@ -281,39 +282,58 @@ const CardsPopup = ({
     console.log(left, top);
 
     setIsAttachmentPopupOpen(true);
-    
   };
   const closeAttachmentPopup = () => {
     setIsAttachmentPopupOpen(false);
   };
 
-//for cover
-const openCoverPopup = (event) => {
-  const clickedDiv = event.currentTarget;
-  const rect = clickedDiv.getBoundingClientRect();
-  const left = rect.left;
-  const top = rect.top;
+  //for cover
+  const openCoverPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
 
-  setBoxPosition({ left, top });
-  console.log(left, top);
+    setBoxPosition({ left, top });
+    console.log(left, top);
 
-  setIsCoverPopupOpen(true);
-  
-};
-const closeCoverPopup = () => {
-  setIsCoverPopupOpen(false);
-};
+    setIsCoverPopupOpen(true);
+  };
+  const closeCoverPopup = () => {
+    setIsCoverPopupOpen(false);
+  };
+  //for move
 
+  const openMovePopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
 
+    setBoxPosition({ left, top });
+    console.log(left, top);
 
+    setIsMovePopupOpen(true);
+  };
+  const closeMovePopup = () => {
+    setIsMovePopupOpen(false);
+  };
 
+  //for copy
+  const openCopyPopup = (event) => {
+    const clickedDiv = event.currentTarget;
+    const rect = clickedDiv.getBoundingClientRect();
+    const left = rect.left;
+    const top = rect.top;
 
+    setBoxPosition({ left, top });
+    console.log(left, top);
 
-
-
-
-
-
+    setIsCopyPopupOpen(true);
+  };
+  const closeCopyPopup = () => {
+    setIsCopyPopupOpen(false);
+  };
 
   return (
     <PopupOverlay>
@@ -342,12 +362,8 @@ const closeCoverPopup = () => {
               <LeftIcon>
                 <AiOutlineAppstore />
               </LeftIcon>
-              {task.content}
-              <div>
-                {/* {task.column.title} */}
-              </div>
-              
-               
+              {task.description}
+              <div>{/* {task.column.title} */}</div>
             </Heading>
 
             <CloseButtonContainer>
@@ -367,22 +383,22 @@ const closeCoverPopup = () => {
               >
                 Notification
               </H6>
-              <div   style={{  marginLeft: "40px" ,display:'flex'}}>
-              <AddButton
-                style={{ width: "100px", marginRight: "20px", color: "#172b4d"}}
-                onClick={handleWatchClick}
-              >
-                <Icon>
-                  <AiOutlineEye />
-                </Icon>
-                Watch
-              </AddButton>
+              <div style={{ marginLeft: "40px", display: "flex" }}>
+                <AddButton
+                  style={{
+                    width: "100px",
+                    marginRight: "20px",
+                    color: "#172b4d",
+                  }}
+                  onClick={handleWatchClick}
+                >
+                  <Icon>
+                    <AiOutlineEye />
+                  </Icon>
+                  Watch
+                </AddButton>
 
-
-
-
-
-              <ColorContainer color={selectedColor} />
+                <ColorContainer color={selectedColor} />
               </div>
               <H6
                 style={{
@@ -436,6 +452,76 @@ const closeCoverPopup = () => {
                   Cancel{" "}
                 </AddButton>
               </div>
+              {/* checklist */}
+
+              {showDiv && ( 
+                <div>
+                  {/* Checklist header */}
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <H6
+                      style={{
+                        fontWeight: "bold",
+                        marginTop: "30px",
+                        fontSize: "16px",
+                        color: "#172b4d",
+                      }}
+                    >
+                      {" "}
+                      <LeftIcon style={{ marginRight: "20px" }}>
+                        <TbCheckbox />
+                      </LeftIcon>
+                      CheckList
+                    </H6>
+                
+                    <AddButton
+                      style={{
+                        width: "60px",
+                        height: "30px",
+                        marginTop: "30px",
+                      }}
+                    >
+                      Delete
+                    </AddButton>
+                  </div>
+                  {/* Progress bar */}
+                  <div style={{ display: "flex" }}>
+                    <LeftIcon style={{ marginRight: "20px" }}>
+                      {/* <ProgressBarPercent/> */}
+                    </LeftIcon>
+                    <div style={{ width: "100%" }}>
+                      <Progressbar />
+                    </div>
+                  </div>
+                  
+                  <div style={{ display: "flex" }}>
+                    <input
+                      style={{ marginLeft: "10px" }}
+                      type="checkbox"
+                    ></input>
+                    <InputContainer>
+                      <Input
+                        style={{ marginLeft: "25px", width: "95%" }}
+                        type="text"
+                      />
+                    </InputContainer>
+                  </div>
+                  
+                  <AddButton
+                    style={{
+                      marginLeft: "45px",
+                      width: "100px",
+                      height: "30px",
+                    }}
+                  >
+                    Add an Item
+                  </AddButton>
+                  
+                  <GenericPopup onAddButtonClick={handleChecklistButtonClick} />
+                </div>
+              )}
+
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <H6
                   style={{
@@ -446,7 +532,7 @@ const closeCoverPopup = () => {
                   }}
                 >
                   {" "}
-                  <LeftIcon style={{marginRight:'20px'}}>
+                  <LeftIcon style={{ marginRight: "20px" }}>
                     <AiOutlineBell />
                   </LeftIcon>
                   Activity
@@ -457,18 +543,18 @@ const closeCoverPopup = () => {
                   Show Details
                 </AddButton>
               </div>
-              <div style={{display:'flex'}}>
-              <UserImage
-            // src={employee.profileImg || defaultImageUrl}
-            alt="Profile Image"
-            style={{ marginLeft: '0px' }}
-          />
-              <InputContainer style={{ marginLeft: '-30px' }} >
-                <Input type="text" />
-              </InputContainer>
+              <div style={{ display: "flex" }}>
+                <UserImage
+                  // src={employee.profileImg || defaultImageUrl}
+                  alt="Profile Image"
+                  style={{ marginLeft: "0px" }}
+                />
+                <InputContainer style={{ marginLeft: "-30px" }}>
+                  <Input type="text" />
+                </InputContainer>
               </div>
             </LeftColumn>
-            
+
             <RightColumn>
               <H6
                 style={{
@@ -498,25 +584,15 @@ const closeCoverPopup = () => {
                 </Icon>
                 Checklist
               </AddButton>
-              <AddButton  onClick={openDatePopup}>
+              <AddButton onClick={openDatePopup}>
                 <Icon>
                   <BsClock />
                 </Icon>
                 Date
               </AddButton>
-              <AddButton
-                onClick= {openAttachmentPopup}
-                
-              >
+              <AddButton onClick={openAttachmentPopup}>
                 <Icon>
                   <GrAttachment />
-                  {/* <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleImageSelection}
-                  /> */}
                 </Icon>
                 Attachment
               </AddButton>
@@ -547,13 +623,13 @@ const closeCoverPopup = () => {
                 </Icon>
                 Add Button
               </AddButton>
-              <AddButton>
+              <AddButton onClick={openMovePopup}>
                 <Icon>
                   <AiOutlineArrowRight />
                 </Icon>
                 Move
               </AddButton>
-              <AddButton>
+              <AddButton onClick={openCopyPopup}>
                 <Icon>
                   <MdContentCopy />
                 </Icon>
@@ -590,9 +666,6 @@ const closeCoverPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeMemberPopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
           buttonText="Show Other Workspace Members"
         />
       )}
@@ -611,7 +684,6 @@ const closeCoverPopup = () => {
           ]}
           onClose={closeLabelPopup}
           onColorChange={handleColorChange}
-         
           buttonText="Add "
         />
       )}
@@ -629,49 +701,34 @@ const closeCoverPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeCheckListPopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
           buttonText="Add "
         />
       )}
       {isDatePopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-          // top={boxPosition.top}
-          // heading={}
           fields={[
             {
               name: "Date",
               type: "text",
               placeholder: "Dates",
             },
-            // Add other fields as needed
           ]}
           onClose={closeDatePopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
           buttonText="Add "
         />
       )}
       {isAttachmentPopupOpen && (
         <GenericPopup
           left={boxPosition.left}
-          // top={boxPosition.top}
-          // heading={}
           fields={[
             {
               name: "Attachment",
               type: "text",
               placeholder: "Dates",
             },
-            // Add other fields as needed
           ]}
           onClose={closeAttachmentPopup}
-          // onSubmit={(formValues) => {
-          //   console.log("Member form submitted:", formValues);
-          // }}
           buttonText="Add "
         />
       )}
@@ -689,6 +746,47 @@ const closeCoverPopup = () => {
             // Add other fields as needed
           ]}
           onClose={closeCoverPopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
+        />
+      )}
+
+      {isMovePopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top-100}
+          // heading={}
+          fields={[
+            {
+              name: "Move",
+              type: "text",
+              placeholder: "Dates",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeMovePopup}
+          // onSubmit={(formValues) => {
+          //   console.log("Member form submitted:", formValues);
+          // }}
+          buttonText="Add "
+        />
+      )}
+      {isCopyPopupOpen && (
+        <GenericPopup
+          left={boxPosition.left}
+          top={boxPosition.top-100}
+          // heading={}
+          fields={[
+            {
+              name: "Copy",
+              type: "text",
+              placeholder: "Dates",
+            },
+            // Add other fields as needed
+          ]}
+          onClose={closeCopyPopup}
           // onSubmit={(formValues) => {
           //   console.log("Member form submitted:", formValues);
           // }}
