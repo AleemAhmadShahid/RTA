@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer,Tooltip } from 'recharts';
 
-const data = [
-  { name: 'Group A', value: 5 },
-  { name: 'Group B', value: 10 },
-  { name: 'Group C', value: 7 },
-  { name: 'Group D', value: 22 },
-];
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+// const data = [
+//   { name: 'Group A', value: 400 },
+//   { name: 'Group B', value: 300 },
+//   { name: 'Group C', value: 300 },
+//   { name: 'Group D', value: 200 },
+// ];
+const COLORS = ['#0088FE', 'Pink', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -22,15 +22,15 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 
-const SurveyPieChart=()=>{
+const SurveyPieChart=({data, cx = "50%", cy = "50%"})=>{
     return (
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart width={400} height={400}>
+          <PieChart width={300} height={300}>
             <Pie
            
               data={data}
-              cx="50%"
-              cy="50%"
+              cx={cx}
+          cy={cy}
               labelLine={false}
               label={renderCustomizedLabel}
               outerRadius={80}

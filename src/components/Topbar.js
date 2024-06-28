@@ -21,7 +21,7 @@ import {
 import { CgMenuGridR,CgMenuRight  } from "react-icons/cg";
 import { clearUser } from "../redux/userSlice";
 import Sidebar from "./Sidebar";
-
+import { MdOutlinePolicy } from "react-icons/md";
 const Nav = styled.div`
   background: #ffffff;
   height: 57px;
@@ -61,6 +61,13 @@ const SettingIcon = styled(AiOutlineSetting)`
   cursor: pointer;
 `;
 
+
+const PolicyIcon = styled(MdOutlinePolicy)`
+  font-size: 20px;
+  margin-right: 13px;
+  margin-left: 10px;
+  cursor: pointer;
+`;
 const BellIcon = styled(AiOutlineBell)`
   font-size: 20px;
   cursor: pointer;
@@ -410,7 +417,7 @@ const Topbar = () => {
                 <SettingDropdownButton
                   onClick={() => {setIssettingDropdownOpen(false);  navigate("/portal/iam/companyPolicy");}}
                 >
-                  <AiOutlineSetting />
+                  <MdOutlinePolicy />
                   <span>Company Policy</span>
                 </SettingDropdownButton>
               </SettingDropdownItem>

@@ -41,7 +41,7 @@ const UpcomingEvent = ({ event, date }) => {
       
         <div style={{ display: "flex", alignItems: "center" ,marginTop:"20px"}}>
            <EventImage
-               src="/Shaheer.jpeg"
+               src="/event.jpeg"
             alt="Profile Image"
             
           /> 
