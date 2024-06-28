@@ -24,46 +24,46 @@ import SimpleLineChart from "../../../components/LineChart";
 
 export const Linedata = [
   {
-    name: 'Page A',
+    name: 'Jan 24',
     uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    // pv: 2400,
+    // amt: 2400,
   },
   {
-    name: 'Page B',
+    name: 'Feburary 24',
     uv: 3000,
-    pv: 1398,
-    amt: 2210,
+    // pv: 1398,
+    // amt: 2210,
   },
   {
-    name: 'Page C',
+    name: 'March 24',
     uv: 2000,
-    pv: 9800,
-    amt: 2290,
+    // pv: 9800,
+    // amt: 2290,
   },
   {
-    name: 'Page D',
+    name: 'April 24',
     uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    // pv: 3908,
+    // amt: 2000,
   },
   {
-    name: 'Page E',
+    name: 'May 24',
     uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    // pv: 4800,
+    // amt: 2181,
   },
   {
-    name: 'Page F',
+    name: 'June 24',
     uv: 2390,
-    pv: 3800,
-    amt: 2500,
+    // pv: 3800,
+    // amt: 2500,
   },
   {
-    name: 'Page G',
+    name: 'July 24',
     uv: 3490,
-    pv: 4300,
-    amt: 2100,
+    // pv: 4300,
+    // amt: 2100,
   },
 ];
 export const Chardata = [
@@ -215,10 +215,10 @@ const AMDashBoard = (employees) => {
         <ContentAreaCards>
           <PieChartCom
             colors={["#e4e8ef", "green"]}
-            percentFillValue={65}
+            percentFillValue={35}
             cardInfo={{
               title: "On Time",
-              value: "25",
+              value: "35",
               text: "Today",
             }}
           />
@@ -230,6 +230,7 @@ const AMDashBoard = (employees) => {
             cardInfo={{
               title: "Late",
               value: "0",
+              text: "Today",
               // text: "We have sold 123 items.",
             }}
           />
@@ -237,7 +238,7 @@ const AMDashBoard = (employees) => {
       </CardsContainer>
       <ColumnContainer>
       <LeftColumn>
-      <DashBoardCompBox style={{height:"300px"}}><SimpleLineChart data={Linedata}/></DashBoardCompBox></LeftColumn>
+      <DashBoardCompBox style={{height:"300px"}}>Monthly Attedance Report<br></br><SimpleLineChart data={Linedata}/></DashBoardCompBox></LeftColumn>
       <RightColumn>
       <DashBoardCompBox style={{height:"300px"}}><SimpleLineChart data={Linedata}/></DashBoardCompBox></RightColumn>
       </ColumnContainer>
@@ -247,10 +248,10 @@ const AMDashBoard = (employees) => {
             <ColumnContainer>
               <LeftColumn>
                 <h5>Leave Summary (Monthly)</h5>
-                <Details style={{fontWeight:"400"}}>Approved Leaves</Details>
-                <Details style={{fontWeight:"400"}}>Pending Leaves</Details>
-                <Details style={{fontWeight:"400"}}>Rejected Leaves</Details>
-                <Details style={{fontWeight:"400"}}>Total Leaves</Details>
+                <Details style={{fontWeight:"400"}}>Approved Leaves: 5</Details>
+                <Details style={{fontWeight:"400"}}>Pending Leaves: 10</Details>
+                <Details style={{fontWeight:"400"}}>Rejected Leaves: 7</Details>
+                <Details style={{fontWeight:"400"}}>Total Leaves: 22</Details>
               </LeftColumn>
               <RightColumn>
                 <DashBoardCompBox
@@ -276,7 +277,7 @@ const AMDashBoard = (employees) => {
                 <AiOutlineUser style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>3</H6>
                 <H6 style={{ color: "grey", margin: "0" }}>Casual</H6>
               </div>
             </div>
@@ -292,8 +293,8 @@ const AMDashBoard = (employees) => {
                 <AiOutlineUser style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
-                <H6 style={{ color: "grey", margin: "0" }}>Sick</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>1</H6>
+                <H6 style={{ color: "grey", margin: "0" }}>Half Day</H6>
               </div>
             </div>
             <div
@@ -307,7 +308,7 @@ const AMDashBoard = (employees) => {
                 <AiOutlineUser style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>2</H6>
                 <H6 style={{ color: "grey", margin: "0" }}>Sick</H6>
               </div>
             </div>

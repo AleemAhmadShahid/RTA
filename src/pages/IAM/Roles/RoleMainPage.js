@@ -390,9 +390,7 @@ const Role_list = () => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(role);
-                              setIsViewMode(true);
-                              toggleForm();
+                              navigate(`/portal/iam/role/${role._id}`)
                             }}
                               style={{ fontSize: "18px", cursor: "pointer" }}
                             />

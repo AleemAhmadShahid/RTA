@@ -366,7 +366,9 @@ const AllotedLeaves_list = () => {
                   
               
                         {selectedCheck.includes("User") && (
-                          <EmployeeInfo isSpaceRequired={true} employee={allotedLeaves?.employeeDetail }/>
+                          <Td>
+                            <EmployeeInfo isSpaceRequired={true} employee={allotedLeaves?.employeeDetail }/>
+                          </Td>
                         )}
 
                         {selectedCheck.includes("Duration") && (

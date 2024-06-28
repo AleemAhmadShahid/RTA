@@ -36,12 +36,13 @@ const CheckIn = ({ width = "350px", saveButtonText = "Check Out", saveAndNextBut
           <Details
             style={{ color: "#ffa500", fontSize: "20px", marginRight: "10px", marginBottom: "10px" }}
           >
-            Welcome ...
+            Welcome Hammad
           </Details>
         </div>
         
-        <Details style={{marginTop:"0px",fontSize:"16px"}}>Reporting Manager </Details>
-        <EmployeeInfo /><TimeDiv>{formattedTime}</TimeDiv>
+        <Details style={{marginTop:"0px",fontSize:"16px"}}>Reporting Manager: Hasnain </Details>
+        {/* <EmployeeInfo /> */}
+        <TimeDiv>{"00:00:00"}</TimeDiv>
         <GreyHeading
           style={{
             margin: "0",
@@ -52,6 +53,7 @@ const CheckIn = ({ width = "350px", saveButtonText = "Check Out", saveAndNextBut
         >
           You are not Checked In yet today
         </GreyHeading>
+        <br></br><br></br>
         <Line />
         <div style={{ display: "flex" }}>
           <SaveButton

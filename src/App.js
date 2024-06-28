@@ -10,6 +10,7 @@ import {MMSidebarData} from "./SideBarData/MM";
 import Topbar from "./components/Topbar";
 import Emp_list from "./pages/IAM/Employees/EmpMainPage";
 import Role_list from "./pages/IAM/Roles/RoleMainPage";
+import ViewRole from "./pages/IAM/Roles/ViewRole";
 import JobDescription_list from "./pages/IAM/JobDescription/JobDescriptionMainPage";
 import PerformanceEvaluation_list from "./pages/IAM/PerformanceEvaluation/PerformanceEvaluationMainPage";
 import Team_list from "./pages/IAM/Teams/TeamMainPage";
@@ -110,6 +111,7 @@ function App() {
                 <Route path="dashboard" element={<EmpDashBoard />} /> 
                 <Route path="employee" element={<Emp_list />} />
                 <Route path="employee/:employeeId" element={<EmpProfile />} />
+                <Route path="role/:id" element={<ViewRole />} />
                 <Route path="role" element={<Role_list />} />
                 <Route path="team" element={<Team_list id={2} />} />
                 <Route path="department" element={<Team_list id={1} />} />

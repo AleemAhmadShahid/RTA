@@ -365,7 +365,9 @@ const AppliedLeaves_list = () => {
                   
               
                         {selectedCheck.includes("User") && (
-                          <EmployeeInfo isSpaceRequired={true} employee={appliedLeaves?.employeeDetail }/>
+                          <Td>
+                            <EmployeeInfo isSpaceRequired={true} employee={appliedLeaves?.employeeDetail }/>
+                          </Td>
                         )}
 
                         {selectedCheck.includes("Start Date") && (

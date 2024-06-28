@@ -77,7 +77,7 @@ const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu,location,theme }) 
           <SidebarLabel>{item.title}</SidebarLabel>
         </div>
         <div>
-          {item.subNav && subnav
+          {item?.subNav && subnav
             ? item.iconOpened
             : item.subNav
             ? item.iconClosed

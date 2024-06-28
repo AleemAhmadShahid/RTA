@@ -63,88 +63,88 @@ import CheckIn from "../../../components/CheckIn";
 
 export const Linedata = [
   {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    name: 'Jan 24',
+    Attendance: 20,
+    // pv: 2400,
+    // amt: 2400,
   },
   {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
+    name: 'Feburary 24',
+    Attendance: 21,
+    // pv: 1398,
+    // amt: 2210,
   },
   {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
+    name: 'March 24',
+    Attendance: 29,
+    // pv: 9800,
+    // amt: 2290,
   },
   {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    name: 'April 24',
+    Attendance: 31,
+    // pv: 3908,
+    // amt: 2000,
   },
   {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    name: 'May 24',
+    Attendance: 30,
+    // pv: 4800,
+    // amt: 2181,
   },
   {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
+    name: 'June 24',
+    Attendance: 28,
+    // pv: 3800,
+    // amt: 2500,
   },
   {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
+    name: 'July 24',
+    Attendance: 27,
+    // pv: 4300,
+    // amt: 2100,
   },
 ];
 export const Chardata = [
   {
     name: "Page A",
-    uv: 4000,
+    Attendance: 4000,
     pv: 2400,
     amt: 2400,
   },
   {
     name: "Page B",
-    uv: 3000,
+    Attendance: 3000,
     pv: 1398,
     amt: 2210,
   },
   {
     name: "Page C",
-    uv: 2000,
+    Attendance: 2000,
     pv: 9800,
     amt: 2290,
   },
   {
     name: "Page D",
-    uv: 2780,
+    Attendance: 2780,
     pv: 3908,
     amt: 2000,
   },
   {
     name: "Page E",
-    uv: 1890,
+    Attendance: 1890,
     pv: 4800,
     amt: 2181,
   },
   {
     name: "Page F",
-    uv: 2390,
+    Attendance: 2390,
     pv: 3800,
     amt: 2500,
   },
   {
     name: "Page G",
-    uv: 3490,
+    Attendance: 3490,
     pv: 4300,
     amt: 2100,
   },
@@ -250,9 +250,9 @@ const SSDashBoard = (employees) => {
           <div style={{ marginBottom: "30px" }}>
             <h5>Task Deadlines</h5>
 
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
+            <UpcomingEvent event="Fix#11 Status Code" date="29 June 2024" />
+            <UpcomingEvent event="Feature#77 Extension Development " date="1 July 2024" />
+            <UpcomingEvent event="Feature#78 Help Document " date="4 July 2024" />
           </div>
           </DashBoardCompBox></RightColumn></ColumnContainer>
           <DashBoardCompBox>
@@ -470,22 +470,23 @@ const SSDashBoard = (employees) => {
             <div style={{ marginBottom: "30px" }}></div>
             <h6>Upcoming Events</h6>
 
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
+            <UpcomingEvent event="Data science workshop" date="2 July 2024" />
+            <UpcomingEvent event="Weekly Team Meeting" date="2 July 2024" />
+            <UpcomingEvent event="Dev Status" date="3 July 2024" />
           </div>
 
           <DashBoardCompBox style={{ border: "none", padding: "10px" }}>
+            <h6>Pending Leaves</h6>
             <MeetingInvitation
               width="100%"
               saveButtonText="Accept"
               saveAndNextButtonText="Reject"
             />
-            <MeetingInvitation
+            {/* <MeetingInvitation
               width="100%"
               saveButtonText="Accept"
               saveAndNextButtonText="Reject"
-            />
+            /> */}
           </DashBoardCompBox>
         </RightColumn>
       </ColumnContainer>

@@ -102,7 +102,7 @@ const Sidebar = ({heading,SidebarData}) => {
                     location={location}
                   />
                   {item.subNavOpen &&
-                    item.subNav.map((subItem, subIndex) => {
+                    item?.subNav.map((subItem, subIndex) => {
                       return(
                       <SubMenu
                         item={subItem}

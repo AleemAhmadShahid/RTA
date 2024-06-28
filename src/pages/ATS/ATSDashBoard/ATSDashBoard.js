@@ -88,7 +88,7 @@ export const Chardata = [
     Submitted:18,
   },
   {
-    name: "Manager",
+    name: "Manager M&T",
     Hired: 20,
     New: 10,
     Interviewed: 20,Submitted:19,
@@ -101,7 +101,7 @@ export const Chardata = [
   },
   
   {
-    name: "Hiring Manager",
+    name: "Python Developer",
     New: 23,
     Hired: 30,
     Interviewed: 25,Submitted:18,
@@ -269,18 +269,18 @@ const ATSDashBoard = (employees) => {
           <div style={{ marginBottom: "30px" }}>
             <h5>Job Post Deadline</h5>
 
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
+            <UpcomingEvent event="Senior Java Developer" date="1 July 2024" />
+            <UpcomingEvent event="UI/UX Designer" date="3 June 2024" />
+            <UpcomingEvent event="Graphics Designer" date="3 June 2024" />
           </div>
           </DashBoardCompBox></LeftColumn>
           <RightColumn> <DashBoardCompBox style={{padding:"20px"}}>
           <div style={{ marginBottom: "30px" }}>
-            <h5>Interview List</h5>
+            <h5>Upcoming Interviews</h5>
 
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
-            <UpcomingEvent event="Data science workshop" date="1 March 2024" />
+            <UpcomingEvent event="Hassan - UI/UX Designer" date="Today" />
+            <UpcomingEvent event="Tayyab - UI/UX Designer" date="Today" />
+            <UpcomingEvent event="Riaz - Manager M&T" date="Today" />
           </div>
           </DashBoardCompBox></RightColumn></ColumnContainer>
         </LeftColumn> 

@@ -19,7 +19,7 @@ const MeetingInvitation = ({ width = "350px", saveButtonText = "I can't", saveAn
             style={{ color: "#ffa500", fontSize: "13px", marginRight: "10px" }}
           >
             {" "}
-            25 May
+            3 July
           </Details>
           <Details
             style={{
@@ -32,15 +32,15 @@ const MeetingInvitation = ({ width = "350px", saveButtonText = "I can't", saveAn
             }}
           >
             {" "}
-            Sat
+            Wed
           </Details>
           <div style={{ marginLeft: "auto" }}>
-            <Details style={{ fontSize: "13px" }}> 07:00 PM</Details>
+            {/* <Details style={{ fontSize: "13px" }}> 07:00 PM</Details> */}
           </div>
         </div>
         <Details style={{ marginBottom: "5px" }}>
           {" "}
-          Google Meet meeting with colleagues
+          Casual Leave
         </Details>
         <GreyHeading
           style={{
@@ -50,10 +50,10 @@ const MeetingInvitation = ({ width = "350px", saveButtonText = "I can't", saveAn
             marginBottom: "5px",
           }}
         >
-          Examinng issues related to building design projects
+          Family Trip
         </GreyHeading>
 
-        <div style={{ display: "flex", alignItems: "center" }}>
+        {/* <div style={{ display: "flex", alignItems: "center" }}>
           <GreyHeading
             style={{ margin: "0", fontWeight: "400", fontSize: "12px" }}
           >
@@ -64,7 +64,7 @@ const MeetingInvitation = ({ width = "350px", saveButtonText = "I can't", saveAn
           <EmployeeInfo style={{ margin: "0" }} />
             </div>
           <div />
-        </div>
+        </div> */}
         <Line/>
         <div style={{ display: "flex" }}>
         <SaveButton
