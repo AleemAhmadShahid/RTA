@@ -1,53 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
 
-import {
-  Td,
-  Tr,
-  Th,
-  TableContainer,
-  Table,
-} from "../styles/TableStyling";
 import LoaderComponent from "./Loader";
 
-const EmployeeTable = ({
-  checkedEmployees,
-  setCheckedEmployees,
+// styles/TableStyling.js
+import styled from 'styled-components';
+
+export const TableContainer = styled.div`
+  width: 100%;
+  overflow-x: auto;
+`;
+
+export const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+export const Tr = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+`;
+
+export const Th = styled.th`
+  padding: 8px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+`;
+
+export const Td = styled.td`
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+`;
+
+const RemoteTrackingTable = ({
   loading,
   data,
   columns,
   renderRow,
   keyField,
 }) => {
-  const [selectedItems, setSelectedItems] = useState([]);
-
-  const handleCheckBoxChange = (item) => {
-    if (!selectedItems.includes(item[keyField])) {
-      setSelectedItems([...selectedItems, item[keyField]]);
-    } else {
-      setSelectedItems(
-        selectedItems.filter((selectedItem) => selectedItem !== item[keyField])
-      );
-    }
-  };
 
   return (
     <TableContainer>
       <Table>
         <thead>
           <Tr>
-          <Th>
-              <input
-                type="checkbox"
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    const allKeys = data.map((item) => item[keyField]);
-                    setSelectedItems(allKeys);
-                  } else {
-                    setSelectedItems([]);
-                  }
-                }}
-              />
-            </Th>
             {columns.map((column) => (
               <Th key={column.field}>{column.label}</Th>
             ))}
@@ -56,39 +55,20 @@ const EmployeeTable = ({
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan={columns.length + 1}>
+              <Td colSpan={columns.length}>
                 <LoaderComponent />
-              </td>
+              </Td>
             </tr>
           ) : (
-            data &&
-            data.map((item) => (
+            data && data.map((item) => (
               <Tr key={item[keyField]}>
-                <Td>
-                  <input
-                    type="checkbox"
-                    checked={checkedEmployees.includes(item._id)}
-                    onChange={() => {
-                      if (!checkedEmployees.includes(item._id)) {
-                        setCheckedEmployees([...checkedEmployees, item._id]);
-                      } else {
-                        setCheckedEmployees(
-                          checkedEmployees.filter(
-                            (checkedEmployee) => checkedEmployee !== item._id
-                          )
-                        );
-                      }
-                    }}
-                  />
-                </Td>
-
                 {renderRow(item, columns)}
               </Tr>
             ))
           )}
           {!loading && (!data || data.length === 0) && (
             <tr>
-              <td colSpan={columns.length + 1}>No Data to Show</td>
+              <Td colSpan={columns.length}>No Data to Show</Td>
             </tr>
           )}
         </tbody>
@@ -97,4 +77,4 @@ const EmployeeTable = ({
   );
 };
 
-export default EmployeeTable;
+export default RemoteTrackingTable;

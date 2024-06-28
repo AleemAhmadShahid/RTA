@@ -3,10 +3,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 
 
-const SimpleLineChart=({data})=> {
+const SimpleLineChart=({data, height = 400})=> {
   
     return (
-        <div style={{ width: '100%', height: 400 }}>
+        <div style={{ width: '100%', height }}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           width={500}
