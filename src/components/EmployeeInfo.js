@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 export const UserImage = styled.img`
-  width: 39px;
-  height: 31px;
+  width: 37px;
+  height: 33px;
   border-radius: 50%;
   object-fit: cover;
   // margin-top: -5px;
+  margin-right:5px;
 `;
 
 export const Td = styled.td`

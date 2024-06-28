@@ -1,41 +1,38 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const CustomBar = ({ fill, x, y, width, height, dataKey, payload }) => {
-    return <Rectangle x={x} y={y} width={width} height={height} fill={payload.color} />;
-  };
+  return <Rectangle x={x} y={y} width={width} height={height} fill={payload.color} />;
+};
 
-const SurveyBarChart=({data})=> {
-  
+const SurveyBarChart = ({ data, layout = "vertical" }) => {
+  const isVertical = layout === "vertical";
 
-  
-    return (
-        <div style={{ width: '100%', height: 400 }}>
+  return (
+    <div style={{ width: '100%', height: 400 }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
-        //   width={400}
-        //   height={100}
-          layout="vertical"
+          layout={layout}
           data={data}
           margin={{
-            top: 60,
+            top: 40,
             right: 40,
-            left: 30,
+            left: 10,
             bottom: 30,
           }}
-          barCategoryGap="30%" 
-           barGap={2} 
+          // barCategoryGap="10%"
+          // barGap={2}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
-          <YAxis type="category" dataKey="name" />
+          {isVertical ? <XAxis type="number" /> : <XAxis type="category" dataKey="name" />}
+          {isVertical ? <YAxis type="category" dataKey="name" /> : <YAxis type="number" />}
           <Tooltip />
           <Legend />
           <Bar dataKey="pv" barSize={20} shape={<CustomBar />} />
-          {/* <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} /> */}
         </BarChart>
       </ResponsiveContainer>
-      </div>
-    );
-  }
+    </div>
+  );
+};
+
 export default SurveyBarChart;

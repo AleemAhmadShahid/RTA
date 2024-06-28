@@ -10,8 +10,8 @@ const CardContainer = styled.div`
   display: flex;
   align-items: center;
   border-radius: 5px;
-  padding: 20px;
-  justify-content: space-between; /* This will space the items apart */
+  padding: 15px;
+  justify-content: space-between; 
   margin-bottom: 10px;
 
   @media (max-width: 768px) {
