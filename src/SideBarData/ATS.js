@@ -1,12 +1,13 @@
 import React from "react";
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import * as IoIcons from "react-icons/io";
+
 import * as RiIcons from "react-icons/ri";
 import * as BsIcons from "react-icons/bs";
 import * as BiIcons from "react-icons/bi";
-import * as CgIcons from "react-icons/cg";
 
+import { PiScreencast } from "react-icons/pi";
+import { TiGroupOutline } from "react-icons/ti";
+import { MdOutlineLocalOffer } from "react-icons/md";
+import { FaRegClipboard } from "react-icons/fa";
 export const ATSSidebarData = [
   {
     title: "Dashboard",
@@ -15,7 +16,7 @@ export const ATSSidebarData = [
   },
   {
     title: "Job Posting",
-    icon: <AiIcons.AiOutlineUser />,
+    icon: <FaRegClipboard />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
     subNav: [
@@ -23,14 +24,13 @@ export const ATSSidebarData = [
         title: "List",
         path: "/portal/applicationtrackingsystem/jobPosting",
         icon: <BiIcons.BiRadioCircle />,
-      }
+      },
     ],
-
   },
   {
     title: "Interviews",
     // path: "/Roles",
-    icon: <IoIcons.IoIosPaper />,
+    icon: <PiScreencast />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
@@ -45,7 +45,7 @@ export const ATSSidebarData = [
   {
     title: "Candidates",
     // path: "/Teams",
-    icon: <IoIcons.IoMdPeople />,
+    icon: <TiGroupOutline />,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
 
@@ -61,7 +61,7 @@ export const ATSSidebarData = [
   {
     title: "Offer",
     // path: "/Departments",
-    icon: <FaIcons.FaEnvelopeOpenText />,
+    icon: <MdOutlineLocalOffer />,
 
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
@@ -74,5 +74,4 @@ export const ATSSidebarData = [
       },
     ],
   },
-  
 ];

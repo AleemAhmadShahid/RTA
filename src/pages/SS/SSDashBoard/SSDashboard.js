@@ -24,7 +24,7 @@ import { Details } from "../../MM/MeetingMainPage";
 import SimpleLineChart from "../../../components/LineChart";
 import UpcomingEvent from "../../../components/UpcomingEvent";
 
-
+import { SaveAndNextButton } from "../../../styles/MultiStepFormStyling";
 import { Td,Tr,
     Th,
     AddEmployeeContainer,
@@ -45,6 +45,7 @@ import { Td,Tr,
  import * as MdIcons from "react-icons/md";
  import LoaderComponent from "../../../components/Loader";
 import CheckIn from "../../../components/CheckIn";
+import Annoucemnet from "../../../components/Annoucement";
 
 
 
@@ -443,6 +444,19 @@ const SSDashBoard = (employees) => {
 
         </LeftColumn>
         <RightColumn>
+
+<DashBoardCompBox style={{padding:"20px"}}>
+<div style={{ display: "flex", justifyContent: "space-between" ,alignItems:"center",background:"#ededed",borderRadius:"5px",padding:"5px"}}>
+  <Details style={{fontSize:"16px",marginBottom:"0"}}>Latest Announcement</Details>
+  <SaveAndNextButton style={{margin:"0"}}>View All</SaveAndNextButton>
+</div>
+
+<Annoucemnet event="Data science workshop" details="this is about the ML and its benefits" date="2 July 2024" />
+<Annoucemnet event="Machine learning workshop" details="this is about the ML and its benefits" date="2 July 2024" />
+</DashBoardCompBox>
+
+
+
           <div
             style={{
               // height: "500px",

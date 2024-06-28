@@ -4,6 +4,8 @@ import { CardsContainer, CenteredContainer } from "../../../styles/TableStyling"
 import Calendar from "react-calendar";
 import "../../../styles/CalenderCom.css";
 
+import { createGetRequest,createDeleteRequest,
+  createPutRequest, } from "../../../global/requests";
 import PieChartCom from "../../../components/PieChart";
 import styled from "styled-components";
 import BarChartCom from "../../../components/BarChart";
@@ -170,7 +172,7 @@ export const Icon = styled.div`
   color: grey;
 `;
 
-const EmpDashBoard = (employees) => {
+const EmpDashBoard = ({}) => {
   const currentDate = new Date();
   const [data, setData] = useState(null);
   const [date, setDate] = useState(currentDate);
@@ -198,6 +200,32 @@ const EmpDashBoard = (employees) => {
     );
   };
 
+  const [loading, setLoading] = useState(true);
+const [employees,setEmployees]=useState([]);
+const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await createGetRequest("/api/dashboard/desktopDashbaord");
+        console.log(data);
+        if (data.status === 404) {
+          setEmployees([]);
+        } else {
+          setEmployees(data.users);
+          setEmployeeCountByWorkType(data.employeeCountByWorkType);
+        }
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+        setEmployees([]);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+  console.log("aleem",employeeCountByWorkType);
+ 
   return (
     <CenteredContainer>
       <CardsContainer>
@@ -207,7 +235,7 @@ const EmpDashBoard = (employees) => {
               percentFillValue={40}
               cardInfo={{
                 title: "Total Employees",
-                value: "99",
+                value: employeeCountByWorkType.length > 0 ? employeeCountByWorkType[0].count.toString() : "0",
                 
               }}
             />

@@ -12,6 +12,7 @@ import { LuClipboardSignature } from "react-icons/lu";
 import { GrDocumentPerformance } from "react-icons/gr";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { LuCalendarCheck } from "react-icons/lu";
 export const SelfServiceSidebarData = [
   {
     title: "Dashboard",
@@ -20,7 +21,7 @@ export const SelfServiceSidebarData = [
   },
   {
     title: "Attendance",
-    icon: <FaRegCalendarAlt/>,
+    icon: <LuCalendarCheck/>,
     iconClosed: <RiIcons.RiArrowDropDownLine />,
     iconOpened: <RiIcons.RiArrowDropUpLine />,
     subNav: [

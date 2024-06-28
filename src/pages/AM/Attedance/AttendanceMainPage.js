@@ -17,7 +17,7 @@ import EmployeeInfo from "../../../components/EmployeeInfo";
 
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
-
+import { LuCalendarCheck } from "react-icons/lu";
 import { FaPrint} from "react-icons/fa";
 
 import {
@@ -195,7 +195,7 @@ const Attendance_list = () => {
             /> */}
 
             <InfoBox
-              icon={FiUserPlus}
+              icon={LuCalendarCheck}
               iconColor="#512da8"
               data={infoBoxData?.totalAttendances || 0}
               text="Total Attendances"

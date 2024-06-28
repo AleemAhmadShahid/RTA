@@ -14,10 +14,11 @@ import PageBar from "../../../components/PageBar";
 import FilterBox from "../../../components/FilterBox";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 import EmployeeInfo from "../../../components/EmployeeInfo";
-
+import { FaRegCalendarXmark } from "react-icons/fa6";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
-
+import { FaRegCalendarPlus } from "react-icons/fa6";
+import { LuCalendarCheck } from "react-icons/lu";
 import { FaPrint} from "react-icons/fa";
 
 import {
@@ -195,21 +196,21 @@ const Attendance_list = () => {
             /> */}
 
             <InfoBox
-              icon={FiUserPlus}
+              icon={LuCalendarCheck}
               iconColor="#512da8"
               data={infoBoxData?.totalAttendances || 0}
               text="Total Attendances"
             />
              
              <InfoBox
-              icon={FiUserX}
+              icon={FaRegCalendarPlus}
               iconColor="#ffa500"
               data={infoBoxData?.vacantAttendances || 0}
               text="Vacant Attendances"
             />
 
             <InfoBox
-              icon={FiUserCheck}
+              icon={FaRegCalendarXmark}
               iconColor="#d32f2f"
               data={infoBoxData?.closedAttendances || 0}
               text="Closed Attendances"
@@ -340,6 +341,7 @@ const Attendance_list = () => {
                       />
                     </Th>
                     {selectedCheck.includes("User") && (
+                      
                       <Th>USER</Th>
                     )}
 
@@ -386,8 +388,10 @@ const Attendance_list = () => {
                         </Td>
                   
                         {selectedCheck.includes("User") && (
+                          <Td>
                           <EmployeeInfo isSpaceRequired={true} employee={attendance?.employee }/>
-                        )}
+                        </Td>
+                      )}
 
                         {selectedCheck.includes("Clock In") && (
                           

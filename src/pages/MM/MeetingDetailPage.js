@@ -43,99 +43,16 @@ export const ScrollContainer = styled.div`
    }
  `
 
-const MeetingMainaPage = () => {
-  const navigate = useNavigate();
-  const [meetings, setMeetings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedMeeting, setSelectedMeeting] = useState(null);
 
 
-  useEffect(() => {
-    const fetchMeetings = async () => {
-      try {
-        const data = await createGetRequest("/api/meeting");
-        console.log(data); 
-        setMeetings(data.meetings); 
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching meetings data:", error);
-        setLoading(false);
-      }
-    };
+const MeetingdetailPage=({})=>{
+    const navigate = useNavigate();
+    const [selectedMeeting, setSelectedMeeting] = useState(null);
+    if (!selectedMeeting) return null;
+    return(
 
-    fetchMeetings();
-  }, []);
-
-  const [checkedEmployees, setCheckedEmployees] = useState([]);
-  // const [loading, setLoading] = useState(false);
-
-  // Static data
-  const initialData = [
-    { _id: 1, name: "John Doe", email: "john@example.com" },
-    { _id: 2, name: "Jane Doe", email: "jane@example.com" },
-  ];
-
-  const columns = [
-    { field: "name", label: "Name" },
-    { field: "hours", label: "Hours" },
-    { field: "deduction", label: "Deduction Rate" },
-    { field: "action", label: "Actions" },
-  ];
-  const handleViewDetails = (meeting) => {
-    setSelectedMeeting(meeting);
-    //  navigate(`/meeting-details/${meeting._id}`);
-  };
-  const handleSaveAndNext = (meetingId) => {
-    navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
-  };
-  return (
-    <>
-    <CenteredContainer>
-      <ScrollContainer>
-       {loading ? (
-                <p>Loading...</p>
-              ) : (
-                meetings.map((meeting) => (
-                  <MeetingDetails
-                    key={meeting._id}
-                    title={meeting.title}
-                    creator={meeting.createdBy.name}
-                    startTime={meeting.startTime}
-                    endTime={meeting.endTime}
-                    attendees={meeting.attendees}
-                    description={meeting.description}
-                    onViewDetails={() => handleViewDetails(meeting)}
-                    onSaveAndNext={() => handleSaveAndNext(meeting._id)}
-                    
-                  />
-                ))
-              )}
-              </ScrollContainer>
-              </CenteredContainer>   
-      {/* <BoxContainer>
-      <Box style={{  padding: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Details>Meeting Room Booking Cancelation Policy</Details>
-          <AddEmployeeButton
-            // onClick={toggleForm}
-            className="btn btn-primary mb-2"
-          >
-            <span style={{ whiteSpace: "nowrap" }}>+ Add Policy</span>
-          </AddEmployeeButton>
-        </div>
-        <EditableEmployeeTable
-          checkedEmployees={checkedEmployees}
-          setCheckedEmployees={setCheckedEmployees}
-          loading={loading}
-          initialData={initialData}
-          columns={columns}
-          keyField="_id"
-        />
-      </Box></BoxContainer>
-      <MeetingInvitation />
-      <MeetingDetails /> */}
-      
-       {/* <CenteredContainer>
+        <>
+         <CenteredContainer >
         {selectedMeeting && (
         <ColumnContainer>
         <BoxContainer>
@@ -197,9 +114,7 @@ const MeetingMainaPage = () => {
         </ColumnContainer>
       )}
         
-        </CenteredContainer> */}
-        </>
-    
-  );
-};
-export default MeetingMainaPage;
+        </CenteredContainer></>
+    );
+}
+export default MeetingdetailPage;

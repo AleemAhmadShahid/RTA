@@ -1,11 +1,9 @@
 import React from "react";
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import * as IoIcons from "react-icons/io";
+
 import * as RiIcons from "react-icons/ri";
 import * as BsIcons from "react-icons/bs";
 import * as BiIcons from "react-icons/bi";
-import * as CgIcons from "react-icons/cg";
+
 import { MdOutlineHolidayVillage } from "react-icons/md";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { LuCalendarCheck } from "react-icons/lu";

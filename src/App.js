@@ -59,6 +59,7 @@ import SSDashBoard from "./pages/SS/SSDashBoard/SSDashboard";
 import PMMainPage from "./pages/PM/PMMainPage";
 import MeetingMainaPage from "./pages/MM/MeetingMainPage";
 import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
+import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
 
 
 function App() {
@@ -162,6 +163,8 @@ function App() {
               </Route>
               <Route path="meetingmanagemnetsystem" element={<Sidebar   SidebarData={MMSidebarData}  heading={"Meeting Management"}/>}>
                 <Route path="Meeting" element={<MeetingMainaPage />} />
+                <Route path="meeting/:meetingId" element={<MeetingdetailPage/>} />
+                
                
               </Route>
 

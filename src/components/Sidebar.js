@@ -20,10 +20,11 @@ const SidebarNav = styled.nav`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   color: #000;
   transition: all 0.3s ease;
-
+z-index:20;
   @media (min-width: 845px) {
     left: 0; /* Keep the sidebar fixed on desktop view */
     width: 250px;
+    
   }
 
   & * {
