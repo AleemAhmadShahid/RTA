@@ -110,13 +110,19 @@ export const Chardata = [
     amt: 2100,
   },
 ];
-export const Surveydata = [
+export const data = [
   { name: "1 star", pv: 24, amt: 2400, color: "#8884d8" },
   { name: "2 star", pv: 13, amt: 2210, color: "#82ca9d" },
   { name: "3 star", pv: 98, amt: 2290, color: "#ffc658" },
   { name: "4 star", pv: 39, amt: 2000, color: "#ff7300" },
   { name: "5 star", pv: 48, amt: 2181, color: "#387908" },
 ];
+const Surveydata = [
+     { name: 'Group A', value: 400 },
+     { name: 'Group B', value: 300 },
+     { name: 'Group C', value: 300 },
+     { name: 'Group D', value: 200 },
+   ];
 
 export const MiddleColumn = styled.div`
   flex: 1;
@@ -238,9 +244,9 @@ const AMDashBoard = (employees) => {
       </CardsContainer>
       <ColumnContainer>
       <LeftColumn>
-      <DashBoardCompBox style={{height:"300px"}}>Monthly Attedance Report<br></br><SimpleLineChart data={Linedata}/></DashBoardCompBox></LeftColumn>
+      <DashBoardCompBox >Monthly Attedance Report<br></br><SimpleLineChart data={Linedata}/></DashBoardCompBox></LeftColumn>
       <RightColumn>
-      <DashBoardCompBox style={{height:"300px"}}><SimpleLineChart data={Linedata}/></DashBoardCompBox></RightColumn>
+      <DashBoardCompBox ><SimpleLineChart data={Linedata}/></DashBoardCompBox></RightColumn>
       </ColumnContainer>
       <ColumnContainer>
         <LeftColumn style={{ flex: "2"}}>
@@ -257,7 +263,7 @@ const AMDashBoard = (employees) => {
                 <DashBoardCompBox
                   style={{ height: "200px", border: "none", boxShadow: "none" }}
                 >
-                  <SurveyPieChart />
+                  <SurveyPieChart data={Surveydata} />
                 </DashBoardCompBox>
               </RightColumn>
             </ColumnContainer>

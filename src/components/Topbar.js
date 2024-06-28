@@ -384,7 +384,7 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>Project Management</DropdownLabel>
               </div>
-              <div>
+              <div onClick={() => {setIsDropdownOpen(false); navigate('/portal/remotetracking/board')}}>
                 <DropdownButton>
                   <AiOutlinePieChart />
                 </DropdownButton>

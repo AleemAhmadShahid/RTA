@@ -7,6 +7,9 @@ import { ATSSidebarData } from "./SideBarData/ATS";
 import { SelfServiceSidebarData } from "./SideBarData/SS";
 import { PMSidebarData } from "./SideBarData/PM";
 import {MMSidebarData} from "./SideBarData/MM";
+import { RTSidebarData } from "./SideBarData/RT";
+
+
 import Topbar from "./components/Topbar";
 import Emp_list from "./pages/IAM/Employees/EmpMainPage";
 import Role_list from "./pages/IAM/Roles/RoleMainPage";
@@ -55,6 +58,7 @@ import SSDashBoard from "./pages/SS/SSDashBoard/SSDashboard";
 
 import PMMainPage from "./pages/PM/PMMainPage";
 import MeetingMainaPage from "./pages/MM/MeetingMainPage";
+import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
 
 
 function App() {
@@ -160,6 +164,12 @@ function App() {
                 <Route path="Meeting" element={<MeetingMainaPage />} />
                
               </Route>
+
+              <Route path="remotetracking" element={<Sidebar SidebarData={RTSidebarData} heading={"Remote Tracking"} />}>
+                 <Route path="board" element={<RemoteTrackingMainPage />} />   
+                {/* <Route path="board" element={<Calendar />} />  */}
+              </Route>
+
 
               
             </>

@@ -79,7 +79,7 @@ const SubMenu = ({ item, active, onSubmenuClick, closeSubmenu,location,theme }) 
         <div>
           {item?.subNav && subnav
             ? item.iconOpened
-            : item.subNav
+            : item?.subNav
             ? item.iconClosed
             
             : null}

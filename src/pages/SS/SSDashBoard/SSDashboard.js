@@ -307,7 +307,7 @@ const SSDashBoard = (employees) => {
             </CardsContainer>
           </DashBoardCompBox>
           <DashBoardCompBox style={{ height: "300px" }}>
-            <SimpleLineChart data={Linedata} />
+            <SimpleLineChart data={Linedata} height={300} />
           </DashBoardCompBox>
 
 

@@ -44,7 +44,8 @@ const MeetingMainaPage = () => {
 
   return (
     <CenteredContainer>
-      <BoxContainer>
+     
+       <BoxContainer>
       <Box style={{  padding: "20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Details>Meeting Room Booking Cancelation Policy</Details>
@@ -134,9 +135,9 @@ const MeetingMainaPage = () => {
             <Box>
               <h5>Meeting Name</h5>
             </Box>
-          </BoxContainer> */}
+          </BoxContainer>*/} 
         </RightColumn>
-      </ColumnContainer>
+      </ColumnContainer> 
     </CenteredContainer>
   );
 };
