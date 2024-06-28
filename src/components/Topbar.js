@@ -348,13 +348,13 @@ const Topbar = () => {
           <MenuIcon onClick={toggleDropdown} />
           <DropdownContainer isOpen={isDropdownOpen}  ref={dropdownRef}>
             <DropdownGrid>
-              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/selfservice/attendance');}}>
+              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/selfservice/dashboard');}}>
                 <DropdownButton>
                   <AiOutlineHome />
                 </DropdownButton>
                 <DropdownLabel>Self Service Portal</DropdownLabel>
               </div>
-              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/iam/employee');}}>
+              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/iam/dashboard');}}>
                 <DropdownButton>
                   <AiOutlineUser />
                 </DropdownButton>
@@ -366,13 +366,13 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>Payroll Management</DropdownLabel>
               </div>
-              <div  onClick={() => {setIsDropdownOpen(false);  navigate('/portal/attedancemanagement/attendance');}}>
+              <div  onClick={() => {setIsDropdownOpen(false);  navigate('/portal/attedancemanagement/dashboard');}}>
                 <DropdownButton>
                   <AiOutlineMail />
                 </DropdownButton>
                 <DropdownLabel>Attendance Management</DropdownLabel>
               </div>
-              <div  onClick={() => {setIsDropdownOpen(false);  navigate('/portal/applicationtrackingsystem/jobPosting');}}>
+              <div  onClick={() => {setIsDropdownOpen(false);  navigate('/portal/applicationtrackingsystem/dashboard');}}>
                 <DropdownButton>
                   <AiOutlineFileText />
                 </DropdownButton>
