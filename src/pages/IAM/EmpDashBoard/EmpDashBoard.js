@@ -122,14 +122,20 @@ const SurveyPiedata = [
 ];
 
 export const Surveydata = [
-  { name: "Employees", pv: 99, amt: 20, color: "#8884d8" },
+  { name: "Employees", pv: 43, amt: 20, color: "#8884d8" },
   { name: "Team Lead", pv: 23, amt: 20, color: "#82ca9d" },
   { name: "HR", pv: 3, amt: 9, color: "#ffc658" },
   { name: "Managers", pv: 39, amt: 20, color: "#ff7300" },
-  { name: "Roles", pv: 48, amt: 41, color: "	#87CEEB" },
-  { name: "Interns", pv: 39, amt: 9, color: "#8884d8" },
-  { name: "Terminated", pv: 8, amt: 1, color: "red" },
+  { name: "Roles", pv: 5, amt: 41, color: "	#87CEEB" },
+  { name: "Interns", pv:1, amt: 9, color: "#8884d8" },
+  { name: "Terminated", pv: 0, amt: 1, color: "red" },
 ];
+// const chartData = employeeCountByWorkType.map((item, index) => ({
+//   name: item.employmentType || "Unknown",
+//   pv: item.count || 0,
+//   amt: 20,
+//   color: index % 2 === 0 ? "#8884d8" : "#82ca9d", // Example colors, adjust as needed
+// }));
 
 export const MiddleColumn = styled.div`
   flex: 1;
@@ -202,6 +208,7 @@ const EmpDashBoard = ({}) => {
 
   const [loading, setLoading] = useState(true);
 const [employees,setEmployees]=useState([]);
+const [infoBox, setInfoBox] = useState({});
 const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -214,6 +221,9 @@ const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
         } else {
           setEmployees(data.users);
           setEmployeeCountByWorkType(data.employeeCountByWorkType);
+          setInfoBox(data.infoBox|| {});
+          
+          
         }
       } catch (error) {
         console.error("Error fetching employees:", error);
@@ -246,7 +256,7 @@ const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
               percentFillValue={5}
               cardInfo={{
                 title: "Total Departments",
-                 value: "5",
+                 value: infoBox.totalDepartments?.toString() || "0",
                 // text:"Absent Employee are 5",
                 
               }}
@@ -257,7 +267,7 @@ const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
               percentFillValue={65}
               cardInfo={{
                 title: "Total Teams",
-                value: "25",
+                value: infoBox.totalTeams?.toString() || "0",
                 
               }}
             />
@@ -267,7 +277,7 @@ const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
               percentFillValue={77}
               cardInfo={{
                 title: "Inters",
-                value: "39",
+                value: "1",
                 // text: "We have sold 123 items.",
               }}
             />
@@ -384,7 +394,7 @@ const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
                 <AiOutlineUser style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>40</H6>
                 <H6 style={{ color: "grey", margin: "0" }}>Active Employee</H6>
               </div>
             </div>
@@ -399,7 +409,7 @@ const [employeeCountByWorkType, setEmployeeCountByWorkType] = useState([]);
                 <AiOutlineUser style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>19</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>2</H6>
                 <H6 style={{ color: "grey", margin: "0" }}>Total Projects</H6>
               </div>
             </div>

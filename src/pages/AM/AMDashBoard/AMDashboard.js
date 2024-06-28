@@ -22,49 +22,22 @@ import UpcomingEvent from "../../../components/UpcomingEvent";
 import { Details } from "../../MM/MeetingMainPage";
 import SimpleLineChart from "../../../components/LineChart";
 
-export const Linedata = [
-  {
-    name: 'Jan 24',
-    uv: 4000,
-    // pv: 2400,
-    // amt: 2400,
-  },
-  {
-    name: 'Feburary 24',
-    uv: 3000,
-    // pv: 1398,
-    // amt: 2210,
-  },
-  {
-    name: 'March 24',
-    uv: 2000,
-    // pv: 9800,
-    // amt: 2290,
-  },
-  {
-    name: 'April 24',
-    uv: 2780,
-    // pv: 3908,
-    // amt: 2000,
-  },
-  {
-    name: 'May 24',
-    uv: 1890,
-    // pv: 4800,
-    // amt: 2181,
-  },
-  {
-    name: 'June 24',
-    uv: 2390,
-    // pv: 3800,
-    // amt: 2500,
-  },
-  {
-    name: 'July 24',
-    uv: 3490,
-    // pv: 4300,
-    // amt: 2100,
-  },
+export const MLinedata = [
+  { name: 'Jan', pv: 24, Attendance: 24 },
+  { name: 'Feb', pv: 13, Attendance: 13 },
+  { name: 'Mar', pv: 8, Attendance: 8 },
+  { name: 'Apr', pv: 39, Attendance: 39 },
+  { name: 'May', pv: 40, Attendance: 40 },
+  { name: 'Jun', pv: 38, Attendance: 38 },
+  { name: 'Jul', pv: 23, Attendance: 23 },
+];
+export const YLinedata = [
+  { name: '2020', pv: 24, Attendance: 2 },
+  { name: '2021', pv: 13, Attendance: 3 },
+  { name: '2022', pv: 8, Attendance: 8 },
+  { name: '2023', pv: 39, Attendance: 9 },
+  { name: '2024', pv: 40, Attendance:40 },
+ 
 ];
 export const Chardata = [
   {
@@ -203,7 +176,7 @@ const AMDashBoard = (employees) => {
             cardInfo={{
               title: "Active Employees",
               value: "40",
-              text: "Today",
+              // text: "Today",
             }}
           />
         </ContentAreaCards>
@@ -213,7 +186,7 @@ const AMDashBoard = (employees) => {
             percentFillValue={5}
             cardInfo={{
               title: "Absent Employees",
-              value: "5",
+              value: "14",
               text: "Today",
             }}
           />
@@ -224,7 +197,7 @@ const AMDashBoard = (employees) => {
             percentFillValue={35}
             cardInfo={{
               title: "On Time",
-              value: "35",
+              value: "29",
               text: "Today",
             }}
           />
@@ -244,9 +217,9 @@ const AMDashBoard = (employees) => {
       </CardsContainer>
       <ColumnContainer>
       <LeftColumn>
-      <DashBoardCompBox >Monthly Attedance Report<br></br><SimpleLineChart data={Linedata}/></DashBoardCompBox></LeftColumn>
+      <DashBoardCompBox >Monthly Attedance Report<br></br><SimpleLineChart data={MLinedata}/></DashBoardCompBox></LeftColumn>
       <RightColumn>
-      <DashBoardCompBox ><SimpleLineChart data={Linedata}/></DashBoardCompBox></RightColumn>
+      <DashBoardCompBox >Yearly Attedance Report<br></br><SimpleLineChart data={YLinedata}/></DashBoardCompBox></RightColumn>
       </ColumnContainer>
       <ColumnContainer>
         <LeftColumn style={{ flex: "2"}}>

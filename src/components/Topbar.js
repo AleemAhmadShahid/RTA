@@ -279,7 +279,7 @@ cursor: pointer;
 left: ${({ sidebar }) => (sidebar ? "250px" : "20px")};
 background-color: #ffffff;
 
-
+display:none;
 
 @media (max-width: 845px) {
   display: block; 
@@ -343,7 +343,7 @@ const Topbar = () => {
       <Nav>
         <IconContainer>
         <Sidebariconcontainer>
-            <MobileIcon sidebar={sidebar} onClick={toggleSidebar}> <CgMenuRight/></MobileIcon>
+            <MobileIcon sidebar={sidebar} onClick={toggleSidebar}> </MobileIcon>
           </Sidebariconcontainer>
           <MenuIcon onClick={toggleDropdown} />
           <DropdownContainer isOpen={isDropdownOpen}  ref={dropdownRef}>

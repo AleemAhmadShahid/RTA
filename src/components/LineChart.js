@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 
 
-const SimpleLineChart=({data, height = 400})=> {
+const SimpleLineChart=({ data,height = 400})=> {
   
     return (
         <div style={{ width: '100%', height }}>
@@ -24,7 +24,7 @@ const SimpleLineChart=({data, height = 400})=> {
           <YAxis />
           <Tooltip />
           <Legend />
-          {/* <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} /> */}
+           {/* <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />  */}
           <Line type="monotone" dataKey="Attendance" stroke="#82ca9d" />
         </LineChart>
       </ResponsiveContainer>
