@@ -6,14 +6,17 @@ import { Details } from "../pages/MM/MeetingMainPage";
 import EmployeeInfo from "./EmployeeInfo";
 import {  SaveAndNextButton, SaveButton } from "../styles/MultiStepFormStyling";
 import { UserImage } from "./EmployeeInfo";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Line=styled.hr`
 margin:0;
 
 `
-const MeetingDetails = ({title,creator, attendees,onViewDetails, meetingId, onSaveAndNext }) => {
+const MeetingDetails = ({title,creator, attendees,onViewDetails, onSaveAndNext }) => {
   const navigate = useNavigate(); 
+  const {meetingId} = useParams();
+
+
 
   const handleSaveAndNext = () => {
     
@@ -31,15 +34,15 @@ const MeetingDetails = ({title,creator, attendees,onViewDetails, meetingId, onSa
         <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
       
       
-      
+{/*       
         <UserImage
         src={creator.profileImg || defaultImageUrl}
         alt="Profile Image"
         style={{ width: "55px", height: "55px" }}
-      />
+      /> */}
      <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
         <Details style={{ fontSize: "13px",margin:"0" }}>{title}</Details>
-        <GreyHeading style={{  fontSize: "12px" }}>{creator}</GreyHeading>
+        <GreyHeading style={{  fontSize: "12px" }}>By {creator}</GreyHeading>
       </div>
         </div>
         
@@ -49,8 +52,8 @@ const MeetingDetails = ({title,creator, attendees,onViewDetails, meetingId, onSa
         <Line style={{marginTop:"20px",marginBottom:"20px"}}/>
         <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
           <div style={{display:"flex",marginBottom:"20px"}}>
-          <Details style={{ fontSize: "14px",margin:"0",color:"#ffa500" }}>4 Members Going </Details>
-          <GreyHeading style={{ fontSize: "14px",margin:"0" }}> - 3 Pending </GreyHeading>
+          {/* <Details style={{ fontSize: "14px",margin:"0",color:"#ffa500" }}>4 Members Going </Details>
+          <GreyHeading style={{ fontSize: "14px",margin:"0" }}> - 3 Pending </GreyHeading> */}
           </div>
           {/* <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
           {displayAttendees.map((attendee, index) => (

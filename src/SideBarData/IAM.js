@@ -90,22 +90,22 @@ export const IAMSidebarData = [
       },
     ],
   },
-  {
-    title: "Performance Evaluations",
-    // path: "/Performance Evaluations",
-    icon: <CgIcons.CgFileDocument />,
+  // {
+  //   title: "Performance Evaluations",
+  //   // path: "/Performance Evaluations",
+  //   icon: <CgIcons.CgFileDocument />,
 
-    iconClosed: <RiIcons.RiArrowDropDownLine />,
-    iconOpened: <RiIcons.RiArrowDropUpLine />,
+  //   iconClosed: <RiIcons.RiArrowDropDownLine />,
+  //   iconOpened: <RiIcons.RiArrowDropUpLine />,
 
-    subNav: [
-      {
-        title: "List",
-        path: "/portal/iam/performanceEvaluation",
-        icon: <BiIcons.BiRadioCircle />,
-      },
-    ],
-  },
+  //   subNav: [
+  //     {
+  //       title: "List",
+  //       path: "/portal/iam/performanceEvaluation",
+  //       icon: <BiIcons.BiRadioCircle />,
+  //     },
+  //   ],
+  // },
   {
     title: "Surveys",
     // path: "/Surveys",

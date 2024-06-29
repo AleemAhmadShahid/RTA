@@ -24,6 +24,7 @@ import EditableEmployeeTable from "../../components/EditableTable";
 import EmployeeTable from "../../components/Table";
 import { HeadingAndSearchContainer } from "../../styles/TableStyling";
 import { AddEmployeeButton } from "../../styles/TableStyling";
+import LoaderComponent from "../../components/Loader";
 // import { ScrollContainer } from "../PayM/PayMDashBoard";
 export const Details = styled.h6`
   font-size: 16px;
@@ -93,7 +94,7 @@ const MeetingMainaPage = () => {
     <CenteredContainer>
       <ScrollContainer>
        {loading ? (
-                <p>Loading...</p>
+                <LoaderComponent/>
               ) : (
                 meetings.map((meeting) => (
                   <MeetingDetails

@@ -276,7 +276,7 @@ const Profile = (employee) => {
               </div><hr/>
             </Box>
           </BoxContainer>
-          <BoxContainer>
+          {/* <BoxContainer>
             <Box>
               <h5>Activity TimeLine</h5>
               <Timeline
@@ -307,7 +307,7 @@ const Profile = (employee) => {
                 </TimelineItem>
               </Timeline>
             </Box>
-          </BoxContainer>
+          </BoxContainer> */}
         </RightColumn>
       </ColumnContainer>
     </>
@@ -345,7 +345,8 @@ const EmpProfile = ({}) => {
       return (<>
           <Team/>
         </>);
-    } else if (currentPage === "AttedanceManagement")  {
+    } 
+    else if (currentPage === "AttedanceManagement")  {
       return (<>
         <Team/>
       </>)
@@ -421,7 +422,7 @@ const EmpProfile = ({}) => {
         <StyledButton  currentPage={currentPage}  page="Team" onClick={() => setCurrentPage("Team")}>
           Team
         </StyledButton>
-        <StyledButton  currentPage={currentPage}  page="Schedule" onClick={() => setCurrentPage("Schedule")}>
+        {/* <StyledButton  currentPage={currentPage}  page="Schedule" onClick={() => setCurrentPage("Schedule")}>
           Schedule
         </StyledButton>
         <StyledButton page="AttedanceManagement"  currentPage={currentPage} onClick={() => setCurrentPage("AttedanceManagement")}>
@@ -450,7 +451,7 @@ const EmpProfile = ({}) => {
         >
           <FiLink />
           Connection
-        </StyledButton>
+        </StyledButton> */}
       </ButtonContainer>
 
       {renderContent()}

@@ -63,21 +63,21 @@ export const SelfServiceSidebarData = [
       },
     ],
   },
-  {
-    title: "My Evaluation",
-    // path: "/Roles",
-    icon: <TbReportAnalytics />,
-    iconClosed: <RiIcons.RiArrowDropDownLine />,
-    iconOpened: <RiIcons.RiArrowDropUpLine />,
+  // {
+  //   title: "My Evaluation",
+  //   // path: "/Roles",
+  //   icon: <TbReportAnalytics />,
+  //   iconClosed: <RiIcons.RiArrowDropDownLine />,
+  //   iconOpened: <RiIcons.RiArrowDropUpLine />,
 
-    subNav: [
-      {
-        title: "List",
-        ///path: "/portal/selfservice/reim",
-        icon: <BiIcons.BiRadioCircle />,
-      },
-    ],
-  },
+  //   subNav: [
+  //     {
+  //       title: "List",
+  //       ///path: "/portal/selfservice/reim",
+  //       icon: <BiIcons.BiRadioCircle />,
+  //     },
+  //   ],
+  // },
   
   {
     title: "My Team",
@@ -95,42 +95,42 @@ export const SelfServiceSidebarData = [
       },
     ],
   },
-  {
-    title: "Approvals",
-    // path: "/Teams",
-    icon: <LuClipboardSignature />,
-    iconClosed: <RiIcons.RiArrowDropDownLine />,
-    iconOpened: <RiIcons.RiArrowDropUpLine />,
+  // {
+  //   title: "Approvals",
+  //   // path: "/Teams",
+  //   icon: <LuClipboardSignature />,
+  //   iconClosed: <RiIcons.RiArrowDropDownLine />,
+  //   iconOpened: <RiIcons.RiArrowDropUpLine />,
 
-    subNav: [
-      {
-        title: "Leave",
-      //  path: "/portal/attedancemanagement/holiday",
-        icon: <BiIcons.BiRadioCircle />,
-        cName: "sub-nav",
-      },
-      {
-        title: "Expense Reimbursement",
-      //  path: "/portal/attedancemanagement/holiday",
-        icon: <BiIcons.BiRadioCircle />,
-        cName: "sub-nav",
-      },
-    ],
-  }  ,
-  {
-    title: "Performance Evaluation",
-    // path: "/Teams",
-    icon: <GrDocumentPerformance />,
-    iconClosed: <RiIcons.RiArrowDropDownLine />,
-    iconOpened: <RiIcons.RiArrowDropUpLine />,
+  //   subNav: [
+  //     {
+  //       title: "Leave",
+  //     //  path: "/portal/attedancemanagement/holiday",
+  //       icon: <BiIcons.BiRadioCircle />,
+  //       cName: "sub-nav",
+  //     },
+  //     {
+  //       title: "Expense Reimbursement",
+  //     //  path: "/portal/attedancemanagement/holiday",
+  //       icon: <BiIcons.BiRadioCircle />,
+  //       cName: "sub-nav",
+  //     },
+  //   ],
+  // }  ,
+  // {
+  //   title: "Performance Evaluation",
+  //   // path: "/Teams",
+  //   icon: <GrDocumentPerformance />,
+  //   iconClosed: <RiIcons.RiArrowDropDownLine />,
+  //   iconOpened: <RiIcons.RiArrowDropUpLine />,
 
-    subNav: [
-      {
-        title: "List",
-      //  path: "/portal/attedancemanagement/holiday",
-        icon: <BiIcons.BiRadioCircle />,
-        cName: "sub-nav",
-      }
-    ],
-  }  
+  //   subNav: [
+  //     {
+  //       title: "List",
+  //     //  path: "/portal/attedancemanagement/holiday",
+  //       icon: <BiIcons.BiRadioCircle />,
+  //       cName: "sub-nav",
+  //     }
+  //   ],
+  // }  
 ];
