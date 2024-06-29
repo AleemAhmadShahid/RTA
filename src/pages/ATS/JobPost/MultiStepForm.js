@@ -95,7 +95,7 @@ const MultiStepForm = ({
         <FormCenteringContainer>
           <ModalContainer>
             <HeaderContainer>
-              <Heading>{isEditMode ? "Update User" : "Create User"}</Heading>
+              <Heading>{isEditMode ? "Update Job Post" : "Create Job Post"}</Heading>
               <CloseButtonContainer>
                 <CloseButton onClick={closeForm} className="close-button">
                   &#10005;

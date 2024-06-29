@@ -20,16 +20,8 @@ const EditableEmployeeTable = ({
   initialData,
   columns,
   keyField,
+  handleInputChange
 }) => {
-  const [editableData, setEditableData] = useState(initialData);
-
-  const handleInputChange = (id, field, value) => {
-    const updatedData = editableData.map((item) =>
-      item[keyField] === id ? { ...item, [field]: value } : item
-    );
-    setEditableData(updatedData);
-  };
-
   return (
     <TableContainer>
       <Table>
@@ -50,15 +42,15 @@ const EditableEmployeeTable = ({
               </td>
             </tr>
           ) : (
-            editableData &&
-            editableData.map((item) => (
+            initialData &&
+            initialData.map((item) => (
               <Tr key={item[keyField]} >
                 {columns.map((column) => (
                   <Td key={column.field} style={{ height: "40px", textAlign: "left" }}>
                     {column.field !== "action" ? (
                       <input
                         type="text"
-                        placeholder="Enter..."
+                        placeholder=""
                         value={item[column.field]}
                         style={{ border: "none", height: "30px", padding: "5px", borderRadius: "5px" }}
                         onChange={(e) =>
@@ -83,7 +75,7 @@ const EditableEmployeeTable = ({
               </Tr>
             ))
           )}
-          {!loading && (!editableData || editableData.length === 0) && (
+          {!loading && (!initialData || initialData.length === 0) && (
             <tr>
               <td colSpan={columns.length}>No Data to Show</td>
             </tr>

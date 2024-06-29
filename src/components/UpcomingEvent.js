@@ -32,7 +32,7 @@ const EventDate = styled.span`
   text-align: left;
 `;
 
-const UpcomingEvent = ({ event, date }) => {
+const UpcomingEvent = ({ event, date, isImage }) => {
   
   
 
@@ -40,11 +40,15 @@ const UpcomingEvent = ({ event, date }) => {
     
       
         <div style={{ display: "flex", alignItems: "center" ,marginTop:"20px"}}>
-           <EventImage
-               src="/event.jpeg"
-            alt="Profile Image"
-            
-          /> 
+            {
+              isImage == undefined && (  
+              <EventImage
+                src="/event.jpeg"
+                alt="Profile Image"
+              /> 
+          )
+            }
+         
           <EventContainer>
             <EventName>{event}</EventName> 
             <EventDate>{date}</EventDate>

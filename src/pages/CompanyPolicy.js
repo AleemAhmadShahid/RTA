@@ -34,7 +34,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser as setGlobalUser} from '../redux/userSlice';
 import {  validateAlphabeticWithSpace } from "../global/validators";
 import { StyledErrorH6 } from "./Login";
-import {createPutRequest} from '../global/requests'
 import {
   LeftColumn,
   RightColumn,
@@ -60,6 +59,18 @@ import {
 } from './EmpSetting'
 
 
+import {createGetRequest, createPutRequest} from '../global/requests'
+
+import EditableEmployeeTable from "../components/EditableTable";
+import { AddEmployeeButton } from "../styles/TableStyling";
+
+const Details = styled.h6`
+  font-size: 16px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  font-weight: 500;
+`;
 
 const handleChange = (
   formData,
@@ -99,15 +110,47 @@ const EmployeeManagementSetting = () => {
   const state = useSelector((state) => state.user);
   const [user, setUser] = useState({...state});
   const [errors, setErrors] = useState({});
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [settings, setSettings] = useState();
 
-  const handleSubmit = async () =>
-  {
-    dispatch(setGlobalUser(user.user));
-    const response  =  await createPutRequest(user.user,  `/api/user/${user.user._id}/`);
-    setButtonDisabled(true);
+  const handleInputChange = (id, field, value) => {
+    const updatedData = settings.allowances.map((item) =>
+      item["_id"] === id ? { ...item, [field]: value } : item
+    );
+    setSettings({
+      ...settings,
+      allowances: updatedData,
+    });
+  };
+
+
+
+  const saveData =  async () => {
+    const response  =  await createPutRequest(settings, `/api/iam/settings/`);
   }
 
+  useEffect(() => {
+    const fetchData =  async () => {
+
+      const response  =  await createGetRequest(`/api/iam/settings/`);
+      setSettings(response);
+    }
+
+    fetchData();
+
+  }, [])
+  
+  const [checkedEmployees, setCheckedEmployees] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  
+  const columns = [
+    { field: "name", label: "Name", default: "" },
+    { field: "minimumLimit", label: "Minimum Limit", default: 0 },
+    { field: "maxiumumLimit", label: "Maxiumum Limit", default: 0 },
+
+  ];
+  
   return (
     <>
       <BoxContainer>
@@ -149,30 +192,48 @@ const EmployeeManagementSetting = () => {
             </SwitchContainer>
           </ColumnContainer1>
 
-          <FormButton style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }} disabled={buttonDisabled} onClick={handleSubmit}>Save changes</FormButton>
+          <FormButton style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }} disabled={buttonDisabled} onClick={saveData}>Save changes</FormButton>
           <PreviousButton onClick={() => {setUser(state); setButtonDisabled(true);} }> Discard</PreviousButton>
         </Box>
       </BoxContainer>
       <BoxContainer>
-        <Box>
-          <H6>Allowance Setting</H6>
-          <hr />
-          <ColumnContainer1>
-            <SwitchContainer>
-                   <span>Employee Code Prefix</span>
-                   <TimeInput
-                      type="text"
-                      placeholder="EMP-"
-                      width="150px"
-                    />
-            </SwitchContainer>
-          </ColumnContainer1>
-
-          <FormButton style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }} disabled={buttonDisabled} onClick={handleSubmit}>Save changes</FormButton>
-          <PreviousButton onClick={() => {setUser(state); setButtonDisabled(true);} }> Discard</PreviousButton>
-        </Box>
-     
+            <Box style={{  padding: "20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Details>Allowance Setting</Details>
+                <AddEmployeeButton
+                  // onClick={toggleForm}
+                  onClick={() => setSettings(prevSettings => ({
+                    ...settings,
+                    allowances: [
+                      ...settings.allowances,
+                      columns.reduce((acc, column) => {
+                        acc[column.field] = column.default;
+                        return acc;
+                      }, {})
+                    ]
+                  }))}
+                  className="btn btn-primary mb-2"
+                >
+                  <span style={{ whiteSpace: "nowrap" }}> + Add Allowance</span>
+                </AddEmployeeButton>
+              </div>
+              <EditableEmployeeTable
+                checkedEmployees={checkedEmployees}
+                setCheckedEmployees={setCheckedEmployees}
+                loading={loading}
+                initialData={settings?.allowances || []}
+                columns={columns}
+                keyField="_id"
+                handleInputChange={handleInputChange}
+              />
+              <br></br>
+              <FormButton style={{ marginBottom: "10px", opacity: buttonDisabled ? 0.7 : 1  }}  onClick={saveData}>Save changes</FormButton>
+              <PreviousButton onClick={() => {setUser(state); setButtonDisabled(true);} }> Discard</PreviousButton>
+       
+            </Box>
+          
       </BoxContainer>
+    
     </>
   );
 };

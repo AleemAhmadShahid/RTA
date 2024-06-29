@@ -56,9 +56,10 @@ const RemoteTrackingTable = ({
   // columns,
   // renderRow,
   // keyField,
+  task
 }) => {
+  console.log(task);
   return (
-
 
 
 
@@ -66,17 +67,19 @@ const RemoteTrackingTable = ({
 
     <Box style={{marginBottom:"20px"}}>
       <FirstBox>
-      <Details style={{fontSize:"18px",fontWeight:"500"}}>Cloud storage and File sharing</Details>
-      </FirstBox><Details>Cloud storage </Details>
-      <Details style={{fontSize:"14px",color:"grey"}}>8 Feb</Details>
-      <div>
+      <Details style={{fontSize:"18px",fontWeight:"500"}}>{task.title}</Details>
+      </FirstBox>
+      {/* <Details>Cloud storage </Details> */}
+      <Details style={{fontSize:"14px",color:"grey"}}>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }).format(new Date(task.dueDate))}</Details>
+      {/* <div>
       <Icon style={{color:"red"}}>
       <GiDroplets  />
 </Icon></div>
       <Icon >
-      <IoChatbubbleEllipsesOutline/></Icon>
-      <DoneButton>Done</DoneButton>
-      <EmployeeInfo/>
+      <IoChatbubbleEllipsesOutline/></Icon> */}
+      <DoneButton>In progress</DoneButton>
+      <EmployeeInfo employee={task.assignedMembers[0]}/>
+      <Details style={{fontSize:"14px",color:"grey"}}>Not Supported</Details>
     </Box>
    
   );

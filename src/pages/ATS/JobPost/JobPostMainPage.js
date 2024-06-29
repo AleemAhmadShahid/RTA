@@ -113,7 +113,7 @@ const JobPost_list = () => {
       try {
         const data = await createGetRequest("/api/jobPost", params);
       
-        if (data.status === 400) {
+        if (data.status === 400 || data.status === 204) {
           setJobPosts([]);
           return;
         }

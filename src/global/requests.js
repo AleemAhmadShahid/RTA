@@ -1,7 +1,7 @@
 import {store} from '../redux/store';
 import { clearUser } from '../redux/userSlice';
 
-const BACKEND_URL = "http://dev-portal.remoteteamworkadministration.us:3000";
+const BACKEND_URL = "https://api.remoteteamworkadministration.us";
 
 
 const createRequest = async (url , options) =>

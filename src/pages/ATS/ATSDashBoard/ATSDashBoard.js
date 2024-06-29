@@ -28,6 +28,12 @@ import UpcomingEvent from "../../../components/UpcomingEvent";
 import { Details } from "../../MM/MeetingMainPage";
 import SimpleLineChart from "../../../components/LineChart";
 
+import LoaderComponent from "../../../components/Loader";
+
+import {
+  createGetRequest,
+} from "../../../global/requests";
+
 export const Linedata = [
   {
     name: 'Page A',
@@ -160,7 +166,35 @@ export const Icon = styled.div`
 const ATSDashBoard = (employees) => {
   const currentDate = new Date();
   const [data, setData] = useState(null);
+  const [dashboardData, setDashboardData] = useState(null);
   const [date, setDate] = useState(currentDate);
+  
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await createGetRequest("/api/ApplicationTrackingSystem/dashboard/");
+
+        if (data.status === 200)
+        {
+          console.log(data);
+          setDashboardData(data);
+          setLoading(false);
+
+        }
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+
+    };
+    fetchData();
+  }, []);
+  
 
   const tileDisabled = ({ date, view }) => {
     return (
@@ -185,6 +219,11 @@ const ATSDashBoard = (employees) => {
     );
   };
 
+  if (loading)
+    return <CenteredContainer><br></br><LoaderComponent pageloader={false}/></CenteredContainer>;
+
+
+  else
   return (
     <CenteredContainer>
       {/* <CardsContainer>
@@ -238,7 +277,13 @@ const ATSDashBoard = (employees) => {
     <DashBoardCompBox  style={{padding:"20px"}}>
       <h5>My Active Jobs</h5>
     
-        <BarChartCom data={Chardata} />
+        <BarChartCom data={dashboardData.topJobPosts.map((post) => ({
+            name: post.postingTitle,
+            New: post.candidatesCount,
+            Hired:  post.offersCount,
+            Interviewed: post.interviewsCount,
+            Submitted: post.candidatesCount,
+        }))} />
      
        {/* <RightColumn>
       <DashBoardCompBox style={{height:"300px"}}><SimpleLineChart data={Linedata}/></DashBoardCompBox></RightColumn>
@@ -268,10 +313,9 @@ const ATSDashBoard = (employees) => {
           <DashBoardCompBox style={{padding:"20px"}}>
           <div style={{ marginBottom: "30px" }}>
             <h5>Job Post Deadline</h5>
-
-            <UpcomingEvent event="Senior Java Developer" date="1 July 2024" />
-            <UpcomingEvent event="UI/UX Designer" date="3 June 2024" />
-            <UpcomingEvent event="Graphics Designer" date="3 June 2024" />
+            {dashboardData.upcomingJobPostsDeadline.map((post) => (
+              <UpcomingEvent isImage={false} event={post.postingTitle} date={new Date(post.targetDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })} />
+            ))}
           </div>
           </DashBoardCompBox></LeftColumn>
           <RightColumn> <DashBoardCompBox style={{padding:"20px"}}>
@@ -298,8 +342,8 @@ const ATSDashBoard = (employees) => {
                 <IoChatboxOutline  style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>89</H6>
-                <H6 style={{ color: "grey", margin: "0" }}>Interview</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>{dashboardData.summary.openJobPostsCount}</H6>
+                <H6 style={{ color: "grey", margin: "0" }}>Open Job Posts</H6>
               </div>
             </div>
             
@@ -314,7 +358,7 @@ const ATSDashBoard = (employees) => {
                 <SlPeople  style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>40</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>{dashboardData.summary.newCandidatesCount}</H6>
                 <H6 style={{ color: "grey", margin: "0" }}>New Candidates</H6>
               </div>
             </div>
@@ -329,8 +373,8 @@ const ATSDashBoard = (employees) => {
                 <FiClock style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>9</H6>
-                <H6 style={{ color: "grey", margin: "0" }}>Upcoming</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>{dashboardData.summary.upcomingInterviewCount}</H6>
+                <H6 style={{ color: "grey", margin: "0" }}>Upcoming Interviews</H6>
               </div>
             </div>
             <div
@@ -344,7 +388,7 @@ const ATSDashBoard = (employees) => {
                 <MdOutlineFolder  style={{ fontSize: "24px" }} />
               </Icon>
               <div>
-                <H6 style={{ fontWeight: "bold", margin: "0" }}>30</H6>
+                <H6 style={{ fontWeight: "bold", margin: "0" }}>{dashboardData.summary.offersToExtendCount}</H6>
                 <H6 style={{ color: "grey", margin: "0" }}>Offers to extend</H6>
               </div>
             </div>
