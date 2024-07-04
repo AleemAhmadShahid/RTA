@@ -5,11 +5,11 @@ const CustomBar = ({ fill, x, y, width, height, dataKey, payload }) => {
   return <Rectangle x={x} y={y} width={width} height={height} fill={payload.color} />;
 };
 
-const SurveyBarChart = ({ data, layout = "vertical" }) => {
+const SurveyBarChart = ({ data, layout = "vertical" , height = "400px"}) => {
   const isVertical = layout === "vertical";
 
   return (
-    <div style={{ width: '100%', height: 400 }}>
+    <div style={{ width: '100%',  height  }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           layout={layout}

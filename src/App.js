@@ -57,7 +57,7 @@ import AMDashBoard from "./pages/AM/AMDashBoard/AMDashboard";
 import SSDashBoard from "./pages/SS/SSDashBoard/SSDashboard";
 
 import PMMainPage from "./pages/PM/PMMainPage";
-import MeetingMainaPage from "./pages/MM/MeetingMainPage";
+import MeetingMainPage from "./pages/MM/MeetingMainPage";
 import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
 import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
 import PayMDashBoard from "./pages/PayM/PayMDashBoard";
@@ -163,8 +163,11 @@ function App() {
               
               </Route>
               <Route path="meetingmanagemnetsystem" element={<Sidebar   SidebarData={MMSidebarData}  heading={"Meeting Management"}/>}>
-                <Route path="Meeting" element={<MeetingMainaPage />} />
-                <Route path="meeting/:meetingId" element={<MeetingdetailPage/>} />
+                <Route path="Meeting" element={<MeetingMainPage />} />
+                {/* <Route path="meeting/:meetingId" element={<MeetingdetailPage/>} /> */}
+                <Route path="ViewCard" element={<MeetingdetailPage/>} />
+                
+                
                 
                
               </Route>

@@ -48,16 +48,17 @@ export const ScrollContainer = styled.div`
 const MeetingdetailPage=({})=>{
     const navigate = useNavigate();
     const [selectedMeeting, setSelectedMeeting] = useState(null);
-    if (!selectedMeeting) return null;
+    // if (selectedMeeting) return null;
     return(
 
         <>
          <CenteredContainer >
-        {selectedMeeting && (
+          <h1>Aleem</h1>
+        {/* {selectedMeeting && ( */}
         <ColumnContainer>
         <BoxContainer>
           <Box style={{ padding: "20px" }}>
-            <h5 style={{ marginBottom: "30px" }}>{selectedMeeting.title}</h5>
+            {/* <h5 style={{ marginBottom: "30px" }}>{selectedMeeting.title}</h5> */}
             <ColumnContainer>
               <LeftColumn >
                 <Details style={{ marginBottom: "25px" }}> Assignee</Details>
@@ -67,11 +68,11 @@ const MeetingdetailPage=({})=>{
               </LeftColumn>
               <RightColumn>
                 <Details style={{ color: "blue" }}>
-                  <EmployeeInfo employee={{ name: selectedMeeting.createdBy.name }} />
+                  {/* <EmployeeInfo employee={{ name: selectedMeeting.createdBy.name }} /> */}
                 </Details>
-                <Details style={{ color: "blue" }}>   {format(new Date(selectedMeeting.startTime), 'MMMM d, yyyy')} </Details>
+                {/* <Details style={{ color: "blue" }}>   {format(new Date(selectedMeeting.startTime), 'MMMM d, yyyy')} </Details>
                 <Details style={{ color: "blue" }}> {format(new Date(selectedMeeting.startTime), 'h:mm a')} - {format(new Date(selectedMeeting.endTime), 'h:mm a')}</Details>
-                <Details style={{ color: "blue" }}>  {selectedMeeting.type || "N/A"}</Details>
+                <Details style={{ color: "blue" }}>  {selectedMeeting.type || "N/A"}</Details> */}
               </RightColumn>
             </ColumnContainer>
             <hr />
@@ -79,7 +80,7 @@ const MeetingdetailPage=({})=>{
               <Details style={{}}> Description</Details>
               <TextArea
                 rows={4}
-                value={selectedMeeting.description}
+                // value={selectedMeeting.description}
                 style={{
                   width: "100%",
                   resize: "none",
@@ -101,9 +102,9 @@ const MeetingdetailPage=({})=>{
               {" "}
               Attendees
             </Details>
-            {selectedMeeting.attendees.map((attendee, index) => (
+            {/* {selectedMeeting.attendees.map((attendee, index) => (
               <EmployeeInfo key={index} employee={attendee} />
-            ))}
+            ))} */}
             <hr />
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <SaveButton onClick={() => setSelectedMeeting(null)}>Cancel</SaveButton>
@@ -112,7 +113,7 @@ const MeetingdetailPage=({})=>{
           </Box>
         </BoxContainer>
         </ColumnContainer>
-      )}
+      {/* )} */}
         
         </CenteredContainer></>
     );

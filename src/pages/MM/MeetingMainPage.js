@@ -49,9 +49,9 @@ display: grid;
   margin-top: 1px;
   margin-bottom: 5px;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 25px;
+  grid-gap: 15px;
 `;
-const MeetingMainaPage = () => {
+const MeetingMainPage = () => {
   const navigate = useNavigate();
   const [meetings, setMeetings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,7 +91,7 @@ const MeetingMainaPage = () => {
   ];
   const handleViewDetails = (meeting) => {
     setSelectedMeeting(meeting);
-    //  navigate(`/meeting-details/${meeting._id}`);
+    // navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
   };
   const handleSaveAndNext = (meetingId) => {
     navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
@@ -99,7 +99,8 @@ const MeetingMainaPage = () => {
   return (
     <>
     <CenteredContainer>
-      {/* <ScrollContainer> */} <MeetingWrapper >
+      {/* <ScrollContainer> */} 
+      <MeetingWrapper >
        {loading ? (
                 <LoaderComponent/>
               ) : (
@@ -118,7 +119,8 @@ const MeetingMainaPage = () => {
      
                 ))
               )}
-             {/* </ScrollContainer>  */} </MeetingWrapper>
+             {/* </ScrollContainer>  */} 
+             </MeetingWrapper>
               </CenteredContainer>   
       {/* <BoxContainer>
       <Box style={{  padding: "20px" }}>
@@ -210,4 +212,4 @@ const MeetingMainaPage = () => {
     
   );
 };
-export default MeetingMainaPage;
+export default MeetingMainPage;

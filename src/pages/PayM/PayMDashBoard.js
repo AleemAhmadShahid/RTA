@@ -18,6 +18,9 @@ import SurveyBarChart from "../../components/SurveyBarChart";
 import StarRating from "../../components/StarRating";
 import UpcomingEvent from "../../components/UpcomingEvent";
 import { Details } from "../MM/MeetingMainPage";
+import SimpleLineChart from "../../components/LineChart";
+import { Linedata } from "../IAM/EmpDashBoard/EmpDashBoard";
+import { MLinedata } from "../AM/AMDashBoard/AMDashboard";
 export const Chardata = [
   {
     name: "Page A",
@@ -194,28 +197,10 @@ const PayMDashBoard = (employees) => {
             </div>
          </LeftColumn>
         <RightColumn>
-          <ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "#475be8"]}
-              percentFillValue={69}
-              cardInfo={{
-                title: "Todays Sales",
-                value: "$20.4K",
-                text: "We have sold 123 items.",
-              }}
-            />
-          </ContentAreaCards>
-          <ContentAreaCards>
-            <PieChartCom
-              colors={["#e4e8ef", "green"]}
-              percentFillValue={67}
-              cardInfo={{
-                title: "Shaheers BSDK level",
-                value: "$69K",
-                text: "We have sold 123 items.",
-              }}
-            />
-          </ContentAreaCards>
+        <DashBoardCompBox>
+            <h5 style={{marginLeft:"15px",marginTop:"15px"}}>Salary statistice</h5>
+          <SurveyBarChart data={Surveydata} layout="horizontal" height="270px"/>
+          </DashBoardCompBox>
 
           {/* <DashBoardCompBox style={{ padding: "20px" }}>
             <h5 style={{ fontWeight: "bold" }}>Offer acceptance</h5>
@@ -271,7 +256,7 @@ const PayMDashBoard = (employees) => {
       <ColumnContainer>
       <LeftColumn style={{flex:"2"}}>
 <DashBoardCompBox style={{  }}>
-        <BarChartCom data={Chardata} />
+        <SimpleLineChart data={MLinedata}/>
       </DashBoardCompBox>
       </LeftColumn>
       <RightColumn>
@@ -298,7 +283,7 @@ const PayMDashBoard = (employees) => {
       <ColumnContainer>
       <LeftColumn >
         <DashBoardCompBox style={{height:"300px"}}>
-            <Details style={{fontSize:"20px"}}>Employee Structure</Details>
+        <h5 style={{marginLeft:"20px",marginTop:"20px"}}>Employees Structure</h5>
       <ContentAreaCards 
               style={{
                 display: "flex",

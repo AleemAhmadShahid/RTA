@@ -14,16 +14,19 @@ const Line=styled.hr`
 margin:0;
 
 `
-const MeetingDetails = ({title,creator, attendees,onViewDetails, onSaveAndNext }) => {
+const MeetingDetails = ({title,creator, attendees,meetingId ,onViewDetails, onSaveAndNext}) => {
   const navigate = useNavigate(); 
-  const {meetingId} = useParams();
-
-
+  // const {meetingId} = useParams();
 
   const handleSaveAndNext = () => {
-    
-    navigate(`portal/meetingmanagemnetsystem/meeting/${meetingId}`); 
+    navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
   };
+  const handleViewDetails = (meetingId) => {
+    // setSelectedMeeting(meeting);
+    navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
+  };
+
+
   
   const defaultImageUrl =
     "https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
@@ -102,10 +105,9 @@ const MeetingDetails = ({title,creator, attendees,onViewDetails, onSaveAndNext }
           )}
         </div>
         </div> */}
-          <SaveAndNextButton    onClick={() => onSaveAndNext() }
-           style={{ width: "100%",fontSize:"14px",fontWeight:"500",marginTop:"20px",borderRadius:"20px"}} >
-            View Details
-          </SaveAndNextButton>
+          <SaveAndNextButton onClick={handleSaveAndNext} style={{ width: "100%", fontSize: "14px", fontWeight: "500", marginTop: "20px", borderRadius: "20px" }}>
+          View Details
+        </SaveAndNextButton>
         
       </Box>
     </BoxContainer>
