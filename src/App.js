@@ -8,7 +8,7 @@ import { SelfServiceSidebarData } from "./SideBarData/SS";
 import { PMSidebarData } from "./SideBarData/PM";
 import {MMSidebarData} from "./SideBarData/MM";
 import { RTSidebarData } from "./SideBarData/RT";
-
+import { PayMSidebarData } from "./SideBarData/PayM";
 
 import Topbar from "./components/Topbar";
 import Emp_list from "./pages/IAM/Employees/EmpMainPage";
@@ -60,6 +60,7 @@ import PMMainPage from "./pages/PM/PMMainPage";
 import MeetingMainaPage from "./pages/MM/MeetingMainPage";
 import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
 import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
+import PayMDashBoard from "./pages/PayM/PayMDashBoard";
 
 
 function App() {
@@ -170,6 +171,11 @@ function App() {
 
               <Route path="remotetracking" element={<Sidebar SidebarData={RTSidebarData} heading={"Remote Tracking"} />}>
                  <Route path="board" element={<RemoteTrackingMainPage />} />   
+                {/* <Route path="board" element={<Calendar />} />  */}
+              </Route>
+
+              <Route path="payrollmanagement" element={<Sidebar SidebarData={PayMSidebarData} heading={"Payroll Management"} />}>
+                 <Route path="dashboard" element={<PayMDashBoard />} />   
                 {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 

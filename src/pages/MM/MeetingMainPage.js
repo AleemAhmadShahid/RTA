@@ -43,7 +43,14 @@ export const ScrollContainer = styled.div`
      display: none;
    }
  `
-
+ export const MeetingWrapper = styled.div`
+display: grid;
+  left: 0;
+  margin-top: 1px;
+  margin-bottom: 5px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 25px;
+`;
 const MeetingMainaPage = () => {
   const navigate = useNavigate();
   const [meetings, setMeetings] = useState([]);
@@ -92,26 +99,26 @@ const MeetingMainaPage = () => {
   return (
     <>
     <CenteredContainer>
-      <ScrollContainer>
+      {/* <ScrollContainer> */} <MeetingWrapper >
        {loading ? (
                 <LoaderComponent/>
               ) : (
                 meetings.map((meeting) => (
-                  <MeetingDetails
-                    key={meeting._id}
-                    title={meeting.title}
-                    creator={meeting.createdBy.name}
-                    startTime={meeting.startTime}
-                    endTime={meeting.endTime}
-                    attendees={meeting.attendees}
-                    description={meeting.description}
-                    onViewDetails={() => handleViewDetails(meeting)}
-                    onSaveAndNext={() => handleSaveAndNext(meeting._id)}
-                    
-                  />
+                 
+        <MeetingDetails
+          title={meeting.title}
+          creator={meeting.createdBy.name}
+          startTime={meeting.startTime}
+          endTime={meeting.endTime}
+          attendees={meeting.attendees}
+          description={meeting.description}
+          onViewDetails={() => handleViewDetails(meeting)}
+          onSaveAndNext={() => handleSaveAndNext(meeting._id)}
+        />
+     
                 ))
               )}
-              </ScrollContainer>
+             {/* </ScrollContainer>  */} </MeetingWrapper>
               </CenteredContainer>   
       {/* <BoxContainer>
       <Box style={{  padding: "20px" }}>

@@ -37,7 +37,7 @@ const Nav = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  @media (min-width: 1200px) {
+  @media (min-width: 1100px) {
     
     width: 79.4%;
     top: 2.5%;
@@ -360,7 +360,7 @@ const Topbar = () => {
                 </DropdownButton>
                 <DropdownLabel>Employee Management</DropdownLabel>
               </div>
-              <div>
+              <div onClick={() => {setIsDropdownOpen(false);  navigate('/portal/payrollmanagement/dashboard');}}>
                 <DropdownButton>
                   <AiOutlineCalendar />
                 </DropdownButton>
