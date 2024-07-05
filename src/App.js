@@ -55,12 +55,16 @@ import ATSDashBoard from "./pages/ATS/ATSDashBoard/ATSDashBoard";
 import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
 import AMDashBoard from "./pages/AM/AMDashBoard/AMDashboard";
 import SSDashBoard from "./pages/SS/SSDashBoard/SSDashboard";
+import PayMDashBoard from "./pages/PayM/PayMDashBoard";
 
 import PMMainPage from "./pages/PM/PMMainPage";
 import MeetingMainPage from "./pages/MM/MeetingMainPage";
 import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
 import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
-import PayMDashBoard from "./pages/PayM/PayMDashBoard";
+
+
+import Cycle_list from "./pages/PayM/Cycle/CycleMainPage";
+
 import JobInfo from "./components/JobInfo";
 
 
@@ -182,7 +186,8 @@ function App() {
               </Route>
 
               <Route path="payrollmanagement" element={<Sidebar SidebarData={PayMSidebarData} heading={"Payroll Management"} />}>
-                 <Route path="dashboard" element={<PayMDashBoard />} />   
+                 <Route path="dashboard" element={<PayMDashBoard />} />  
+                 <Route path="cycle" element={<Cycle_list />} /> 
                 {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 

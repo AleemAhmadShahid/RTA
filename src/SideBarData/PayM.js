@@ -1,7 +1,6 @@
 import React from "react";
 import * as FaIcons from "react-icons/fa";
 
-import * as RiIcons from "react-icons/ri";
 
 
 import { AiFillProject } from "react-icons/ai";
@@ -10,6 +9,9 @@ import { TbWaveSawTool } from "react-icons/tb";
 import { MdGridView } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
 import { IoMdSettings } from "react-icons/io";
+
+import * as RiIcons from "react-icons/ri";
+import * as BiIcons from "react-icons/bi";
 export const PayMSidebarData = [
   
   {
@@ -19,24 +21,10 @@ export const PayMSidebarData = [
      path: "/portal/payrollmanagement/dashboard",
     
 
-  },
+  }, 
   {
-    title: "Templates",
-    // path: "/Templates",
-    icon: <HiOutlineTemplate  />,
-  
- },
-  {
-    title: "Home",
-    // path: "/home",
-    icon: <TbWaveSawTool/>,
-  
-   },
-   { type: 'separator' },
-  //  <hr/>
-  {
-    title: "Workspaces",
-    // path: "/Workspaces",
+    title: "Cycle",
+    // path: "/Departments",
     icon: <FaIcons.FaEnvelopeOpenText />,
 
     iconClosed: <RiIcons.RiArrowDropDownLine />,
@@ -44,27 +32,57 @@ export const PayMSidebarData = [
 
     subNav: [
       {
-        title: "Boards",
-        // path: "/portal/PM/Boards",
-        icon: <AiFillProject />,
+        title: "List",
+        path: "/portal/payrollmanagement/cycle",
+        icon: <BiIcons.BiRadioCircle />,
       },
-   
+    ],
+  }, 
+  {
+    title: "Policy",
+    // path: "/Departments",
+    icon: <FaIcons.FaEnvelopeOpenText />,
+
+    iconClosed: <RiIcons.RiArrowDropDownLine />,
+    iconOpened: <RiIcons.RiArrowDropUpLine />,
+
+    subNav: [
       {
-        title: "Highlights",
-        // path: "/portal/PM/Highlights",
-        icon: <FiHeart/>,
+        title: "List",
+        path: "/portal/iam/department",
+        icon: <BiIcons.BiRadioCircle />,
       },
-    
+    ],
+  },
+  {
+    title: "Processing",
+    // path: "/Departments",
+    icon: <FaIcons.FaEnvelopeOpenText />,
+
+    iconClosed: <RiIcons.RiArrowDropDownLine />,
+    iconOpened: <RiIcons.RiArrowDropUpLine />,
+
+    subNav: [
       {
-        title: "Views",
-        // path: "/portal/PM/Views",
-        icon: <MdGridView/>,
+        title: "List",
+        path: "/portal/iam/department",
+        icon: <BiIcons.BiRadioCircle />,
       },
-   
+    ],
+  },
+  {
+    title: "Reimbursement",
+    // path: "/Departments",
+    icon: <FaIcons.FaEnvelopeOpenText />,
+
+    iconClosed: <RiIcons.RiArrowDropDownLine />,
+    iconOpened: <RiIcons.RiArrowDropUpLine />,
+
+    subNav: [
       {
-        title: "Settings",
-        // path: "/portal/PM/Setting",
-        icon: <IoMdSettings/>,
+        title: "List",
+        path: "/portal/iam/department",
+        icon: <BiIcons.BiRadioCircle />,
       },
     ],
   },
