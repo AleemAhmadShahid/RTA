@@ -67,6 +67,7 @@ import Cycle_list from "./pages/PayM/Cycle/CycleMainPage";
 import Policy_list from "./pages/PayM/Policy/PolicyMainPage";
 import JobInfo from "./components/JobInfo";
 import Processing_list from "./pages/PayM/Processing/ProcessingMainPage";
+import Reimbursement_list from "./pages/PayM/Reimbursement/ReimbursementMainPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -189,6 +190,7 @@ function App() {
                  <Route path="cycle" element={<Cycle_list />} /> 
                  <Route path="policy" element={<Policy_list />} /> 
                  <Route path="processing" element={<Processing_list/>} /> 
+                 <Route path="reimbursement" element={<Reimbursement_list/>} /> 
                 {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 

@@ -54,7 +54,7 @@ const MultiStepForm = ({
   const isLastStep = step === 1;
 
   const handleSave = async (nextStep = null) => {
-    saveHandler(nextStep, ["cycleType"],"/api/payrollCycle/", `/api/payrollCycle/${formData._id}/`, "Paryoll Cycle saved Successfully!", "cycle", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
+    saveHandler(nextStep, ["payPeriodStart"],"/api/payrollProcessing/", `/api/payrollProcessing/${formData._id}/`, "Processing saved Successfully!", "processing", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
   };
   const renderStep = () => {
     switch (step) {
@@ -79,7 +79,7 @@ const MultiStepForm = ({
             <HeaderContainer>
               <Heading>
               {
-                  isViewMode ? "View Cycle" : (isEditMode ? "Update Cycle" : "Create Cycle")
+                  isViewMode ? "View Processing" : (isEditMode ? "Update Processing" : "Create Processing")
               }
               </Heading>
               <CloseButtonContainer>
@@ -91,7 +91,7 @@ const MultiStepForm = ({
             <InnermodalContainer>             
             {
               isViewMode ? (
-                <ViewProcessing cycle={formData}/>
+                <ViewProcessing processing={formData}/>
               ) : (
                 <>
                   {renderStep()}

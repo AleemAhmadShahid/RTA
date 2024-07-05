@@ -9,7 +9,7 @@ import {
 import EmployeeInfo from "../../../components/EmployeeInfo";
 import { createGetRequest } from "../../../global/requests";
 
-const ViewCycle = ({ cycle}) => {
+const ViewProcessing = ({ processing}) => {
 
  
 
@@ -17,12 +17,15 @@ const ViewCycle = ({ cycle}) => {
   return (
     <FormStep active>
       <FormGroup>
-        <FormLabel>Cycle Type</FormLabel>
-        <H6 style={{ width: "300px" }}>{cycle.cycleType}</H6>
+        <FormLabel>Start Date </FormLabel>
+        <H6 style={{ width: "300px" }}>{processing.payPeriodStart}</H6>
       </FormGroup>
-           
+      <FormGroup>
+        <FormLabel>End Date</FormLabel>
+        <H6 style={{ width: "300px" }}>{processing.payPeriodEnd}</H6>
+      </FormGroup>
     </FormStep>
   );
 };
 
-export default ViewCycle;
+export default ViewProcessing;

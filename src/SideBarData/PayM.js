@@ -80,8 +80,8 @@ export const PayMSidebarData = [
 
     subNav: [
       {
-        title: "List",
-        path: "/portal/iam/department",
+        title: "List", 
+        path: "/portal/payrollmanagement/reimbursement",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],

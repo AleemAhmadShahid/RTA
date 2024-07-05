@@ -19,28 +19,28 @@ const StepOne = ({ formData, errors, handleChange }) => {
     <FormStep active>
       <H6 style={{ width: "300px" }}>Basic Information</H6>
 
+      
       <FormGroup>
-          <FormLabel>Prcessing Type</FormLabel>
-          <EntriesDropdown
-              width="100%"
-            value={(formData?.cycleType
-              && {label: formData?.cycleType, value: formData?.cycleType})
-              || {label: "Select", value: "Select"}}
-            onChange={(selectedOption) =>{
-                handleChange(
-                  `cycleType`,
-                  selectedOption.value
-                );
-              }
-            }
-            options={['Monthly', 'Weekly', 'Bi-Monthly'].map((item) => ({label: item, value: item}))}
-            styles={dropDownStyle}
-          />
-                
+        <FormLabel>Pay Period Start</FormLabel>
+        <FormInput
+          type="date"
+          value={(formData.payPeriodStart && formData.payPeriodStart.split('T')[0]) || ""}
+          onChange={(e) => handleChange("payPeriodStart", e.target.value)}
+        />
       </FormGroup>
+      <FormGroup>
+      <FormLabel>Pay Period End</FormLabel>
+        <FormInput
+          type="date"
+          value={(formData.payPeriodEnd && formData.payPeriodEnd.split('T')[0]) || ""}
+          onChange={(e) => handleChange("payPeriodEnd", e.target.value)}
+        />
+      </FormGroup>
+                
+      
 
 
-      {errors.cycleType && <StyledErrorH6>{errors.cycleType}</StyledErrorH6>}
+      {/* {errors.payPeriodStart && <StyledErrorH6>{errors.payPeriodStart}</StyledErrorH6>} */}
       
      
 

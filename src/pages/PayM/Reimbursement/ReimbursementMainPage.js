@@ -60,8 +60,8 @@ const Reimbursement_list = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedPolicy, setCheckedPolicy] = useState([]);
-  const [policys, setPolicy] = useState([]);
+  const [checkedReimbursement, setCheckedReimbursement] = useState([]);
+  const [reimbursements, setReimbursement] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -82,20 +82,20 @@ const Reimbursement_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof policys.value !== "object") params.policys = policys.value;
+    if (typeof reimbursements.value !== "object") params.reimbursements = reimbursements.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/payrollPolicy/", params);
+        const data = await createGetRequest("/api/payrollReimbursement/", params);
         if (data.status === 404 || data.status === 400) {
-          setPolicy([]);
+          setReimbursement([]);
           setLoading(false); 
           console.log("Policy",data) ;
           return;
         }
-        setPolicy(data.policys);
+        setReimbursement(data.reimbursements);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -107,8 +107,8 @@ const Reimbursement_list = () => {
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (policy) => {
-    setFormData(policy);
+  const handleEditClick = (reimbursement) => {
+    setFormData(reimbursement);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -119,14 +119,16 @@ const Reimbursement_list = () => {
   };
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "Policy Type",
-    "Employee Count",
+    "Expense Type",
+    "Amount",
+    "Date Incurred",
     "Created By",
     "Actions",
   ]);
   const CheckOptions = [
-    "Policy Type",
-    "Employee Count",
+    "Expense Type",
+    "Amount",
+    "Date Incurred",
     "Created By",
     "Actions",
   ];
@@ -137,18 +139,18 @@ const Reimbursement_list = () => {
   });
 
   const deletePolicy = async (id) => {
-    const response = await createDeleteRequest(`/api/payrollPolicy/${id}/`);
+    const response = await createDeleteRequest(`/api/payrollReimbursement/${id}/`);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Policy deleted Successfully!");
+      toast.success("Reimbursement deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {policys: checkedPolicy};
-    if (checkedPolicy.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/payrollPolicy/bulkDelete/";
+    const data = {reimbursements: checkedReimbursement};
+    if (checkedReimbursement.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/payrollReimbursement/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
@@ -174,22 +176,22 @@ const Reimbursement_list = () => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalPolicys || 0}
-              text="Total Policys"
+              data={infoBoxData?.totalreimbursements || 0}
+              text="Total Reimbursements"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantPolicys || 0}
-              text="Vacant Policys"
+              data={infoBoxData?.vacantReimbursements || 0}
+              text="Vacant Reimbursements"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedPolicys || 0}
-              text="Closed Policys"
+              data={infoBoxData?.closedReimbursements || 0}
+              text="Closed Reimbursements"
             />
            
           </CardsContainer> }
@@ -291,7 +293,7 @@ const Reimbursement_list = () => {
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Policy</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Reimbursement</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -304,18 +306,21 @@ const Reimbursement_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedPolicy(
-                              policys.map((policy) => policy._id)
+                            setCheckedReimbursement(
+                              reimbursements.map((reimbursement) => reimbursement._id)
                             );
-                          else setCheckedPolicy([]);
+                          else setCheckedReimbursement([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("Policy Type") && (
-                      <Th>POLICY TYPE</Th>
+                    {selectedCheck.includes("Expense Type"   ) && (
+                      <Th>EXPENSE TYPE</Th>
                     )}
 
-                    {selectedCheck.includes("Employee Count") && <Th>EMPLOYEE COUNT</Th>}
+                    {selectedCheck.includes("Amount") && <Th>Amount</Th>}
+
+                    {selectedCheck.includes("Date Incurred") && <Th>DATE INCURRED</Th>}
+
 
                    
                     {selectedCheck.includes("Created By") && (
@@ -332,44 +337,47 @@ const Reimbursement_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    policys &&
-                    policys.map((policy) => (
-                      <Tr key={policy._id}>
+                    reimbursements &&
+                    reimbursements.map((reimbursement) => (
+                      <Tr key={reimbursement._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedPolicy.includes(policy._id)}
+                            checked={checkedReimbursement.includes(reimbursement._id)}
                             onChange={() => {
-                              if (!checkedPolicy.includes(policy._id))
-                                setCheckedPolicy([
-                                  ...checkedPolicy,
-                                  policy._id,
+                              if (!checkedReimbursement.includes(reimbursement._id))
+                                setCheckedReimbursement([
+                                  ...checkedReimbursement,
+                                  reimbursement._id,
                                 ]);
                               else
-                                setCheckedPolicy(
-                                  checkedPolicy.filter(
-                                    (checkedPolicy) =>
-                                      checkedPolicy !== policy._id
+                                setCheckedReimbursement(
+                                  checkedReimbursement.filter(
+                                    (checkedReimbursement) =>
+                                      checkedReimbursement !== reimbursement._id
                                   )
                                 );
                             }}
                           />
                         </Td>
                   
-                        {selectedCheck.includes("Policy Type") && (
-                          <Td style={{ whiteSpace: 'pre-line' }}>{policy.cycleType}</Td>
+                        {selectedCheck.includes("Expense Type") && (
+                          <Td style={{ whiteSpace: 'pre-line' }}>{reimbursement.expenseType}</Td>
                         )}
 
-                        {selectedCheck.includes("Employee Count") && (
-                          <Td>{policy.employees.length}</Td>
+                        {selectedCheck.includes("Amount") && (
+                          <Td>{reimbursement.amount}</Td>
+                        )}
+                        {selectedCheck.includes("Date Incurred") && (
+                          <Td>{reimbursement.dateIncurred}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { policy?.createdBy 
+                            { reimbursement?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={policy?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={reimbursement?.createdBy} />
                             }
                           </Td>
                         )}
@@ -382,9 +390,9 @@ const Reimbursement_list = () => {
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
                                   setIsViewMode(false);
-                                  setFormData(policy);
+                                  setFormData(reimbursement);
                                   setShowForm(true);
-                                  setIsEditMode(!!policy);
+                                  setIsEditMode(!!reimbursement);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -392,7 +400,7 @@ const Reimbursement_list = () => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(policy);
+                              setFormData(reimbursement);
                               setIsViewMode(true);
                               toggleForm();
                             }}
@@ -402,8 +410,8 @@ const Reimbursement_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this policy?", handleYes: () => {
-                                  deletePolicy(policy._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this reimbursement?", handleYes: () => {
+                                  deletePolicy(reimbursement._id);
                                 }}));
                               }}
                             />
@@ -412,7 +420,7 @@ const Reimbursement_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!policys || policys.length === 0) && (
+                  {!loading && (!reimbursements || reimbursements.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -421,7 +429,7 @@ const Reimbursement_list = () => {
               </Table>
             </TableContainer>
 
-            {policys.length !== 0 && totalPages >= 1 && (
+            {reimbursements.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
