@@ -188,7 +188,7 @@ const RemoteTrackingMainPage = ({}) => {
 {/* </div> */}
 
       </Box>
-      {/* {Object.keys(tasks).map((key) => (
+      {Object.keys(tasks).map((key) => (
         <React.Fragment key={key}>
           <Box
             style={{
@@ -221,7 +221,7 @@ const RemoteTrackingMainPage = ({}) => {
           )}
         </React.Fragment>
       ))}
-       */}
+      
        <DashBoardCompBox style={{marginTop:"20px"}}>
         <CandidateTable
         loading={false}

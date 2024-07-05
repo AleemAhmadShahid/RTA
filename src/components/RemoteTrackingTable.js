@@ -7,6 +7,9 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { SaveAndNextButton } from "../styles/MultiStepFormStyling";
 import { TbDroplets } from "react-icons/tb";
 import { GiDroplets } from "react-icons/gi";
+import { VscDebugStart } from "react-icons/vsc";
+
+
 // import { Icon } from "../pages/IAM/EmpDashBoard/EmpDashBoard";
 export const Box=styled.div`
 display:flex;
@@ -58,7 +61,7 @@ const RemoteTrackingTable = ({
   // keyField,
   task
 }) => {
-  console.log(task);
+
   return (
 
 
@@ -77,9 +80,14 @@ const RemoteTrackingTable = ({
 </Icon></div>
       <Icon >
       <IoChatbubbleEllipsesOutline/></Icon> */}
-      <DoneButton>In progress</DoneButton>
+     
       <EmployeeInfo employee={task.assignedMembers[0]}/>
-      <Details style={{fontSize:"14px",color:"grey"}}>Not Supported</Details>
+      <Details style={{fontSize:"14px",color:"grey"}}>{(navigator.userAgent.toLowerCase().indexOf(' electron/') > -1 && <Icon  >
+        <VscDebugStart  onClick={() => {
+      
+          const { ipcRenderer } = window.require('electron');
+          ipcRenderer.send('startRecording', {task: task._id});
+        }}/></Icon>) || "Not Supported"}</Details>
     </Box>
    
   );
