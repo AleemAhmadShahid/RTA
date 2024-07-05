@@ -47,7 +47,7 @@ import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
 
-const Cycle_list = () => {
+const Processing_list = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -88,11 +88,11 @@ const Cycle_list = () => {
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/payrollCycle/", params);
+        const data = await createGetRequest("/api/payrollProcessing/", params);
         if (data.status === 404 || data.status === 400) {
           setCycle([]);
           setLoading(false); 
-          console.log("cycle",data); 
+          console.log("Processing",data); 
           return;
         }
         setCycle(data.cycles);
@@ -448,4 +448,4 @@ const Cycle_list = () => {
   );
 };
 
-export default Cycle_list;
+export default Processing_list;

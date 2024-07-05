@@ -47,7 +47,7 @@ import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
 
 
-const Cycle_list = () => {
+const Reimbursement_list = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -60,8 +60,8 @@ const Cycle_list = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedCycle, setCheckedCycle] = useState([]);
-  const [cycles, setCycle] = useState([]);
+  const [checkedPolicy, setCheckedPolicy] = useState([]);
+  const [policys, setPolicy] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -82,20 +82,20 @@ const Cycle_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof cycles.value !== "object") params.cycles = cycles.value;
+    if (typeof policys.value !== "object") params.policys = policys.value;
 
     setLoading(true);
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/payrollCycle/", params);
+        const data = await createGetRequest("/api/payrollPolicy/", params);
         if (data.status === 404 || data.status === 400) {
-          setCycle([]);
+          setPolicy([]);
           setLoading(false); 
-          console.log("cycle",data); 
+          console.log("Policy",data) ;
           return;
         }
-        setCycle(data.cycles);
+        setPolicy(data.policys);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
@@ -107,8 +107,8 @@ const Cycle_list = () => {
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (cycle) => {
-    setFormData(cycle);
+  const handleEditClick = (policy) => {
+    setFormData(policy);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -119,13 +119,13 @@ const Cycle_list = () => {
   };
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "Cycle Type",
+    "Policy Type",
     "Employee Count",
     "Created By",
     "Actions",
   ]);
   const CheckOptions = [
-    "Cycle Type",
+    "Policy Type",
     "Employee Count",
     "Created By",
     "Actions",
@@ -136,19 +136,19 @@ const Cycle_list = () => {
     icon: <FaPrint />,
   });
 
-  const deleteCycle = async (id) => {
-    const response = await createDeleteRequest(`/api/payrollCycle/${id}/`);
+  const deletePolicy = async (id) => {
+    const response = await createDeleteRequest(`/api/payrollPolicy/${id}/`);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Cycle deleted Successfully!");
+      toast.success("Policy deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {cycles: checkedCycle};
-    if (checkedCycle.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/payrollCycle/bulkDelete/";
+    const data = {policys: checkedPolicy};
+    if (checkedPolicy.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/payrollPolicy/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
@@ -174,22 +174,22 @@ const Cycle_list = () => {
             <InfoBox
               icon={FiUserPlus}
               iconColor="#512da8"
-              data={infoBoxData?.totalCycles || 0}
-              text="Total Cycles"
+              data={infoBoxData?.totalPolicys || 0}
+              text="Total Policys"
             />
              
              <InfoBox
               icon={FiUserX}
               iconColor="#ffa500"
-              data={infoBoxData?.vacantCycles || 0}
-              text="Vacant Cycles"
+              data={infoBoxData?.vacantPolicys || 0}
+              text="Vacant Policys"
             />
 
             <InfoBox
               icon={FiUserCheck}
               iconColor="#d32f2f"
-              data={infoBoxData?.closedCycles || 0}
-              text="Closed Cycles"
+              data={infoBoxData?.closedPolicys || 0}
+              text="Closed Policys"
             />
            
           </CardsContainer> }
@@ -291,7 +291,7 @@ const Cycle_list = () => {
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Cycle</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Policy</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
@@ -304,15 +304,15 @@ const Cycle_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedCycle(
-                              cycles.map((cycle) => cycle._id)
+                            setCheckedPolicy(
+                              policys.map((policy) => policy._id)
                             );
-                          else setCheckedCycle([]);
+                          else setCheckedPolicy([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("Cycle Type") && (
-                      <Th>CYCLE TYPE</Th>
+                    {selectedCheck.includes("Policy Type") && (
+                      <Th>POLICY TYPE</Th>
                     )}
 
                     {selectedCheck.includes("Employee Count") && <Th>EMPLOYEE COUNT</Th>}
@@ -332,44 +332,44 @@ const Cycle_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    cycles &&
-                    cycles.map((cycle) => (
-                      <Tr key={cycle._id}>
+                    policys &&
+                    policys.map((policy) => (
+                      <Tr key={policy._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedCycle.includes(cycle._id)}
+                            checked={checkedPolicy.includes(policy._id)}
                             onChange={() => {
-                              if (!checkedCycle.includes(cycle._id))
-                                setCheckedCycle([
-                                  ...checkedCycle,
-                                  cycle._id,
+                              if (!checkedPolicy.includes(policy._id))
+                                setCheckedPolicy([
+                                  ...checkedPolicy,
+                                  policy._id,
                                 ]);
                               else
-                                setCheckedCycle(
-                                  checkedCycle.filter(
-                                    (checkedCycle) =>
-                                      checkedCycle !== cycle._id
+                                setCheckedPolicy(
+                                  checkedPolicy.filter(
+                                    (checkedPolicy) =>
+                                      checkedPolicy !== policy._id
                                   )
                                 );
                             }}
                           />
                         </Td>
                   
-                        {selectedCheck.includes("Cycle Type") && (
-                          <Td style={{ whiteSpace: 'pre-line' }}>{cycle.cycleType}</Td>
+                        {selectedCheck.includes("Policy Type") && (
+                          <Td style={{ whiteSpace: 'pre-line' }}>{policy.cycleType}</Td>
                         )}
 
                         {selectedCheck.includes("Employee Count") && (
-                          <Td>{cycle.employees.length}</Td>
+                          <Td>{policy.employees.length}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { cycle?.createdBy 
+                            { policy?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={cycle?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={policy?.createdBy} />
                             }
                           </Td>
                         )}
@@ -382,9 +382,9 @@ const Cycle_list = () => {
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
                                   setIsViewMode(false);
-                                  setFormData(cycle);
+                                  setFormData(policy);
                                   setShowForm(true);
-                                  setIsEditMode(!!cycle);
+                                  setIsEditMode(!!policy);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -392,7 +392,7 @@ const Cycle_list = () => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(cycle);
+                              setFormData(policy);
                               setIsViewMode(true);
                               toggleForm();
                             }}
@@ -402,8 +402,8 @@ const Cycle_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this cycle?", handleYes: () => {
-                                  deleteCycle(cycle._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this policy?", handleYes: () => {
+                                  deletePolicy(policy._id);
                                 }}));
                               }}
                             />
@@ -412,7 +412,7 @@ const Cycle_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!cycles || cycles.length === 0) && (
+                  {!loading && (!policys || policys.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
@@ -421,7 +421,7 @@ const Cycle_list = () => {
               </Table>
             </TableContainer>
 
-            {cycles.length !== 0 && totalPages >= 1 && (
+            {policys.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -448,4 +448,4 @@ const Cycle_list = () => {
   );
 };
 
-export default Cycle_list;
+export default Reimbursement_list;

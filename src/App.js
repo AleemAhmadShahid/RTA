@@ -64,10 +64,9 @@ import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
 
 
 import Cycle_list from "./pages/PayM/Cycle/CycleMainPage";
-
+import Policy_list from "./pages/PayM/Policy/PolicyMainPage";
 import JobInfo from "./components/JobInfo";
-
-
+import Processing_list from "./pages/PayM/Processing/ProcessingMainPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -188,6 +187,8 @@ function App() {
               <Route path="payrollmanagement" element={<Sidebar SidebarData={PayMSidebarData} heading={"Payroll Management"} />}>
                  <Route path="dashboard" element={<PayMDashBoard />} />  
                  <Route path="cycle" element={<Cycle_list />} /> 
+                 <Route path="policy" element={<Policy_list />} /> 
+                 <Route path="processing" element={<Processing_list/>} /> 
                 {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 

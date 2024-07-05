@@ -49,7 +49,7 @@ export const PayMSidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/portal/iam/department",
+        path: "/portal/payrollmanagement/policy",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
@@ -65,7 +65,7 @@ export const PayMSidebarData = [
     subNav: [
       {
         title: "List",
-        path: "/portal/iam/department",
+        path: "/portal/payrollmanagement/processing",
         icon: <BiIcons.BiRadioCircle />,
       },
     ],
