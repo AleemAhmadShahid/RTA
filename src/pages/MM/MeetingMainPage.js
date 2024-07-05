@@ -63,7 +63,7 @@ const MeetingMainPage = () => {
       try {
         const data = await createGetRequest("/api/meeting");
         console.log(data); 
-        setMeetings(data.meetings); 
+        setMeetings(data.meetings || []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching meetings data:", error);

@@ -61,6 +61,7 @@ import MeetingMainPage from "./pages/MM/MeetingMainPage";
 import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
 import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
 import PayMDashBoard from "./pages/PayM/PayMDashBoard";
+import JobInfo from "./components/JobInfo";
 
 
 function App() {
@@ -157,6 +158,9 @@ function App() {
               <Route path="applicationtrackingsystem" element={<Sidebar   SidebarData={ATSSidebarData}  heading={"Application Tracking System"}/>}>
               <Route path="dashboard" element={<ATSDashBoard />} /> 
                 <Route path="jobPosting" element={<JobPost_list />} />
+
+              <Route path="candidate/:id" element={<JobInfo />} />
+
                 <Route path="candidate" element={<Candidate_list />} />
                 <Route path="interview" element={<Interview_list />} />
                 <Route path="offer" element={<Offer_list />} />

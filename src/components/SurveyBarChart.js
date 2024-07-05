@@ -5,7 +5,7 @@ const CustomBar = ({ fill, x, y, width, height, dataKey, payload }) => {
   return <Rectangle x={x} y={y} width={width} height={height} fill={payload.color} />;
 };
 
-const SurveyBarChart = ({ data, layout = "vertical" , height = "400px"}) => {
+const SurveyBarChart = ({ data, layout = "vertical" , height = "400px",showPvLabel = true}) => {
   const isVertical = layout === "vertical";
 
   return (
@@ -15,10 +15,10 @@ const SurveyBarChart = ({ data, layout = "vertical" , height = "400px"}) => {
           layout={layout}
           data={data}
           margin={{
-            top: 40,
+            top: 30,
             right: 40,
             left: 10,
-            bottom: 30,
+            bottom: 20,
           }}
           // barCategoryGap="10%"
           // barGap={2}
@@ -27,7 +27,7 @@ const SurveyBarChart = ({ data, layout = "vertical" , height = "400px"}) => {
           {isVertical ? <XAxis type="number" /> : <XAxis type="category" dataKey="name" />}
           {isVertical ? <YAxis type="category" dataKey="name" /> : <YAxis type="number" />}
           <Tooltip />
-          <Legend />
+          {showPvLabel && <Legend />}
           <Bar dataKey="pv" barSize={20} shape={<CustomBar />} />
         </BarChart>
       </ResponsiveContainer>

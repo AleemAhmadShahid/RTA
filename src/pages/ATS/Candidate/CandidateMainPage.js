@@ -12,11 +12,13 @@ import PageBar from "../../../components/PageBar";
 import FilterBox from "../../../components/FilterBox";
 import { BiUser } from "react-icons/bi";
 import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
-
+// import { useNavigate } from "react-router-dom";
 import EmployeeInfo from "../../../components/EmployeeInfo";
 
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
+
+
 
 import { FaPrint} from "react-icons/fa";
 
@@ -49,11 +51,14 @@ import { entriesOptions, exportOptions } from "../../../global/constants"
 import toast  from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {  setErrorModal } from '../../../redux/modalSlice';
+import CandidateTable from "../../../components/CandidateTable";
 
 const Candidate_list = () => {
   const dispatch = useDispatch();
 
-  
+  const handleViewClick = (candidateId) => {
+    navigate(`/portal/applicationtrackingsystem/${candidateId}`);
+  };
   const bulkOptions = [
     { value: {}, label: "Select" },
     { value: 1, label: "Active" },
@@ -540,9 +545,10 @@ const Candidate_list = () => {
 
                             <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message: "Candidate View is disabled by Admin"}));
-                              }}
+                              onClick={() => handleViewClick(candidate.Id)
+                                // dispatch(setErrorModal({message: "Candidate View is disabled by Admin"}));'
+                                // navigate("/portal/applicationtrackingsystem//${candidate._id}")
+                              }
                             />
 
                             <MdIcons.MdDeleteOutline
@@ -577,6 +583,7 @@ const Candidate_list = () => {
           </BoxContainer>
         </div>
         <hr />
+       
       </CenteredContainer>
       {showForm && (
         <MultiStepForm

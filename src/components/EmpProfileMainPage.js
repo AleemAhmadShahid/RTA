@@ -106,7 +106,7 @@ export const DetailContainer = styled.div`
   margin-bottom: 15px;
 `;
 
-const slide = keyframes`
+export const slide = keyframes`
   0% {
     transform: translateX(0);
   }
@@ -114,7 +114,7 @@ const slide = keyframes`
     transform: translateX(20px);
   }
 `;
-const BackIcon = styled.div`
+export const BackIcon = styled.div`
   position: absolute;
   background-color: white;
   padding: 10px;

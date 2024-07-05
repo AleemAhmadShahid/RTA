@@ -199,7 +199,7 @@ const PayMDashBoard = (employees) => {
         <RightColumn>
         <DashBoardCompBox>
             <h5 style={{marginLeft:"15px",marginTop:"15px"}}>Salary statistice</h5>
-          <SurveyBarChart data={Surveydata} layout="horizontal" height="270px"/>
+          <SurveyBarChart data={Surveydata} layout="horizontal" height="233px" showPvLabel={false}/>
           </DashBoardCompBox>
 
           {/* <DashBoardCompBox style={{ padding: "20px" }}>
@@ -256,6 +256,7 @@ const PayMDashBoard = (employees) => {
       <ColumnContainer>
       <LeftColumn style={{flex:"2"}}>
 <DashBoardCompBox style={{  }}>
+<h5 style={{marginLeft:"15px",marginTop:"15px"}}>Total Salary By unit</h5>
         <SimpleLineChart data={MLinedata}/>
       </DashBoardCompBox>
       </LeftColumn>
