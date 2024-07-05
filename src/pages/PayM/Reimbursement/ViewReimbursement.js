@@ -9,7 +9,7 @@ import {
 import EmployeeInfo from "../../../components/EmployeeInfo";
 import { createGetRequest } from "../../../global/requests";
 
-const ViewPolicy = ({ policy}) => {
+const ViewPolicy = ({ reimbursement}) => {
 
  
 
@@ -17,8 +17,12 @@ const ViewPolicy = ({ policy}) => {
   return (
     <FormStep active>
       <FormGroup>
-        <FormLabel>Policy Type</FormLabel>
-        <H6 style={{ width: "300px" }}>{policy.policyType}</H6>
+        <FormLabel>Expense Type</FormLabel>
+        <H6 style={{ width: "300px" }}>{reimbursement.expenseType}</H6>
+      </FormGroup>
+      <FormGroup>
+        <FormLabel>Amount</FormLabel>
+        <H6 style={{ width: "300px" }}>{reimbursement.amount}</H6>
       </FormGroup>
            
     </FormStep>

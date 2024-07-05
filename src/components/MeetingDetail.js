@@ -18,13 +18,15 @@ const MeetingDetails = ({title,creator, attendees,meetingId ,onViewDetails, onSa
   const navigate = useNavigate(); 
   // const {meetingId} = useParams();
 
-  const handleSaveAndNext = () => {
+  const handleSaveAndNext = (meetingId) => {
+    console.log("Not main page",meetingId);
     navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
   };
-  const handleViewDetails = (meetingId) => {
-    // setSelectedMeeting(meeting);
-    navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
-  };
+  // const handleViewDetails = (meetingId) => {
+  //   // setSelectedMeeting(meeting);
+  //   navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
+  // };
+  
 
 
   
@@ -105,7 +107,7 @@ const MeetingDetails = ({title,creator, attendees,meetingId ,onViewDetails, onSa
           )}
         </div>
         </div> */}
-          <SaveAndNextButton onClick={handleSaveAndNext} style={{ width: "100%", fontSize: "14px", fontWeight: "500", marginTop: "20px", borderRadius: "20px" }}>
+          <SaveAndNextButton onClick={()=>{handleSaveAndNext(meetingId)}} style={{ width: "100%", fontSize: "14px", fontWeight: "500", marginTop: "20px", borderRadius: "20px" }}>
           View Details
         </SaveAndNextButton>
         

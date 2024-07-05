@@ -20,32 +20,49 @@ const StepOne = ({ formData, errors, handleChange }) => {
       <H6 style={{ width: "300px" }}>Basic Information</H6>
 
       <FormGroup>
-        <FormLabel>Policy Title</FormLabel>
-        <FormInput
-          type="text"
-          value={formData.policytitle || ""}
-          placeholder={"Title"}
-          onChange={(e) => handleChange("policytitle", e.target.value)}
-          onBlur={(e) => handleChange("policytitle", e.target.value)}
-          required
-        />
+          <FormLabel>Expense Type</FormLabel>
+          <EntriesDropdown
+              width="100%"
+            value={(formData?.expenseType
+              && {label: formData?.expenseType, value: formData?.expenseType})
+              || {label: "Select", value: "Select"}}
+            onChange={(selectedOption) =>{
+                handleChange(
+                  `expenseType`,
+                  selectedOption.value
+                );
+              }
+            }
+            options={['Travel', "Food", 'Others'].map((item) => ({label: item, value: item}))}
+            styles={dropDownStyle}
+          />
+                
       </FormGroup>
+      
       {/* {errors.Title && <StyledErrorH6>{errors.Title}</StyledErrorH6>} */}
       
       <FormGroup>
-        <FormLabel>Policy Fromula</FormLabel>
+        <FormLabel>Amount</FormLabel>
         <FormInput
           type="text"
-          value={formData.policyformula || ""}
-          placeholder={"Title"}
-          onChange={(e) => handleChange("policyformula", e.target.value)}
-          onBlur={(e) => handleChange("policyformula", e.target.value)}
+          value={formData.amount || ""}
+          placeholder={"Amount"}
+          onChange={(e) => handleChange("amount", e.target.value)}
+          onBlur={(e) => handleChange("amount", e.target.value)}
           // required
         />
       </FormGroup>
+      <FormGroup>
+          <FormLabel>Date Incurred</FormLabel>
+          <FormInput
+          type="date"
+          value={(formData.dateIncurred && formData.dateIncurred.split('T')[0]) || ""}
+          onChange={(e) => handleChange("dateIncurred", e.target.value)}
+        />
+                
+      </FormGroup>
 
-
-      {errors.policyType && <StyledErrorH6>{errors.policyType}</StyledErrorH6>}
+      {/* {errors.policyType && <StyledErrorH6>{errors.policyType}</StyledErrorH6>} */}
       
      
 

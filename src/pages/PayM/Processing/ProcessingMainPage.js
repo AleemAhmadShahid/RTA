@@ -18,7 +18,7 @@ import EmployeeInfo from "../../../components/EmployeeInfo";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
-import { FaPrint} from "react-icons/fa";
+import { FaPrint } from "react-icons/fa";
 
 import {
   Td,
@@ -41,11 +41,11 @@ import {
   dropDownStyle,
 } from "../../../styles/TableStyling";
 
-import { entriesOptions, exportOptions } from "../../../global/constants"
-import toast  from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import {  setErrorModal } from '../../../redux/modalSlice';
-
+import { entriesOptions, exportOptions } from "../../../global/constants";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setErrorModal } from "../../../redux/modalSlice";
+import EditableEmployeeTable from "../../../components/EditableTable";
 
 const Processing_list = () => {
   const dispatch = useDispatch();
@@ -56,12 +56,11 @@ const Processing_list = () => {
     { value: 1, label: "Delete" },
   ];
 
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
 
-  const [checkedCycle, setCheckedCycle] = useState([]);
-  const [cycles, setCycle] = useState([]);
+  const [checkedProcessing, setCheckedProcessing] = useState([]);
+  const [processings, SetProcessing] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({});
@@ -82,7 +81,8 @@ const Processing_list = () => {
       pageItems: entriesToShow,
       name: searchTerm,
     };
-    if (typeof cycles.value !== "object") params.cycles = cycles.value;
+    if (typeof processings.value !== "object")
+      params.processings = processings.value;
 
     setLoading(true);
 
@@ -90,25 +90,24 @@ const Processing_list = () => {
       try {
         const data = await createGetRequest("/api/payrollProcessing/", params);
         if (data.status === 404 || data.status === 400) {
-          setCycle([]);
-          setLoading(false); 
-          console.log("Processing",data); 
+          SetProcessing([]);
+          setLoading(false);
+          console.log("processing", data);
           return;
         }
-        setCycle(data.cycles);
+        SetProcessing(data.processings);
         setInfoBoxData(data.analytics);
         setTotalPages(data.totalPages);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-
     };
     fetchData();
   }, [currentPage, entriesToShow, searchTerm, reload, navigate]);
 
-  const handleEditClick = (cycle) => {
-    setFormData(cycle);
+  const handleEditClick = (processing) => {
+    setFormData(processing);
     setShowForm(true);
     setIsEditMode(true);
   };
@@ -119,17 +118,135 @@ const Processing_list = () => {
   };
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "Cycle Type",
-    "Employee Count",
+    "Period Start",
+    "Period End",
     "Created By",
     "Actions",
   ]);
   const CheckOptions = [
-    "Cycle Type",
-    "Employee Count",
+    "Period Start",
+    "Period End",
     "Created By",
     "Actions",
   ];
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) setCheckedProcessing(processings.map((processing) => processing._id));
+    else setCheckedProcessing([]);
+  };
+
+  const handleCheckboxChange = (id) => {
+    if (!checkedProcessing.includes(id))
+      setCheckedProcessing([...checkedProcessing, id]);
+    else setCheckedProcessing(checkedProcessing.filter((checkedProcessing) => checkedProcessing !== id));
+  };
+
+  const handleEdit = (processing) => {
+    setIsViewMode(false);
+    setFormData(processing);
+    setShowForm(true);
+    setIsEditMode(!!processing);
+  };
+
+  const handleView = (processing) => {
+    setFormData(processing);
+    setIsViewMode(true);
+    toggleForm();
+  };
+
+  const handleDelete = (id) => {
+    dispatch(setErrorModal({
+      message: "Do you want to delete this processing?",
+      handleYes: () => deleteCycle(id),
+    }));
+  };
+
+  const columns = [
+    { field: "select", label: <input type="checkbox" onChange={handleSelectAll} /> },
+    { field: "payPeriodStart", label: "Period Start" },
+    { field: "payPeriodEnd", label: "Period End" },
+    { field: "createdBy", label: "Added By" },
+    { field: "action", label: "Action" },
+  ];
+
+  const initialData = [
+    {
+      _id: "1",
+      payPeriodStart: "2023-01-01",
+      payPeriodEnd: "2023-01-15",
+      createdBy: { name: "John Doe" },
+    },
+    {
+      _id: "2",
+      payPeriodStart: "2023-02-01",
+      payPeriodEnd: "2023-02-15",
+      createdBy: { name: "Jane Smith" },
+    },
+    {
+      _id: "3",
+      payPeriodStart: "2023-03-01",
+      payPeriodEnd: "2023-03-15",
+      createdBy: { name: "Alice Johnson" },
+    },
+  ];
+  const formattedData = initialData.map((processing) => ({
+    ...processing,
+    select: (
+      <input
+        type="checkbox"
+        checked={checkedProcessing.includes(processing._id)}
+        onChange={() => handleCheckboxChange(processing._id)}
+      />
+    ),
+    createdBy: processing.createdBy ? (
+      <EmployeeInfo isSpaceRequired={true} employee={processing.createdBy} />
+    ) : null,
+    action: (
+      <div style={{ display: "flex", gap: "1px" }}>
+        <MdIcons.MdOutlineModeEditOutline
+          onClick={() => handleEdit(processing)}
+          style={{ fontSize: "18px", cursor: "pointer" }}
+        />
+        <GrIcons.GrFormView
+          onClick={() => handleView(processing)}
+          style={{ fontSize: "18px", cursor: "pointer" }}
+        />
+        <MdIcons.MdDeleteOutline
+          onClick={() => handleDelete(processing._id)}
+          style={{ fontSize: "18px", cursor: "pointer" }}
+        />
+      </div>
+    ),
+  }));
+  // const initialData = processings.map((processing) => ({
+  //   ...processing,
+  //   select: (
+  //     <input
+  //       type="checkbox"
+  //       checked={checkedProcessing.includes(processing._id)}
+  //       onChange={() => handleCheckboxChange(processing._id)}
+  //     />
+  //   ),
+  //   createdBy: processing.createdBy ? (
+  //     <EmployeeInfo isSpaceRequired={true} employee={processing.createdBy} />
+  //   ) : null,
+  //   action: (
+  //     <div style={{ display: "flex", gap: "1px" }}>
+  //       <MdIcons.MdOutlineModeEditOutline
+  //         onClick={() => handleEdit(processing)}
+  //         style={{ fontSize: "18px", cursor: "pointer" }}
+  //       />
+  //       <GrIcons.GrFormView
+  //         onClick={() => handleView(processing)}
+  //         style={{ fontSize: "18px", cursor: "pointer" }}
+  //       />
+  //       <MdIcons.MdDeleteOutline
+  //         onClick={() => handleDelete(processing._id)}
+  //         style={{ fontSize: "18px", cursor: "pointer" }}
+  //       />
+  //     </div>
+  //   ),
+  // }));
 
   const [Export, setExport] = useState({
     label: "Export",
@@ -137,18 +254,18 @@ const Processing_list = () => {
   });
 
   const deleteCycle = async (id) => {
-    const response = await createDeleteRequest(`/api/payrollCycle/${id}/`);
+    const response = await createDeleteRequest(`/api/payrollProcessing/${id}/`);
     if (response.status === 200) {
       setReload(!reload);
-      toast.success("Cycle deleted Successfully!");
+      toast.success("Processing deleted Successfully!");
     }
   };
 
   const takeBulkAction = async () => {
     let path = "";
-    const data = {cycles: checkedCycle};
-    if (checkedCycle.length === 0 || bulkOption === "Select") return;
-    else if (bulkOption.label === "Delete") path = "/api/payrollCycle/bulkDelete/";
+    const data = { processings: checkedProcessing };
+    if (checkedProcessing.length === 0 || bulkOption === "Select") return;
+    else if (bulkOption.label === "Delete") path = "/api/payrollProcessing/bulkDelete/";
     const response = await createPutRequest(data, path);
     if (response.status === 200) {
       setReload(!reload);
@@ -156,14 +273,14 @@ const Processing_list = () => {
       setBulkOption({ label: "Select", value: 0 });
     }
   };
-
   return (
     <>
       {" "}
       <CenteredContainer>
         <div>
-          {<CardsContainer>
-            {/* <InfoBox
+          {
+            <CardsContainer>
+              {/* <InfoBox
               icon={BiUser}
               // iconColor="blue"
               iconColor="#512da8"
@@ -171,31 +288,30 @@ const Processing_list = () => {
               text="Total Users"
             /> */}
 
-            <InfoBox
-              icon={FiUserPlus}
-              iconColor="#512da8"
-              data={infoBoxData?.totalCycles || 0}
-              text="Total Cycles"
-            />
-             
-             <InfoBox
-              icon={FiUserX}
-              iconColor="#ffa500"
-              data={infoBoxData?.vacantCycles || 0}
-              text="Vacant Cycles"
-            />
+              <InfoBox
+                icon={FiUserPlus}
+                iconColor="#512da8"
+                data={infoBoxData?.totalProcessings || 0}
+                text="Total Processings"
+              />
 
-            <InfoBox
-              icon={FiUserCheck}
-              iconColor="#d32f2f"
-              data={infoBoxData?.closedCycles || 0}
-              text="Closed Cycles"
-            />
-           
-          </CardsContainer> }
+              <InfoBox
+                icon={FiUserX}
+                iconColor="#ffa500"
+                data={infoBoxData?.vacantProcessings || 0}
+                text="Vacant Processings"
+              />
+
+              <InfoBox
+                icon={FiUserCheck}
+                iconColor="#d32f2f"
+                data={infoBoxData?.closedProcessings || 0}
+                text="Closed Processings"
+              />
+            </CardsContainer>
+          }
 
           <FilterContainer>
-
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>
               Bulk Actions
             </h6>
@@ -247,7 +363,13 @@ const Processing_list = () => {
                     value: option,
                     label: (
                       <div
-                        onClick={() => handleCheckChange(option, selectedCheck, setSelectedCheck)}
+                        onClick={() =>
+                          handleCheckChange(
+                            option,
+                            selectedCheck,
+                            setSelectedCheck
+                          )
+                        }
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <input
@@ -288,14 +410,30 @@ const Processing_list = () => {
                   styles={dropDownStyle}
                 />
                 <AddEmployeeButton
-                  onClick={() => { setIsViewMode(false); toggleForm();}}
+                  onClick={() => {
+                    setIsViewMode(false);
+                    toggleForm();
+                  }}
                   className="btn btn-primary mb-2"
                 >
-                  <span style={{ whiteSpace: "nowrap" }}>Add Cycle</span>
+                  <span style={{ whiteSpace: "nowrap" }}>Add Processing</span>
                 </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
-            <TableContainer>
+            <EditableEmployeeTable
+              loading={loading}
+              initialData={initialData}
+              columns={columns}
+              keyField="_id"
+              handleInputChange={(id, field, value) => {
+                setFormData((prevData) =>
+                  prevData.map((item) =>
+                    item._id === id ? { ...item, [field]: value } : item
+                  )
+                );
+              }}
+            />
+            {/* <TableContainer>
               <Table>
                 <thead>
                   <Tr>
@@ -304,18 +442,18 @@ const Processing_list = () => {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked)
-                            setCheckedCycle(
-                              cycles.map((cycle) => cycle._id)
+                            setCheckedProcessing(
+                              processings.map((processing) => processing._id)
                             );
-                          else setCheckedCycle([]);
+                          else setCheckedProcessing([]);
                         }}
                       />
                     </Th>
-                    {selectedCheck.includes("Cycle Type") && (
-                      <Th>CYCLE TYPE</Th>
+                    {selectedCheck.includes("Period Start") && (
+                      <Th>Period Start</Th>
                     )}
 
-                    {selectedCheck.includes("Employee Count") && <Th>EMPLOYEE COUNT</Th>}
+                    {selectedCheck.includes("Period End") && <Th>Period End</Th>}
 
                    
                     {selectedCheck.includes("Created By") && (
@@ -332,44 +470,44 @@ const Processing_list = () => {
                       </td>
                     </tr>
                   ) : (
-                    cycles &&
-                    cycles.map((cycle) => (
-                      <Tr key={cycle._id}>
+                    processings &&
+                    processings.map((processing) => (
+                      <Tr key={processing._id}>
                         <Td>
                           {" "}
                           <input
                             type="checkbox"
-                            checked={checkedCycle.includes(cycle._id)}
+                            checked={checkedProcessing.includes(processing._id)}
                             onChange={() => {
-                              if (!checkedCycle.includes(cycle._id))
-                                setCheckedCycle([
-                                  ...checkedCycle,
-                                  cycle._id,
+                              if (!checkedProcessing.includes(processing._id))
+                                setCheckedProcessing([
+                                  ...checkedProcessing,
+                                  processing._id,
                                 ]);
                               else
-                                setCheckedCycle(
-                                  checkedCycle.filter(
-                                    (checkedCycle) =>
-                                      checkedCycle !== cycle._id
+                                setCheckedProcessing(
+                                  checkedProcessing.filter(
+                                    (checkedProcessing) =>
+                                      checkedProcessing !== processing._id
                                   )
                                 );
                             }}
                           />
                         </Td>
                   
-                        {selectedCheck.includes("Cycle Type") && (
-                          <Td style={{ whiteSpace: 'pre-line' }}>{cycle.cycleType}</Td>
+                        {selectedCheck.includes("Period Start") && (
+                          <Td style={{ whiteSpace: 'pre-line' }}>{processing.payPeriodStart}</Td>
                         )}
 
-                        {selectedCheck.includes("Employee Count") && (
-                          <Td>{cycle.employees.length}</Td>
+                        {selectedCheck.includes("Period Start") && (
+                          <Td>{processing.payPeriodEnd}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (
                           <Td>
-                            { cycle?.createdBy 
+                            { processing?.createdBy 
                               &&
-                              <EmployeeInfo isSpaceRequired={true} employee={cycle?.createdBy} />
+                              <EmployeeInfo isSpaceRequired={true} employee={processing?.createdBy} />
                             }
                           </Td>
                         )}
@@ -382,9 +520,9 @@ const Processing_list = () => {
                               <MdIcons.MdOutlineModeEditOutline
                                 onClick={() => {
                                   setIsViewMode(false);
-                                  setFormData(cycle);
+                                  setFormData(processing);
                                   setShowForm(true);
-                                  setIsEditMode(!!cycle);
+                                  setIsEditMode(!!processing);
                                 }}
                                 style={{ fontSize: "18px" }}
                               />
@@ -392,7 +530,7 @@ const Processing_list = () => {
 
                             <GrIcons.GrFormView
                              onClick={() => {
-                              setFormData(cycle);
+                              setFormData(processing);
                               setIsViewMode(true);
                               toggleForm();
                             }}
@@ -402,8 +540,8 @@ const Processing_list = () => {
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => {
-                                dispatch(setErrorModal({message: "Do you want to delete this cycle?", handleYes: () => {
-                                  deleteCycle(cycle._id);
+                                dispatch(setErrorModal({message: "Do you want to delete this processing?", handleYes: () => {
+                                  deleteCycle(processing._id);
                                 }}));
                               }}
                             />
@@ -412,16 +550,16 @@ const Processing_list = () => {
                       </Tr>
                     ))
                   )}
-                  {!loading && (!cycles || cycles.length === 0) && (
+                  {!loading && (!processings || processings.length === 0) && (
                     <tr>
                       <td colSpan="6">No Data to Show</td>
                     </tr>
                   )}
                 </tbody>
               </Table>
-            </TableContainer>
+            </TableContainer> */}
 
-            {cycles.length !== 0 && totalPages >= 1 && (
+            {processings.length !== 0 && totalPages >= 1 && (
               <PageBar
                 currentPage={currentPage}
                 totalPages={totalPages}

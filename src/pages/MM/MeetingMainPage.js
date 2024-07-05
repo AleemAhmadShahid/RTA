@@ -94,7 +94,9 @@ const MeetingMainPage = () => {
     // navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
   };
   const handleSaveAndNext = (meetingId) => {
+    console.log("Main page",meetingId);
     navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
+    
   };
   return (
     <>
@@ -112,9 +114,10 @@ const MeetingMainPage = () => {
           startTime={meeting.startTime}
           endTime={meeting.endTime}
           attendees={meeting.attendees}
-          description={meeting.description}
+          meetingId={meeting._id}
           onViewDetails={() => handleViewDetails(meeting)}
           onSaveAndNext={() => handleSaveAndNext(meeting._id)}
+          description={meeting.description}
         />
      
                 ))

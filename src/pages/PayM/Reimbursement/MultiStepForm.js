@@ -14,7 +14,7 @@ import {
   FormCenteringContainer,
 } from "../../../styles/MultiStepFormStyling";
 import StepOne from "./StepOne";
-import ViewPolicy from "./ViewReimbursement";
+import ViewReimbursement from "./ViewReimbursement";
 import { changeHandler, saveHandler } from "../../../global/helper";
 
 
@@ -54,7 +54,7 @@ const MultiStepForm = ({
   const isLastStep = step === 1;
 
   const handleSave = async (nextStep = null) => {
-    saveHandler(nextStep, ["policyType"],"/api/payrollPolicy", `/api/payrollPolicy${formData._id}/`, "Paryoll policy saved Successfully!", "policy", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
+    saveHandler(nextStep, ["expenseType"],"/api/payrollReimbursement/", `/api/payrollReimbursement/${formData._id}/`, "Reumbursement saved Successfully!", "Reumbursemnet", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
   };
   const renderStep = () => {
     switch (step) {
@@ -79,7 +79,7 @@ const MultiStepForm = ({
             <HeaderContainer>
               <Heading>
               {
-                  isViewMode ? "View Policy" : (isEditMode ? "Update Policy" : "Create Policy")
+                  isViewMode ? "View Reumbursemnet" : (isEditMode ? "Update Reumbursemnet" : "Create Reumbursemnet")
               }
               </Heading>
               <CloseButtonContainer>
@@ -91,7 +91,7 @@ const MultiStepForm = ({
             <InnermodalContainer>             
             {
               isViewMode ? (
-                <ViewPolicy policy={formData}/>
+                <ViewReimbursement reimbursement={formData}/>
               ) : (
                 <>
                   {renderStep()}

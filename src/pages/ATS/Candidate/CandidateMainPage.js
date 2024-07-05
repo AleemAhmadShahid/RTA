@@ -57,7 +57,7 @@ const Candidate_list = () => {
   const dispatch = useDispatch();
 
   const handleViewClick = (candidateId) => {
-    navigate(`/portal/applicationtrackingsystem/${candidateId}`);
+    navigate(`/portal/applicationtrackingsystem/candidate/${candidateId}`);
   };
   const bulkOptions = [
     { value: {}, label: "Select" },
