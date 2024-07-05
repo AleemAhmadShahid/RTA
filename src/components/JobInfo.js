@@ -436,7 +436,7 @@ const OfferComp=()=>{
                 onPageChange={(page) => setCurrentPage(page)}
               />
             )}
-            <JobInfo   offers={offers}/>
+            {/* <JobInfo   offers={offers}/> */}
         </>
     );
 
@@ -786,7 +786,7 @@ const InterviewComp=()=>{
         />
       )}
 
-<JobInfo interview={interviews}/></>
+</>
     )
 };
 const JobInfo = (display=true,interview,offer,candidate) => {
@@ -971,16 +971,7 @@ const handleViewClick = (candidateId) => {
             </Details>
             <Details>
               <GreyHeading>Date Opened:</GreyHeading>
-              <TextWithLine> {(interview.to &&
-                        new Date(interview.to).toLocaleString(
-                          "en-GB",
-                          {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )) ||
-                        "Resend Invite"}</TextWithLine>
+              <TextWithLine>{offer || "N/A"}</TextWithLine>
             </Details>
             <Details>
               <GreyHeading>Job Type:</GreyHeading>
