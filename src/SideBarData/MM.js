@@ -19,12 +19,7 @@ export const MMSidebarData = [
     
 
   },
-   {
-    title: "ViewCard",
-     path: "/portal/meetingmanagemnetsystem/ViewCard",
-     icon: <HiOutlineTemplate  />,
   
-  },
 //   {
 //     title: "Home",
 //     // path: "/home",

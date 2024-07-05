@@ -167,13 +167,15 @@ function App() {
 
                 <Route path="candidate" element={<Candidate_list />} />
                 <Route path="interview" element={<Interview_list />} />
+                <Route path="interview/:id" element={<JobInfo display={false} />} />
                 <Route path="offer" element={<Offer_list />} />
+                <Route path="offer/:id" element={<JobInfo  display={false}/>} />
               
               </Route>
               <Route path="meetingmanagemnetsystem" element={<Sidebar   SidebarData={MMSidebarData}  heading={"Meeting Management"}/>}>
                 <Route path="Meeting" element={<MeetingMainPage />} />
-                {/* <Route path="meeting/:meetingId" element={<MeetingdetailPage/>} /> */}
-                <Route path="ViewCard" element={<MeetingdetailPage/>} />
+                 <Route path="meeting/:id" element={<MeetingdetailPage/>} /> 
+                {/* <Route path="ViewCard" element={<MeetingdetailPage/>} /> */}
                 
                 
                 

@@ -99,6 +99,8 @@ const Interview_list = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    
+    
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
@@ -196,6 +198,9 @@ const Interview_list = () => {
       toast.success("Interview " + `${bulkOption.label}d Successfully`);
       setBulkOption({ label: "Select", value: 0 });
     }
+  };
+  const handleViewClick = (interviewId) => {
+    navigate(`/portal/applicationtrackingsystem/interview/${interviewId}`);
   };
 
   return (
@@ -552,9 +557,7 @@ const Interview_list = () => {
 
                             <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message: "Interview View is disabled by Admin"}));
-                              }}
+                              onClick={() => handleViewClick(interview.Id)}
                             />
 
                             <MdIcons.MdDeleteOutline
