@@ -54,7 +54,7 @@ const MultiStepForm = ({
   const isLastStep = step === 1;
 
   const handleSave = async (nextStep = null) => {
-    saveHandler(nextStep, ["policyType"],"/api/payrollPolicy", `/api/payrollPolicy${formData._id}/`, "Paryoll policy saved Successfully!", "policy", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
+    saveHandler(nextStep, ["title"],"/api/payrollPolicy", `/api/payrollPolicy${formData._id}/`, "Paryoll policy saved Successfully!", "policy", errors, formData, setErrors, handleChange, setReload, reload, closeForm);
   };
   const renderStep = () => {
     switch (step) {

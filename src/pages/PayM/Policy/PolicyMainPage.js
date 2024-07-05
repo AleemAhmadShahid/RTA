@@ -119,14 +119,14 @@ const Policy_list = () => {
   };
 
   const [selectedCheck, setSelectedCheck] = useState([
-    "Policy Type",
-    "Employee Count",
+    "Policy Title",
+    "Formula",
     "Created By",
     "Actions",
   ]);
   const CheckOptions = [
     "Policy Type",
-    "Employee Count",
+    "Formula",
     "Created By",
     "Actions",
   ];
@@ -312,10 +312,10 @@ const Policy_list = () => {
                       />
                     </Th>
                     {selectedCheck.includes("Policy Title") && (
-                      <Th>POLICY Title</Th>
+                      <Th>POLICY TITLE</Th>
                     )}
 
-                    {selectedCheck.includes("Employee Count") && <Th>EMPLOYEE COUNT</Th>}
+                    {selectedCheck.includes("Formula") && <Th>FORMULA</Th>}
 
                    
                     {selectedCheck.includes("Created By") && (
@@ -361,8 +361,8 @@ const Policy_list = () => {
                           <Td style={{ whiteSpace: 'pre-line' }}>{policy.title}</Td>
                         )}
 
-                        {selectedCheck.includes("Employee Count") && (
-                          <Td>{policy.employees.length}</Td>
+                        {selectedCheck.includes("Formula") && (
+                          <Td>{policy.formula}</Td>
                         )}
                        
                         {selectedCheck.includes("Created By") && (

@@ -30,7 +30,7 @@ const StepOne = ({ formData, errors, handleChange }) => {
           required
         />
       </FormGroup>
-      {/* {errors.Title && <StyledErrorH6>{errors.Title}</StyledErrorH6>} */}
+      {errors.title && <StyledErrorH6>{errors.title}</StyledErrorH6>}
       
       <FormGroup>
         <FormLabel>Policy Fromula</FormLabel>
