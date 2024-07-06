@@ -195,7 +195,7 @@ const Attendance_list = () => {
               text="Total Users"
             /> */}
 
-            <InfoBox
+            {/* <InfoBox
               icon={LuCalendarCheck}
               iconColor="#512da8"
               data={infoBoxData?.totalAttendances || 0}
@@ -214,11 +214,11 @@ const Attendance_list = () => {
               iconColor="#d32f2f"
               data={infoBoxData?.closedAttendances || 0}
               text="Closed Attendances"
-            />
+            /> */}
            
           </CardsContainer> }
 
-          <FilterContainer>
+          {/* <FilterContainer>
 
           
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
@@ -251,7 +251,7 @@ const Attendance_list = () => {
                 <span style={{ whiteSpace: "nowrap" }}>Apply</span>
               </AddEmployeeButton>
             </FilterOuterBox>
-          </FilterContainer>
+          </FilterContainer> */}
 
           <BoxContainer>
             <HeadingAndSearchContainer>

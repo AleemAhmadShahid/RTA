@@ -60,6 +60,7 @@ import PayMDashBoard from "./pages/PayM/PayMDashBoard";
 import PMMainPage from "./pages/PM/PMMainPage";
 import MeetingMainPage from "./pages/MM/MeetingMainPage";
 import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
+import TimeSheet from "./pages/RT/TimeSheet";
 import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
 
 
@@ -184,6 +185,7 @@ function App() {
 
               <Route path="remotetracking" element={<Sidebar SidebarData={RTSidebarData} heading={"Remote Tracking"} />}>
                  <Route path="board" element={<RemoteTrackingMainPage />} />   
+                 <Route path="TimeSheet" element={<TimeSheet />} />   
                 {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 

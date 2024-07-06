@@ -134,31 +134,44 @@ const MeetingdetailPage=({})=>{
             <hr />
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <SaveButton onClick={() => setSelectedMeeting(null)}>Cancel</SaveButton>
-              <SaveAndNextButton>Create Meeting</SaveAndNextButton>
+              <SaveAndNextButton>Update Meeting</SaveAndNextButton>
             </div>
           </Box>
         </BoxContainer>
         </LeftColumn>
         <RightColumn>
-          <BoxContainer>
-            <Box style={{padding:"20px"}}>
-            <video width="100%" height="240" controls>
-        <source src={selectedMeeting.video} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      </Box>
-      </BoxContainer>
-      <BoxContainer>
-      <Box style={{padding:"20px"}}>
-      
-            <Details>Transpcript :{selectedMeeting.transcript}</Details>
-            </Box>
-        </BoxContainer>
+          {
+            selectedMeeting.video &&  selectedMeeting.video.length > 0 && (
             <BoxContainer>
-            <Box style={{padding:"20px"}}>
-            <Details>Meeting Minutes:{selectedMeeting.minutes}</Details>
-        </Box>
-        </BoxContainer>
+              <Box style={{padding:"20px"}}>
+              <video width="100%" height="240" controls>
+                <source src={selectedMeeting.video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              </Box>
+          </BoxContainer>
+          )
+          }
+         {
+            selectedMeeting.video &&  selectedMeeting.video.length > 0 && (
+              <>
+                
+                <BoxContainer>
+                    <Box style={{padding:"20px"}}>
+                      <Details>Meeting Minutes:</Details>
+                        {selectedMeeting.minutes.map((minute, index) => (
+                          <p key={index}>{minute}</p>
+                        ))}
+                    </Box>
+                </BoxContainer>
+                <BoxContainer>
+                  <Box style={{padding:"20px"}}>
+                    <Details>Transpcript :</Details> {selectedMeeting.transcript}
+                  </Box>
+                </BoxContainer>
+                
+              </>
+            )}
         </RightColumn>
         </ColumnContainer>
      )} 

@@ -121,7 +121,7 @@ const RemoteTrackingMainPage = ({}) => {
 
   return (
     <CenteredContainer>
-      <Box
+      {/* <Box
         style={{
           background: "white",
           // boxShadow: "none",
@@ -181,13 +181,13 @@ const RemoteTrackingMainPage = ({}) => {
       </Icon>
      <span  style={{ whiteSpace: "nowrap"}}>My Team</span> 
     </AddButton>
-  </div>
-  <div style={{ marginLeft: "auto" }}>
+  </div> */}
+  {/* <div style={{ marginLeft: "auto" }}>
     <AddEmployeeButton>+ Add new task</AddEmployeeButton>
-  </div>
+  </div> */}
 {/* </div> */}
 
-      </Box>
+      {/* </Box> */}
       {Object.keys(tasks).map((key) => (
         <React.Fragment key={key}>
           <Box
@@ -206,7 +206,7 @@ const RemoteTrackingMainPage = ({}) => {
               >{`. ${tasks[key].length} tasks`}</Details>
             </FirstBox>
             <Details>Due Date</Details>
-            <Details>Status</Details>
+            {/* <Details>Status</Details> */}
             <Details>Assigned To</Details>
             <Details>Action</Details>
           </Box>
@@ -221,7 +221,7 @@ const RemoteTrackingMainPage = ({}) => {
           )}
         </React.Fragment>
       ))}
-      
+{/*       
        <DashBoardCompBox style={{marginTop:"20px"}}>
         <CandidateTable
         loading={false}
@@ -237,7 +237,7 @@ const RemoteTrackingMainPage = ({}) => {
         
         />
 
-      </DashBoardCompBox>
+      </DashBoardCompBox> */}
     </CenteredContainer>
   );
 };

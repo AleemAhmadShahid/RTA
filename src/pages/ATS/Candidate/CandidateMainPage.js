@@ -543,13 +543,13 @@ const Candidate_list = () => {
                               />
                             </IconWrapper>
 
-                            <GrIcons.GrFormView
+                            {/* <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => handleViewClick(candidate.Id)
                                 // dispatch(setErrorModal({message: "Candidate View is disabled by Admin"}));'
                                 // navigate("/portal/applicationtrackingsystem//${candidate._id}")
                               }
-                            />
+                            /> */}
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}

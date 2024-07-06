@@ -173,24 +173,12 @@ const Team = (team) => {
       <br></br>
       <ScrollContainer>
         <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+          <EmployeeCard name="Hammad Sheikh" role="UI ENgineer" />
         </DashBoardCompBox>
         <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Muhammad Shaheer" role="Banana Eater" />{" "}
+          <EmployeeCard name="Muhammad Shaheer" role="Developer" />{" "}
         </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer " role="Banana Eater" />
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
-        </DashBoardCompBox>
+     
       </ScrollContainer>
   </>
   );
@@ -369,7 +357,7 @@ const EmpProfile = ({}) => {
 
         <Box style={{ height: "120px", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <UploadBox />
+            {/* <UploadBox /> */}
             <div
               style={{
                 display: "flex",

@@ -93,7 +93,7 @@ const AppliedLeaves_list = () => {
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/leave/ess/getMyLeaves/", params);
+        const data = await createGetRequest("/api/selfservice/ess/getMyLeaves/", params);
         if (data.status === 404 || data.status === 400) {
           setAppliedLeaves([]);
           setLoading(false);
@@ -288,12 +288,12 @@ const AppliedLeaves_list = () => {
                   }))}
                   styles={dropDownStyle}
                 />
-                {/* <AddEmployeeButton
+                <AddEmployeeButton
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
                   <span style={{ whiteSpace: "nowrap" }}>Assign Leaves</span>
-                </AddEmployeeButton> */}
+                </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             <TableContainer>

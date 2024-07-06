@@ -297,14 +297,14 @@ const Timer = ({ switchState }) => {
         <TimeInput
           type="text"
           placeholder="Start Time"
-          value={startTime}
+          value={"09:00 AM"}
           onChange={handleStartTimeChange}
         />
         <Colon>-</Colon>
         <TimeInput
           type="text"
           placeholder="End Time"
-          value={endTime}
+          value={"06:00 PM"}
           onChange={handleEndTimeChange}
         />
       </TimeInputContainer>
@@ -786,9 +786,13 @@ const CompanySetting = () => {
 };
 const CompanyOperatingHourSetting=()=>{
   const initialSwitchStates = {
-    Monday: false,
-    Tuesday: false,
-    Wednesday: false,
+    Monday: true,
+    Tuesday: true,
+    Wednesday: true,
+    Thursday: true,
+    Friday: true,
+    Saturday: false,
+    Sunday: false,
   };
   const [switchStates, setSwitchStates] = useState(initialSwitchStates);
 
@@ -911,14 +915,14 @@ const EmpSetting = () => {
           Company
         </StyledButton>
 
-        <StyledButton
+        {/* <StyledButton
           currentPage={currentPage}
           page="Accounts Billing & Plans"
           onClick={() => setCurrentPage("Accounts Billing & Plans")}
         >
           {" "}
           Accounts Billing & Plans
-        </StyledButton>
+        </StyledButton> */}
 
         <StyledButton
           currentPage={currentPage}
@@ -930,13 +934,13 @@ const EmpSetting = () => {
           Notifications
         </StyledButton>
 
-        <StyledButton
+        {/* <StyledButton
           currentPage={currentPage}
           page="connections"
           onClick={() => setCurrentPage("connections")}
         >
           Connections
-        </StyledButton>
+        </StyledButton> */}
       </ButtonContainer>
 
       {/* <BoxContainer>   */}

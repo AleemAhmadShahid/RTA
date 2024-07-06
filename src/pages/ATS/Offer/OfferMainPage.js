@@ -555,10 +555,10 @@ const Offer_list = () => {
                               />
                             </IconWrapper>
 
-                            <GrIcons.GrFormView
+                            {/* <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
                               onClick={() => handleViewClick(offer._id)}
-                            />
+                            /> */}
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}
