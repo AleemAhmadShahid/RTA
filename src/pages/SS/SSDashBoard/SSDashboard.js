@@ -268,7 +268,7 @@ const SSDashBoard = (employees) => {
                   cardInfo={{
                     title: "Annual",
                     value: "40",
-                    text: "Today",
+                    // text: "Today",
                   }}
                 />
               </ContentAreaCards>
@@ -279,7 +279,7 @@ const SSDashBoard = (employees) => {
                   cardInfo={{
                     title: "Sick",
                     value: "5",
-                    text: "Today",
+                    // text: "Today",
                   }}
                 />
               </ContentAreaCards>
@@ -288,9 +288,9 @@ const SSDashBoard = (employees) => {
                   colors={["#e4e8ef", "green"]}
                   percentFillValue={65}
                   cardInfo={{
-                    title: "Family",
+                    title: "Casual",
                     value: "25",
-                    text: "Today",
+                    // text: "Today",
                   }}
                 />
               </ContentAreaCards>
