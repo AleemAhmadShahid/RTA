@@ -8,7 +8,7 @@ import { SelfServiceSidebarData } from "./SideBarData/SS";
 import { PMSidebarData } from "./SideBarData/PM";
 import {MMSidebarData} from "./SideBarData/MM";
 import { RTSidebarData } from "./SideBarData/RT";
-
+import { PayMSidebarData } from "./SideBarData/PayM";
 
 import Topbar from "./components/Topbar";
 import Emp_list from "./pages/IAM/Employees/EmpMainPage";
@@ -55,13 +55,20 @@ import ATSDashBoard from "./pages/ATS/ATSDashBoard/ATSDashBoard";
 import EmpDashBoard from "./pages/IAM/EmpDashBoard/EmpDashBoard";
 import AMDashBoard from "./pages/AM/AMDashBoard/AMDashboard";
 import SSDashBoard from "./pages/SS/SSDashBoard/SSDashboard";
+import PayMDashBoard from "./pages/PayM/PayMDashBoard";
 
 import PMMainPage from "./pages/PM/PMMainPage";
-import MeetingMainaPage from "./pages/MM/MeetingMainPage";
+import MeetingMainPage from "./pages/MM/MeetingMainPage";
 import RemoteTrackingMainPage from "./pages/RT/RemoteTrackingMainPage";
+import TimeSheet from "./pages/RT/TimeSheet";
 import MeetingdetailPage from "./pages/MM/MeetingDetailPage";
 
 
+import Cycle_list from "./pages/PayM/Cycle/CycleMainPage";
+import Policy_list from "./pages/PayM/Policy/PolicyMainPage";
+import JobInfo from "./components/JobInfo";
+import Processing_list from "./pages/PayM/Processing/ProcessingMainPage";
+import Reimbursement_list from "./pages/PayM/Reimbursement/ReimbursementMainPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -156,20 +163,38 @@ function App() {
               <Route path="applicationtrackingsystem" element={<Sidebar   SidebarData={ATSSidebarData}  heading={"Application Tracking System"}/>}>
               <Route path="dashboard" element={<ATSDashBoard />} /> 
                 <Route path="jobPosting" element={<JobPost_list />} />
+
+              <Route path="candidate/:id" element={<JobInfo />} />
+
                 <Route path="candidate" element={<Candidate_list />} />
                 <Route path="interview" element={<Interview_list />} />
+                <Route path="interview/:id" element={<JobInfo display={false} />} />
                 <Route path="offer" element={<Offer_list />} />
+                <Route path="offer/:id" element={<JobInfo  display={false}/>} />
               
               </Route>
               <Route path="meetingmanagemnetsystem" element={<Sidebar   SidebarData={MMSidebarData}  heading={"Meeting Management"}/>}>
-                <Route path="Meeting" element={<MeetingMainaPage />} />
-                <Route path="meeting/:meetingId" element={<MeetingdetailPage/>} />
+                <Route path="Meeting" element={<MeetingMainPage />} />
+                 <Route path="meeting/:id" element={<MeetingdetailPage/>} /> 
+                {/* <Route path="ViewCard" element={<MeetingdetailPage/>} /> */}
+                
+                
                 
                
               </Route>
 
               <Route path="remotetracking" element={<Sidebar SidebarData={RTSidebarData} heading={"Remote Tracking"} />}>
                  <Route path="board" element={<RemoteTrackingMainPage />} />   
+                 <Route path="TimeSheet" element={<TimeSheet />} />   
+                {/* <Route path="board" element={<Calendar />} />  */}
+              </Route>
+
+              <Route path="payrollmanagement" element={<Sidebar SidebarData={PayMSidebarData} heading={"Payroll Management"} />}>
+                 <Route path="dashboard" element={<PayMDashBoard />} />  
+                 <Route path="cycle" element={<Cycle_list />} /> 
+                 <Route path="policy" element={<Policy_list />} /> 
+                 <Route path="processing" element={<Processing_list/>} /> 
+                 <Route path="reimbursement" element={<Reimbursement_list/>} /> 
                 {/* <Route path="board" element={<Calendar />} />  */}
               </Route>
 

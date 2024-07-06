@@ -15,17 +15,11 @@ export const MMSidebarData = [
   {
     title: "Meeting",
     icon: <AiFillProject />,
-   
-    //     path: "/Boards",
+    path: "/portal/meetingmanagemnetsystem/Meeting",
     
 
   },
-//   {
-//     title: "Templates",
-//     // path: "/Templates",
-//     icon: <HiOutlineTemplate  />,
   
-//  },
 //   {
 //     title: "Home",
 //     // path: "/home",

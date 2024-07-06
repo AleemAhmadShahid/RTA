@@ -24,8 +24,10 @@ const StepOne = ({ formData, errors, handleChange }) => {
   const [postIndustry, setPostIndustry] = useState({label: "Select", "value": {}});
   const [employees, setEmployees] = useState([]);
   const [candidates, setCandidates] = useState([]);
+  const [levels, setLevels] = useState([]);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [selectedCandidate, setSelectedCandidates] = useState();
+  const [selectedLevel, setSelectedLevel] = useState();
 
 
   useEffect(() => {
@@ -67,6 +69,18 @@ const StepOne = ({ formData, errors, handleChange }) => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+
+      try {
+        const allLevels = await createGetRequest(`/api/interview/interviewLevel/`, {});
+        setLevels(
+          allLevels.interviewLevels.map(item => ({ label: item.name, value: item._id }))
+        );
+        const level = allLevels.interviewLevels.find(level => level._id == formData.interviewLevel);
+        if (level)
+          setSelectedLevel({label : level.name, value: level._id});
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     fetchData();
 
@@ -102,21 +116,12 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>Interview Name</FormLabel>
         <EntriesDropdown
             width="100%"
-            value={{label : formData.interviewName, value: formData.interviewName}}
+            value={selectedLevel}
             onChange={(selectedOption) =>{
-              setInterviewName(selectedOption);
-              handleChange("interviewName", selectedOption.value);
+              setSelectedLevel(selectedOption);
+              handleChange("interviewLevel", selectedOption.value);
             }}
-            options={[
-              "Internal Interview",
-              "General Interview",
-              "Online Interview",
-              "Phone Interview",
-              "Level 1 Interview",
-              "Level 2 Interview",
-              "Level 3 Interview",
-              "Level 4 Interview"
-            ].map((value) => ({label: value, value: value}))}
+            options={levels}
             styles={dropDownStyle}
           />
       </FormGroup>
@@ -126,11 +131,22 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>From</FormLabel>
         <FormInput
           type="datetime-local"
-          value={formData.from && new Date(formData.from).toISOString().slice(0, 16) || ""}
-          placeholder={" From"}
-          onBlur={(e) => handleChange("from", new Date(e.target.value).toISOString())}
-          onChange={(e) => handleChange("from", new Date(e.target.value).toISOString())}
-         
+          value={formData.from ? new Date(formData.from).toISOString().slice(0, 16) : ""}
+          placeholder="From"
+          onBlur={(e) => {
+            const value = e.target.value;
+            const date = new Date(value);
+            if (!isNaN(date.getTime())) {
+              handleChange("from", date.toISOString());
+            }
+          }}
+          onChange={(e) => {
+            const value = e.target.value;
+            const date = new Date(value);
+            if (!isNaN(date.getTime())) {
+              handleChange("from", date.toISOString());
+            }
+          }}
         />
       </FormGroup>
 
@@ -138,11 +154,22 @@ const StepOne = ({ formData, errors, handleChange }) => {
         <FormLabel>To</FormLabel>
         <FormInput
           type="datetime-local"
-          value={formData.to &&  new Date(formData.to).toISOString().slice(0, 16) || ""}
-          placeholder={" To"}
-          onBlur={(e) => handleChange("to",new Date(e.target.value).toISOString())}
-          onChange={(e) => handleChange("to",new Date(e.target.value).toISOString())}
-         
+          value={formData.to ? new Date(formData.to).toISOString().slice(0, 16) : ""}
+          placeholder="From"
+          onBlur={(e) => {
+            const value = e.target.value;
+            const date = new Date(value);
+            if (!isNaN(date.getTime())) {
+              handleChange("to", date.toISOString());
+            }
+          }}
+          onChange={(e) => {
+            const value = e.target.value;
+            const date = new Date(value);
+            if (!isNaN(date.getTime())) {
+              handleChange("to", date.toISOString());
+            }
+          }}
         />
       </FormGroup>
 

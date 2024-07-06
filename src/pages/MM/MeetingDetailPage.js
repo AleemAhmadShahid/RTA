@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CenteredContainer } from "../../styles/TableStyling";
 import { ColumnContainer, LeftColumn, RightColumn } from "../EmpSetting";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import {
   createGetRequest,
@@ -48,16 +49,42 @@ export const ScrollContainer = styled.div`
 const MeetingdetailPage=({})=>{
     const navigate = useNavigate();
     const [selectedMeeting, setSelectedMeeting] = useState(null);
+    const {id} = useParams();
+    const[loading,setLoading]=useState(false);
+    // connt
+    useEffect(() => {
+
+      
+      {
+        const fetchData = async () => {
+          setLoading(true);
+          try {
+            const data = await createGetRequest(`/api/meeting/${id}`);
+            if (data.status==200)
+              setSelectedMeeting(data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+          setLoading(false);
+    console.log("alem",id);
+        };
+        fetchData();
+      }
+     
+    },[])
+  
     if (!selectedMeeting) return null;
     return(
 
         <>
          <CenteredContainer >
-        {selectedMeeting && (
+          
+         {selectedMeeting && ( 
         <ColumnContainer>
+        <LeftColumn>
         <BoxContainer>
           <Box style={{ padding: "20px" }}>
-            <h5 style={{ marginBottom: "30px" }}>{selectedMeeting.title}</h5>
+             <h5 style={{ marginBottom: "30px" }}>{selectedMeeting.title}</h5>
             <ColumnContainer>
               <LeftColumn >
                 <Details style={{ marginBottom: "25px" }}> Assignee</Details>
@@ -67,11 +94,11 @@ const MeetingdetailPage=({})=>{
               </LeftColumn>
               <RightColumn>
                 <Details style={{ color: "blue" }}>
-                  <EmployeeInfo employee={{ name: selectedMeeting.createdBy.name }} />
+                  <EmployeeInfo employee={{ name: selectedMeeting.createdBy.name }} /> 
                 </Details>
                 <Details style={{ color: "blue" }}>   {format(new Date(selectedMeeting.startTime), 'MMMM d, yyyy')} </Details>
                 <Details style={{ color: "blue" }}> {format(new Date(selectedMeeting.startTime), 'h:mm a')} - {format(new Date(selectedMeeting.endTime), 'h:mm a')}</Details>
-                <Details style={{ color: "blue" }}>  {selectedMeeting.type || "N/A"}</Details>
+                <Details style={{ color: "blue" }}>  {selectedMeeting.type || "N/A"}</Details> 
               </RightColumn>
             </ColumnContainer>
             <hr />
@@ -101,18 +128,53 @@ const MeetingdetailPage=({})=>{
               {" "}
               Attendees
             </Details>
-            {selectedMeeting.attendees.map((attendee, index) => (
+             {selectedMeeting.attendees.map((attendee, index) => (
               <EmployeeInfo key={index} employee={attendee} />
             ))}
             <hr />
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <SaveButton onClick={() => setSelectedMeeting(null)}>Cancel</SaveButton>
-              <SaveAndNextButton>Create Meeting</SaveAndNextButton>
+              <SaveAndNextButton>Update Meeting</SaveAndNextButton>
             </div>
           </Box>
         </BoxContainer>
+        </LeftColumn>
+        <RightColumn>
+          {
+            selectedMeeting.video &&  selectedMeeting.video.length > 0 && (
+            <BoxContainer>
+              <Box style={{padding:"20px"}}>
+              <video width="100%" height="240" controls>
+                <source src={selectedMeeting.video} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              </Box>
+          </BoxContainer>
+          )
+          }
+         {
+            selectedMeeting.video &&  selectedMeeting.video.length > 0 && (
+              <>
+                
+                <BoxContainer>
+                    <Box style={{padding:"20px"}}>
+                      <Details>Meeting Minutes:</Details>
+                        {selectedMeeting.minutes.map((minute, index) => (
+                          <p key={index}>{minute}</p>
+                        ))}
+                    </Box>
+                </BoxContainer>
+                <BoxContainer>
+                  <Box style={{padding:"20px"}}>
+                    <Details>Transpcript :</Details> {selectedMeeting.transcript}
+                  </Box>
+                </BoxContainer>
+                
+              </>
+            )}
+        </RightColumn>
         </ColumnContainer>
-      )}
+     )} 
         
         </CenteredContainer></>
     );

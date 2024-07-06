@@ -15,6 +15,13 @@ import { FiUserPlus, FiUserCheck, FiUserX } from "react-icons/fi";
 
 import EmployeeInfo from "../../../components/EmployeeInfo";
 
+// import { CiMedicalClipboard } from "react-icons/ci";
+import { LuClipboardX } from "react-icons/lu";
+import { LuClipboardCheck } from "react-icons/lu";
+import { LuClipboardSignature } from "react-icons/lu";
+import { LuClipboardList } from "react-icons/lu";
+
+
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
@@ -73,6 +80,9 @@ const JobPost_list = () => {
   ];
 
   const navigate = useNavigate();
+  const handleViewClick = (jobPostsId) => {
+    navigate(`/portal/applicationtrackingsystem/candidate/${jobPostsId}`);
+  };
 
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -209,26 +219,26 @@ const JobPost_list = () => {
         <div>
           <CardsContainer>
             <InfoBox
-              icon={BiUser}
+              icon= { LuClipboardList }
               iconColor="#512da8"
               data={infoBoxData.totalPosts}
               text="Total Posts"
             />
             <InfoBox
-              icon={FiUserCheck}
+              icon={ LuClipboardCheck}
               iconColor="#2ac779"
               data={infoBoxData.activePosts}
               text="Active Posts"
             />
 
             <InfoBox
-              icon={FiUserPlus}
+              icon={LuClipboardX }
               iconColor="#d32f2f"
               data={infoBoxData.InActivePosts}
               text="Inactive Posts"
             />
             <InfoBox
-              icon={FiUserX}
+              icon={LuClipboardSignature }
               iconColor="#ffa500"
               data={infoBoxData.pendingInvites}
               text="Pending Invites"
@@ -577,9 +587,7 @@ const JobPost_list = () => {
 
                             <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message: "Job Post View is disabled by Admin"}));
-                              }}
+                              onClick={() => handleViewClick(jobPost._id)}
                             />
 
                             <MdIcons.MdDeleteOutline

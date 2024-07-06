@@ -54,7 +54,7 @@ const CardChart = styled.div`
 
 
 
-const AreaCard = ({ colors, percentFillValue, cardInfo }) => {
+const AreaCard = ({ colors, percentFillValue, cardInfo,width=120,height=120,cx="50",cy="45"}) => {
   const filledValue = (percentFillValue / 100) * 360;
   const remainedValue = 360 - filledValue;
 
@@ -68,6 +68,7 @@ const AreaCard = ({ colors, percentFillValue, cardInfo }) => {
   };
 
   return (
+   
     <CardContainer>
       <CardInfo>
         <h5 className="info-title">{cardInfo.title}</h5>
@@ -76,12 +77,12 @@ const AreaCard = ({ colors, percentFillValue, cardInfo }) => {
       </CardInfo>
      
       <CardChart >
-        <PieChart width={120} height={120}>
+        <PieChart width={width} height={height} >
           <Pie
             data={data}
-            cx={45}
-            cy={45}
-            innerRadius={37}
+            cx={cx}
+            cy={cy}
+            innerRadius={36}
             fill="black"
             paddingAngle={0}
             textAnchor="middle"
@@ -110,9 +111,11 @@ const AreaCard = ({ colors, percentFillValue, cardInfo }) => {
           </Pie>
           <Tooltip formatter={renderTooltipContent} />
         </PieChart>
+        
       </CardChart>
       
     </CardContainer>
+   
   );
 };
 

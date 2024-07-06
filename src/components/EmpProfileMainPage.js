@@ -106,7 +106,7 @@ export const DetailContainer = styled.div`
   margin-bottom: 15px;
 `;
 
-const slide = keyframes`
+export const slide = keyframes`
   0% {
     transform: translateX(0);
   }
@@ -114,7 +114,7 @@ const slide = keyframes`
     transform: translateX(20px);
   }
 `;
-const BackIcon = styled.div`
+export const BackIcon = styled.div`
   position: absolute;
   background-color: white;
   padding: 10px;
@@ -173,24 +173,12 @@ const Team = (team) => {
       <br></br>
       <ScrollContainer>
         <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
+          <EmployeeCard name="Hammad Sheikh" role="UI ENgineer" />
         </DashBoardCompBox>
         <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Muhammad Shaheer" role="Banana Eater" />{" "}
+          <EmployeeCard name="Muhammad Shaheer" role="Developer" />{" "}
         </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer " role="Banana Eater" />
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
-        </DashBoardCompBox>
-        <DashBoardCompBox style={{ marginRight: "10px" }}>
-          <EmployeeCard name="Shaheer Imran" role="Banana Eater" />
-        </DashBoardCompBox>
+     
       </ScrollContainer>
   </>
   );
@@ -369,7 +357,7 @@ const EmpProfile = ({}) => {
 
         <Box style={{ height: "120px", marginBottom: "20px" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <UploadBox />
+            {/* <UploadBox /> */}
             <div
               style={{
                 display: "flex",

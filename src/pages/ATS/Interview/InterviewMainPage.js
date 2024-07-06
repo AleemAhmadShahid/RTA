@@ -99,6 +99,8 @@ const Interview_list = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    
+    
     const params = {
       page: currentPage,
       pageItems: entriesToShow,
@@ -197,13 +199,16 @@ const Interview_list = () => {
       setBulkOption({ label: "Select", value: 0 });
     }
   };
+  const handleViewClick = (interviewId) => {
+    navigate(`/portal/applicationtrackingsystem/interview/${interviewId}`);
+  };
 
   return (
     <>
      {" "}
       <CenteredContainer>
         <div>
-          <CardsContainer>
+          {/* <CardsContainer>
             <InfoBox
               icon={BiUser}
               iconColor="#512da8"
@@ -229,7 +234,7 @@ const Interview_list = () => {
               data={infoBoxData.pendingInvites}
               text="Pending Invites"
             />
-          </CardsContainer>
+          </CardsContainer> */}
 
           <FilterContainer>
             <h6 style={{ marginLeft: "20px", paddingTop: "10px" }}>Filters</h6>
@@ -502,7 +507,7 @@ const Interview_list = () => {
                         
 
                         {selectedCheck.includes("Candidate") && (
-                          <Td>{interview.candidate}</Td>
+                          <Td>{interview.candidateDetail.name}</Td>
                         )}
                         {selectedCheck.includes("Interview Name") && (
                           <Td>{interview.interviewName}</Td>
@@ -550,12 +555,10 @@ const Interview_list = () => {
                               />
                             </IconWrapper>
 
-                            <GrIcons.GrFormView
+                            {/* <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message: "Interview View is disabled by Admin"}));
-                              }}
-                            />
+                              onClick={() => handleViewClick(interview.Id)}
+                            /> */}
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}

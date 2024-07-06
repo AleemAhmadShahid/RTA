@@ -198,6 +198,10 @@ const Offer_list = () => {
       setBulkOption({ label: "Select", value: 0 });
     }
   };
+  const handleViewClick = (offerId) => {
+    navigate(`/portal/applicationtrackingsystem/offer/${offerId}`);
+  };
+
 
   return (
     <>
@@ -551,12 +555,10 @@ const Offer_list = () => {
                               />
                             </IconWrapper>
 
-                            <GrIcons.GrFormView
+                            {/* <GrIcons.GrFormView
                               style={{ fontSize: "18px", cursor: "pointer" }}
-                              onClick={() => {
-                                dispatch(setErrorModal({message: "Offer View is disabled by Admin"}));
-                              }}
-                            />
+                              onClick={() => handleViewClick(offer._id)}
+                            /> */}
 
                             <MdIcons.MdDeleteOutline
                               style={{ fontSize: "18px", cursor: "pointer" }}

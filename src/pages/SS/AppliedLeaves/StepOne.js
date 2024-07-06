@@ -100,141 +100,29 @@ const StepOne = ({ formData, handleChange }) => {
 
   return (
     <FormStep active>
+   
+
       <FormGroup>
-        <FormLabel>Employee</FormLabel>
+        <FormLabel>Leave Type</FormLabel>
           <EntriesDropdown
             width="100%"
-            value={(formData?.employee
-              && {label: employee.find((employee) => employee.value == formData?.employee).label, value:formData?.employee})
-              || {label: "", value: ""}}
-            onChange={(selectedOption) =>{
-                handleChange(
-                  `employee`,
-                  selectedOption.value
-                );
-              }
+          value={(formData?.leaveType 
+            && {label: leaveType.find((leaveType) => leaveType.value == formData?.leaveType).label, value: formData?.leaveType})
+            || {label: "", value: ""}}
+          onChange={(selectedOption) =>{
+              handleChange(
+                `leaveType`,
+                selectedOption.value
+              );
             }
-            options={employee}
-            styles={dropDownStyle}
-          />
+          }
+          options={leaveType}
+          styles={dropDownStyle}
+        />
         
         </FormGroup>
 
-      <FormLabel >Policy</FormLabel>
-      <Step3Container>
-        <BoxStep3Container>
-          {policy.map((item, index) => (
-            <Step3BorderBox key={index}>
-              <Step3CloseButton
-                onClick={() =>
-                  removeItem(
-                    index,
-                    setPolicys,
-                    policy,
-                    "policy"
-                  )
-                }
-              >
-                ×
-              </Step3CloseButton>
-
-              <FormGroup>
-                <FormLabel>Leave Type</FormLabel>
-                  <EntriesDropdown
-                    width="100%"
-                  value={(formData?.policy?.[index]?.leaveType 
-                    && {label: leaveType.find((leaveType) => leaveType.value == formData?.policy?.[index]?.leaveType).label, value: formData?.policy?.[index]?.leaveType})
-                    || {label: "", value: ""}}
-                  onChange={(selectedOption) =>{
-                      handleChange(
-                        `policy.${index}.leaveType`,
-                        selectedOption.value
-                      );
-                    }
-                  }
-                  options={leaveType}
-                  styles={dropDownStyle}
-                />
-                
-                </FormGroup>
-
-                <FormGroup>
-                <FormLabel>Max Leaves</FormLabel>
-                <FormInput
-                  type="number"
-                  value={formData?.policy?.[index]?.maxLeaves || ""}
-                  onChange={(e) =>
-                    handleChange(
-                      `policy.${index}.maxLeaves`,
-                      e.target.value
-                    )
-                  }
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <FormLabel>Carry Forward Limit</FormLabel>
-                <FormInput
-                  type="number"
-                  value={formData?.policy?.[index]?.carryForwardLimit || ""}
-                  onChange={(e) =>
-                    handleChange(
-                      `policy.${index}.carryForwardLimit`,
-                      e.target.value
-                    )
-                  }
-                />
-              </FormGroup>
-            </Step3BorderBox>
-          ))}
-        </BoxStep3Container>
-        <Step3AddButton
-          onClick={() => addItem(setPolicys, policy)}
-        >
-          Add Policy
-        </Step3AddButton>
-      </Step3Container>
-      
-      <FormGroup>
-        <FormLabel>Duration</FormLabel>
-          <EntriesDropdown
-            width="100%"
-            value={(formData?.duration
-              && {label: duration.find((duration) => duration.value == formData?.duration).label, value:formData?.duration})
-              || {label: "", value: ""}}
-            onChange={(selectedOption) =>{
-                handleChange(
-                  `duration`,
-                  selectedOption.value
-                );
-              }
-            }
-            options={duration}
-            styles={dropDownStyle}
-          />
-        
-        </FormGroup>
-
-        <FormGroup>
-        <FormLabel>Renewal Period</FormLabel>
-          <EntriesDropdown
-            width="100%"
-            value={(formData?.renewAt
-              && {label: renewalAt.find((renewAt) => renewAt.value == formData?.renewAt).label, value:formData?.renewAt})
-              || {label: "", value: ""}}
-            onChange={(selectedOption) =>{
-                handleChange(
-                  `renewAt`,
-                  selectedOption.value
-                );
-              }
-            }
-            options={renewalAt}
-            styles={dropDownStyle}
-          />
-        
-        </FormGroup>
-
+     
     </FormStep>
   );
 };

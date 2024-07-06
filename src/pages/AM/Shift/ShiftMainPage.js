@@ -18,8 +18,10 @@ import EmployeeInfo from "../../../components/EmployeeInfo";
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
+import { FaRegCalendarPlus } from "react-icons/fa6";
+import { LuCalendarCheck } from "react-icons/lu";
 import { FaPrint} from "react-icons/fa";
-
+import { FaRegCalendarXmark } from "react-icons/fa6";
 import {
   Td,
   Tr,
@@ -173,21 +175,21 @@ const Shift_list = () => {
             /> */}
 
             <InfoBox
-              icon={FiUserPlus}
+              icon={FaRegCalendarPlus}
               iconColor="#512da8"
               data={infoBoxData?.totalShifts || 0}
               text="Total Shifts"
             />
              
              <InfoBox
-              icon={FiUserX}
+              icon={LuCalendarCheck}
               iconColor="#ffa500"
               data={infoBoxData?.vacantShifts || 0}
               text="Vacant Shifts"
             />
 
             <InfoBox
-              icon={FiUserCheck}
+              icon={FaRegCalendarXmark}
               iconColor="#d32f2f"
               data={infoBoxData?.closedShifts || 0}
               text="Closed Shifts"

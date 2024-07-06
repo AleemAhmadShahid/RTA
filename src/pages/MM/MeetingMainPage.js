@@ -43,8 +43,15 @@ export const ScrollContainer = styled.div`
      display: none;
    }
  `
-
-const MeetingMainaPage = () => {
+ export const MeetingWrapper = styled.div`
+display: grid;
+  left: 0;
+  margin-top: 1px;
+  margin-bottom: 5px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 15px;
+`;
+const MeetingMainPage = () => {
   const navigate = useNavigate();
   const [meetings, setMeetings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +63,7 @@ const MeetingMainaPage = () => {
       try {
         const data = await createGetRequest("/api/meeting");
         console.log(data); 
-        setMeetings(data.meetings); 
+        setMeetings(data.meetings || []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching meetings data:", error);
@@ -84,34 +91,39 @@ const MeetingMainaPage = () => {
   ];
   const handleViewDetails = (meeting) => {
     setSelectedMeeting(meeting);
-    //  navigate(`/meeting-details/${meeting._id}`);
+    // navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
   };
   const handleSaveAndNext = (meetingId) => {
+    console.log("Main page",meetingId);
     navigate(`/portal/meetingmanagemnetsystem/meeting/${meetingId}`);
+    
   };
   return (
     <>
     <CenteredContainer>
-      <ScrollContainer>
+      {/* <ScrollContainer> */} 
+      <MeetingWrapper >
        {loading ? (
                 <LoaderComponent/>
               ) : (
                 meetings.map((meeting) => (
-                  <MeetingDetails
-                    key={meeting._id}
-                    title={meeting.title}
-                    creator={meeting.createdBy.name}
-                    startTime={meeting.startTime}
-                    endTime={meeting.endTime}
-                    attendees={meeting.attendees}
-                    description={meeting.description}
-                    onViewDetails={() => handleViewDetails(meeting)}
-                    onSaveAndNext={() => handleSaveAndNext(meeting._id)}
-                    
-                  />
+                 
+        <MeetingDetails
+          title={meeting.title}
+          creator={meeting.createdBy.name}
+          startTime={meeting.startTime}
+          endTime={meeting.endTime}
+          attendees={meeting.attendees}
+          meetingId={meeting._id}
+          onViewDetails={() => handleViewDetails(meeting)}
+          onSaveAndNext={() => handleSaveAndNext(meeting._id)}
+          description={meeting.description}
+        />
+     
                 ))
               )}
-              </ScrollContainer>
+             {/* </ScrollContainer>  */} 
+             </MeetingWrapper>
               </CenteredContainer>   
       {/* <BoxContainer>
       <Box style={{  padding: "20px" }}>
@@ -203,4 +215,4 @@ const MeetingMainaPage = () => {
     
   );
 };
-export default MeetingMainaPage;
+export default MeetingMainPage;

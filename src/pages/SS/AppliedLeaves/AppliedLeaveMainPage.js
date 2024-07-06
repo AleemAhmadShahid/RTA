@@ -19,6 +19,11 @@ import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 
 import { FaPrint} from "react-icons/fa";
+import { FaRegCalendarXmark } from "react-icons/fa6";
+import { FaRegCalendarPlus } from "react-icons/fa6";
+import { LuCalendarCheck } from "react-icons/lu";
+// import { FaPrint} from "react-icons/fa";
+
 
 import {
   Td,
@@ -88,7 +93,7 @@ const AppliedLeaves_list = () => {
 
     const fetchData = async () => {
       try {
-        const data = await createGetRequest("/api/leave/ess/getMyLeaves/", params);
+        const data = await createGetRequest("/api/selfservice/ess/getMyLeaves/", params);
         if (data.status === 404 || data.status === 400) {
           setAppliedLeaves([]);
           setLoading(false);
@@ -175,21 +180,21 @@ const AppliedLeaves_list = () => {
             /> */}
 
             <InfoBox
-              icon={FiUserPlus}
+              icon={LuCalendarCheck}
               iconColor="#512da8"
               data={infoBoxData?.totalAppliedLeaves || 0}
               text="Total Applied Leaves"
             />
              
              <InfoBox
-              icon={FiUserX}
+              icon={FaRegCalendarPlus}
               iconColor="#ffa500"
               data={infoBoxData?.vacantAppliedLeaves || 0}
               text="Vacant Applied Leaves"
             />
 
             <InfoBox
-              icon={FiUserCheck}
+              icon={FaRegCalendarXmark}
               iconColor="#d32f2f"
               data={infoBoxData?.closedAppliedLeaves || 0}
               text="Closed Applied Leaves"
@@ -283,12 +288,12 @@ const AppliedLeaves_list = () => {
                   }))}
                   styles={dropDownStyle}
                 />
-                {/* <AddEmployeeButton
+                <AddEmployeeButton
                   onClick={() => { setIsViewMode(false); toggleForm();}}
                   className="btn btn-primary mb-2"
                 >
                   <span style={{ whiteSpace: "nowrap" }}>Assign Leaves</span>
-                </AddEmployeeButton> */}
+                </AddEmployeeButton>
               </AddEmployeeContainer>
             </HeadingAndSearchContainer>
             <TableContainer>

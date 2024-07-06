@@ -23,6 +23,11 @@ const TopBar = styled.div`
   color: white;
   background-color: #0066a0;
   padding: 10px 20px;
+  @media (max-width: 865px) {
+    
+   display: flex;
+    flex-wrap: wrap;
+  }
 `;
 const HeadingContainer = styled.div`
   display: flex;

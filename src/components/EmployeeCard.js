@@ -26,7 +26,7 @@ const EmployeeCard = ({name,role}) => {
     <EmployeeCardContainer>
     <Box>
       <UserImage
-        src="/Shaheer.jpeg"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"
         alt="Profile Image"
         style={{ width: "90px", height: "90px",border:"1px solid #ffa500" }}
       />

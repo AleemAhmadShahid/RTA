@@ -21,6 +21,15 @@ export const RTSidebarData = [
     //     path: "/Boards",
     
 
+  }, 
+  {
+    title: "TimeSheet",
+    path: "/portal/remotetracking/TimeSheet",
+    icon: <TbWaveSawTool/> ,
+   
+    //     path: "/Boards",
+    
+
   },
   
  

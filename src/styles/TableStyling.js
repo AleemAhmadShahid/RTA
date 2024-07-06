@@ -118,7 +118,7 @@ export const AddEmployeeButton = styled(Link)`
   cursor: pointer;
   margin-left: 0px;
 
-  margin-top: 4px;
+  margin-top: 6px;
   transition: background-color 0.3s ease;
 
   &:hover {
