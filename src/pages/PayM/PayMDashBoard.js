@@ -175,10 +175,10 @@ const PayMDashBoard = (employees) => {
           </ContentAreaCards><ContentAreaCards>
             <PieChartCom
               colors={["#e2f2ee", "#09946f"]}
-              percentFillValue={65}
+              percentFillValue={15}
               cardInfo={{
-                title: "Payroll Accuracy",
-                value: "25",
+                title: "Monthly Expense",
+                value: "25,000",
                 
               }}
             />
