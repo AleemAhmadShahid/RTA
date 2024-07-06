@@ -164,21 +164,21 @@ const PayMDashBoard = (employees) => {
           <ContentAreaCards>
             <PieChartCom
               colors={["#e0f2fe", "#0080f9"]}
-              percentFillValue={5}
+              percentFillValue={45}
               cardInfo={{
                 title: "Total Employees",
-                 value: "5",
-                text:"Absent Employee are 5",
+                 value: "45",
+                // text:"Absent Employee are 5",
                 
               }}
             />
           </ContentAreaCards><ContentAreaCards>
             <PieChartCom
               colors={["#e2f2ee", "#09946f"]}
-              percentFillValue={65}
+              percentFillValue={15}
               cardInfo={{
-                title: "Payroll Accuracy",
-                value: "25",
+                title: "Monthly Expense",
+                value: "25,000",
                 
               }}
             />
@@ -262,26 +262,42 @@ const PayMDashBoard = (employees) => {
       </LeftColumn>
       <RightColumn>
       
-      <DashBoardCompBox style={{ width: "100%", padding: "20px" }}>
-        <ColumnContainer>
-          <LeftColumn>
-            <h6>1.How would you rate the overall quality of the porduct</h6>
-            <StarRating readOnly />
-          </LeftColumn>
-          <RightColumn>
-            <SurveyBarChart data={Surveydata} />
-          </RightColumn>
-        </ColumnContainer>
+      <DashBoardCompBox style={{ width: "100%" ,height:"330px"}}>
+       
+         
+          
+          {/* <DashBoardCompBox style={{height:"300px"}}> */}
+        <h5 style={{marginLeft:"20px",marginTop:"20px"}}>Employees Structure</h5>
+      <ContentAreaCards 
+              style={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                boxShadow: "none",
+              }}
+            >
+            <PieChartCom
+              colors={["#daf6f9", "#0ac4d1"]}
+              percentFillValue={67}
+              cardInfo={{
+                title: "",
+                value: "",
+                text: "",
+              }}
+             width={200}
+             height={200}
+             cx={70}
+             cy={80}
+            />
+          </ContentAreaCards>
+          {/* </DashBoardCompBox> */}
+          
+        
       </DashBoardCompBox>
-      <DashBoardCompBox style={{}}>
-        {/* <StarRating /> */}
-
-        {/* <h2>Disabled Rating main</h2>
-      <StarRating disabled /> */}
-      </DashBoardCompBox>
+     
       </RightColumn>
       </ColumnContainer>
-      <ColumnContainer>
+      {/* <ColumnContainer>
       <LeftColumn >
         <DashBoardCompBox style={{height:"300px"}}>
         <h5 style={{marginLeft:"20px",marginTop:"20px"}}>Employees Structure</h5>
@@ -312,7 +328,7 @@ const PayMDashBoard = (employees) => {
       <RightColumn style={{flex:"2"}}>
 
       </RightColumn>
-      </ColumnContainer>
+      </ColumnContainer> */}
     </CenteredContainer>
   );
 };
