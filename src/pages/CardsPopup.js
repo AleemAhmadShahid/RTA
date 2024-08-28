@@ -25,16 +25,17 @@ import { H6 } from "./ForgetPassword";
 import GenericPopup from "../components/GenericPopup";
 import Progressbar from "../components/ProgressBar";
 import { TbCheckbox } from "react-icons/tb";
+import { createPostRequest } from "../global/requests";
 const PopupOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+ 
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  // align-items: center;
   z-index: 999;
 `;
 export const HeaderContainer = styled.div`
@@ -43,8 +44,6 @@ export const HeaderContainer = styled.div`
   align-items: center;
   width: 100%;
   border: 1px solid #f5f5f5;
-  // background: #f5f5f5;
-
   @media screen and (max-width: 845px) {
     width: 100%;
   }
@@ -58,9 +57,9 @@ const CenterContainer = styled.div`
   padding: 20px;
   width: 50%;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: 845px) {
-    width: 100%;
+min-width: 800px;
+  @media (max-width: 945px) {
+     width: 100%;
   }
   z-index: 20;
 `;
@@ -144,7 +143,7 @@ const ColorContainer = styled.div`
 `;
 
 const CardsPopup = ({
-  task,
+  task = {},
   closeCardPopup,
   onImageSelect,
   title,
@@ -153,8 +152,10 @@ const CardsPopup = ({
   column,
   // props,
 }) => {
+  
+  
   const fileInputRef = useRef(null);
-  const [description, setDescription] = useState(task.description);
+  const [description, setDescription] = useState(task.description || '');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isMemberPopupOpen, setIsMemberPopupOpen] = useState(false);
   const [isLabelPopupOpen, setIsLabelPopupOpen] = useState(false);
@@ -168,6 +169,7 @@ const CardsPopup = ({
   const [boxPosition, setBoxPosition] = useState({ left: 0, top: 0 });
   const [isEditable, setIsEditable] = useState(false);
 
+  const [assignedMembers, setAssignedMembers] = useState([]);
   const openMemberPopup = (event) => {
     const clickedDiv = event.currentTarget;
     const rect = clickedDiv.getBoundingClientRect();
@@ -184,9 +186,40 @@ const CardsPopup = ({
   const closeMemberPopup = () => {
     setIsMemberPopupOpen(false);
   };
+  
+  
+  const [membersList, setMembersList] = useState([]);
+  // const [formValues, setFormValues] = useState([]);
+  
+
+const handleAddMember = async ( memberName) => {
+  console.log(memberName);
+
+  const newMember = {
+    assignedMembers: memberName,
+  };
+
+  try {
+    
+      const url = `/api/card/66bda1864714a0f5b5a922c5/66c3113f0ffd306926298331`; 
+      const response = await createPostRequest({newMember}, url);
+      // console.log(newMember);
+
+      if (response.status === 200 || response.status === 201) {
+          console.log('Member added successfully');
+          setMembersList(prevMembers => [...prevMembers, newMember]);
+      } else {
+          console.error('Failed to add member');
+          
+      }
+  } catch (error) {
+      console.error('Error adding member:', error);
+  }
+};
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
+  
   };
   const openLabelPopup = (event) => {
     const clickedDiv = event.currentTarget;
@@ -225,11 +258,36 @@ const CardsPopup = ({
   const closeCheckListPopup = () => {
     setIsCheckListPopupOpen(false);
   };
-
+  const saveTaskDescription = async (taskId, newDescription) => {
+    try {
+      console.log(`Saving description for task ID: ${taskId}`);
+      
+      console.log(task);
+      const url = `/api/card/66c30f8f0ffd306926298313/${taskId}`;
+  
+     
+      const response = await createPostRequest({ description: newDescription }, url);
+      
+   
+      if(response.status!=200){
+        console.error('Faild to add description to the backend');
+        
+      }
+  
+      }
+      catch(error){
+        console.error('Error Adding  description:',error);
+      }
+  };
+  
   const handleSaveDescription = () => {
-    task.description = description;
+    saveTaskDescription(task.taskId, description);
+    // console.log(description);
+    // console.log(task.id);
+
     setIsEditable(false);
   };
+  
   const [isWatched, setIsWatched] = useState(false);
 
   const handleWatchClick = () => {
@@ -362,8 +420,8 @@ const CardsPopup = ({
               <LeftIcon>
                 <AiOutlineAppstore />
               </LeftIcon>
-              {task.description}
-              <div>{/* {task.column.title} */}</div>
+              {task.title}
+              {/* <div>{ column.name }</div> */}
             </Heading>
 
             <CloseButtonContainer>
@@ -418,6 +476,7 @@ const CardsPopup = ({
                 <TextArea
                   value={description}
                   onChange={handleDescriptionChange}
+                  // onBlur={() => saveDescription(description)}
                   rows="4"
                 />
               </InputContainer>
@@ -666,7 +725,10 @@ const CardsPopup = ({
             // Add other fields as needed
           ]}
           onClose={closeMemberPopup}
-          buttonText="Show Other Workspace Members"
+          // formValues={formValues}
+          // buttonText="Show Other Workspace Members"
+          onSubmit={(memberName) => handleAddMember(memberName)}
+          buttonText="Add Members"
         />
       )}
       {isLabelPopupOpen && (

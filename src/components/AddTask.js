@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Task from './Task';
 import { IoCloseOutline } from "react-icons/io5";
+import { createPostRequest } from '../global/requests';
 export const Input = styled.input`
   width: 100%;
   padding: 5px;
@@ -20,8 +21,6 @@ const Taskinput = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 8px;
   min-height: 70px;
-  // white-space: pre-wrap;
-  // word-wrap: break-word;
   font-size: 14px;
   outline: none;
   resize: none;
@@ -40,7 +39,6 @@ export const AddButton = styled.button`
   padding: 7px;
   border-radius: 10px;
   transition: background-color 0.3s ease;
-// color:white;
   &:hover {
     background-color:#cfd0cf;
   }
@@ -64,13 +62,11 @@ export const AddTaskButton = styled.button`
     background-color: #ff8000;
   }
   font-size:13.5px;
-  // font-weight:300;
+ 
 `;
  
-export const CloseButton = styled.button`
- 
-  width:30px;
- 
+export const CloseButton = styled.button` 
+  width:30px; 
   background-color: #f5f5f5;
   color: black;
   border: none;
@@ -100,7 +96,7 @@ function AddTask(props) {
     setValue(event.target.value);
   }
 
-  function onNewTaskInputComplete() {
+  async function onNewTaskInputComplete() {
     if (value.trim() !== '') {
       addNewTask(props.columnId, value);
       // props.onTaskAdded(value);
@@ -110,7 +106,7 @@ function AddTask(props) {
     }
   }
 
-  function addNewTask(columnId, content) {
+  async function addNewTask(columnId, content) {
     const newTaskId = 'task-' + Math.floor(Math.random() * 100000);
 
     const column = props.state.columns[columnId];
@@ -137,7 +133,21 @@ function AddTask(props) {
         },
       },
     });
+    try{
+       console.log(newTask);
+      const response= await createPostRequest({title: newTask.content},"/api/card/66bda1864714a0f5b5a922c5");
+      
+    if(response.status!=201){
+      console.error('Failed to add task to the backend',response.status);
+      
+    }
+
+    }
+    catch(error){
+      console.error('Error Adding task:',error);
+    }
   }
+  
   const handleEnterKeyPress = (e) => {
     if (e.key === 'Enter') {
       onNewTaskInputComplete();

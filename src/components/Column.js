@@ -8,6 +8,7 @@ import { BiDotsHorizontalRounded, BiFontSize } from "react-icons/bi";
 import { H6 } from "../pages/ForgetPassword";
 import { RxPencil1 } from "react-icons/rx";
 import CardsPopup from "../pages/CardsPopup";
+import { createDeleteRequest } from "../global/requests";
 const Container = styled.div`
   margin-right: 8px;
   border-radius: 10px;
@@ -25,14 +26,10 @@ const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   width: 80%;
-  //  background:red;
 `;
 
 const Title = styled.h6`
-  // flex: 1;
   padding: 8px;
-
-  // margin-left: -5px;
   font-weight: bold;
   position: relative;
   cursor: pointer;
@@ -45,20 +42,14 @@ const OptionsMenu = styled.div`
   background-color: white;
   border: 1px solid lightgrey;
   border-radius: 5px;
-   padding:10px;
-  // right: 0;
+  padding:10px;
   margin-left: 240px;
   margin-top: 10px;
   top: 30px;
-
   z-index: 1;
   width: 280px;
   font-size: 13px;
-  // &:hover {
-  //   background-color: lightgrey;
-  // }
-  text-decoration: none;
-  
+  text-decoration: none;  
 `;
 
 const TaskList = styled.div`
@@ -69,7 +60,6 @@ const EditButtonWrapper = styled.div`
 `;
 const EditButton = styled.button`
   margin-top: 5px;
-
   background: none;
   border: none;
   cursor: pointer;
@@ -77,10 +67,8 @@ const EditButton = styled.button`
 const EditButtonContainer = styled.div`
   display: flex;
   width: 20%;
-  // margin-bottom:10px;
   border-radius: 10px;
   justify-content: center;
-
   &:hover {
     background-color: lightgrey;
   }
@@ -88,18 +76,12 @@ const EditButtonContainer = styled.div`
 const Headingcontainer = styled.div`
   display: flex;
   justify-content: space-between;
-  // margin-bottom:5px;
-  // background: red;
   padding: 5px;
   margin-top: -5px;
 `;
 const OptionItem = styled.div`
   padding: 5px;
   background-color: white;
-
-  // border-radius: 5px;
-  // width:100%;
-// margin-bottom:10px;
   cursor: pointer;
   &:hover {
     background-color: lightgrey;
@@ -132,7 +114,7 @@ function Column(props) {
     };
   }, [menuRef]);
 
-  function deleteColumn(columnId, index) {
+  async function deleteColumn(columnId, index) {
     const columnTasks = props.state.columns[columnId].taskIds;
 
     const finalTasks = columnTasks.reduce((previousValue, currentValue) => {
@@ -155,6 +137,16 @@ function Column(props) {
       },
       columnOrder: newColumnOrder,
     });
+    try {
+      const response = await createDeleteRequest(`/api/list/${columnId}`);
+      
+      if (response.status!=200) {
+        console.error('Failed to delete list from the backend', response.status);
+      }
+      
+    } catch (error) {
+      console.error('Error deleting list:', error);
+    }
   }
   const containerHeight = `${props.tasks.length * 100}px`;
   // function openAddCardInput() {
@@ -247,6 +239,7 @@ function Column(props) {
             state={props.state}
             setState={props.setState}
           />
+         
            {/* <CardsPopup   column={props.column.title} />  */}
         </Container>
       )}

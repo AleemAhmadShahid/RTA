@@ -3,7 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
 import CardsPopup from "../pages/CardsPopup";
-
+import { createDeleteRequest } from "../global/requests";
 import {
  
   AiOutlineEye,
@@ -145,7 +145,9 @@ function Task(props) {
     };
   }, []);
 
-  function deleteTask(columnId, index, taskId) {
+  async function deleteTask(columnId, index, taskId) {
+    console.log("Attempting to delete task with ID:", taskId);
+    console.log("Sending DELETE request to:", `/api/card/66bda1864714a0f5b5a922c5/${taskId}`);
     const column = props.state.columns[columnId];
     const newTaskIds = Array.from(column.taskIds);
     newTaskIds.splice(index, 1);
@@ -167,6 +169,16 @@ function Task(props) {
         },
       },
     });
+    try {
+      const response = await createDeleteRequest(`/api/card/${taskId}`);
+      
+      if (response.status!=200) {
+        console.error('Failed to delete task from the backend', response.status);
+      }
+      
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
   }
   const [taskImage, setTaskImage] = useState(null);
 

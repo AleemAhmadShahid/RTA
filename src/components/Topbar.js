@@ -93,7 +93,8 @@ const DropdownContainer = styled.div`
   border-radius: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: ${(props) => (props.isOpen ? "block" : "none")};
-  width: 30%;  
+  width: 30%; 
+  
   padding: 10px;
   @media screen and (max-width: 845px) {
     position: absolute;
@@ -135,7 +136,6 @@ const DropdownButton = styled.button`
   &:hover {
      background-color: #ffa500;
     color:white;
-  //  animation: ${slide} 0.7s forwards;
    animation: ${bounce} 2s infinite;
 
   }

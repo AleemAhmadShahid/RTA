@@ -110,7 +110,8 @@ const GenericPopup = ({
 }) => {
   const isColorChecked = (color) =>
     checkedColors && checkedColors.includes(color);
-  const [formValues, setFormValues] = useState({});
+  
+
 
   const [dueDate, setdueDate] = useState({ value: null, label: "Select" });
   const [isEditable, setIsEditable] = useState(true);
@@ -123,17 +124,17 @@ const GenericPopup = ({
     { value: "option2", label: "After 2 hour" },
   ];
 
-  const handleChange = (fieldName, value) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [fieldName]: value,
-    }));
-  };
+  // const handleChange = (fieldName, value) => {
+  //   setFormValues((prevValues) => ({
+  //     ...prevValues,
+  //     [fieldName]: value,
+  //   }));
+  // };
 
-  const handleSubmit = () => {
-    onSubmit(formValues);
-    onClose();
-  };
+  // const handleSubmit = () => {
+  //   onSubmit(formValues);
+  //   onClose();
+  // };
   const handleColorChange = (color) => {
     onColorChange(color);
   };
@@ -163,6 +164,35 @@ const GenericPopup = ({
       onAddButtonClick(true);
     }
   };
+  const [formValues, setFormValues] = useState({}); 
+
+  // Handle input changes
+  const handleChange = (fieldName, value) => {
+      setFormValues({
+          ...formValues,
+          [fieldName]: value,
+      });
+      // console.log("handlechange");
+  };
+
+  // Handle form submission
+   const handleSubmit = () => {
+      if (formValues["Members"]) {
+          onSubmit(formValues["Members"]); 
+          // console.log("handlesubmitto parent");
+      } else {
+          console.error('Member name is required');
+      }
+      
+  };
+
+
+
+
+
+
+
+  
   return (
     <Box left={left} top={top}>
       {fields.map((field) => (
@@ -176,7 +206,7 @@ const GenericPopup = ({
             </CloseButtonContainer>
           </HeadingContainer>
 
-          {field.name === "Members" && (
+          {/* {field.name === "Members" && (
             <>
               <Input
                 type={field.type}
@@ -197,7 +227,30 @@ const GenericPopup = ({
                 {buttonText || "Submit"}
               </AddButton>
             </>
-          )}
+          )} */}
+          {field.name === "Members" && (
+  <>
+    <Input
+      type={field.type}
+      value={formValues[field.name] || ""}
+      onChange={(e) => handleChange(field.name, e.target.value)}
+      placeholder={field.placeholder}
+    />
+
+    <AddButton
+      style={{
+        textAlign: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      onClick={() => onSubmit(formValues[field.name] || "Default Name")}
+    >
+      {buttonText || "Submit"}
+    </AddButton>
+  </>
+)}
+
           {field.name === "Label" && (
             <>
               <Input

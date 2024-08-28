@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Input, CloseButton, AddTaskButton } from "./AddTask";
 import { IoCloseOutline } from "react-icons/io5";
+import { createPostRequest } from "../global/requests";
 const FormButton = styled.button`
   background-color: lightgray;
   color: #fff;
@@ -55,15 +56,16 @@ function AddColumn(props) {
     setValue("");
   }
 
-  function onNewColumnInputComplete() {
+ async function onNewColumnInputComplete() {
     if (value.trim() !== "") {
-      addNewColumn(value);
+      await addNewColumn(value);
       setValue("");
     }
     setShowNewColumnButton(true);
   }
 
-  function addNewColumn(title) {
+  async function addNewColumn(title) {
+    // console.log("shaheer");
     const newColumnOrder = Array.from(props.state.columnOrder);
     const newColumnId = "column-" + Math.floor(Math.random() * 100000);
     newColumnOrder.push(newColumnId);
@@ -82,6 +84,19 @@ function AddColumn(props) {
         [newColumnId]: newColumn,
       },
     });
+
+    try{
+      console.log(newColumn);
+      const response= await createPostRequest({name: newColumn.title},"/api/list/66bd9966b8828f0a82044a99");
+      
+    if(response.status!=201){
+      console.error('Faild to add column to the backend');
+      
+    }
+    }
+    catch(error){
+      console.error('Error Adding column:',error);
+    }
   }
  
   return (
